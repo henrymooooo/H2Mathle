@@ -580,9 +580,10 @@
       slot.forEach((node, idx) => {
         if (node.type === "char") {
           const chEl = document.createElement("span");
-          const isOp = ["+", "-", "±", "=", ","].includes(node.ch);
+          const isComma = node.ch === ",";
+          const isOp = ["+", "-", "±", "="].includes(node.ch);
           const isVar = /^[a-zA-Zθ]$/.test(node.ch) && !fnIndices.has(idx);
-          chEl.className = "mf-char" + (isOp ? " mf-op" : "") + (isVar ? " mf-var" : "");
+          chEl.className = "mf-char" + (isComma ? " mf-comma" : isOp ? " mf-op" : "") + (isVar ? " mf-var" : "");
           chEl.textContent = node.ch === "-" ? "−" : node.ch === "*" ? "·" : node.ch;
           chEl.onclick = (e) => {
             if (disabled) return;
@@ -1670,6 +1671,39 @@
               saveNoteData();
             };
           });
+
+          ta.onkeydown = (e) => {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+            const start = ta.selectionStart;
+            const end = ta.selectionEnd;
+            const val = ta.value;
+            if (e.key === "$") {
+              e.preventDefault();
+              if (start !== end) {
+                const selected = val.slice(start, end);
+                ta.value = val.slice(0, start) + "$" + selected + "$" + val.slice(end);
+                ta.selectionStart = start + 1;
+                ta.selectionEnd = end + 1;
+              } else if (val[start] === "$") {
+                ta.selectionStart = ta.selectionEnd = start + 1;
+              } else {
+                ta.value = val.slice(0, start) + "$$" + val.slice(end);
+                ta.selectionStart = ta.selectionEnd = start + 1;
+              }
+              entry.text = ta.value;
+              entry.updatedAt = new Date().toLocaleDateString("en-SG");
+              syncPreview(entry.text);
+              saveNoteData();
+            } else if (e.key === "Backspace" && start === end && start > 0 && val[start - 1] === "$" && val[start] === "$") {
+              e.preventDefault();
+              ta.value = val.slice(0, start - 1) + val.slice(start + 1);
+              ta.selectionStart = ta.selectionEnd = start - 1;
+              entry.text = ta.value;
+              entry.updatedAt = new Date().toLocaleDateString("en-SG");
+              syncPreview(entry.text);
+              saveNoteData();
+            }
+          };
 
           ta.oninput = (e) => {
             entry.text = e.target.value;
