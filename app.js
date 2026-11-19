@@ -145,10 +145,6 @@
       .sort((a, b) => a.id.localeCompare(b.id));
     if (!pool.length) return null;
     const dayRec = getDayRecord(dayKey);
-    if (dayRec[category]?.questionId) {
-      const found = pool.find(q => q.id === dayRec[category].questionId);
-      if (found) return found;
-    }
     const [y, m, d] = dayKey.split("-").map(Number);
     const dayIndex = Math.floor(Date.UTC(y, m - 1, d) / 86400000);
     const cycle = Math.floor(dayIndex / pool.length);
@@ -160,6 +156,17 @@
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     const chosen = shuffled[offset];
+    if (dayRec[category]?.questionId) {
+      const found = pool.find(q => q.id === dayRec[category].questionId);
+      if (found) {
+        // Keep past days and any in-progress/completed attempt intact;
+        // auto-resync today's untouched question if new banks changed the global schedule.
+        const isToday = dayKey === getStudyDayKey();
+        if (!isToday || getQuestionStatus(found, dayRec[category]) !== "untouched" || found.id === chosen.id) {
+          return found;
+        }
+      }
+    }
     dayRec[category] = { questionId: chosen.id, parts: {} };
     saveState();
     return chosen;
