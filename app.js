@@ -1012,18 +1012,20 @@
   function getQuestionNoteData(qId) {
     const raw = state.notes?.[qId];
     if (!raw) {
-      return { flaggedParts: [], entries: [{ id: "1", tags: [], text: "", updatedAt: null }] };
+      return { flaggedParts: [], entries: [{ id: "1", part: "", tags: [], text: "", updatedAt: null }] };
     }
     const flaggedParts = Array.isArray(raw.flaggedParts) ? raw.flaggedParts : [];
     if (Array.isArray(raw.entries)) {
       return {
         flaggedParts,
-        entries: raw.entries.length ? raw.entries : [{ id: "1", tags: [], text: "", updatedAt: null }]
+        entries: raw.entries.length
+          ? raw.entries.map(e => ({ id: e.id || "1", part: e.part || "", tags: Array.isArray(e.tags) ? e.tags : [], text: e.text || "", updatedAt: e.updatedAt || null }))
+          : [{ id: "1", part: "", tags: [], text: "", updatedAt: null }]
       };
     }
     return {
       flaggedParts,
-      entries: [{ id: "1", tags: Array.isArray(raw.tags) ? raw.tags : [], text: raw.text || "", updatedAt: raw.updatedAt || null }]
+      entries: [{ id: "1", part: "", tags: Array.isArray(raw.tags) ? raw.tags : [], text: raw.text || "", updatedAt: raw.updatedAt || null }]
     };
   }
 
@@ -1536,8 +1538,8 @@
       np.className = "notes-panel";
       np.innerHTML = `
         <div class="notes-head">
-          <h3>📓 Mistake Log &amp; Reflection <small id="save-ind" style="font-weight:400;color:var(--muted);"></small></h3>
-          <button type="button" class="btn" id="add-note-entry" title="Add another mistake log entry">+</button>
+          <h3>Mistake Log &amp; Reflection <small id="save-ind" style="font-weight:400;color:var(--muted);"></small></h3>
+          <button type="button" class="notes-add-btn" id="add-note-entry" title="Add another mistake log entry">+</button>
         </div>
         <div id="note-entries-list"></div>
       `;
@@ -1556,17 +1558,37 @@
         noteData.entries.forEach((entry, eIdx) => {
           const box = document.createElement("div");
           box.className = "note-entry-card";
+          const showPartRow = q.parts.length > 1;
+          const showTopBar = showPartRow || noteData.entries.length > 1;
           box.innerHTML = `
-            <div class="note-entry-top">
-              <div class="error-tags" style="margin-bottom:0;flex:1;">
-                ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${entry.tags.includes(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
+            ${showTopBar ? `
+              <div class="note-entry-top">
+                ${showPartRow ? `
+                  <div class="note-part-row">
+                    <span class="note-part-label">Part</span>
+                    <button type="button" class="note-part-pill ${!entry.part ? "selected" : ""}" data-part="">All</button>
+                    ${q.parts.map(p => `<button type="button" class="note-part-pill ${entry.part === p.label ? "selected" : ""}" data-part="${p.label}">${p.label}</button>`).join("")}
+                  </div>
+                ` : `<span></span>`}
+                ${noteData.entries.length > 1 ? `<button type="button" class="note-entry-remove" title="Remove entry">×</button>` : ""}
               </div>
-              ${noteData.entries.length > 1 ? `<button type="button" class="note-entry-remove" title="Remove entry">×</button>` : ""}
+            ` : ""}
+            <div class="error-tags">
+              ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${entry.tags.includes(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
             </div>
             <textarea class="notes-textarea" placeholder="Write down why you made a mistake or what formula/trick to remember next time..."></textarea>
           `;
           const ta = box.querySelector("textarea");
           ta.value = entry.text || "";
+
+          box.querySelectorAll(".note-part-pill").forEach(btn => {
+            btn.onclick = () => {
+              entry.part = btn.dataset.part || "";
+              entry.updatedAt = new Date().toLocaleDateString("en-SG");
+              box.querySelectorAll(".note-part-pill").forEach(b => b.classList.toggle("selected", b === btn));
+              saveNoteData();
+            };
+          });
 
           box.querySelectorAll(".err-chip").forEach(chip => {
             chip.onclick = () => {
@@ -1602,6 +1624,7 @@
       np.querySelector("#add-note-entry").onclick = () => {
         noteData.entries.push({
           id: String(Date.now()) + Math.random().toString(16).slice(2, 6),
+          part: "",
           tags: [],
           text: "",
           updatedAt: new Date().toLocaleDateString("en-SG")
@@ -1868,7 +1891,7 @@
     main.innerHTML = `
       <div class="card animate-in">
         <div class="q-header">
-          <div class="q-source">📓 Personal Mistake Log</div>
+          <div class="q-source">Personal Mistake Log</div>
           <small style="color:var(--muted);font-family:var(--sans);">${items.length} logged question(s)</small>
         </div>
         ${overviewHtml}
@@ -1912,8 +1935,12 @@
         nonEmpty.forEach(entry => {
           const sub = document.createElement("div");
           sub.className = "mistake-subentry";
+          const hasMetaRow = !!entry.part || (entry.tags && entry.tags.length);
           sub.innerHTML = `
-            ${(entry.tags && entry.tags.length) ? `<div class="error-tags" style="margin-bottom:6px;">${entry.tags.map(t => `<span class="err-chip selected">${t}</span>`).join("")}</div>` : ""}
+            ${hasMetaRow ? `<div class="error-tags" style="margin-bottom:6px;">
+              ${entry.part ? `<span class="mistake-part-pill">Part ${entry.part}</span>` : ""}
+              ${(entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("")}
+            </div>` : ""}
             <p class="mistake-note-text" style="margin:0 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
           `;
           const noteP = sub.querySelector(".mistake-note-text");
