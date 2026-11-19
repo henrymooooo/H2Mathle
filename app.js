@@ -303,6 +303,35 @@
     return out.replace(/\u0000MATH(\d+)\u0000/g, (_, i) => tokens[Number(i)]);
   }
 
+  function attachDollarAutoPair(ta, onUpdate) {
+    ta.addEventListener("keydown", (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const start = ta.selectionStart;
+      const end = ta.selectionEnd;
+      const val = ta.value;
+      if (e.key === "$") {
+        e.preventDefault();
+        if (start !== end) {
+          const selected = val.slice(start, end);
+          ta.value = val.slice(0, start) + "$" + selected + "$" + val.slice(end);
+          ta.selectionStart = start + 1;
+          ta.selectionEnd = end + 1;
+        } else if (val[start] === "$") {
+          ta.selectionStart = ta.selectionEnd = start + 1;
+        } else {
+          ta.value = val.slice(0, start) + "$$" + val.slice(end);
+          ta.selectionStart = ta.selectionEnd = start + 1;
+        }
+        if (onUpdate) onUpdate(ta.value);
+      } else if (e.key === "Backspace" && start === end && start > 0 && val[start - 1] === "$" && val[start] === "$") {
+        e.preventDefault();
+        ta.value = val.slice(0, start - 1) + val.slice(start + 1);
+        ta.selectionStart = ta.selectionEnd = start - 1;
+        if (onUpdate) onUpdate(ta.value);
+      }
+    });
+  }
+
   function renderDiagramBox(svg, imgPath) {
     if (!svg && !imgPath) return "";
     if (imgPath) {
@@ -2197,17 +2226,116 @@
       nonEmpty.forEach(entry => {
         const sub = document.createElement("div");
         sub.className = "mistake-subentry";
-        const hasMetaRow = !!entry.part || (entry.tags && entry.tags.length);
-        sub.innerHTML = `
-          ${hasMetaRow ? `<div class="error-tags" style="margin-bottom:6px;">
-            ${entry.part ? `<span class="mistake-part-pill">Part ${entry.part}</span>` : ""}
-            ${(entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("")}
-          </div>` : ""}
-          <p class="mistake-note-text" style="margin:0 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
-        `;
-        const noteP = sub.querySelector(".mistake-note-text");
-        if (entry.text && entry.text.trim()) noteP.innerHTML = renderSafeUserMath(entry.text);
-        else noteP.innerHTML = "<em>(No text note)</em>";
+
+        const renderReadMode = () => {
+          sub.innerHTML = `
+            <div class="mistake-subentry-head">
+              <div class="error-tags" style="margin-bottom:0;">
+                ${entry.part ? `<span class="mistake-part-pill">Part ${entry.part}</span>` : ""}
+                ${(entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("")}
+              </div>
+              <div class="mistake-entry-actions">
+                <button type="button" class="mistake-action-btn" data-edit-entry>Edit</button>
+                <button type="button" class="mistake-action-btn danger" data-del-entry title="Delete this note">×</button>
+              </div>
+            </div>
+            <p class="mistake-note-text" style="margin:6px 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
+          `;
+          const noteP = sub.querySelector(".mistake-note-text");
+          if (entry.text && entry.text.trim()) noteP.innerHTML = renderSafeUserMath(entry.text);
+          else noteP.innerHTML = "<em>(No text note)</em>";
+
+          sub.querySelector("[data-edit-entry]").onclick = () => renderEditMode();
+          sub.querySelector("[data-del-entry]").onclick = () => {
+            const fresh = getQuestionNoteData(qId);
+            const idx = fresh.entries.findIndex(e => e.id === entry.id && e.text === entry.text);
+            if (idx >= 0) fresh.entries.splice(idx, 1);
+            else {
+              const fallbackIdx = fresh.entries.findIndex(e => e.id === entry.id);
+              if (fallbackIdx >= 0) fresh.entries.splice(fallbackIdx, 1);
+            }
+            if (!fresh.entries.length) {
+              fresh.entries = [{ id: "1", part: "", tags: [], text: "", updatedAt: null }];
+            }
+            state.notes[qId] = fresh;
+            saveState();
+            renderMistakeLogView();
+          };
+        };
+
+        const renderEditMode = () => {
+          let draftPart = entry.part || "";
+          const draftTags = new Set(entry.tags || []);
+          const showPartRow = q.parts.length > 1;
+          sub.innerHTML = `
+            <div class="mistake-inline-editor">
+              ${showPartRow ? `
+                <div class="note-part-row" style="margin-bottom:8px;">
+                  <span class="note-part-label">Part</span>
+                  <button type="button" class="note-part-pill ${!draftPart ? "selected" : ""}" data-part="">All</button>
+                  ${q.parts.map(p => `<button type="button" class="note-part-pill ${draftPart === p.label ? "selected" : ""}" data-part="${p.label}">${p.label}</button>`).join("")}
+                </div>
+              ` : ""}
+              <div class="error-tags">
+                ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${draftTags.has(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
+              </div>
+              <textarea class="notes-textarea" placeholder="Amend your note (supports $LaTeX$)..."></textarea>
+              <div class="note-math-preview" style="display:none;"></div>
+              <div class="controls-row" style="margin-top:8px;">
+                <button type="button" class="btn btn-primary" data-save-edit>Save</button>
+                <button type="button" class="btn" data-cancel-edit>Cancel</button>
+              </div>
+            </div>
+          `;
+          const ta = sub.querySelector("textarea");
+          const preview = sub.querySelector(".note-math-preview");
+          const syncPreview = (val) => {
+            if (/\$\$[\s\S]+?\$\$|\$[^\$]+?\$/.test(val)) {
+              preview.innerHTML = renderSafeUserMath(val);
+              preview.style.display = "block";
+            } else {
+              preview.innerHTML = "";
+              preview.style.display = "none";
+            }
+          };
+          ta.value = entry.text || "";
+          syncPreview(ta.value);
+          attachDollarAutoPair(ta, (val) => syncPreview(val));
+          ta.oninput = (e) => syncPreview(e.target.value);
+
+          sub.querySelectorAll(".note-part-pill").forEach(btn => {
+            btn.onclick = () => {
+              draftPart = btn.dataset.part || "";
+              sub.querySelectorAll(".note-part-pill").forEach(b => b.classList.toggle("selected", b === btn));
+            };
+          });
+          sub.querySelectorAll(".err-chip").forEach(chip => {
+            chip.onclick = () => {
+              const t = chip.dataset.tag;
+              if (draftTags.has(t)) draftTags.delete(t);
+              else draftTags.add(t);
+              chip.classList.toggle("selected");
+            };
+          });
+          sub.querySelector("[data-cancel-edit]").onclick = () => renderReadMode();
+          sub.querySelector("[data-save-edit]").onclick = () => {
+            const fresh = getQuestionNoteData(qId);
+            const target = fresh.entries.find(e => e.id === entry.id && e.text === entry.text)
+              || fresh.entries.find(e => e.id === entry.id);
+            if (target) {
+              target.part = draftPart;
+              target.tags = Array.from(draftTags);
+              target.text = ta.value;
+              target.updatedAt = new Date().toLocaleDateString("en-SG");
+            }
+            state.notes[qId] = fresh;
+            saveState();
+            renderMistakeLogView();
+          };
+          ta.focus();
+        };
+
+        renderReadMode();
         subWrap.appendChild(sub);
       });
 

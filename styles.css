@@ -1522,3 +1522,55 @@ summary:focus-visible {
   border-color: rgba(217, 122, 166, 0.55);
   box-shadow: 0 0 0 2px rgba(217, 122, 166, 0.14);
 }
+
+/* Inline edit / delete actions on Mistake Log entries */
+.mistake-subentry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+.mistake-entry-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  opacity: 0.45;
+  transition: opacity 0.15s ease;
+}
+.mistake-subentry:hover .mistake-entry-actions,
+.mistake-entry-actions:focus-within {
+  opacity: 1;
+}
+.mistake-action-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+  line-height: 1.3;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+}
+.mistake-action-btn:hover {
+  color: var(--ink);
+  background: rgba(120, 115, 110, 0.1);
+}
+.mistake-action-btn.danger {
+  font-size: 0.88rem;
+  padding: 1px 6px;
+}
+.mistake-action-btn.danger:hover {
+  color: var(--bad);
+  background: var(--bad-soft);
+}
+.mistake-inline-editor {
+  padding: 10px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--accent-border);
+  background: var(--bg);
+  margin-bottom: 10px;
+}
