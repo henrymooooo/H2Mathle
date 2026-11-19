@@ -283,6 +283,24 @@
       .replace(/\$([^\$]+?)\$/g, (_, tex) => renderTex(tex, false));
   }
 
+  function renderSafeUserMath(text) {
+    const esc = (s) => s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    const tokens = [];
+    const stash = (html) => {
+      const idx = tokens.length;
+      tokens.push(html);
+      return `\u0000MATH${idx}\u0000`;
+    };
+    let out = String(text || "")
+      .replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => stash(renderMathText(`$$${tex}$$`)))
+      .replace(/\$([^\$]+?)\$/g, (_, tex) => stash(renderMathText(`$${tex}$`)));
+    out = esc(out);
+    return out.replace(/\u0000MATH(\d+)\u0000/g, (_, i) => tokens[Number(i)]);
+  }
+
   function renderDiagramBox(svg, imgPath) {
     if (!svg && !imgPath) return "";
     if (imgPath) {
@@ -544,11 +562,27 @@
 
       addCaretIf(0);
 
+      const fnWords = new Set(["sin", "cos", "tan", "ln", "log", "exp", "sec", "csc", "cot", "cosec", "arg", "Re", "Im"]);
+      const fnIndices = new Set();
+      let runStart = -1;
+      for (let i = 0; i <= slot.length; i++) {
+        const isLetter = i < slot.length && slot[i].type === "char" && /^[a-zA-Z]$/.test(slot[i].ch);
+        if (isLetter && runStart === -1) runStart = i;
+        else if (!isLetter && runStart !== -1) {
+          const word = slot.slice(runStart, i).map(n => n.ch).join("");
+          if (fnWords.has(word)) {
+            for (let k = runStart; k < i; k++) fnIndices.add(k);
+          }
+          runStart = -1;
+        }
+      }
+
       slot.forEach((node, idx) => {
         if (node.type === "char") {
           const chEl = document.createElement("span");
           const isOp = ["+", "-", "±", "=", ","].includes(node.ch);
-          chEl.className = "mf-char" + (isOp ? " mf-op" : "");
+          const isVar = /^[a-zA-Zθ]$/.test(node.ch) && !fnIndices.has(idx);
+          chEl.className = "mf-char" + (isOp ? " mf-op" : "") + (isVar ? " mf-var" : "");
           chEl.textContent = node.ch === "-" ? "−" : node.ch === "*" ? "·" : node.ch;
           chEl.onclick = (e) => {
             if (disabled) return;
@@ -1599,10 +1633,22 @@
             <div class="error-tags">
               ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${entry.tags.includes(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
             </div>
-            <textarea class="notes-textarea" placeholder="Write down why you made a mistake or what formula/trick to remember next time..."></textarea>
+            <textarea class="notes-textarea" placeholder="Write down why you made a mistake or what formula/trick to remember (supports $LaTeX$)..."></textarea>
+            <div class="note-math-preview" style="display:none;"></div>
           `;
           const ta = box.querySelector("textarea");
+          const preview = box.querySelector(".note-math-preview");
+          const syncPreview = (val) => {
+            if (/\$\$[\s\S]+?\$\$|\$[^\$]+?\$/.test(val)) {
+              preview.innerHTML = renderSafeUserMath(val);
+              preview.style.display = "block";
+            } else {
+              preview.innerHTML = "";
+              preview.style.display = "none";
+            }
+          };
           ta.value = entry.text || "";
+          syncPreview(ta.value);
 
           box.querySelectorAll(".note-part-pill").forEach(btn => {
             btn.onclick = () => {
@@ -1628,6 +1674,7 @@
           ta.oninput = (e) => {
             entry.text = e.target.value;
             entry.updatedAt = new Date().toLocaleDateString("en-SG");
+            syncPreview(entry.text);
             saveNoteData();
           };
 
@@ -1971,7 +2018,7 @@
             <p class="mistake-note-text" style="margin:0 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
           `;
           const noteP = sub.querySelector(".mistake-note-text");
-          if (entry.text && entry.text.trim()) noteP.textContent = entry.text;
+          if (entry.text && entry.text.trim()) noteP.innerHTML = renderSafeUserMath(entry.text);
           else noteP.innerHTML = "<em>(No text note)</em>";
           subWrap.appendChild(sub);
         });

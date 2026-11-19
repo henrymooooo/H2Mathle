@@ -327,8 +327,8 @@ body {
 }
 
 .mf-render {
-  font-family: var(--serif);
-  font-size: 1.15rem;
+  font-family: "KaTeX_Main", "Times New Roman", serif;
+  font-size: 1.22rem;
   line-height: 1.4;
   display: inline-flex;
   align-items: center;
@@ -340,8 +340,9 @@ body {
 
 .mf-placeholder {
   color: #ada496;
-  font-style: italic;
-  font-size: 0.94rem;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.85rem;
   pointer-events: none;
 }
 
@@ -366,6 +367,11 @@ body {
   padding: 0 0.5px;
 }
 .mf-char.mf-op { padding: 0 3px; }
+.mf-char.mf-var {
+  font-family: "KaTeX_Math", "KaTeX_Main", "Times New Roman", serif;
+  font-style: italic;
+  padding: 0 1px 0 0.5px;
+}
 
 .mf-frac {
   display: inline-flex;
@@ -377,7 +383,7 @@ body {
 }
 .mf-frac-num {
   padding: 0 4px 2px;
-  border-bottom: 1.5px solid var(--ink);
+  border-bottom: 1.2px solid var(--ink);
   display: flex;
   justify-content: center;
 }
@@ -402,7 +408,7 @@ body {
   transform: scaleY(1.1);
 }
 .mf-sqrt-body {
-  border-top: 1.5px solid var(--ink);
+  border-top: 1.2px solid var(--ink);
   padding: 2px 3px 0 2px;
   display: inline-flex;
   align-items: center;
@@ -573,6 +579,18 @@ body {
 .notes-textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.note-math-preview {
+  margin-top: 7px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(250, 248, 244, 0.9);
+  border: 1px dashed rgba(120, 115, 110, 0.24);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: var(--ink);
 }
 
 .random-banner {
