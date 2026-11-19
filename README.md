@@ -1,4 +1,4 @@
-# Daily H2 Math
+# H2 Daily Math
 
 An offline-first daily practice web app for Singapore A-Level **H2 Mathematics (9758)** prelim questions.
 
