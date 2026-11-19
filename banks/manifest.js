@@ -1,4 +1,10 @@
 window.H2_BANK_FILES = [
+  "banks/2025/acjc-p1.js",
+  "banks/2025/acjc-p2.js",
+  "banks/2025/asrjc-p1.js",
+  "banks/2025/asrjc-p2.js",
+  "banks/2025/cjc-p1.js",
+  "banks/2025/cjc-p2.js",
   "banks/2026/acjc-p1.js",
   "banks/2026/acjc-p2.js",
   "banks/2026/asrjc-p1.js",
