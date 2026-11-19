@@ -633,9 +633,9 @@ body {
   width: 9px; height: 9px; border-radius: 50%;
   background: #e5dfd3;
 }
-.cal-dot.ok { background: var(--ok); }
+.cal-dot.done { background: var(--ok); }
 .cal-dot.partial { background: #e6a23c; }
-.cal-dot.bad { background: var(--bad); }
+.cal-dot.incomplete { background: rgba(150, 140, 130, 0.28); }
 
 .backup-bar {
   display: flex;

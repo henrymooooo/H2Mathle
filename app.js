@@ -977,12 +977,20 @@
 
   // -------------------- 6. STREAK & META BAR --------------------
   function getQuestionStatus(q, rec) {
-    if (!rec || !rec.parts) return "untouched";
+    if (!q || !rec || !rec.parts) return "untouched";
     const entries = q.parts.map((_, i) => rec.parts[i]);
-    if (entries.every(e => !e)) return "untouched";
+    const anyTouched = entries.some(e => e && (e.status === "ok" || e.status === "bad" || e.attempts > 0 || e.revealed));
+    if (!anyTouched) return "untouched";
     const allResolved = entries.every(e => e && (e.status === "ok" || e.status === "bad"));
     if (!allResolved) return "partial";
     return entries.every(e => e.status === "ok") ? "ok" : "bad";
+  }
+
+  function getCalendarStatus(q, rec) {
+    const st = getQuestionStatus(q, rec);
+    if (st === "ok" || st === "bad") return { cls: "done", label: "Done" };
+    if (st === "partial") return { cls: "partial", label: "Partially Complete" };
+    return { cls: "incomplete", label: "Incomplete" };
   }
 
   function computeStreak() {
@@ -995,12 +1003,10 @@
       const d = String(check.getDate()).padStart(2, "0");
       const key = `${y}-${m}-${d}`;
       const rec = state.days[key];
-      const pureDone = rec?.pure && getQuestionStatus(
-        window.H2_QUESTIONS.find(q => q.id === rec.pure.questionId), rec.pure
-      ) === "ok";
-      const statsDone = rec?.stats && getQuestionStatus(
-        window.H2_QUESTIONS.find(q => q.id === rec.stats.questionId), rec.stats
-      ) === "ok";
+      const pSt = rec?.pure ? getQuestionStatus(window.H2_QUESTIONS.find(q => q.id === rec.pure.questionId), rec.pure) : "untouched";
+      const sSt = rec?.stats ? getQuestionStatus(window.H2_QUESTIONS.find(q => q.id === rec.stats.questionId), rec.stats) : "untouched";
+      const pureDone = pSt === "ok" || pSt === "bad";
+      const statsDone = sSt === "ok" || sSt === "bad";
 
       if (pureDone || statsDone) streak++;
       else if (key !== todayKey) break;
@@ -1663,15 +1669,19 @@
     for (let day = 1; day <= daysInMonth; day++) {
       const key = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
       const rec = state.days[key];
-      const pStatus = rec?.pure ? getQuestionStatus(window.H2_QUESTIONS.find(q => q.id === rec.pure.questionId), rec.pure) : "";
-      const sStatus = rec?.stats ? getQuestionStatus(window.H2_QUESTIONS.find(q => q.id === rec.stats.questionId), rec.stats) : "";
+      const pCal = rec?.pure
+        ? getCalendarStatus(window.H2_QUESTIONS.find(q => q.id === rec.pure.questionId), rec.pure)
+        : { cls: "incomplete", label: "Incomplete" };
+      const sCal = rec?.stats
+        ? getCalendarStatus(window.H2_QUESTIONS.find(q => q.id === rec.stats.questionId), rec.stats)
+        : { cls: "incomplete", label: "Incomplete" };
       const cls = ["cal-day", key === todayKey ? "today" : "", key === selectedCalendarDay ? "selected" : ""].join(" ");
       gridHtml += `
-        <button type="button" class="${cls}" data-day="${key}" aria-label="${key}: Pure ${pStatus || "untouched"}, Stats ${sStatus || "untouched"}">
+        <button type="button" class="${cls}" data-day="${key}" aria-label="${key}: Pure ${pCal.label}, Stats ${sCal.label}">
           <span>${day}</span>
           <div class="cal-dots">
-            <span class="cal-dot ${pStatus}" title="Pure: ${pStatus || "untouched"}"></span>
-            <span class="cal-dot ${sStatus}" title="Stats: ${sStatus || "untouched"}"></span>
+            <span class="cal-dot ${pCal.cls}" title="Pure: ${pCal.label}"></span>
+            <span class="cal-dot ${sCal.cls}" title="Stats: ${sCal.label}"></span>
           </div>
         </button>
       `;
@@ -1778,8 +1788,8 @@
       if (!rec[cat]) return "";
       const q = window.H2_QUESTIONS.find(x => x.id === rec[cat].questionId);
       if (!q) return "";
-      const st = getQuestionStatus(q, rec[cat]);
-      return `<button class="btn" data-open="${cat}">${label}: ${q.school} ${q.qNum} (${st})</button>`;
+      const calSt = getCalendarStatus(q, rec[cat]);
+      return `<button class="btn" data-open="${cat}">${label}: ${q.school} ${q.qNum} (${calSt.label})</button>`;
     };
     box.innerHTML = `
       <div class="animate-in" style="padding:12px;border-radius:10px;background:var(--bg);font-family:var(--sans);">
