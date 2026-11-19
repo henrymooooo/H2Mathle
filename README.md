@@ -2,6 +2,10 @@
 
 An offline-first daily practice web app for Singapore A-Level **H2 Mathematics (9758)** prelim questions.
 
+**Live App:** https://henrymoooo.github.io/h2dailymath/
+
+![H2 Daily Math screenshot](screenshot.png)
+
 ## Features
 
 - **Daily Practice (6:00 AM SGT Reset):** Serves 1 Pure Math and 1 Statistics question each day, tracking your daily completion (`0/2`), streak, and full history.
