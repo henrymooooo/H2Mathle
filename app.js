@@ -1012,16 +1012,17 @@
   function getQuestionNoteData(qId) {
     const raw = state.notes?.[qId];
     if (!raw) {
-      return { flagged: false, entries: [{ id: "1", tags: [], text: "", updatedAt: null }] };
+      return { flaggedParts: [], entries: [{ id: "1", tags: [], text: "", updatedAt: null }] };
     }
+    const flaggedParts = Array.isArray(raw.flaggedParts) ? raw.flaggedParts : [];
     if (Array.isArray(raw.entries)) {
       return {
-        flagged: !!raw.flagged,
+        flaggedParts,
         entries: raw.entries.length ? raw.entries : [{ id: "1", tags: [], text: "", updatedAt: null }]
       };
     }
     return {
-      flagged: !!raw.flagged,
+      flaggedParts,
       entries: [{ id: "1", tags: Array.isArray(raw.tags) ? raw.tags : [], text: raw.text || "", updatedAt: raw.updatedAt || null }]
     };
   }
@@ -1043,8 +1044,6 @@
     });
     document.getElementById("today-progress").textContent = `${done}/2`;
     document.getElementById("streak-count").textContent = computeStreak();
-    const flagBtn = document.getElementById("q-flag-btn");
-    if (flagBtn && flagBtn._syncFlagVisibility) flagBtn._syncFlagVisibility();
   }
 
   // -------------------- 7. RENDER QUESTION VIEW --------------------
@@ -1064,12 +1063,16 @@
 
     const qId = record.questionId;
     const isPinned = !!(qId && pinnedPartsByQuestion[qId]?.has(idx));
+    const isFlagged = !!(qId && getQuestionNoteData(qId).flaggedParts.includes(part.label));
 
     pCard.innerHTML = `
       <div class="part-top">
         <span class="part-label">Part ${part.label} <small style="font-weight:400;color:var(--muted);">[${part.marks}m]</small></span>
         <span class="part-top-right">
-          <button type="button" class="part-pin-dot ${isPinned ? "pinned" : ""}" aria-pressed="${isPinned ? "true" : "false"}" aria-label="Pin part ${part.label} to scratchpad"></button>
+          <span class="part-actions">
+            <button type="button" class="part-flag-btn ${isFlagged ? "flagged" : ""}" aria-pressed="${isFlagged ? "true" : "false"}" aria-label="Flag part ${part.label} for Mistake Log" title="Flag part ${part.label} for Mistake Log">⚑</button>
+            <button type="button" class="part-pin-dot ${isPinned ? "pinned" : ""}" aria-pressed="${isPinned ? "true" : "false"}" aria-label="Pin part ${part.label} to scratchpad" title="Pin part ${part.label} to scratchpad"></button>
+          </span>
           <span>${statusText}</span>
         </span>
       </div>
@@ -1088,6 +1091,22 @@
         pinBtn.classList.toggle("pinned", nowPinned);
         pinBtn.setAttribute("aria-pressed", nowPinned ? "true" : "false");
         updateScratchpadCounter(qId);
+      };
+    }
+
+    const partFlagBtn = pCard.querySelector(".part-flag-btn");
+    if (partFlagBtn && qId) {
+      partFlagBtn.onclick = () => {
+        const noteData = getQuestionNoteData(qId);
+        const list = noteData.flaggedParts;
+        const pos = list.indexOf(part.label);
+        if (pos >= 0) list.splice(pos, 1);
+        else list.push(part.label);
+        state.notes[qId] = noteData;
+        saveState();
+        const nowFlagged = list.includes(part.label);
+        partFlagBtn.classList.toggle("flagged", nowFlagged);
+        partFlagBtn.setAttribute("aria-pressed", nowFlagged ? "true" : "false");
       };
     }
 
@@ -1449,7 +1468,6 @@
               </button>
               ${qTimer.elapsedSec > 0 ? `<button type="button" class="q-timer-reset" id="q-timer-reset" title="Reset timer">↺</button>` : ""}
             </span>
-            ${!isRandom ? `<button type="button" class="q-flag-btn ${getQuestionNoteData(q.id).flagged ? "flagged" : ""}" id="q-flag-btn" title="Flag for review in Mistake Log" aria-pressed="${getQuestionNoteData(q.id).flagged ? "true" : "false"}" style="display:none;">⚑</button>` : ""}
           </div>
         </div>
         <div class="tag-row">
@@ -1513,23 +1531,6 @@
 
     if (!isRandom) {
       const noteData = getQuestionNoteData(q.id);
-      const flagBtn = card.querySelector("#q-flag-btn");
-      if (flagBtn) {
-        flagBtn._syncFlagVisibility = () => {
-          const st = getQuestionStatus(q, record);
-          const complete = st === "ok" || st === "bad";
-          flagBtn.style.display = (complete || noteData.flagged) ? "inline-flex" : "none";
-          flagBtn.classList.toggle("flagged", !!noteData.flagged);
-          flagBtn.setAttribute("aria-pressed", noteData.flagged ? "true" : "false");
-        };
-        flagBtn._syncFlagVisibility();
-        flagBtn.onclick = () => {
-          noteData.flagged = !noteData.flagged;
-          state.notes[q.id] = noteData;
-          saveState();
-          flagBtn._syncFlagVisibility();
-        };
-      }
 
       const np = document.createElement("div");
       np.className = "notes-panel";
@@ -1800,7 +1801,7 @@
     let flaggedCount = 0;
     for (const qId of Object.keys(state.notes || {})) {
       const nd = getQuestionNoteData(qId);
-      if (nd.flagged) flaggedCount++;
+      if (nd.flaggedParts && nd.flaggedParts.length) flaggedCount++;
       for (const entry of getNonEmptyEntries(nd)) {
         for (const tag of (entry.tags || [])) {
           tagCounts[tag] = (tagCounts[tag] || 0) + 1;
@@ -1818,12 +1819,12 @@
         const nonEmpty = getNonEmptyEntries(nd);
         return [qId, nd, nonEmpty];
       })
-      .filter(([_, nd, nonEmpty]) => nd.flagged || nonEmpty.length > 0);
+      .filter(([_, nd, nonEmpty]) => (nd.flaggedParts && nd.flaggedParts.length > 0) || nonEmpty.length > 0);
 
     const items = mistakeTagFilter === "all"
       ? allItems
       : mistakeTagFilter === "__flagged__"
-        ? allItems.filter(([_, nd]) => nd.flagged)
+        ? allItems.filter(([_, nd]) => nd.flaggedParts && nd.flaggedParts.length > 0)
         : allItems.filter(([_, __, nonEmpty]) => nonEmpty.some(e => (e.tags || []).includes(mistakeTagFilter)));
 
     const stats = computeStudyStats();
@@ -1898,7 +1899,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <strong class="q-source">${q.school} • ${q.paper} • ${q.qNum}</strong>
-            ${nd.flagged ? `<span class="mistake-flag-pill">⚑ Needs Attention</span>` : ""}
+            ${(nd.flaggedParts || []).map(p => `<span class="mistake-flag-pill">⚑ Part ${p}</span>`).join("")}
           </div>
           <small style="color:var(--muted);font-family:var(--sans);">${latestDate}</small>
         </div>
@@ -1920,7 +1921,7 @@
           else noteP.innerHTML = "<em>(No text note)</em>";
           subWrap.appendChild(sub);
         });
-      } else if (nd.flagged) {
+      } else if (nd.flaggedParts && nd.flaggedParts.length) {
         subWrap.innerHTML = `<p style="margin:0 0 10px;font-family:var(--sans);color:var(--muted);font-size:0.86rem;"><em>Flagged for review</em></p>`;
       }
 

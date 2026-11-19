@@ -913,11 +913,55 @@ summary:focus-visible {
   transform: scale(0.97);
 }
 
-/* Minimalist pin-to-scratchpad circle on each part */
+/* Minimalist pin-to-scratchpad circle & hover-reveal part flag */
 .part-top-right {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+.part-actions {
+  display: inline-flex;
+  align-items: center;
+}
+.part-flag-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 0;
+  padding: 0;
+  margin-right: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(6px);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: max-width 0.16s ease, opacity 0.14s ease, transform 0.16s ease, padding 0.16s ease, margin-right 0.16s ease, color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.part-actions:hover .part-flag-btn,
+.part-actions:focus-within .part-flag-btn,
+.part-flag-btn.flagged {
+  max-width: 28px;
+  padding: 2px 6px;
+  margin-right: 6px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+.part-flag-btn:hover {
+  color: #d97aa6;
+  border-color: rgba(217, 122, 166, 0.38);
+  background: rgba(217, 122, 166, 0.12);
+}
+.part-flag-btn.flagged {
+  color: #d97aa6;
+  border-color: rgba(217, 122, 166, 0.45);
+  background: rgba(217, 122, 166, 0.16);
 }
 .part-pin-dot {
   width: 13px;
@@ -1152,34 +1196,6 @@ summary:focus-visible {
   color: var(--ink);
 }
 
-/* Simplistic completion flag button */
-.q-flag-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  padding: 2px 7px;
-  font-size: 0.88rem;
-  line-height: 1;
-  color: var(--muted);
-  cursor: pointer;
-  margin-left: 4px;
-  vertical-align: middle;
-  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-}
-.q-flag-btn:hover {
-  color: #e67e22;
-  border-color: rgba(230, 126, 34, 0.35);
-  background: rgba(230, 126, 34, 0.08);
-}
-.q-flag-btn.flagged {
-  color: #e67e22;
-  border-color: rgba(230, 126, 34, 0.45);
-  background: rgba(230, 126, 34, 0.14);
-}
-
 /* Multiple mistake log entries */
 .notes-head {
   display: flex;
@@ -1229,9 +1245,9 @@ summary:focus-visible {
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 999px;
-  color: #d35400;
-  background: rgba(230, 126, 34, 0.14);
-  border: 1px solid rgba(230, 126, 34, 0.35);
+  color: #c2598b;
+  background: rgba(217, 122, 166, 0.14);
+  border: 1px solid rgba(217, 122, 166, 0.38);
 }
 .mistake-subentry + .mistake-subentry {
   margin-top: 10px;
