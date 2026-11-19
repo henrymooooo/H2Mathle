@@ -18,8 +18,8 @@
   --warn: #b46914;
 
   --serif: "Georgia", "Palatino Linotype", "Book Antiqua", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --sans: var(--mono);
 }
 
 /* Pastel tab themes */

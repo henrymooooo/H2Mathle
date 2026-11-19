@@ -126,21 +126,38 @@
     return state.days[dayKey];
   }
 
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return () => {
+      a = (a + 0x6D2B79F5) >>> 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
   function getDailyQuestion(dayKey, category) {
-    const pool = window.H2_QUESTIONS.filter(q => q.category === category);
+    const pool = window.H2_QUESTIONS
+      .filter(q => q.category === category)
+      .slice()
+      .sort((a, b) => a.id.localeCompare(b.id));
     if (!pool.length) return null;
     const dayRec = getDayRecord(dayKey);
     if (dayRec[category]?.questionId) {
       const found = pool.find(q => q.id === dayRec[category].questionId);
       if (found) return found;
     }
-    const seenIds = new Set(
-      Object.values(state.days).map(d => d[category]?.questionId).filter(Boolean)
-    );
-    const unseen = pool.filter(q => !seenIds.has(q.id));
-    const candidates = unseen.length ? unseen : pool;
-    const idx = hashSeed(`${dayKey}:${category}`) % candidates.length;
-    const chosen = candidates[idx];
+    const [y, m, d] = dayKey.split("-").map(Number);
+    const dayIndex = Math.floor(Date.UTC(y, m - 1, d) / 86400000);
+    const cycle = Math.floor(dayIndex / pool.length);
+    const offset = ((dayIndex % pool.length) + pool.length) % pool.length;
+    const rand = mulberry32(hashSeed(`h2-daily-math:${category}:${cycle}`));
+    const shuffled = pool.slice();
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    const chosen = shuffled[offset];
     dayRec[category] = { questionId: chosen.id, parts: {} };
     saveState();
     return chosen;
