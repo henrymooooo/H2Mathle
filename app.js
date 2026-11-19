@@ -526,6 +526,47 @@
       return false;
     }
 
+    function toLatexString(slot = root) {
+      let out = "";
+      let i = 0;
+      const fnWords = new Set(["sin", "cos", "tan", "ln", "log", "exp", "sec", "csc", "cot", "cosec", "arg"]);
+      while (i < slot.length) {
+        const node = slot[i];
+        if (node.type === "char") {
+          if (/^[a-zA-Z]$/.test(node.ch)) {
+            let j = i;
+            let word = "";
+            while (j < slot.length && slot[j].type === "char" && /^[a-zA-Z]$/.test(slot[j].ch)) {
+              word += slot[j].ch;
+              j++;
+            }
+            if (fnWords.has(word)) {
+              out += (word === "cosec" ? "\\operatorname{cosec} " : `\\${word} `);
+            } else {
+              out += word;
+            }
+            i = j;
+            continue;
+          }
+          if (node.ch === "±") out += "\\pm ";
+          else if (node.ch === "π") out += "\\pi ";
+          else if (node.ch === "θ") out += "\\theta ";
+          else if (node.ch === "−") out += "-";
+          else if (node.ch === "·" || node.ch === "*") out += "\\cdot ";
+          else if (node.ch === "{" || node.ch === "}" || node.ch === "%" || node.ch === "#") out += "\\" + node.ch;
+          else out += node.ch;
+        } else if (node.type === "frac") {
+          out += `\\dfrac{${toLatexString(node.num) || "\\square"}}{${toLatexString(node.den) || "\\square"}}`;
+        } else if (node.type === "sqrt") {
+          out += `\\sqrt{${toLatexString(node.body) || "\\square"}}`;
+        } else if (node.type === "sup") {
+          out += `^{${toLatexString(node.body) || "\\square"}}`;
+        }
+        i++;
+      }
+      return out;
+    }
+
     function toEvalString(slot = root) {
       return slot.map(node => {
         if (node.type === "char") {
@@ -607,13 +648,11 @@
         } else if (node.type === "sqrt") {
           const sq = document.createElement("span");
           sq.className = "mf-sqrt";
-          const rad = document.createElement("span");
-          rad.className = "mf-sqrt-rad";
-          rad.textContent = "√";
+          sq.innerHTML = `<svg class="mf-sqrt-svg" viewBox="0 0 12 22" preserveAspectRatio="none" aria-hidden="true"><path d="M0.5 13 L3.2 11.2 L6.2 20.5 L11.5 0.6 L12 0.6" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
           const body = document.createElement("span");
           body.className = "mf-sqrt-body";
           body.appendChild(renderSlot(node.body, true));
-          sq.append(rad, body);
+          sq.appendChild(body);
           span.appendChild(sq);
         } else if (node.type === "sup") {
           const sup = document.createElement("span");
@@ -634,6 +673,15 @@
         ph.className = "mf-placeholder";
         ph.textContent = placeholder;
         renderEl.appendChild(ph);
+      } else if (!isFocused && root.length > 0 && window.katex) {
+        const kSpan = document.createElement("span");
+        kSpan.className = "mf-katex-static";
+        try {
+          kSpan.innerHTML = window.katex.renderToString(toLatexString(root), { displayMode: false, throwOnError: false });
+          renderEl.appendChild(kSpan);
+        } catch (_) {
+          renderEl.appendChild(renderSlot(root, false));
+        }
       } else {
         renderEl.appendChild(renderSlot(root, false));
       }
@@ -655,7 +703,7 @@
 
     wrap.addEventListener("click", (e) => {
       if (disabled) return;
-      if (e.target === wrap || e.target === renderEl) cursor = { slot: root, index: root.length };
+      if (!isFocused || e.target === wrap || e.target === renderEl) cursor = { slot: root, index: root.length };
       focus();
     });
 
