@@ -22,7 +22,16 @@ An offline-first daily practice web app for Singapore A-Level **H2 Mathematics (
 - `app.js` — Math field, evaluator, state management, and UI views
 - `questions.js` — Question registry (`window.registerQuestions`)
 - `banks/manifest.js` & `banks/2026/*.js` — Prelim question banks
+- `PROMPT-GUIDE.MD` — LLM prompt template for converting past-paper PDFs into question bank `.js` files
 - `sw.js` — Service Worker for offline caching over HTTP/HTTPS
+
+## Adding Question Banks
+
+To add new prelim papers or custom question sets:
+
+1. Give an LLM the instructions in [PROMPT-GUIDE.MD](PROMPT-GUIDE.MD) along with your past-paper PDF to convert the questions into the `.js` format used by `banks/`.
+2. Save the generated file under `banks/<year>/` (e.g., `banks/2026/my-paper.js`).
+3. Add the new file path to `banks/manifest.js` so `loadBankScripts()` loads it automatically.
 
 ## Usage
 
