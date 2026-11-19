@@ -66,6 +66,8 @@
   let randomState = {};
   let randomFilters = { topic: "all", school: "all", status: "all" };
   let mistakeTagFilter = "all";
+  let flaggedSort = "date-desc";
+  let flaggedPanelOpen = true;
   let activeMathField = null;
   let qTimer = { questionId: null, elapsedSec: 0, running: false, intervalId: null };
 
@@ -1118,12 +1120,14 @@
   function getQuestionNoteData(qId) {
     const raw = state.notes?.[qId];
     if (!raw) {
-      return { flaggedParts: [], entries: [{ id: "1", part: "", tags: [], text: "", updatedAt: null }] };
+      return { flaggedParts: [], flaggedAt: null, entries: [{ id: "1", part: "", tags: [], text: "", updatedAt: null }] };
     }
     const flaggedParts = Array.isArray(raw.flaggedParts) ? raw.flaggedParts : [];
+    const flaggedAt = raw.flaggedAt || null;
     if (Array.isArray(raw.entries)) {
       return {
         flaggedParts,
+        flaggedAt,
         entries: raw.entries.length
           ? raw.entries.map(e => ({ id: e.id || "1", part: e.part || "", tags: Array.isArray(e.tags) ? e.tags : [], text: e.text || "", updatedAt: e.updatedAt || null }))
           : [{ id: "1", part: "", tags: [], text: "", updatedAt: null }]
@@ -1131,6 +1135,7 @@
     }
     return {
       flaggedParts,
+      flaggedAt,
       entries: [{ id: "1", part: "", tags: Array.isArray(raw.tags) ? raw.tags : [], text: raw.text || "", updatedAt: raw.updatedAt || null }]
     };
   }
@@ -1208,8 +1213,13 @@
         const noteData = getQuestionNoteData(qId);
         const list = noteData.flaggedParts;
         const pos = list.indexOf(part.label);
-        if (pos >= 0) list.splice(pos, 1);
-        else list.push(part.label);
+        if (pos >= 0) {
+          list.splice(pos, 1);
+          if (!list.length) noteData.flaggedAt = null;
+        } else {
+          list.push(part.label);
+          noteData.flaggedAt = Date.now();
+        }
         state.notes[qId] = noteData;
         saveState();
         const nowFlagged = list.includes(part.label);
@@ -1955,92 +1965,131 @@
     });
   }
 
-  // -------------------- 9. MISTAKE LOG & MASTERY VIEW --------------------
-  function computeStudyStats() {
-    let solved = 0, missed = 0;
-    const topicMap = {};
-    for (const dayRec of Object.values(state.days)) {
-      for (const cat of ["pure", "stats"]) {
-        const rec = dayRec?.[cat];
-        if (!rec?.questionId) continue;
-        const q = window.H2_QUESTIONS.find(x => x.id === rec.questionId);
-        if (!q) continue;
-        const st = getQuestionStatus(q, rec);
-        if (st !== "ok" && st !== "bad") continue;
-        if (st === "ok") solved++;
-        else missed++;
-        for (const t of (q.topics || [])) {
-          if (!topicMap[t]) topicMap[t] = { ok: 0, total: 0 };
-          topicMap[t].total++;
-          if (st === "ok") topicMap[t].ok++;
-        }
+  // -------------------- 9. MISTAKE LOG & FLAGGED QUESTIONS VIEW --------------------
+  function parseNoteDateMs(dateStr) {
+    if (!dateStr) return 0;
+    const parts = String(dateStr).split("/");
+    if (parts.length === 3) {
+      const [d, m, y] = parts.map(Number);
+      if (y && m && d) return new Date(y, m - 1, d).getTime();
+    }
+    const parsed = Date.parse(dateStr);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  function getQuestionTimestamp(qId, nd, nonEmpty) {
+    if (nd.flaggedAt) return nd.flaggedAt;
+    const dates = (nonEmpty || []).map(e => parseNoteDateMs(e.updatedAt)).filter(Boolean);
+    if (dates.length) return Math.max(...dates);
+    let latestDayMs = 0;
+    for (const [dayKey, dayRec] of Object.entries(state.days || {})) {
+      if (dayRec?.pure?.questionId === qId || dayRec?.stats?.questionId === qId) {
+        const ms = Date.parse(dayKey);
+        if (ms > latestDayMs) latestDayMs = ms;
       }
     }
-    const tagCounts = {};
-    let flaggedCount = 0;
-    for (const qId of Object.keys(state.notes || {})) {
-      const nd = getQuestionNoteData(qId);
-      if (nd.flaggedParts && nd.flaggedParts.length) flaggedCount++;
-      for (const entry of getNonEmptyEntries(nd)) {
-        for (const tag of (entry.tags || [])) {
-          tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-        }
-      }
-    }
-    return { solved, missed, total: solved + missed, topicMap, tagCounts, flaggedCount };
+    return latestDayMs;
   }
 
   function renderMistakeLogView() {
     const main = document.getElementById("main-content");
-    const allItems = Object.keys(state.notes || {})
+    const openQuestionForPractice = (q) => {
+      randomQuestion = q;
+      randomState = { questionId: q.id, parts: {} };
+      switchTab("random", true);
+    };
+
+    // 1. Collect flagged questions
+    const flaggedItems = Object.keys(state.notes || {})
+      .map(qId => {
+        const q = window.H2_QUESTIONS.find(x => x.id === qId);
+        if (!q) return null;
+        const nd = getQuestionNoteData(qId);
+        if (!nd.flaggedParts || !nd.flaggedParts.length) return null;
+        const nonEmpty = getNonEmptyEntries(nd);
+        const ts = getQuestionTimestamp(qId, nd, nonEmpty);
+        const dateLabel = ts ? new Date(ts).toLocaleDateString("en-SG") : "";
+        return { qId, q, nd, ts, dateLabel };
+      })
+      .filter(Boolean);
+
+    flaggedItems.sort((a, b) => {
+      if (flaggedSort === "date-asc") return a.ts - b.ts;
+      if (flaggedSort === "topic-asc") return (a.q.topics?.[0] || "").localeCompare(b.q.topics?.[0] || "");
+      if (flaggedSort === "school-asc") return (a.q.school || "").localeCompare(b.q.school || "");
+      return b.ts - a.ts; // date-desc default
+    });
+
+    // 2. Collect written mistake log entries
+    const allNoteItems = Object.keys(state.notes || {})
       .map(qId => {
         const nd = getQuestionNoteData(qId);
         const nonEmpty = getNonEmptyEntries(nd);
         return [qId, nd, nonEmpty];
       })
-      .filter(([_, nd, nonEmpty]) => (nd.flaggedParts && nd.flaggedParts.length > 0) || nonEmpty.length > 0);
+      .filter(([_, __, nonEmpty]) => nonEmpty.length > 0);
+
+    const tagCounts = {};
+    for (const [_, __, nonEmpty] of allNoteItems) {
+      for (const entry of nonEmpty) {
+        for (const tag of (entry.tags || [])) {
+          tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+        }
+      }
+    }
+    const topTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
+    if (mistakeTagFilter !== "all" && !tagCounts[mistakeTagFilter]) {
+      mistakeTagFilter = "all";
+    }
 
     const items = mistakeTagFilter === "all"
-      ? allItems
-      : mistakeTagFilter === "__flagged__"
-        ? allItems.filter(([_, nd]) => nd.flaggedParts && nd.flaggedParts.length > 0)
-        : allItems.filter(([_, __, nonEmpty]) => nonEmpty.some(e => (e.tags || []).includes(mistakeTagFilter)));
+      ? allNoteItems
+      : allNoteItems.filter(([_, __, nonEmpty]) => nonEmpty.some(e => (e.tags || []).includes(mistakeTagFilter)));
 
-    const stats = computeStudyStats();
-    const acc = stats.total ? Math.round((stats.solved / stats.total) * 100) : 0;
-    const topicEntries = Object.entries(stats.topicMap).sort((a, b) => (a[1].ok / a[1].total) - (b[1].ok / b[1].total));
-    const topTags = Object.entries(stats.tagCounts).sort((a, b) => b[1] - a[1]);
-
-    const overviewHtml = (stats.total > 0 || topTags.length > 0 || stats.flaggedCount > 0) ? `
-      <div class="stats-overview">
-        <div class="stats-kpis">
-          <span>Completed: <strong>${stats.total}</strong></span>
-          <span>Solved: <strong>${stats.solved}</strong></span>
-          <span>Accuracy: <strong>${stats.total ? acc + "%" : "—"}</strong></span>
+    const flaggedPanelHtml = `
+      <div class="flagged-panel">
+        <div class="flagged-panel-head">
+          <button type="button" class="flagged-toggle-btn" id="flagged-toggle" aria-expanded="${flaggedPanelOpen ? "true" : "false"}">
+            <span class="flagged-chevron">${flaggedPanelOpen ? "▾" : "▸"}</span>
+            <span>⚑ Flagged Questions (${flaggedItems.length})</span>
+          </button>
+          ${flaggedItems.length > 1 ? `
+            <select id="flagged-sort" class="flagged-sort-select" aria-label="Sort flagged questions">
+              <option value="date-desc" ${flaggedSort === "date-desc" ? "selected" : ""}>Date: Newest</option>
+              <option value="date-asc" ${flaggedSort === "date-asc" ? "selected" : ""}>Date: Oldest</option>
+              <option value="topic-asc" ${flaggedSort === "topic-asc" ? "selected" : ""}>Topic: A–Z</option>
+              <option value="school-asc" ${flaggedSort === "school-asc" ? "selected" : ""}>School: A–Z</option>
+            </select>
+          ` : ""}
         </div>
-        ${(topTags.length || stats.flaggedCount > 0) ? `
-          <div class="error-tags" style="margin-bottom:${topicEntries.length ? "8px" : "0"};">
-            <button type="button" class="err-chip ${mistakeTagFilter === "all" ? "selected" : ""}" data-tag-filter="all">All (${allItems.length})</button>
-            ${stats.flaggedCount > 0 ? `<button type="button" class="err-chip ${mistakeTagFilter === "__flagged__" ? "selected" : ""}" data-tag-filter="__flagged__">⚑ Flagged (${stats.flaggedCount})</button>` : ""}
-            ${topTags.map(([tag, cnt]) => `<button type="button" class="err-chip ${mistakeTagFilter === tag ? "selected" : ""}" data-tag-filter="${tag}">${tag} (${cnt})</button>`).join("")}
+        ${flaggedPanelOpen ? `
+          <div class="flagged-list" id="flagged-list">
+            ${flaggedItems.length ? flaggedItems.map(item => `
+              <div class="flagged-item">
+                <div class="flagged-item-main" data-jump="${item.q.id}">
+                  <div class="flagged-item-topics">${(item.q.topics || []).join(" • ") || "General"}</div>
+                  <div class="flagged-item-title-row">
+                    <strong class="q-source">${item.q.school} • ${item.q.paper} • ${item.q.qNum}</strong>
+                    ${item.nd.flaggedParts.map(p => `<span class="mistake-flag-pill">⚑ Part ${p}</span>`).join("")}
+                  </div>
+                </div>
+                <div class="flagged-item-actions">
+                  ${item.dateLabel ? `<small class="flagged-item-date">${item.dateLabel}</small>` : ""}
+                  <button type="button" class="flagged-jump-btn" data-jump="${item.q.id}">Practice →</button>
+                  <button type="button" class="flagged-unflag-btn" data-unflag="${item.q.id}" title="Unflag this question">×</button>
+                </div>
+              </div>
+            `).join("") : `<p class="flagged-empty">No flagged questions right now. Hover over the dot on any question part and click ⚑ to flag it for review.</p>`}
           </div>
         ` : ""}
-        ${topicEntries.length ? `
-          <details ${topicEntries.length <= 6 ? "open" : ""}>
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:600;color:var(--muted);">Topic Mastery (${topicEntries.length} topics)</summary>
-            <div class="topic-bars">
-              ${topicEntries.map(([t, d]) => {
-                const pct = Math.round((d.ok / d.total) * 100);
-                return `
-                  <div class="topic-bar-item">
-                    <div class="topic-bar-head"><span>${t}</span><span>${d.ok}/${d.total} (${pct}%)</span></div>
-                    <div class="topic-bar-track"><div class="topic-bar-fill" style="width:${pct}%"></div></div>
-                  </div>
-                `;
-              }).join("")}
-            </div>
-          </details>
-        ` : ""}
+      </div>
+    `;
+
+    const tagFilterHtml = topTags.length ? `
+      <div class="error-tags" style="margin-bottom:14px;">
+        <button type="button" class="err-chip ${mistakeTagFilter === "all" ? "selected" : ""}" data-tag-filter="all">All Notes (${allNoteItems.length})</button>
+        ${topTags.map(([tag, cnt]) => `<button type="button" class="err-chip ${mistakeTagFilter === tag ? "selected" : ""}" data-tag-filter="${tag}">${tag} (${cnt})</button>`).join("")}
       </div>
     ` : "";
 
@@ -2048,12 +2097,49 @@
       <div class="card animate-in">
         <div class="q-header">
           <div class="q-source">Personal Mistake Log</div>
-          <small style="color:var(--muted);font-family:var(--sans);">${items.length} logged question(s)</small>
+          <small style="color:var(--muted);font-family:var(--sans);">${allNoteItems.length} logged question(s)</small>
         </div>
-        ${overviewHtml}
+        ${flaggedPanelHtml}
+        ${tagFilterHtml}
         <div id="mistakes-list"></div>
       </div>
     `;
+
+    const toggleBtn = main.querySelector("#flagged-toggle");
+    if (toggleBtn) {
+      toggleBtn.onclick = () => {
+        flaggedPanelOpen = !flaggedPanelOpen;
+        renderMistakeLogView();
+      };
+    }
+
+    const sortSel = main.querySelector("#flagged-sort");
+    if (sortSel) {
+      sortSel.onchange = (e) => {
+        flaggedSort = e.target.value;
+        renderMistakeLogView();
+      };
+    }
+
+    main.querySelectorAll("[data-jump]").forEach(el => {
+      el.onclick = () => {
+        const q = window.H2_QUESTIONS.find(x => x.id === el.dataset.jump);
+        if (q) openQuestionForPractice(q);
+      };
+    });
+
+    main.querySelectorAll("[data-unflag]").forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const qId = btn.dataset.unflag;
+        const nd = getQuestionNoteData(qId);
+        nd.flaggedParts = [];
+        nd.flaggedAt = null;
+        state.notes[qId] = nd;
+        saveState();
+        renderMistakeLogView();
+      };
+    });
 
     main.querySelectorAll("[data-tag-filter]").forEach(btn => {
       btn.onclick = () => {
@@ -2064,7 +2150,7 @@
 
     const list = main.querySelector("#mistakes-list");
     if (!items.length) {
-      list.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);">No mistakes or flagged questions logged yet. After attempting any daily Pure or Stats question, tag your errors, write notes, or click the ⚑ flag to review it later!</p>`;
+      list.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.88rem;">No written mistake notes yet. After attempting any Pure or Stats question, tag your errors or jot down what to remember!</p>`;
       return;
     }
 
@@ -2087,32 +2173,24 @@
       `;
 
       const subWrap = div.querySelector(".mistake-subentries");
-      if (nonEmpty.length) {
-        nonEmpty.forEach(entry => {
-          const sub = document.createElement("div");
-          sub.className = "mistake-subentry";
-          const hasMetaRow = !!entry.part || (entry.tags && entry.tags.length);
-          sub.innerHTML = `
-            ${hasMetaRow ? `<div class="error-tags" style="margin-bottom:6px;">
-              ${entry.part ? `<span class="mistake-part-pill">Part ${entry.part}</span>` : ""}
-              ${(entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("")}
-            </div>` : ""}
-            <p class="mistake-note-text" style="margin:0 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
-          `;
-          const noteP = sub.querySelector(".mistake-note-text");
-          if (entry.text && entry.text.trim()) noteP.innerHTML = renderSafeUserMath(entry.text);
-          else noteP.innerHTML = "<em>(No text note)</em>";
-          subWrap.appendChild(sub);
-        });
-      } else if (nd.flaggedParts && nd.flaggedParts.length) {
-        subWrap.innerHTML = `<p style="margin:0 0 10px;font-family:var(--sans);color:var(--muted);font-size:0.86rem;"><em>Flagged for review</em></p>`;
-      }
+      nonEmpty.forEach(entry => {
+        const sub = document.createElement("div");
+        sub.className = "mistake-subentry";
+        const hasMetaRow = !!entry.part || (entry.tags && entry.tags.length);
+        sub.innerHTML = `
+          ${hasMetaRow ? `<div class="error-tags" style="margin-bottom:6px;">
+            ${entry.part ? `<span class="mistake-part-pill">Part ${entry.part}</span>` : ""}
+            ${(entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("")}
+          </div>` : ""}
+          <p class="mistake-note-text" style="margin:0 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
+        `;
+        const noteP = sub.querySelector(".mistake-note-text");
+        if (entry.text && entry.text.trim()) noteP.innerHTML = renderSafeUserMath(entry.text);
+        else noteP.innerHTML = "<em>(No text note)</em>";
+        subWrap.appendChild(sub);
+      });
 
-      div.querySelector("[data-revise]").onclick = () => {
-        randomQuestion = q;
-        randomState = { questionId: q.id, parts: {} };
-        switchTab("random", true);
-      };
+      div.querySelector("[data-revise]").onclick = () => openQuestionForPractice(q);
       list.appendChild(div);
     });
   }
