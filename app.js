@@ -1009,6 +1009,27 @@
     return streak;
   }
 
+  function getQuestionNoteData(qId) {
+    const raw = state.notes?.[qId];
+    if (!raw) {
+      return { flagged: false, entries: [{ id: "1", tags: [], text: "", updatedAt: null }] };
+    }
+    if (Array.isArray(raw.entries)) {
+      return {
+        flagged: !!raw.flagged,
+        entries: raw.entries.length ? raw.entries : [{ id: "1", tags: [], text: "", updatedAt: null }]
+      };
+    }
+    return {
+      flagged: !!raw.flagged,
+      entries: [{ id: "1", tags: Array.isArray(raw.tags) ? raw.tags : [], text: raw.text || "", updatedAt: raw.updatedAt || null }]
+    };
+  }
+
+  function getNonEmptyEntries(noteData) {
+    return (noteData.entries || []).filter(e => (e.text && e.text.trim()) || (e.tags && e.tags.length));
+  }
+
   function updateMetaBar() {
     const today = getStudyDayKey();
     const rec = getDayRecord(today);
@@ -1022,6 +1043,8 @@
     });
     document.getElementById("today-progress").textContent = `${done}/2`;
     document.getElementById("streak-count").textContent = computeStreak();
+    const flagBtn = document.getElementById("q-flag-btn");
+    if (flagBtn && flagBtn._syncFlagVisibility) flagBtn._syncFlagVisibility();
   }
 
   // -------------------- 7. RENDER QUESTION VIEW --------------------
@@ -1426,6 +1449,7 @@
               </button>
               ${qTimer.elapsedSec > 0 ? `<button type="button" class="q-timer-reset" id="q-timer-reset" title="Reset timer">↺</button>` : ""}
             </span>
+            ${!isRandom ? `<button type="button" class="q-flag-btn ${getQuestionNoteData(q.id).flagged ? "flagged" : ""}" id="q-flag-btn" title="Flag for review in Mistake Log" aria-pressed="${getQuestionNoteData(q.id).flagged ? "true" : "false"}" style="display:none;">⚑</button>` : ""}
           </div>
         </div>
         <div class="tag-row">
@@ -1488,39 +1512,103 @@
     });
 
     if (!isRandom) {
-      const noteObj = state.notes[q.id] || { tags: [], text: "", updatedAt: null };
+      const noteData = getQuestionNoteData(q.id);
+      const flagBtn = card.querySelector("#q-flag-btn");
+      if (flagBtn) {
+        flagBtn._syncFlagVisibility = () => {
+          const st = getQuestionStatus(q, record);
+          const complete = st === "ok" || st === "bad";
+          flagBtn.style.display = (complete || noteData.flagged) ? "inline-flex" : "none";
+          flagBtn.classList.toggle("flagged", !!noteData.flagged);
+          flagBtn.setAttribute("aria-pressed", noteData.flagged ? "true" : "false");
+        };
+        flagBtn._syncFlagVisibility();
+        flagBtn.onclick = () => {
+          noteData.flagged = !noteData.flagged;
+          state.notes[q.id] = noteData;
+          saveState();
+          flagBtn._syncFlagVisibility();
+        };
+      }
+
       const np = document.createElement("div");
       np.className = "notes-panel";
       np.innerHTML = `
-        <h3>📓 Mistake Log &amp; Reflection <small id="save-ind" style="font-weight:400;color:var(--muted);"></small></h3>
-        <div class="error-tags">
-          ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${noteObj.tags.includes(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
+        <div class="notes-head">
+          <h3>📓 Mistake Log &amp; Reflection <small id="save-ind" style="font-weight:400;color:var(--muted);"></small></h3>
+          <button type="button" class="btn" id="add-note-entry" title="Add another mistake log entry">+</button>
         </div>
-        <textarea class="notes-textarea" placeholder="Write down why you made a mistake or what formula/trick to remember next time...">${noteObj.text || ""}</textarea>
+        <div id="note-entries-list"></div>
       `;
       card.appendChild(np);
 
       const ind = np.querySelector("#save-ind");
-      const saveNote = () => {
-        state.notes[q.id] = { ...noteObj, updatedAt: new Date().toLocaleDateString("en-SG") };
+      const entriesList = np.querySelector("#note-entries-list");
+      const saveNoteData = () => {
+        state.notes[q.id] = noteData;
         saveState();
         ind.textContent = "Saved ✓";
       };
 
-      np.querySelectorAll(".err-chip").forEach(chip => {
-        chip.onclick = () => {
-          const t = chip.dataset.tag;
-          const idx = noteObj.tags.indexOf(t);
-          if (idx >= 0) noteObj.tags.splice(idx, 1);
-          else noteObj.tags.push(t);
-          chip.classList.toggle("selected");
-          saveNote();
-        };
-      });
+      const renderNoteEntries = () => {
+        entriesList.innerHTML = "";
+        noteData.entries.forEach((entry, eIdx) => {
+          const box = document.createElement("div");
+          box.className = "note-entry-card";
+          box.innerHTML = `
+            <div class="note-entry-top">
+              <div class="error-tags" style="margin-bottom:0;flex:1;">
+                ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${entry.tags.includes(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
+              </div>
+              ${noteData.entries.length > 1 ? `<button type="button" class="note-entry-remove" title="Remove entry">×</button>` : ""}
+            </div>
+            <textarea class="notes-textarea" placeholder="Write down why you made a mistake or what formula/trick to remember next time..."></textarea>
+          `;
+          const ta = box.querySelector("textarea");
+          ta.value = entry.text || "";
 
-      np.querySelector("textarea").oninput = (e) => {
-        noteObj.text = e.target.value;
-        saveNote();
+          box.querySelectorAll(".err-chip").forEach(chip => {
+            chip.onclick = () => {
+              const t = chip.dataset.tag;
+              const idx = entry.tags.indexOf(t);
+              if (idx >= 0) entry.tags.splice(idx, 1);
+              else entry.tags.push(t);
+              entry.updatedAt = new Date().toLocaleDateString("en-SG");
+              chip.classList.toggle("selected");
+              saveNoteData();
+            };
+          });
+
+          ta.oninput = (e) => {
+            entry.text = e.target.value;
+            entry.updatedAt = new Date().toLocaleDateString("en-SG");
+            saveNoteData();
+          };
+
+          const rmBtn = box.querySelector(".note-entry-remove");
+          if (rmBtn) {
+            rmBtn.onclick = () => {
+              noteData.entries.splice(eIdx, 1);
+              saveNoteData();
+              renderNoteEntries();
+            };
+          }
+          entriesList.appendChild(box);
+        });
+      };
+
+      renderNoteEntries();
+      np.querySelector("#add-note-entry").onclick = () => {
+        noteData.entries.push({
+          id: String(Date.now()) + Math.random().toString(16).slice(2, 6),
+          tags: [],
+          text: "",
+          updatedAt: new Date().toLocaleDateString("en-SG")
+        });
+        saveNoteData();
+        renderNoteEntries();
+        const textareas = entriesList.querySelectorAll("textarea");
+        if (textareas.length) textareas[textareas.length - 1].focus();
       };
     }
 
@@ -1709,35 +1797,51 @@
       }
     }
     const tagCounts = {};
-    for (const note of Object.values(state.notes || {})) {
-      for (const tag of (note.tags || [])) {
-        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+    let flaggedCount = 0;
+    for (const qId of Object.keys(state.notes || {})) {
+      const nd = getQuestionNoteData(qId);
+      if (nd.flagged) flaggedCount++;
+      for (const entry of getNonEmptyEntries(nd)) {
+        for (const tag of (entry.tags || [])) {
+          tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+        }
       }
     }
-    return { solved, missed, total: solved + missed, topicMap, tagCounts };
+    return { solved, missed, total: solved + missed, topicMap, tagCounts, flaggedCount };
   }
 
   function renderMistakeLogView() {
     const main = document.getElementById("main-content");
-    const allEntries = Object.entries(state.notes).filter(([_, v]) => (v.text && v.text.trim()) || (v.tags && v.tags.length));
-    const entries = mistakeTagFilter === "all"
-      ? allEntries
-      : allEntries.filter(([_, v]) => (v.tags || []).includes(mistakeTagFilter));
+    const allItems = Object.keys(state.notes || {})
+      .map(qId => {
+        const nd = getQuestionNoteData(qId);
+        const nonEmpty = getNonEmptyEntries(nd);
+        return [qId, nd, nonEmpty];
+      })
+      .filter(([_, nd, nonEmpty]) => nd.flagged || nonEmpty.length > 0);
+
+    const items = mistakeTagFilter === "all"
+      ? allItems
+      : mistakeTagFilter === "__flagged__"
+        ? allItems.filter(([_, nd]) => nd.flagged)
+        : allItems.filter(([_, __, nonEmpty]) => nonEmpty.some(e => (e.tags || []).includes(mistakeTagFilter)));
+
     const stats = computeStudyStats();
     const acc = stats.total ? Math.round((stats.solved / stats.total) * 100) : 0;
     const topicEntries = Object.entries(stats.topicMap).sort((a, b) => (a[1].ok / a[1].total) - (b[1].ok / b[1].total));
     const topTags = Object.entries(stats.tagCounts).sort((a, b) => b[1] - a[1]);
 
-    const overviewHtml = (stats.total > 0 || topTags.length > 0) ? `
+    const overviewHtml = (stats.total > 0 || topTags.length > 0 || stats.flaggedCount > 0) ? `
       <div class="stats-overview">
         <div class="stats-kpis">
           <span>Completed: <strong>${stats.total}</strong></span>
           <span>Solved: <strong>${stats.solved}</strong></span>
           <span>Accuracy: <strong>${stats.total ? acc + "%" : "—"}</strong></span>
         </div>
-        ${topTags.length ? `
+        ${(topTags.length || stats.flaggedCount > 0) ? `
           <div class="error-tags" style="margin-bottom:${topicEntries.length ? "8px" : "0"};">
-            <button type="button" class="err-chip ${mistakeTagFilter === "all" ? "selected" : ""}" data-tag-filter="all">All (${allEntries.length})</button>
+            <button type="button" class="err-chip ${mistakeTagFilter === "all" ? "selected" : ""}" data-tag-filter="all">All (${allItems.length})</button>
+            ${stats.flaggedCount > 0 ? `<button type="button" class="err-chip ${mistakeTagFilter === "__flagged__" ? "selected" : ""}" data-tag-filter="__flagged__">⚑ Flagged (${stats.flaggedCount})</button>` : ""}
             ${topTags.map(([tag, cnt]) => `<button type="button" class="err-chip ${mistakeTagFilter === tag ? "selected" : ""}" data-tag-filter="${tag}">${tag} (${cnt})</button>`).join("")}
           </div>
         ` : ""}
@@ -1764,7 +1868,7 @@
       <div class="card animate-in">
         <div class="q-header">
           <div class="q-source">📓 Personal Mistake Log</div>
-          <small style="color:var(--muted);font-family:var(--sans);">${entries.length} logged question(s)</small>
+          <small style="color:var(--muted);font-family:var(--sans);">${items.length} logged question(s)</small>
         </div>
         ${overviewHtml}
         <div id="mistakes-list"></div>
@@ -1779,30 +1883,47 @@
     });
 
     const list = main.querySelector("#mistakes-list");
-    if (!entries.length) {
-      list.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);">No mistakes or notes logged yet. After attempting any daily Pure or Stats question, tag your errors and write notes at the bottom of the card!</p>`;
+    if (!items.length) {
+      list.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);">No mistakes or flagged questions logged yet. After attempting any daily Pure or Stats question, tag your errors, write notes, or click the ⚑ flag to review it later!</p>`;
       return;
     }
 
-    entries.forEach(([qId, note]) => {
+    items.forEach(([qId, nd, nonEmpty]) => {
       const q = window.H2_QUESTIONS.find(x => x.id === qId);
       if (!q) return;
       const div = document.createElement("div");
       div.className = "mistake-entry";
+      const latestDate = nonEmpty.map(e => e.updatedAt).filter(Boolean).slice(-1)[0] || "";
       div.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
-          <strong class="q-source">${q.school} • ${q.paper} • ${q.qNum}</strong>
-          <small style="color:var(--muted);font-family:var(--sans);">${note.updatedAt || ""}</small>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <strong class="q-source">${q.school} • ${q.paper} • ${q.qNum}</strong>
+            ${nd.flagged ? `<span class="mistake-flag-pill">⚑ Needs Attention</span>` : ""}
+          </div>
+          <small style="color:var(--muted);font-family:var(--sans);">${latestDate}</small>
         </div>
-        <div class="error-tags" style="margin-bottom:8px;">
-          ${(note.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("")}
-        </div>
-        <p class="mistake-note-text" style="margin:0 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
+        <div class="mistake-subentries"></div>
         <button class="btn" data-revise="${q.id}">Practice Question Again →</button>
       `;
-      const noteP = div.querySelector(".mistake-note-text");
-      if (note.text && note.text.trim()) noteP.textContent = note.text;
-      else noteP.innerHTML = "<em>(No text note)</em>";
+
+      const subWrap = div.querySelector(".mistake-subentries");
+      if (nonEmpty.length) {
+        nonEmpty.forEach(entry => {
+          const sub = document.createElement("div");
+          sub.className = "mistake-subentry";
+          sub.innerHTML = `
+            ${(entry.tags && entry.tags.length) ? `<div class="error-tags" style="margin-bottom:6px;">${entry.tags.map(t => `<span class="err-chip selected">${t}</span>`).join("")}</div>` : ""}
+            <p class="mistake-note-text" style="margin:0 0 10px;font-family:var(--sans);white-space:pre-wrap;"></p>
+          `;
+          const noteP = sub.querySelector(".mistake-note-text");
+          if (entry.text && entry.text.trim()) noteP.textContent = entry.text;
+          else noteP.innerHTML = "<em>(No text note)</em>";
+          subWrap.appendChild(sub);
+        });
+      } else if (nd.flagged) {
+        subWrap.innerHTML = `<p style="margin:0 0 10px;font-family:var(--sans);color:var(--muted);font-size:0.86rem;"><em>Flagged for review</em></p>`;
+      }
+
       div.querySelector("[data-revise]").onclick = () => {
         randomQuestion = q;
         randomState = { questionId: q.id, parts: {} };
