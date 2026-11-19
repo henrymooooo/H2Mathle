@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily H2 Math</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+</head>
+<body data-theme="pure">
+  <div class="app-shell">
+    <header class="top-header">
+      <div class="brand">
+        <span class="brand-accent">Daily</span> H2 Math
+        <span class="badge-offline" id="offline-pill" title="Works 100% offline">Offline Ready</span>
+      </div>
+
+      <nav class="nav-tabs" role="tablist">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="pure" id="tab-pure">
+          <span class="dot" style="background:#5b9bd5"></span> Pure Math
+        </button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="stats" id="tab-stats">
+          <span class="dot" style="background:#4ca885"></span> Statistics
+        </button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="random" id="tab-random">
+          <span class="dot" style="background:#e0726e"></span> Random
+        </button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="calendar" id="tab-calendar">
+          <span class="dot" style="background:#dfb13b"></span> Calendar
+        </button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="mistakes" id="tab-mistakes">
+          <span class="dot" style="background:#d97aa6"></span> Mistake Log
+        </button>
+      </nav>
+    </header>
+
+    <div class="meta-bar">
+      <span>STREAK <strong id="streak-count">0</strong></span>
+      <span class="sep">•</span>
+      <span>TODAY <strong id="today-progress">0/2</strong></span>
+      <span class="sep">•</span>
+      <span>RESETS IN <strong id="reset-timer">--:--:--</strong> <small>(6AM SGT)</small></span>
+      <span class="sep">•</span>
+      <button type="button" class="meta-link" id="btn-mf26" title="Open MF26 Formula Reference (M)">MF26</button>
+      <span class="sep">•</span>
+      <button type="button" class="meta-link" id="btn-scratchpad" title="Open Scratchpad Whiteboard (W)">Scratchpad</button>
+      <span class="sep">•</span>
+      <button type="button" class="meta-link" id="btn-ask" title="Open Question Help (A)">Ask</button>
+    </div>
+
+    <main id="main-content" class="main-content"></main>
+  </div>
+  <div id="mf26-modal" class="mf26-modal" aria-hidden="true"></div>
+  <div id="scratchpad-modal" class="mf26-modal scratch-modal" aria-hidden="true"></div>
+  <div id="ask-modal" class="mf26-modal" aria-hidden="true"></div>
+
+  <!-- Core bank initializer & manifest -->
+  <script src="questions.js"></script>
+  <script src="banks/manifest.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
