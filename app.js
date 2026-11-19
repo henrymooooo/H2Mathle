@@ -1167,12 +1167,20 @@
     const pState = record.parts[idx];
     if (!pState.asts) pState.asts = [];
 
+    const isFocusMode = !!(record.focusFlaggedParts && record.focusFlaggedParts.length);
+    const isDimmedContext = isFocusMode && !record.focusFlaggedParts.includes(part.label);
+    const isFocusedTarget = isFocusMode && record.focusFlaggedParts.includes(part.label);
+
     pCard.className = "part-card" +
+      (isDimmedContext ? " part-dimmed" : "") +
+      (isFocusedTarget ? " part-focus-target" : "") +
       (pState.status === "ok" ? " solved-ok" : pState.status === "bad" ? " solved-bad" : "");
 
-    const statusText = part.type === "auto"
-      ? `Attempts: ${pState.attempts}/5`
-      : (pState.status === "ok" ? "Marked Correct ✓" : pState.status === "bad" ? "Missed ✗" : "Self-Grade");
+    const statusText = isDimmedContext
+      ? "Reference Answer"
+      : part.type === "auto"
+        ? `Attempts: ${pState.attempts}/5`
+        : (pState.status === "ok" ? "Marked Correct ✓" : pState.status === "bad" ? "Missed ✗" : "Self-Grade");
 
     const qId = record.questionId;
     const isPinned = !!(qId && pinnedPartsByQuestion[qId]?.has(idx));
@@ -1229,6 +1237,12 @@
     }
 
     const zone = pCard.querySelector(".part-interaction");
+
+    if (isDimmedContext) {
+      const diagHtml = renderDiagramBox(part.solutionSvg, part.solutionImg);
+      zone.innerHTML = `<div class="solution-box">${diagHtml}${renderMathText(part.solution || "")}</div>`;
+      return;
+    }
 
     if (part.type === "self") {
       if (!pState.revealed) {
@@ -1993,9 +2007,13 @@
 
   function renderMistakeLogView() {
     const main = document.getElementById("main-content");
-    const openQuestionForPractice = (q) => {
+    const openQuestionForPractice = (q, focusFlaggedParts = null) => {
       randomQuestion = q;
-      randomState = { questionId: q.id, parts: {} };
+      randomState = {
+        questionId: q.id,
+        parts: {},
+        focusFlaggedParts: (Array.isArray(focusFlaggedParts) && focusFlaggedParts.length) ? focusFlaggedParts.slice() : null
+      };
       switchTab("random", true);
     };
 
@@ -2124,7 +2142,10 @@
     main.querySelectorAll("[data-jump]").forEach(el => {
       el.onclick = () => {
         const q = window.H2_QUESTIONS.find(x => x.id === el.dataset.jump);
-        if (q) openQuestionForPractice(q);
+        if (q) {
+          const nd = getQuestionNoteData(q.id);
+          openQuestionForPractice(q, nd.flaggedParts);
+        }
       };
     });
 

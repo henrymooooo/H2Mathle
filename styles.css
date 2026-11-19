@@ -1504,3 +1504,21 @@ summary:focus-visible {
   font-size: 0.8rem;
   color: var(--muted);
 }
+
+/* Flagged-part focus mode in Random practice */
+.part-card.part-dimmed {
+  opacity: 0.56;
+  background: rgba(246, 244, 239, 0.72);
+  border-color: rgba(150, 145, 135, 0.22);
+  transition: opacity 0.18s ease;
+}
+.part-card.part-dimmed:hover {
+  opacity: 0.88;
+}
+.part-card.part-dimmed .solution-box {
+  margin-top: 6px;
+}
+.part-card.part-focus-target {
+  border-color: rgba(217, 122, 166, 0.55);
+  box-shadow: 0 0 0 2px rgba(217, 122, 166, 0.14);
+}
