@@ -4,7 +4,7 @@ An offline-first daily practice web app for Singapore A-Level H2 Mathematics (97
 
 Live app: https://henrymoooo.github.io/h2dailymath/
 
-![H2 Daily Math screenshot]
+![H2 Daily Math screenshot](screenshot.png)
 
 ## Features
 
