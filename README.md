@@ -8,7 +8,7 @@ Live app: https://henrymoooo.github.io/h2dailymath/
 
 ## Features
 
-Daily practice resets at 6:00 AM SGT and gives 1 Pure Math and 1 Statistics question from a bank of 407 questions (293 Pure, 114 Statistics). Questions follow a deterministic daily cycle, so everyone gets the same questions on a given day with no repeats until a full cycle finishes.
+Daily practice resets at 6:00 AM SGT and gives 1 Pure Math and 1 Statistics question from a bank of 563 questions (405 Pure, 158 Statistics). Questions follow a deterministic daily cycle, so everyone gets the same questions on a given day with no repeats until a full cycle finishes.
 
 The Calendar tab tracks daily completion (`0/2`), streaks, and monthly history using `Done`, `Partially Complete`, and `Incomplete` states so finishing a question still counts even if you got parts wrong. You can also export and restore your progress as a `.json` file.
 
@@ -33,7 +33,7 @@ A few extra study tools stay hidden until you open them:
 - `styles.css`: paper-grid tab themes, responsive layout, and math-field styling.
 - `app.js`: WYSIWYG math field, offline grader, daily scheduler, Mistake Log, Scratchpad, and Ask drawer.
 - `questions.js`: question registry (`window.registerQuestions`).
-- `banks/manifest.js`, `banks/2025/*.js`, and `banks/2026/*.js`: 2025 and 2026 JC prelim question banks (36 papers, 407 questions).
+- `banks/manifest.js`, `banks/2025/*.js`, and `banks/2026/*.js`: 2025 and 2026 JC prelim question banks (50 papers, 563 questions).
 - `PROMPT-GUIDE.MD`: LLM prompt template for converting past-paper PDFs into question bank `.js` files.
 - `sw.js`: network-first Service Worker with offline cache fallback.
 
