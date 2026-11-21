@@ -1,10 +1,10 @@
-# H2 Daily Math
+# H2 Mathle
 
 An offline-first daily practice web app for Singapore A-Level H2 Mathematics (9758) prelim questions. It runs as plain HTML, CSS, and JavaScript with no build step or backend, and stores everything locally in your browser.
 
 Live app: https://henrymoooo.github.io/h2dailymath/
 
-![H2 Daily Math screenshot](screenshot.png)
+![H2 Mathle screenshot](screenshot.png)
 
 ## Features
 

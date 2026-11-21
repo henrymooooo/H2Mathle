@@ -1,6 +1,6 @@
 {
-  "name": "H2 Daily Math",
-  "short_name": "H2 Math",
+  "name": "H2 Mathle",
+  "short_name": "H2 Mathle",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f8f6f0",

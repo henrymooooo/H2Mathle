@@ -1,6 +1,6 @@
 (() => {
   const STORAGE_KEY = "h2_daily_math_v1";
-  const BASE_TITLE = document.title || "H2 Daily Math";
+  const BASE_TITLE = document.title || "H2 Mathle";
   function setPageTitle(label) {
     document.title = label ? `${label} · ${BASE_TITLE}` : BASE_TITLE;
   }
