@@ -2525,8 +2525,11 @@
       modal.querySelector("#mf26-close").onclick = closeMF26Modal;
       modal.onclick = (e) => { if (e.target === modal) closeMF26Modal(); };
     }
+    closeScratchpadModal();
+    closeAskModal();
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
+    syncToolButtons();
   }
 
   function closeMF26Modal() {
@@ -2534,6 +2537,20 @@
     if (!modal) return;
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
+    syncToolButtons();
+  }
+
+  function syncToolButtons() {
+    const map = [
+      ["btn-mf26", "mf26-modal"],
+      ["btn-scratchpad", "scratchpad-modal"],
+      ["btn-ask", "ask-modal"]
+    ];
+    map.forEach(([btnId, modalId]) => {
+      const btn = document.getElementById(btnId);
+      const modal = document.getElementById(modalId);
+      if (btn) btn.classList.toggle("active", !!(modal && modal.classList.contains("open")));
+    });
   }
 
   // -------------------- 10b. SCRATCHPAD WHITEBOARD (VECTOR PAN & ZOOM) --------------------
@@ -2545,7 +2562,10 @@
     const btn = document.getElementById("btn-scratchpad");
     if (!btn) return;
     const count = qId && pinnedPartsByQuestion[qId] ? pinnedPartsByQuestion[qId].size : 0;
-    btn.textContent = count > 0 ? `Scratchpad [${count}]` : "Scratchpad";
+    const labelSpan = btn.querySelector("span");
+    const label = count > 0 ? `Scratchpad [${count}]` : "Scratchpad";
+    if (labelSpan) labelSpan.textContent = label;
+    else btn.textContent = label;
   }
 
   function getActiveScratchKey() {
@@ -2893,14 +2913,25 @@
 
       modal.querySelector("#scratch-close").onclick = closeScratchpadModal;
       modal.onclick = (e) => { if (e.target === modal) closeScratchpadModal(); };
+      modal.addEventListener("transitionend", (e) => {
+        if (e.target === modal && e.propertyName === "width" && modal.classList.contains("open")) {
+          resizeCanvas();
+        }
+      });
       window.addEventListener("resize", () => {
         if (modal.classList.contains("open")) resizeCanvas();
       });
     }
 
+    closeMF26Modal();
+    closeAskModal();
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
+    syncToolButtons();
     if (modal._syncScratchpad) modal._syncScratchpad();
+    setTimeout(() => {
+      if (modal.classList.contains("open") && modal._syncScratchpad) modal._syncScratchpad();
+    }, 380);
   }
 
   function closeScratchpadModal() {
@@ -2908,6 +2939,7 @@
     if (!modal) return;
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
+    syncToolButtons();
   }
 
   // -------------------- 10c. ASK / GEMINI HANDOFF DRAWER --------------------
@@ -3051,8 +3083,11 @@
       };
     }
 
+    closeMF26Modal();
+    closeScratchpadModal();
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
+    syncToolButtons();
     if (modal._syncAsk) modal._syncAsk();
   }
 
@@ -3061,6 +3096,7 @@
     if (!modal) return;
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
+    syncToolButtons();
   }
 
   function pickRandom(cat = null) {
@@ -3137,12 +3173,17 @@
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }
+    const toggleTool = (modalId, openFn, closeFn) => {
+      const m = document.getElementById(modalId);
+      if (m && m.classList.contains("open")) closeFn();
+      else openFn();
+    };
     const mf26Btn = document.getElementById("btn-mf26");
-    if (mf26Btn) mf26Btn.onclick = openMF26Modal;
+    if (mf26Btn) mf26Btn.onclick = () => toggleTool("mf26-modal", openMF26Modal, closeMF26Modal);
     const scratchBtn = document.getElementById("btn-scratchpad");
-    if (scratchBtn) scratchBtn.onclick = openScratchpadModal;
+    if (scratchBtn) scratchBtn.onclick = () => toggleTool("scratchpad-modal", openScratchpadModal, closeScratchpadModal);
     const askBtn = document.getElementById("btn-ask");
-    if (askBtn) askBtn.onclick = openAskModal;
+    if (askBtn) askBtn.onclick = () => toggleTool("ask-modal", openAskModal, closeAskModal);
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") { closeMF26Modal(); closeScratchpadModal(); closeAskModal(); return; }
       const scratchModal = document.getElementById("scratchpad-modal");
