@@ -6,51 +6,58 @@
   <title>H2 Daily Math</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 </head>
 <body data-theme="pure">
   <div class="app-shell">
-    <header class="top-header">
-      <div class="brand">
-        <span class="brand-accent">H2 Daily Math</span>
-        <span class="badge-offline" id="offline-pill" title="Works 100% offline">Offline Ready</span>
+    <aside class="folio-rail">
+      <header class="top-header">
+        <div class="brand">
+          <span class="brand-accent">H2 Daily Math</span>
+          <small class="brand-sub">Syllabus 9758</small>
+          <span class="badge-offline" id="offline-pill" title="Works 100% offline">Offline Ready</span>
+        </div>
+
+        <nav class="nav-tabs" role="tablist">
+          <button class="tab-btn active" role="tab" aria-selected="true" data-tab="pure" id="tab-pure">
+            <span>Pure Math</span><span class="tab-key">1</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="stats" id="tab-stats">
+            <span>Statistics</span><span class="tab-key">2</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="random" id="tab-random">
+            <span>Random</span><span class="tab-key">3</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="calendar" id="tab-calendar">
+            <span>Calendar</span><span class="tab-key">4</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="mistakes" id="tab-mistakes">
+            <span>Study Log</span><span class="tab-key">5</span>
+          </button>
+        </nav>
+      </header>
+
+      <div class="meta-bar">
+        <div class="meta-row"><span>STREAK</span><strong id="streak-count">0</strong></div>
+        <div class="meta-row"><span>TODAY</span><strong id="today-progress">0/2</strong></div>
+        <div class="meta-row"><span>RESET <small>(6AM SGT)</small></span><strong id="reset-timer">--:--:--</strong></div>
       </div>
 
-      <nav class="nav-tabs" role="tablist">
-        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="pure" id="tab-pure">
-          <span class="dot" style="background:#5b9bd5"></span> Pure Math
+      <div class="folio-tools">
+        <button type="button" class="meta-link" id="btn-mf26" title="Open MF26 Formula Reference (M)">
+          <span>MF26 Reference</span><span class="tool-key">[M]</span>
         </button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="stats" id="tab-stats">
-          <span class="dot" style="background:#4ca885"></span> Statistics
+        <button type="button" class="meta-link" id="btn-scratchpad" title="Open Scratchpad Whiteboard (W)">
+          <span>Scratchpad</span><span class="tool-key">[W]</span>
         </button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="random" id="tab-random">
-          <span class="dot" style="background:#e0726e"></span> Random
+        <button type="button" class="meta-link" id="btn-ask" title="Open Question Help (A)">
+          <span>Ask Gemini</span><span class="tool-key">[A]</span>
         </button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="calendar" id="tab-calendar">
-          <span class="dot" style="background:#dfb13b"></span> Calendar
-        </button>
-        <button class="tab-btn" role="tab" aria-selected="false" data-tab="mistakes" id="tab-mistakes">
-          <span class="dot" style="background:#d97aa6"></span> Study Log
-        </button>
-      </nav>
-    </header>
-
-    <div class="meta-bar">
-      <span>STREAK <strong id="streak-count">0</strong></span>
-      <span class="sep">•</span>
-      <span>TODAY <strong id="today-progress">0/2</strong></span>
-      <span class="sep">•</span>
-      <span>RESETS IN <strong id="reset-timer">--:--:--</strong> <small>(6AM SGT)</small></span>
-      <span class="sep">•</span>
-      <button type="button" class="meta-link" id="btn-mf26" title="Open MF26 Formula Reference (M)">MF26</button>
-      <span class="sep">•</span>
-      <button type="button" class="meta-link" id="btn-scratchpad" title="Open Scratchpad Whiteboard (W)">Scratchpad</button>
-      <span class="sep">•</span>
-      <button type="button" class="meta-link" id="btn-ask" title="Open Question Help (A)">Ask</button>
-    </div>
+      </div>
+    </aside>
 
     <main id="main-content" class="main-content"></main>
   </div>

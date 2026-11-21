@@ -29,8 +29,8 @@ A few extra study tools stay hidden until you open them:
 
 ## Project structure
 
-- `index.html`: app shell, JetBrains Mono and KaTeX links, and drawers.
-- `styles.css`: paper-grid tab themes, responsive layout, and math-field styling.
+- `index.html`: app shell, Newsreader, Source Serif 4, and KaTeX links, and drawers.
+- `styles.css`: Exam Folio Prussian Navy styling, responsive rail layout, and math-field styling.
 - `app.js`: WYSIWYG math field, offline grader, daily scheduler, Mistake Log, Scratchpad, and Ask drawer.
 - `questions.js`: question registry (`window.registerQuestions`).
 - `banks/manifest.js`, `banks/2025/*.js`, and `banks/2026/*.js`: 2025 and 2026 JC prelim question banks (64 papers, 727 questions).
