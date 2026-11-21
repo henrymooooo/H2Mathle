@@ -4,11 +4,33 @@
   function setPageTitle(label) {
     document.title = label ? `${label} · ${BASE_TITLE}` : BASE_TITLE;
   }
-  function syncUrlQuestion(qId) {
+  const TAB_TO_HASH = {
+    pure: "pure",
+    stats: "statistics",
+    random: "practice",
+    calendar: "calendar",
+    mistakes: "studylog"
+  };
+  const HASH_TO_TAB = {
+    pure: "pure",
+    stats: "stats",
+    statistics: "stats",
+    random: "random",
+    practice: "random",
+    calendar: "calendar",
+    mistakes: "mistakes",
+    studylog: "mistakes"
+  };
+  function getTabFromHash() {
+    const slug = window.location.hash.replace(/^#\/?/, "").trim().toLowerCase();
+    return HASH_TO_TAB[slug] || null;
+  }
+  function syncUrlQuestion(qId, tab = currentTab) {
     try {
       const url = new URL(window.location.href);
       if (qId) url.searchParams.set("q", qId);
       else url.searchParams.delete("q");
+      url.hash = TAB_TO_HASH[tab] ? `#${TAB_TO_HASH[tab]}` : "";
       window.history.replaceState(null, "", url.toString());
     } catch (_) {}
   }
@@ -3329,7 +3351,13 @@
       randomState = { questionId: linkedQ.id, parts: {} };
       switchTab("random", true);
     } else {
-      switchTab("pure");
+      switchTab(getTabFromHash() || "pure");
     }
+    window.addEventListener("hashchange", () => {
+      const targetTab = getTabFromHash();
+      if (targetTab && targetTab !== currentTab) {
+        switchTab(targetTab);
+      }
+    });
   });
 })();

@@ -8,7 +8,7 @@ Live app: https://henrymoooo.github.io/H2Mathle/
 
 ## Features
 
-Daily practice resets at 6:00 AM SGT and gives 1 Pure Math and 1 Statistics question from a bank of 727 questions (523 Pure, 204 Statistics). Questions follow a deterministic daily cycle, so everyone gets the same questions on a given day with no repeats until a full cycle finishes.
+Daily practice resets at 6:00 AM SGT and gives 1 Pure and 1 Statistics question from a bank of 727 questions (523 Pure, 204 Statistics). Questions follow a deterministic daily cycle, so everyone gets the same questions on a given day with no repeats until a full cycle finishes.
 
 The Calendar tab tracks daily completion (`0/2`), streaks, and monthly history using `Done`, `Partially Complete`, and `Incomplete` states so finishing a question still counts even if you got parts wrong. You can also export and restore your progress as a `.json` file.
 
@@ -49,7 +49,7 @@ Open `index.html` directly in a browser, or host the folder over HTTP/HTTPS (suc
 
 ### Keyboard shortcuts
 
-- `1` to `5`: switch tabs (`Pure Math`, `Statistics`, `Practice`, `Calendar`, `Study Log`)
+- `1` to `5`: switch tabs (`Pure`, `Statistics`, `Practice`, `Calendar`, `Study Log`)
 - `M`: toggle MF26 reference
 - `W`: toggle Scratchpad
 - `A`: toggle Ask drawer
