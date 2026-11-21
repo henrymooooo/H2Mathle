@@ -1109,7 +1109,7 @@
         return { ok: true };
       }
     } catch (_) {
-      return { ok: false, msg: "Could not parse expression — check brackets or use the ⌨ keypad." };
+      return { ok: false, msg: "Could not parse expression. Check brackets or use the keypad." };
     }
     return { ok: false };
   }
@@ -1443,13 +1443,13 @@
           pState.attempts++;
           pState.status = "ok";
           pState.revealed = true;
-          pState.feedback = { type: "ok", text: "Correct! Well done." };
+          pState.feedback = { type: "ok", text: "Correct." };
           animClass = "pop-ok";
         } else {
           pState.attempts++;
           pState.feedback = {
             type: "bad",
-            text: pState.attempts >= 5 ? "Out of attempts — solution unlocked below." : "Not quite — check your working and try again."
+            text: pState.attempts >= 5 ? "Out of attempts. Solution unlocked below." : "Not quite. Check your working and try again."
           };
           animClass = "shake";
           if (pState.attempts >= 5) { pState.status = "bad"; pState.revealed = true; }
@@ -1463,13 +1463,13 @@
           pState.attempts++;
           pState.status = "ok";
           pState.revealed = true;
-          pState.feedback = { type: "ok", text: "Correct! Well done." };
+          pState.feedback = { type: "ok", text: "Correct." };
           animClass = "pop-ok";
         } else {
           pState.attempts++;
           pState.feedback = {
             type: "bad",
-            text: r.msg || (pState.attempts >= 5 ? "Out of attempts — solution unlocked below." : "Incorrect — try again.")
+            text: r.msg || (pState.attempts >= 5 ? "Out of attempts. Solution unlocked below." : "Incorrect. Try again.")
           };
           animClass = "shake";
           if (pState.attempts >= 5) { pState.status = "bad"; pState.revealed = true; }
@@ -1509,7 +1509,7 @@
         const ov = document.createElement("button");
         ov.className = "btn btn-ghost";
         ov.style.marginTop = "8px";
-        ov.textContent = "My answer was equivalent — Override as Correct ✓";
+        ov.textContent = "My answer was equivalent (mark as correct)";
         ov.onclick = () => {
           pState.status = "ok";
           pState.feedback = { type: "ok", text: "Manually marked as equivalent ✓" };
@@ -1542,10 +1542,10 @@
       const banner = document.createElement("div");
       banner.className = "random-banner";
       const optionsHtml = filteredPool.map(item =>
-        `<option value="${item.id}" ${q && item.id === q.id ? "selected" : ""}>${item.school} ${item.year || ""} ${item.qNum} (${item.category === "pure" ? "Pure" : "Stats"} — ${item.topics[0]})</option>`
+        `<option value="${item.id}" ${q && item.id === q.id ? "selected" : ""}>${item.school} ${item.year || ""} ${item.qNum} (${item.category === "pure" ? "Pure" : "Stats"}: ${item.topics[0]})</option>`
       ).join("");
       banner.innerHTML = `
-        <span><strong>🎲 Free Practice</strong> — Nothing saved.</span>
+        <span><strong>Free Practice.</strong> Nothing saved.</span>
         <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
           <button class="btn" id="rnd-match" title="Random question matching filters">Random (${filteredPool.length})</button>
           <button class="btn" id="rnd-pure">Random Pure</button>
@@ -1613,7 +1613,7 @@
       const banner = document.createElement("div");
       banner.className = "random-banner";
       banner.innerHTML = `
-        <span><strong>📅 Viewing Past Day: ${dayKey}</strong></span>
+        <span><strong>Viewing Past Day: ${dayKey}</strong></span>
         <button class="btn" id="back-cal">← Back to Calendar</button>
       `;
       wrap.appendChild(banner);
@@ -1632,8 +1632,8 @@
           <div class="q-source">
             ${q.school} • ${q.paper} • ${q.qNum}${totalMarks ? ` • ${totalMarks}m` : ""}
             <span class="q-timer-wrap">
-              <button type="button" class="q-timer-pill ${qTimer.running ? "running" : ""}" id="q-timer-btn" title="Optional question stopwatch (click to start/pause)">
-                ${qTimer.elapsedSec > 0 || qTimer.running ? `⏱ ${formatMMSS(qTimer.elapsedSec)}` : "⏱"}
+              <button type="button" class="q-timer-pill ${qTimer.running ? "running" : ""}" id="q-timer-btn" title="Question timer (click to start or pause)">
+                ${qTimer.elapsedSec > 0 || qTimer.running ? formatMMSS(qTimer.elapsedSec) : "Timer"}
               </button>
               ${qTimer.elapsedSec > 0 ? `<button type="button" class="q-timer-reset" id="q-timer-reset" title="Reset timer">↺</button>` : ""}
             </span>
@@ -2435,7 +2435,7 @@
   // -------------------- 10. NAVIGATION, MF26 & TIMER --------------------
   const MF26_SECTIONS = [
     {
-      title: "Pure — Series, Binomial & Maclaurin",
+      title: "Pure: Series, Binomial & Maclaurin",
       items: [
         "Arithmetic: $u_n = a + (n-1)d$, $S_n = \\frac{n}{2}(2a + (n-1)d)$",
         "Geometric: $u_n = ar^{n-1}$, $S_n = \\frac{a(1-r^n)}{1-r}$, $S_\\infty = \\frac{a}{1-r}$ ($|r|<1$)",
@@ -2446,7 +2446,7 @@
       ]
     },
     {
-      title: "Pure — Trigonometry",
+      title: "Pure: Trigonometry",
       items: [
         "$\\sin(A \\pm B) = \\sin A \\cos B \\pm \\cos A \\sin B$",
         "$\\cos(A \\pm B) = \\cos A \\cos B \\mp \\sin A \\sin B$",
@@ -2456,7 +2456,7 @@
       ]
     },
     {
-      title: "Pure — Differentiation & Integration",
+      title: "Pure: Differentiation & Integration",
       items: [
         "$\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\tan x) = \\sec^2 x$, $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\sec x) = \\sec x \\tan x$",
         "$\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\sin^{-1} x) = \\frac{1}{\\sqrt{1-x^2}}$, $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\tan^{-1} x) = \\frac{1}{1+x^2}$",
@@ -2467,7 +2467,7 @@
       ]
     },
     {
-      title: "Pure — Vectors & Complex Numbers",
+      title: "Pure: Vectors & Complex Numbers",
       items: [
         "Angle between $\\mathbf{a}, \\mathbf{b}$: $\\cos\\theta = \\frac{\\mathbf{a} \\cdot \\mathbf{b}}{|\\mathbf{a}||\\mathbf{b}|}$",
         "Distance from point $P$ to plane $\\mathbf{r} \\cdot \\mathbf{n} = d$: $\\frac{|\\overrightarrow{OP} \\cdot \\mathbf{n} - d|}{|\\mathbf{n}|}$",
@@ -2476,7 +2476,7 @@
       ]
     },
     {
-      title: "Statistics — Distributions & Hypothesis Testing",
+      title: "Statistics: Distributions & Hypothesis Testing",
       items: [
         "Binomial $X \\sim \\mathrm{B}(n,p)$: $\\mathrm{P}(X=x) = \\binom{n}{x}p^x(1-p)^{n-x}$, $\\mathrm{E}(X)=np$, $\\mathrm{Var}(X)=np(1-p)$",
         "Sample mean $\\bar{X} \\sim \\mathrm{N}\\left(\\mu, \\frac{\\sigma^2}{n}\\right)$ (large $n$ by CLT)",
@@ -3054,8 +3054,8 @@
           await navigator.clipboard.writeText(payload);
           statusEl.style.color = "var(--ok)";
           statusEl.textContent = openTab
-            ? "Copied to clipboard ✓ — press Ctrl+V in Gemini!"
-            : "Copied to clipboard ✓";
+            ? "Copied to clipboard. Press Ctrl+V in Gemini."
+            : "Copied to clipboard.";
         } catch (_) {
           statusEl.style.color = "var(--warn)";
           statusEl.textContent = "Could not access clipboard automatically.";
