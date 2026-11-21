@@ -1,5 +1,17 @@
 (() => {
   const STORAGE_KEY = "h2_daily_math_v1";
+  const BASE_TITLE = document.title || "H2 Daily Math";
+  function setPageTitle(label) {
+    document.title = label ? `${label} · ${BASE_TITLE}` : BASE_TITLE;
+  }
+  function syncUrlQuestion(qId) {
+    try {
+      const url = new URL(window.location.href);
+      if (qId) url.searchParams.set("q", qId);
+      else url.searchParams.delete("q");
+      window.history.replaceState(null, "", url.toString());
+    } catch (_) {}
+  }
   const ERROR_TAGS = [
     "Careless / Arithmetic",
     "Algebra Slip",
@@ -1524,6 +1536,8 @@
   }
 
   function renderQuestionView(q, record, { isRandom = false, dayKey = null } = {}) {
+    setPageTitle(q ? `${q.school} ${q.paper} ${q.qNum}` : "Practice");
+    syncUrlQuestion(isRandom && q ? q.id : null);
     const main = document.getElementById("main-content");
     main.innerHTML = "";
     if (!q && !isRandom) {
@@ -1877,6 +1891,8 @@
 
   // -------------------- 8. CALENDAR VIEW --------------------
   function renderCalendarView() {
+    setPageTitle("Calendar");
+    syncUrlQuestion(null);
     const main = document.getElementById("main-content");
     const sgt = getSGTNow();
     if (calendarYear === null || calendarMonth === null) {
@@ -2066,6 +2082,8 @@
   }
 
   function renderMistakeLogView() {
+    setPageTitle("Study Log");
+    syncUrlQuestion(null);
     const main = document.getElementById("main-content");
     const openQuestionForPractice = (q, focusFlaggedParts = null) => {
       randomQuestion = q;
@@ -2432,55 +2450,78 @@
     });
   }
 
-  // -------------------- 10. NAVIGATION, MF26 & TIMER --------------------
+  // -------------------- 10. NAVIGATION, MF27 & TIMER --------------------
   const MF26_SECTIONS = [
     {
-      title: "Pure: Series, Binomial & Maclaurin",
+      title: "Pure: Algebra, Series & Maclaurin",
       items: [
+        "Quadratic roots: $ax^2 + bx + c = 0 \\implies x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$",
         "Arithmetic: $u_n = a + (n-1)d$, $S_n = \\frac{n}{2}(2a + (n-1)d)$",
         "Geometric: $u_n = ar^{n-1}$, $S_n = \\frac{a(1-r^n)}{1-r}$, $S_\\infty = \\frac{a}{1-r}$ ($|r|<1$)",
-        "$(1+x)^n = 1 + nx + \\frac{n(n-1)}{2!}x^2 + \\dots$ ($|x|<1$)",
-        "$e^x = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\dots$",
-        "$\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\dots$, $\\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\dots$",
-        "$\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\dots$ ($-1 < x \\le 1$)"
+        "Power sums: $\\sum_{r=1}^n r = \\frac{n(n+1)}{2}$, $\\sum_{r=1}^n r^2 = \\frac{n(n+1)(2n+1)}{6}$, $\\sum_{r=1}^n r^3 = \\frac{n^2(n+1)^2}{4}$",
+        "$(1+x)^n = 1 + nx + \\frac{n(n-1)}{2!}x^2 + \\dots + \\frac{n(n-1)\\dots(n-r+1)}{r!}x^r + \\dots$ ($|x|<1$)",
+        "$e^x = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\dots$ (all $x$)",
+        "$\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\dots$, $\\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\dots$ (all $x$)",
+        "$\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\dots$ ($-1 < x \\le 1$)",
+        "$\\tan^{-1} x = x - \\frac{x^3}{3} + \\frac{x^5}{5} - \\dots$ ($|x| \\le 1$)"
       ]
     },
     {
       title: "Pure: Trigonometry",
       items: [
+        "Pythagorean: $\\cos^2 A + \\sin^2 A = 1$, $1 + \\tan^2 A = \\sec^2 A$, $\\cot^2 A + 1 = \\csc^2 A$",
         "$\\sin(A \\pm B) = \\sin A \\cos B \\pm \\cos A \\sin B$",
         "$\\cos(A \\pm B) = \\cos A \\cos B \\mp \\sin A \\sin B$",
         "$\\tan(A \\pm B) = \\frac{\\tan A \\pm \\tan B}{1 \\mp \\tan A \\tan B}$",
-        "$\\cos 2A = \\cos^2 A - \\sin^2 A = 2\\cos^2 A - 1 = 1 - 2\\sin^2 A$",
+        "$\\sin 2A = 2\\sin A\\cos A$, $\\cos 2A = \\cos^2 A - \\sin^2 A = 2\\cos^2 A - 1 = 1 - 2\\sin^2 A$, $\\tan 2A = \\frac{2\\tan A}{1-\\tan^2 A}$",
+        "Factor: $\\sin P \\pm \\sin Q = 2\\sin\\left(\\frac{P \\pm Q}{2}\\right)\\cos\\left(\\frac{P \\mp Q}{2}\\right)$",
+        "Factor: $\\cos P + \\cos Q = 2\\cos\\left(\\frac{P+Q}{2}\\right)\\cos\\left(\\frac{P-Q}{2}\\right)$, $\\cos P - \\cos Q = -2\\sin\\left(\\frac{P+Q}{2}\\right)\\sin\\left(\\frac{P-Q}{2}\\right)$",
         "$a\\sin\\theta + b\\cos\\theta = R\\sin(\\theta + \\alpha)$ with $R = \\sqrt{a^2+b^2}$, $\\tan\\alpha = \\frac{b}{a}$"
       ]
     },
     {
-      title: "Pure: Differentiation & Integration",
+      title: "Pure: Differentiation",
       items: [
         "$\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\tan x) = \\sec^2 x$, $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\sec x) = \\sec x \\tan x$",
-        "$\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\sin^{-1} x) = \\frac{1}{\\sqrt{1-x^2}}$, $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\tan^{-1} x) = \\frac{1}{1+x^2}$",
-        "$\\int \\frac{1}{x^2+a^2}\\,\\mathrm{d}x = \\frac{1}{a}\\tan^{-1}\\left(\\frac{x}{a}\\right) + c$",
-        "$\\int \\frac{1}{\\sqrt{a^2-x^2}}\\,\\mathrm{d}x = \\sin^{-1}\\left(\\frac{x}{a}\\right) + c$",
-        "$\\int \\frac{1}{x^2-a^2}\\,\\mathrm{d}x = \\frac{1}{2a}\\ln\\left|\\frac{x-a}{x+a}\\right| + c$",
+        "$\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\csc x) = -\\csc x \\cot x$, $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\cot x) = -\\csc^2 x$",
+        "$\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\sin^{-1} x) = \\frac{1}{\\sqrt{1-x^2}}$, $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\cos^{-1} x) = -\\frac{1}{\\sqrt{1-x^2}}$, $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\tan^{-1} x) = \\frac{1}{1+x^2}$"
+      ]
+    },
+    {
+      title: "Pure: Integration",
+      items: [
+        "$\\int \\tan x\\,\\mathrm{d}x = \\ln|\\sec x| + c$, $\\int \\cot x\\,\\mathrm{d}x = \\ln|\\sin x| + c$",
+        "$\\int \\sec x\\,\\mathrm{d}x = \\ln|\\sec x + \\tan x| + c$, $\\int \\csc x\\,\\mathrm{d}x = -\\ln|\\csc x + \\cot x| + c$",
+        "$\\int \\frac{1}{x^2+a^2}\\,\\mathrm{d}x = \\frac{1}{a}\\tan^{-1}\\left(\\frac{x}{a}\\right) + c$, $\\int \\frac{1}{\\sqrt{a^2-x^2}}\\,\\mathrm{d}x = \\sin^{-1}\\left(\\frac{x}{a}\\right) + c$ ($|x|<a$)",
+        "$\\int \\frac{1}{x^2-a^2}\\,\\mathrm{d}x = \\frac{1}{2a}\\ln\\left|\\frac{x-a}{x+a}\\right| + c$, $\\int \\frac{1}{a^2-x^2}\\,\\mathrm{d}x = \\frac{1}{2a}\\ln\\left|\\frac{a+x}{a-x}\\right| + c$ ($|x|<a$)",
         "Integration by parts: $\\int u\\frac{\\mathrm{d}v}{\\mathrm{d}x}\\,\\mathrm{d}x = uv - \\int v\\frac{\\mathrm{d}u}{\\mathrm{d}x}\\,\\mathrm{d}x$"
       ]
     },
     {
       title: "Pure: Vectors & Complex Numbers",
       items: [
-        "Angle between $\\mathbf{a}, \\mathbf{b}$: $\\cos\\theta = \\frac{\\mathbf{a} \\cdot \\mathbf{b}}{|\\mathbf{a}||\\mathbf{b}|}$",
+        "Dot & cross: $\\cos\\theta = \\frac{\\mathbf{a} \\cdot \\mathbf{b}}{|\\mathbf{a}||\\mathbf{b}|}$, $|\\mathbf{a} \\times \\mathbf{b}| = |\\mathbf{a}||\\mathbf{b}|\\sin\\theta$",
+        "Area of $\\triangle ABC$: $\\frac{1}{2}|\\overrightarrow{AB} \\times \\overrightarrow{AC}|$",
         "Distance from point $P$ to plane $\\mathbf{r} \\cdot \\mathbf{n} = d$: $\\frac{|\\overrightarrow{OP} \\cdot \\mathbf{n} - d|}{|\\mathbf{n}|}$",
-        "De Moivre: $(\\cos\\theta + i\\sin\\theta)^n = \\cos(n\\theta) + i\\sin(n\\theta)$",
-        "Euler: $r e^{i\\theta} = r(\\cos\\theta + i\\sin\\theta)$"
+        "Euler: $r e^{i\\theta} = r(\\cos\\theta + i\\sin\\theta)$; De Moivre: $(\\cos\\theta + i\\sin\\theta)^n = \\cos(n\\theta) + i\\sin(n\\theta)$",
+        "$n$-th roots of unity: $z^n = 1 \\implies z = e^{i\\frac{2k\\pi}{n}}$ ($k = 0, 1, \\dots, n-1$)"
       ]
     },
     {
-      title: "Statistics: Distributions & Hypothesis Testing",
+      title: "Statistics: Probability & Distributions",
       items: [
+        "$\\mathrm{P}(A \\cup B) = \\mathrm{P}(A) + \\mathrm{P}(B) - \\mathrm{P}(A \\cap B)$, $\\mathrm{P}(A|B) = \\frac{\\mathrm{P}(A \\cap B)}{\\mathrm{P}(B)}$",
         "Binomial $X \\sim \\mathrm{B}(n,p)$: $\\mathrm{P}(X=x) = \\binom{n}{x}p^x(1-p)^{n-x}$, $\\mathrm{E}(X)=np$, $\\mathrm{Var}(X)=np(1-p)$",
-        "Sample mean $\\bar{X} \\sim \\mathrm{N}\\left(\\mu, \\frac{\\sigma^2}{n}\\right)$ (large $n$ by CLT)",
+        "Linear combinations: $\\mathrm{E}(aX+bY) = a\\mathrm{E}(X)+b\\mathrm{E}(Y)$, $\\mathrm{Var}(aX \\pm bY) = a^2\\mathrm{Var}(X)+b^2\\mathrm{Var}(Y)$ (independent)",
+        "Sample mean $\\bar{X} \\sim \\mathrm{N}\\left(\\mu, \\frac{\\sigma^2}{n}\\right)$ (exact if Normal, approx for large $n$ by CLT)"
+      ]
+    },
+    {
+      title: "Statistics: Correlation, Regression & Hypothesis Testing",
+      items: [
         "Unbiased sample variance: $s^2 = \\frac{1}{n-1}\\left(\\sum x^2 - \\frac{(\\sum x)^2}{n}\\right)$",
+        "Correlation $r = \\frac{\\sum(x-\\bar{x})(y-\\bar{y})}{\\sqrt{\\sum(x-\\bar{x})^2 \\sum(y-\\bar{y})^2}}$",
+        "Regression line of $y$ on $x$: $y - \\bar{y} = b(x - \\bar{x})$, $b = \\frac{\\sum(x-\\bar{x})(y-\\bar{y})}{\\sum(x-\\bar{x})^2}$",
         "z-test: $z = \\frac{\\bar{x} - \\mu_0}{\\sigma/\\sqrt{n}}$; t-test: $t = \\frac{\\bar{x} - \\mu_0}{s/\\sqrt{n}}$ ($\\nu = n-1$)"
       ]
     }
@@ -2492,9 +2533,9 @@
     if (!modal.dataset.built) {
       modal.dataset.built = "1";
       modal.innerHTML = `
-        <div class="mf26-drawer" role="dialog" aria-label="MF26 Formula Reference">
+        <div class="mf26-drawer" role="dialog" aria-label="MF27 Formula Reference">
           <div class="mf26-head">
-            <h2>MF26 Quick Reference</h2>
+            <h2>MF27 Reference</h2>
             <button type="button" class="btn btn-ghost" id="mf26-close">✕</button>
           </div>
           <input type="search" class="mf26-search" id="mf26-search" placeholder="Filter formulas (e.g. Maclaurin, vectors, t-test)..." />
@@ -2563,7 +2604,50 @@
   }
 
   // -------------------- 10b. SCRATCHPAD WHITEBOARD (VECTOR PAN & ZOOM) --------------------
-  const scratchCache = {};
+  const SCRATCH_STORAGE_KEY = "h2dailymath_scratch_v1";
+  const MAX_SAVED_SCRATCH_DOCS = 20;
+  function loadScratchCache() {
+    try {
+      const raw = localStorage.getItem(SCRATCH_STORAGE_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return {};
+      const out = {};
+      Object.entries(parsed).forEach(([k, v]) => {
+        if (v && Array.isArray(v.strokes)) {
+          out[k] = {
+            strokes: v.strokes,
+            undoStack: [],
+            camera: (v.camera && typeof v.camera === "object")
+              ? { panX: Number(v.camera.panX) || 0, panY: Number(v.camera.panY) || 0, zoom: Number(v.camera.zoom) || 1 }
+              : { panX: 0, panY: 0, zoom: 1 },
+            updatedAt: Number(v.updatedAt) || 0
+          };
+        }
+      });
+      return out;
+    } catch (_) {
+      return {};
+    }
+  }
+  function saveScratchCache() {
+    try {
+      const entries = Object.entries(scratchCache)
+        .filter(([, v]) => v && Array.isArray(v.strokes) && v.strokes.length > 0)
+        .sort((a, b) => (b[1].updatedAt || 0) - (a[1].updatedAt || 0))
+        .slice(0, MAX_SAVED_SCRATCH_DOCS);
+      const payload = {};
+      entries.forEach(([k, v]) => {
+        payload[k] = {
+          strokes: v.strokes,
+          camera: v.camera || { panX: 0, panY: 0, zoom: 1 },
+          updatedAt: v.updatedAt || Date.now()
+        };
+      });
+      localStorage.setItem(SCRATCH_STORAGE_KEY, JSON.stringify(payload));
+    } catch (_) {}
+  }
+  const scratchCache = loadScratchCache();
   const pinnedPartsByQuestion = {};
   const scratchState = { color: "#2c2925", width: 2.2, eraser: false, panMode: false, grid: true, activeKey: null };
 
@@ -2638,7 +2722,7 @@
       const getDoc = () => {
         const key = scratchState.activeKey || "general";
         if (!scratchCache[key]) {
-          scratchCache[key] = { strokes: [], undoStack: [], camera: { panX: 0, panY: 0, zoom: 1 } };
+          scratchCache[key] = { strokes: [], undoStack: [], camera: { panX: 0, panY: 0, zoom: 1 }, updatedAt: Date.now() };
         }
         return scratchCache[key];
       };
@@ -2821,8 +2905,10 @@
           const doc = getDoc();
           pushUndo();
           doc.strokes.push(activeStroke);
+          doc.updatedAt = Date.now();
           activeStroke = null;
           redraw();
+          saveScratchCache();
         }
       };
       canvas.addEventListener("pointerup", endPointer);
@@ -2891,7 +2977,9 @@
         const doc = getDoc();
         if (!doc.undoStack.length) return;
         doc.strokes = doc.undoStack.pop();
+        doc.updatedAt = Date.now();
         redraw();
+        saveScratchCache();
       };
       modal._undoScratchpad = performUndo;
       modal.querySelector("#scratch-undo").onclick = performUndo;
@@ -2912,7 +3000,9 @@
         if (!doc.strokes.length) return;
         pushUndo();
         doc.strokes = [];
+        doc.updatedAt = Date.now();
         redraw();
+        saveScratchCache();
       };
 
       modal.querySelector("#scratch-expand").onclick = () => {
@@ -3024,7 +3114,7 @@
               Copies the current question (and any pinned parts) along with your prompt so you can paste straight into Gemini with <strong>Ctrl+V</strong>.
               <div class="ask-chips" style="margin-top:14px;">
                 <button type="button" class="btn" data-prompt="Give me a small hint to start this question without spoiling the answer.">Hint to start</button>
-                <button type="button" class="btn" data-prompt="What key concept or formula from MF26 applies here?">Key concept</button>
+                <button type="button" class="btn" data-prompt="What key concept or formula from MF27 applies here?">Key concept</button>
                 <button type="button" class="btn" data-prompt="Walk me through the solution step by step.">Explain solution</button>
                 <button type="button" class="btn" data-prompt="Where did I go wrong? Here is my working: ">Check my working</button>
               </div>
@@ -3230,7 +3320,16 @@
       }
     });
     await loadBankScripts();
-    document.getElementById("offline-pill").textContent = window.katex ? "KaTeX Ready" : "100% Offline Mode";
-    switchTab("pure");
+    const qParam = new URLSearchParams(window.location.search).get("q");
+    const linkedQ = qParam && Array.isArray(window.H2_QUESTIONS)
+      ? window.H2_QUESTIONS.find(x => x.id === qParam)
+      : null;
+    if (linkedQ) {
+      randomQuestion = linkedQ;
+      randomState = { questionId: linkedQ.id, parts: {} };
+      switchTab("random", true);
+    } else {
+      switchTab("pure");
+    }
   });
 })();

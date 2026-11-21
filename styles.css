@@ -110,18 +110,6 @@ body {
   letter-spacing: 0.04em;
 }
 
-.badge-offline {
-  font-family: var(--sans);
-  font-size: 0.68rem;
-  font-weight: 500;
-  padding: 2px 8px;
-  margin-top: 2px;
-  border-radius: 3px;
-  border: 1px solid var(--rule);
-  color: var(--muted);
-  background: var(--paper);
-}
-
 .nav-tabs {
   display: flex;
   flex-direction: column;
@@ -876,9 +864,8 @@ body {
   color: var(--ink);
   cursor: pointer;
 }
-.badge-offline { display: none; }
 
-/* Subtle MF26 trigger in meta bar */
+/* Subtle MF27 trigger in meta bar */
 .meta-link {
   background: none;
   border: 1px solid transparent;
@@ -1858,4 +1845,50 @@ summary:focus-visible {
   color: #3a76ad;
   background: rgba(91, 155, 213, 0.14);
   border: 1px solid rgba(91, 155, 213, 0.38);
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .folio-rail,
+  .tool-dock,
+  .random-banner,
+  .controls-row,
+  .keypad,
+  .part-actions,
+  .q-timer-wrap,
+  .mistake-toggle-btn,
+  .mistake-tags,
+  .mistake-type-toggle,
+  .mistake-part-chips,
+  .note-save-ind,
+  .btn,
+  .q-nav {
+    display: none !important;
+  }
+  .app-shell {
+    display: block;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+  .folio-workspace {
+    display: block;
+  }
+  .main-content {
+    max-width: none;
+  }
+  .card {
+    box-shadow: none;
+    border: none;
+    padding: 0;
+  }
+  .part-card,
+  .solution-box {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 }
