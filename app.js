@@ -1,7 +1,7 @@
 (() => {
   const STORAGE_KEY = "h2_daily_math_v1";
   const LAUNCH_DAY_KEY = "2026-11-21";
-  const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/henrysymoo@gmail.com";
+  const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/2076cdb9647f5a023dd03868c1b25f8a";
   const BASE_TITLE = document.title || "H2 Mathle";
   const TAB_LABELS = {
     pure: "Pure",
