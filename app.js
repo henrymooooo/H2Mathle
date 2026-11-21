@@ -2607,9 +2607,9 @@
               <button type="button" class="btn" id="scratch-pan" title="Pan mode (or hold Space / middle-click / 2-finger drag)">Pan</button>
               <button type="button" class="btn" id="scratch-undo" title="Undo last stroke (Ctrl+Z)">↶ Undo</button>
               <button type="button" class="btn" id="scratch-grid">Grid ✓</button>
-              <button type="button" class="btn btn-ghost" id="scratch-clear">Clear</button>
             </div>
             <div class="scratch-topbar-group">
+              <button type="button" class="btn btn-ghost" id="scratch-clear">Clear</button>
               <button type="button" class="btn btn-ghost" id="scratch-zoom" title="Reset pan & zoom">100%</button>
               <button type="button" class="btn btn-ghost" id="scratch-expand" title="Expand / Restore width">⤢</button>
               <button type="button" class="btn btn-ghost" id="scratch-close" title="Close (Esc)">✕</button>
