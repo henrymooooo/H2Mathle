@@ -24,7 +24,7 @@ A few extra study tools stay hidden until you open them:
 
 - MF26 (`M`): searchable formula reference drawer.
 - Scratchpad (`W`): floating vector whiteboard with pan (`Space+drag`, middle-click, or two-finger drag), zoom, grid toggle, `Ctrl+Z` undo, and part pinning.
-- Ask (`A`): offline-by-default helper that works with your own Google Gemini or OpenAI-compatible API key, passing pinned question parts as context.
+- Ask (`A`): copies the current question, official solution, and any pinned parts along with your prompt to the clipboard and opens Gemini in a new tab.
 - Stopwatch: optional per-question timer in the question header.
 
 ## Project structure
@@ -57,4 +57,4 @@ Open `index.html` directly in a browser, or host the folder over HTTP/HTTPS (suc
 
 ## Notes
 
-All progress, mistake logs, flagged parts, and optional API keys stay in your browser's `localStorage`. The question banks in `banks/` come from school prelim papers for personal study.
+All progress, mistake logs, and flagged parts stay in your browser's `localStorage`. The question banks in `banks/` come from school prelim papers for personal study.

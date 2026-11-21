@@ -2829,43 +2829,7 @@
     modal.setAttribute("aria-hidden", "true");
   }
 
-  // -------------------- 10c. ONLINE STUDY NOTES / ASK DRAWER --------------------
-  const ASK_STORAGE_KEY = "h2_daily_math_online_v1";
-  const askChatsByQuestion = {};
-
-  function loadAskConfig() {
-    try {
-      const raw = localStorage.getItem(ASK_STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed.model === "gemini-2.5-flash") parsed.model = "gemini-3.8-flash";
-        return parsed;
-      }
-    } catch (_) {}
-    return {
-      enabled: false,
-      provider: "gemini",
-      model: "gemini-3.8-flash",
-      endpoint: "https://openrouter.ai/api/v1/chat/completions",
-      apiKey: ""
-    };
-  }
-
-  let askConfig = loadAskConfig();
-  function saveAskConfig() {
-    try { localStorage.setItem(ASK_STORAGE_KEY, JSON.stringify(askConfig)); } catch (_) {}
-  }
-
-  function escapeHtmlPreserveMath(text) {
-    const escaped = text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\n/g, "<br>");
-    return renderMathText(escaped);
-  }
-
+  // -------------------- 10c. ASK / GEMINI HANDOFF DRAWER --------------------
   function renderPinnedPartsHtml(qObj) {
     if (!qObj) return "";
     const pinnedSet = pinnedPartsByQuestion[qObj.id];
@@ -2881,93 +2845,36 @@
     return stemHtml + partsHtml;
   }
 
-  function buildQuestionContextPrompt(qObj) {
-    if (!qObj) return "You are a concise Singapore A-Level H2 Math (9758) study companion. Use $...$ and $$...$$ for math.";
+  function stripHtmlForPrompt(str) {
+    return String(str || "")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/(p|div|tr|li|h\d)>/gi, "\n")
+      .replace(/<(td|th)[^>]*>/gi, " | ")
+      .replace(/<[^>]+>/g, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
+  function buildGeminiHandoffPrompt(qObj, userQuestion) {
+    const qText = (userQuestion || "").trim() || "Walk me through how to approach this question step by step.";
+    if (!qObj) {
+      return `Singapore A-Level H2 Math (9758) question:\n\n${qText}`;
+    }
     const pinnedSet = pinnedPartsByQuestion[qObj.id];
     const focusedLabels = pinnedSet && pinnedSet.size > 0
       ? [...pinnedSet].sort((a, b) => a - b).map(i => qObj.parts[i]?.label).filter(Boolean)
       : [];
     const partsText = (qObj.parts || []).map(p =>
-      `Part ${p.label} [${p.marks}m]: ${p.prompt}\nWorked Solution: ${p.solution || "N/A"}`
+      `Part ${p.label} [${p.marks}m]: ${stripHtmlForPrompt(p.prompt)}\nOfficial Solution: ${stripHtmlForPrompt(p.solution || "N/A")}`
     ).join("\n\n");
     return [
-      "You are a concise Singapore A-Level H2 Math (9758) study companion.",
-      "Give clear, step-by-step hints and check the student's reasoning first rather than dumping the full final answer unless asked.",
-      "Format all math in LaTeX using $...$ for inline math and $$...$$ for display math.",
-      `Current Question (${qObj.school} ${qObj.paper} ${qObj.qNum}, Topics: ${(qObj.topics || []).join(", ")}):`,
-      focusedLabels.length ? `The student specifically pinned/selected: Part ${focusedLabels.join(", Part ")}. Focus your help on these part(s) first unless they ask otherwise.` : "",
-      `Stem: ${qObj.stem}`,
-      partsText
+      "I'm studying Singapore A-Level H2 Mathematics (9758). Please be concise and give clear step-by-step guidance.",
+      `Question: ${qObj.school} ${qObj.paper} ${qObj.qNum} (Topics: ${(qObj.topics || []).join(", ")})`,
+      focusedLabels.length ? `Focus specifically on: Part ${focusedLabels.join(", Part ")}` : "",
+      qObj.stem ? `Stem:\n${stripHtmlForPrompt(qObj.stem)}` : "",
+      partsText,
+      `My question:\n${qText}`
     ].filter(Boolean).join("\n\n");
-  }
-
-  async function sendAskRequest(qObj, history) {
-    const sysPrompt = buildQuestionContextPrompt(qObj);
-    if (askConfig.provider === "gemini") {
-      const primary = (askConfig.model || "gemini-3.8-flash").trim();
-      const candidates = [...new Set([primary, "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash"])];
-      const payload = JSON.stringify({
-        system_instruction: { parts: [{ text: sysPrompt }] },
-        contents: history.map(m => ({
-          role: m.role === "assistant" ? "model" : "user",
-          parts: [{ text: m.text }]
-        }))
-      });
-      const key = encodeURIComponent(askConfig.apiKey.trim());
-      let lastErr = null;
-      for (let i = 0; i < candidates.length; i++) {
-        const model = candidates[i];
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
-        try {
-          const res = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: payload
-          });
-          const data = await res.json();
-          if (res.ok) {
-            const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text).join("") || "";
-            if (text) return text;
-            lastErr = new Error("Empty response.");
-            continue;
-          }
-          const msg = data?.error?.message || `HTTP ${res.status}`;
-          lastErr = new Error(msg);
-          const isRetryable = [404, 429, 500, 502, 503, 504].includes(res.status) ||
-            /high demand|overloaded|unavailable|try again|quota|not found/i.test(msg);
-          if (!isRetryable) throw lastErr;
-          if (i < candidates.length - 1) await new Promise(r => setTimeout(r, 400));
-        } catch (err) {
-          lastErr = err;
-          if (err && err.name !== "TypeError" && !/high demand|overloaded|unavailable|try again|quota|not found|HTTP (404|429|5\d\d)|Empty response/i.test(err.message)) {
-            throw err;
-          }
-          if (i < candidates.length - 1) await new Promise(r => setTimeout(r, 400));
-        }
-      }
-      throw lastErr || new Error("Request failed.");
-    }
-
-    const endpoint = (askConfig.endpoint || "https://openrouter.ai/api/v1/chat/completions").trim();
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${askConfig.apiKey.trim()}`
-      },
-      body: JSON.stringify({
-        model: (askConfig.model || "google/gemini-2.0-flash-exp:free").trim(),
-        messages: [
-          { role: "system", content: sysPrompt },
-          ...history.map(m => ({ role: m.role, content: m.text }))
-        ]
-      })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
-    const text = data?.choices?.[0]?.message?.content || "";
-    if (!text) throw new Error("Empty response.");
-    return text;
   }
 
   function openAskModal() {
@@ -2976,168 +2883,72 @@
     if (!modal.dataset.built) {
       modal.dataset.built = "1";
       modal.innerHTML = `
-        <div class="mf26-drawer" role="dialog" aria-label="Question Help">
+        <div class="mf26-drawer" role="dialog" aria-label="Ask Gemini">
           <div class="mf26-head">
             <h2>Ask <small id="ask-q-label" style="font-weight:400;color:var(--muted);font-family:var(--sans);font-size:0.78rem;"></small></h2>
-            <div style="display:flex;gap:6px;align-items:center;">
-              <button type="button" class="btn" id="ask-online-toggle" title="Toggle online mode"></button>
-              <button type="button" class="btn btn-ghost" id="ask-gear" title="Connection settings">⚙</button>
-              <button type="button" class="btn btn-ghost" id="ask-close" title="Close (Esc)">✕</button>
-            </div>
-          </div>
-          <div class="ask-settings" id="ask-settings">
-            <label>Provider
-              <select id="ask-provider">
-                <option value="gemini">Google Gemini (Free Tier)</option>
-                <option value="openai">OpenAI-Compatible (OpenRouter / Groq)</option>
-              </select>
-            </label>
-            <label id="ask-endpoint-wrap">Endpoint URL
-              <input type="text" id="ask-endpoint" placeholder="https://openrouter.ai/api/v1/chat/completions" />
-            </label>
-            <label>Model
-              <input type="text" id="ask-model" placeholder="gemini-3.8-flash" />
-            </label>
-            <label>API Key (saved locally in browser)
-              <input type="password" id="ask-key" placeholder="Paste your key..." autocomplete="off" />
-            </label>
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <small style="color:var(--muted);">Stored only in your browser's localStorage.</small>
-              <button type="button" class="btn btn-primary" id="ask-save-cfg">Save</button>
-            </div>
+            <button type="button" class="btn btn-ghost" id="ask-close" title="Close (Esc)">✕</button>
           </div>
           <div class="scratch-pinned-parts" id="ask-pinned-parts" style="display:none;"></div>
-          <div class="ask-messages" id="ask-messages"></div>
-          <div class="ask-compose">
-            <textarea id="ask-input" rows="1" placeholder="Ask about a step, method, or concept..."></textarea>
-            <button type="button" class="btn btn-primary" id="ask-send">Send</button>
+          <div class="ask-messages">
+            <div class="ask-empty" style="margin-top:12px;">
+              Copies the current question (and any pinned parts) along with your prompt so you can paste straight into Gemini with <strong>Ctrl+V</strong>.
+              <div class="ask-chips" style="margin-top:14px;">
+                <button type="button" class="btn" data-prompt="Give me a small hint to start this question without spoiling the answer.">Hint to start</button>
+                <button type="button" class="btn" data-prompt="What key concept or formula from MF26 applies here?">Key concept</button>
+                <button type="button" class="btn" data-prompt="Walk me through the solution step by step.">Explain solution</button>
+                <button type="button" class="btn" data-prompt="Where did I go wrong? Here is my working: ">Check my working</button>
+              </div>
+              <div id="ask-copy-status" style="margin-top:14px;font-size:0.8rem;color:var(--ok);min-height:1.2em;"></div>
+            </div>
+          </div>
+          <div class="ask-compose" style="flex-direction:column;align-items:stretch;">
+            <textarea id="ask-input" rows="3" placeholder="Optional: type your question or paste your working (defaults to step-by-step walkthrough)..."></textarea>
+            <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
+              <button type="button" class="btn" id="ask-copy-only">Copy Prompt</button>
+              <button type="button" class="btn btn-primary" id="ask-open-gemini">Copy &amp; Open Gemini ↗</button>
+            </div>
           </div>
         </div>
       `;
 
-      const toggleBtn = modal.querySelector("#ask-online-toggle");
-      const settingsBox = modal.querySelector("#ask-settings");
-      const provSel = modal.querySelector("#ask-provider");
-      const epWrap = modal.querySelector("#ask-endpoint-wrap");
-      const epInput = modal.querySelector("#ask-endpoint");
-      const modelInput = modal.querySelector("#ask-model");
-      const keyInput = modal.querySelector("#ask-key");
-      const msgBox = modal.querySelector("#ask-messages");
       const inputEl = modal.querySelector("#ask-input");
-      const sendBtn = modal.querySelector("#ask-send");
-      let sending = false;
+      const statusEl = modal.querySelector("#ask-copy-status");
+      const copyOnlyBtn = modal.querySelector("#ask-copy-only");
+      const openGeminiBtn = modal.querySelector("#ask-open-gemini");
 
-      const syncSettingsUI = () => {
-        toggleBtn.textContent = askConfig.enabled ? "Online ✓" : "Offline";
-        toggleBtn.classList.toggle("btn-primary", askConfig.enabled);
-        provSel.value = askConfig.provider;
-        epWrap.style.display = askConfig.provider === "openai" ? "flex" : "none";
-        epInput.value = askConfig.endpoint || "";
-        modelInput.value = askConfig.model || "";
-        keyInput.value = askConfig.apiKey || "";
-        inputEl.disabled = !askConfig.enabled || sending;
-        sendBtn.disabled = !askConfig.enabled || sending;
-        inputEl.placeholder = askConfig.enabled
-          ? "Ask about a step, method, or concept..."
-          : "Turn on Online mode above to ask a question...";
-      };
-
-      const renderMessages = () => {
+      const copyPrompt = async (openTab) => {
         const key = getActiveScratchKey();
-        const list = askChatsByQuestion[key] || [];
-        if (!list.length) {
-          msgBox.innerHTML = `
-            <div class="ask-empty">
-              ${askConfig.enabled
-                ? "Ready. Questions here include the current problem's context."
-                : "Offline mode is active (no network requests). Click <strong>Offline</strong> above to enable online help and add your key in <strong>⚙</strong>."}
-              ${askConfig.enabled ? `
-                <div class="ask-chips">
-                  <button type="button" class="btn" data-prompt="Give me a small hint to start this question without spoiling the answer.">Hint to start</button>
-                  <button type="button" class="btn" data-prompt="What key concept or formula from MF26 applies here?">Key concept</button>
-                  <button type="button" class="btn" data-prompt="Walk me through the solution step by step.">Explain solution</button>
-                </div>
-              ` : ""}
-            </div>
-          `;
-          msgBox.querySelectorAll("[data-prompt]").forEach(b => {
-            b.onclick = () => { inputEl.value = b.dataset.prompt; submitMsg(); };
-          });
-          return;
-        }
-        msgBox.innerHTML = "";
-        list.forEach(m => {
-          const div = document.createElement("div");
-          div.className = `ask-msg ${m.role}`;
-          if (m.role === "assistant") div.innerHTML = escapeHtmlPreserveMath(m.text);
-          else div.textContent = m.text;
-          msgBox.appendChild(div);
-        });
-        msgBox.scrollTop = msgBox.scrollHeight;
-      };
-
-      const submitMsg = async () => {
-        const text = inputEl.value.trim();
-        if (!text || sending || !askConfig.enabled) return;
-        if (!askConfig.apiKey.trim()) {
-          settingsBox.classList.add("open");
-          keyInput.focus();
-          return;
-        }
-        const key = getActiveScratchKey();
-        if (!askChatsByQuestion[key]) askChatsByQuestion[key] = [];
-        askChatsByQuestion[key].push({ role: "user", text });
-        inputEl.value = "";
-        sending = true;
-        syncSettingsUI();
-        renderMessages();
-
-        const pending = document.createElement("div");
-        pending.className = "ask-msg assistant";
-        pending.style.color = "var(--muted)";
-        pending.textContent = "Thinking...";
-        msgBox.appendChild(pending);
-        msgBox.scrollTop = msgBox.scrollHeight;
-
+        const qObj = key !== "general" ? window.H2_QUESTIONS.find(x => x.id === key) : null;
+        const payload = buildGeminiHandoffPrompt(qObj, inputEl.value);
         try {
-          const qObj = key !== "general" ? window.H2_QUESTIONS.find(x => x.id === key) : null;
-          const reply = await sendAskRequest(qObj, askChatsByQuestion[key]);
-          askChatsByQuestion[key].push({ role: "assistant", text: reply });
-        } catch (err) {
-          askChatsByQuestion[key].push({ role: "error", text: `Request failed: ${err.message || "Check key/model in ⚙"}` });
-        } finally {
-          sending = false;
-          syncSettingsUI();
-          renderMessages();
+          await navigator.clipboard.writeText(payload);
+          statusEl.style.color = "var(--ok)";
+          statusEl.textContent = openTab
+            ? "Copied to clipboard ✓ — press Ctrl+V in Gemini!"
+            : "Copied to clipboard ✓";
+        } catch (_) {
+          statusEl.style.color = "var(--warn)";
+          statusEl.textContent = "Could not access clipboard automatically.";
+        }
+        if (openTab) {
+          window.open("https://gemini.google.com/app", "_blank", "noopener,noreferrer");
         }
       };
 
-      toggleBtn.onclick = () => {
-        askConfig.enabled = !askConfig.enabled;
-        saveAskConfig();
-        if (askConfig.enabled && !askConfig.apiKey.trim()) settingsBox.classList.add("open");
-        syncSettingsUI();
-        renderMessages();
-      };
-      modal.querySelector("#ask-gear").onclick = () => settingsBox.classList.toggle("open");
-      provSel.onchange = () => {
-        epWrap.style.display = provSel.value === "openai" ? "flex" : "none";
-        if (provSel.value === "gemini" && !modelInput.value.startsWith("gemini")) modelInput.value = "gemini-3.8-flash";
-        if (provSel.value === "openai" && modelInput.value === "gemini-3.8-flash") modelInput.value = "google/gemini-2.0-flash-exp:free";
-      };
-      modal.querySelector("#ask-save-cfg").onclick = () => {
-        askConfig.provider = provSel.value;
-        askConfig.endpoint = epInput.value.trim();
-        askConfig.model = modelInput.value.trim() || "gemini-3.8-flash";
-        askConfig.apiKey = keyInput.value.trim();
-        saveAskConfig();
-        settingsBox.classList.remove("open");
-        syncSettingsUI();
-        renderMessages();
-      };
-      sendBtn.onclick = submitMsg;
+      modal.querySelectorAll("[data-prompt]").forEach(b => {
+        b.onclick = () => {
+          inputEl.value = b.dataset.prompt;
+          inputEl.focus();
+        };
+      });
+
+      copyOnlyBtn.onclick = () => copyPrompt(false);
+      openGeminiBtn.onclick = () => copyPrompt(true);
       inputEl.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submitMsg(); }
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          copyPrompt(true);
+        }
       });
       modal.querySelector("#ask-close").onclick = closeAskModal;
       modal.onclick = (e) => { if (e.target === modal) closeAskModal(); };
@@ -3145,6 +2956,7 @@
       modal._syncAsk = () => {
         const key = getActiveScratchKey();
         modal.querySelector("#ask-q-label").textContent = key === "general" ? "" : `(${key})`;
+        statusEl.textContent = "";
         const pinnedBox = modal.querySelector("#ask-pinned-parts");
         const qObj = key !== "general" ? window.H2_QUESTIONS.find(x => x.id === key) : null;
         const html = renderPinnedPartsHtml(qObj);
@@ -3155,8 +2967,6 @@
           pinnedBox.innerHTML = "";
           pinnedBox.style.display = "none";
         }
-        syncSettingsUI();
-        renderMessages();
       };
     }
 
