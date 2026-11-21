@@ -1,5 +1,6 @@
 (() => {
   const STORAGE_KEY = "h2_daily_math_v1";
+  const LAUNCH_DAY_KEY = "2026-11-21";
   const BASE_TITLE = document.title || "H2 Mathle";
   function setPageTitle(label) {
     document.title = label ? `${label} · ${BASE_TITLE}` : BASE_TITLE;
@@ -173,13 +174,15 @@
     };
   }
 
-  function getDailyQuestion(dayKey, category) {
-    const pool = window.H2_QUESTIONS
+  function getCategoryPool(category) {
+    return window.H2_QUESTIONS
       .filter(q => q.category === category)
       .slice()
       .sort((a, b) => a.id.localeCompare(b.id));
+  }
+
+  function computeScheduledQuestion(dayKey, category, pool = getCategoryPool(category)) {
     if (!pool.length) return null;
-    const dayRec = getDayRecord(dayKey);
     const [y, m, d] = dayKey.split("-").map(Number);
     const dayIndex = Math.floor(Date.UTC(y, m - 1, d) / 86400000);
     const cycle = Math.floor(dayIndex / pool.length);
@@ -190,7 +193,14 @@
       const j = Math.floor(rand() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    const chosen = shuffled[offset];
+    return shuffled[offset];
+  }
+
+  function getDailyQuestion(dayKey, category) {
+    const pool = getCategoryPool(category);
+    const chosen = computeScheduledQuestion(dayKey, category, pool);
+    if (!chosen) return null;
+    const dayRec = getDayRecord(dayKey);
     if (dayRec[category]?.questionId) {
       const found = pool.find(q => q.id === dayRec[category].questionId);
       if (found) {
@@ -1175,6 +1185,7 @@
       const m = String(check.getMonth() + 1).padStart(2, "0");
       const d = String(check.getDate()).padStart(2, "0");
       const key = `${y}-${m}-${d}`;
+      if (key < LAUNCH_DAY_KEY) break;
       const rec = state.days[key];
       const pSt = rec?.pure ? getQuestionStatus(window.H2_QUESTIONS.find(q => q.id === rec.pure.questionId), rec.pure) : "untouched";
       const sSt = rec?.stats ? getQuestionStatus(window.H2_QUESTIONS.find(q => q.id === rec.stats.questionId), rec.stats) : "untouched";
@@ -1936,7 +1947,7 @@
 
     for (let day = 1; day <= daysInMonth; day++) {
       const key = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-      const rec = state.days[key];
+      const rec = key >= LAUNCH_DAY_KEY ? state.days[key] : null;
       const pCal = rec?.pure
         ? getCalendarStatus(window.H2_QUESTIONS.find(q => q.id === rec.pure.questionId), rec.pure)
         : { cls: "incomplete", label: "Incomplete" };
@@ -2047,16 +2058,21 @@
 
   function renderCalendarDetail(dayKey) {
     const box = document.getElementById("cal-detail");
-    const rec = state.days[dayKey];
-    if (!rec || (!rec.pure && !rec.stats)) {
-      box.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.9rem;">No recorded attempts on ${dayKey}.</p>`;
+    if (dayKey < LAUNCH_DAY_KEY) {
+      box.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.9rem;">No questions available before ${LAUNCH_DAY_KEY}.</p>`;
       return;
     }
+    if (dayKey > getStudyDayKey()) {
+      box.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.9rem;">Unlocks on ${dayKey} at 6:00 AM SGT.</p>`;
+      return;
+    }
+    const rec = state.days[dayKey];
     const renderLink = (cat, label) => {
-      if (!rec[cat]) return "";
-      const q = window.H2_QUESTIONS.find(x => x.id === rec[cat].questionId);
+      const saved = rec?.[cat];
+      const q = (saved?.questionId && window.H2_QUESTIONS.find(x => x.id === saved.questionId))
+        || computeScheduledQuestion(dayKey, cat);
       if (!q) return "";
-      const calSt = getCalendarStatus(q, rec[cat]);
+      const calSt = saved ? getCalendarStatus(q, saved) : { cls: "incomplete", label: "Incomplete" };
       return `<button class="btn" data-open="${cat}">${label}: ${q.school} ${q.qNum} (${calSt.label})</button>`;
     };
     box.innerHTML = `
@@ -2071,8 +2087,9 @@
     box.querySelectorAll("button[data-open]").forEach(b => {
       b.onclick = () => {
         const cat = b.dataset.open;
-        const q = window.H2_QUESTIONS.find(x => x.id === rec[cat].questionId);
-        renderQuestionView(q, rec[cat], { dayKey });
+        const q = getDailyQuestion(dayKey, cat);
+        const dayRec = getDayRecord(dayKey);
+        renderQuestionView(q, dayRec[cat], { dayKey });
       };
     });
   }
