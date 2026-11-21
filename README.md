@@ -49,7 +49,7 @@ Open `index.html` directly in a browser, or host the folder over HTTP/HTTPS (suc
 
 ### Keyboard shortcuts
 
-- `1` to `5`: switch tabs (`Pure Math`, `Statistics`, `Random`, `Calendar`, `Mistake Log`)
+- `1` to `5`: switch tabs (`Pure Math`, `Statistics`, `Random`, `Calendar`, `Study Log`)
 - `M`: toggle MF26 reference
 - `W`: toggle Scratchpad
 - `A`: toggle Ask drawer

@@ -66,6 +66,7 @@
   let randomState = {};
   let randomFilters = { topic: "all", school: "all", status: "all" };
   let mistakeTagFilter = "all";
+  let studyLogMode = "mistakes";
   let flaggedSort = "date-desc";
   let flaggedPanelOpen = true;
   let activeMathField = null;
@@ -1156,7 +1157,7 @@
   function getQuestionNoteData(qId) {
     const raw = state.notes?.[qId];
     if (!raw) {
-      return { flaggedParts: [], flaggedAt: null, entries: [{ id: "1", part: "", tags: [], text: "", updatedAt: null }] };
+      return { flaggedParts: [], flaggedAt: null, entries: [{ id: "1", kind: "mistake", part: "", tags: [], text: "", updatedAt: null }] };
     }
     const flaggedParts = Array.isArray(raw.flaggedParts) ? raw.flaggedParts : [];
     const flaggedAt = raw.flaggedAt || null;
@@ -1165,19 +1166,19 @@
         flaggedParts,
         flaggedAt,
         entries: raw.entries.length
-          ? raw.entries.map(e => ({ id: e.id || "1", part: e.part || "", tags: Array.isArray(e.tags) ? e.tags : [], text: e.text || "", updatedAt: e.updatedAt || null }))
-          : [{ id: "1", part: "", tags: [], text: "", updatedAt: null }]
+          ? raw.entries.map(e => ({ id: e.id || "1", kind: e.kind === "note" ? "note" : "mistake", part: e.part || "", tags: Array.isArray(e.tags) ? e.tags : [], text: e.text || "", updatedAt: e.updatedAt || null }))
+          : [{ id: "1", kind: "mistake", part: "", tags: [], text: "", updatedAt: null }]
       };
     }
     return {
       flaggedParts,
       flaggedAt,
-      entries: [{ id: "1", part: "", tags: Array.isArray(raw.tags) ? raw.tags : [], text: raw.text || "", updatedAt: raw.updatedAt || null }]
+      entries: [{ id: "1", kind: "mistake", part: "", tags: Array.isArray(raw.tags) ? raw.tags : [], text: raw.text || "", updatedAt: raw.updatedAt || null }]
     };
   }
 
   function getNonEmptyEntries(noteData) {
-    return (noteData.entries || []).filter(e => (e.text && e.text.trim()) || (e.tags && e.tags.length));
+    return (noteData.entries || []).filter(e => (e.text && e.text.trim()) || (e.kind !== "note" && e.tags && e.tags.length));
   }
 
   function updateMetaBar() {
@@ -1704,8 +1705,8 @@
       np.className = "notes-panel";
       np.innerHTML = `
         <div class="notes-head">
-          <h3>Mistake Log &amp; Reflection <small id="save-ind" style="font-weight:400;color:var(--muted);"></small></h3>
-          <button type="button" class="notes-add-btn" id="add-note-entry" title="Add another mistake log entry">+</button>
+          <h3>Study Log &amp; Reflection <small id="save-ind" style="font-weight:400;color:var(--muted);"></small></h3>
+          <button type="button" class="notes-add-btn" id="add-note-entry" title="Add another entry">+</button>
         </div>
         <div id="note-entries-list"></div>
       `;
@@ -1722,30 +1723,35 @@
       const renderNoteEntries = () => {
         entriesList.innerHTML = "";
         noteData.entries.forEach((entry, eIdx) => {
+          const isNote = entry.kind === "note";
           const box = document.createElement("div");
           box.className = "note-entry-card";
           const showPartRow = q.parts.length > 1;
-          const showTopBar = showPartRow || noteData.entries.length > 1;
           box.innerHTML = `
-            ${showTopBar ? `
-              <div class="note-entry-top">
+            <div class="note-entry-top">
+              <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;">
+                <div class="note-kind-toggle" role="group" aria-label="Entry type">
+                  <button type="button" class="note-kind-pill ${!isNote ? "selected" : ""}" data-kind="mistake">Mistake</button>
+                  <button type="button" class="note-kind-pill ${isNote ? "selected-note" : ""}" data-kind="note">Note</button>
+                </div>
                 ${showPartRow ? `
                   <div class="note-part-row">
                     <span class="note-part-label">Part</span>
                     <button type="button" class="note-part-pill ${!entry.part ? "selected" : ""}" data-part="">All</button>
                     ${q.parts.map(p => `<button type="button" class="note-part-pill ${entry.part === p.label ? "selected" : ""}" data-part="${p.label}">${p.label}</button>`).join("")}
                   </div>
-                ` : `<span></span>`}
-                ${noteData.entries.length > 1 ? `<button type="button" class="note-entry-remove" title="Remove entry">×</button>` : ""}
+                ` : ""}
               </div>
-            ` : ""}
-            <div class="error-tags">
+              ${noteData.entries.length > 1 ? `<button type="button" class="note-entry-remove" title="Remove entry">×</button>` : ""}
+            </div>
+            <div class="error-tags" style="display:${isNote ? "none" : "flex"};">
               ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${entry.tags.includes(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
             </div>
-            <textarea class="notes-textarea" placeholder="Write down why you made a mistake or what formula/trick to remember (supports $LaTeX$)..."></textarea>
+            <textarea class="notes-textarea" placeholder="${isNote ? "Write a note, alternative method, or formula to remember (supports $LaTeX$)..." : "Write down why you made a mistake or what formula/trick to remember (supports $LaTeX$)..."}"></textarea>
             <div class="note-math-preview" style="display:none;"></div>
           `;
           const ta = box.querySelector("textarea");
+          const tagsRow = box.querySelector(".error-tags");
           const preview = box.querySelector(".note-math-preview");
           const syncPreview = (val) => {
             if (/\$\$[\s\S]+?\$\$|\$[^\$]+?\$/.test(val)) {
@@ -1758,6 +1764,23 @@
           };
           ta.value = entry.text || "";
           syncPreview(ta.value);
+
+          box.querySelectorAll(".note-kind-pill").forEach(btn => {
+            btn.onclick = () => {
+              entry.kind = btn.dataset.kind === "note" ? "note" : "mistake";
+              entry.updatedAt = new Date().toLocaleDateString("en-SG");
+              const nowNote = entry.kind === "note";
+              box.querySelectorAll(".note-kind-pill").forEach(b => {
+                b.classList.toggle("selected", !nowNote && b.dataset.kind === "mistake");
+                b.classList.toggle("selected-note", nowNote && b.dataset.kind === "note");
+              });
+              tagsRow.style.display = nowNote ? "none" : "flex";
+              ta.placeholder = nowNote
+                ? "Write a note, alternative method, or formula to remember (supports $LaTeX$)..."
+                : "Write down why you made a mistake or what formula/trick to remember (supports $LaTeX$)...";
+              saveNoteData();
+            };
+          });
 
           box.querySelectorAll(".note-part-pill").forEach(btn => {
             btn.onclick = () => {
@@ -1836,6 +1859,7 @@
       np.querySelector("#add-note-entry").onclick = () => {
         noteData.entries.push({
           id: String(Date.now()) + Math.random().toString(16).slice(2, 6),
+          kind: "mistake",
           part: "",
           tags: [],
           text: "",
@@ -2074,7 +2098,7 @@
       return b.ts - a.ts; // date-desc default
     });
 
-    // 2. Collect written mistake log entries
+    // 2. Collect written study log entries (mistakes vs notes)
     const allNoteItems = Object.keys(state.notes || {})
       .map(qId => {
         const nd = getQuestionNoteData(qId);
@@ -2083,11 +2107,26 @@
       })
       .filter(([_, __, nonEmpty]) => nonEmpty.length > 0);
 
+    const mistakeQuestionItems = allNoteItems
+      .map(([qId, nd, nonEmpty]) => [qId, nd, nonEmpty.filter(e => e.kind !== "note")])
+      .filter(([_, __, list]) => list.length > 0);
+    const noteQuestionItems = allNoteItems
+      .map(([qId, nd, nonEmpty]) => [qId, nd, nonEmpty.filter(e => e.kind === "note")])
+      .filter(([_, __, list]) => list.length > 0);
+
+    const modeBaseItems = studyLogMode === "mistakes"
+      ? mistakeQuestionItems
+      : studyLogMode === "notes"
+        ? noteQuestionItems
+        : allNoteItems;
+
     const tagCounts = {};
-    for (const [_, __, nonEmpty] of allNoteItems) {
-      for (const entry of nonEmpty) {
-        for (const tag of (entry.tags || [])) {
-          tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+    if (studyLogMode !== "notes") {
+      for (const [_, __, list] of mistakeQuestionItems) {
+        for (const entry of list) {
+          for (const tag of (entry.tags || [])) {
+            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+          }
         }
       }
     }
@@ -2097,9 +2136,9 @@
       mistakeTagFilter = "all";
     }
 
-    const items = mistakeTagFilter === "all"
-      ? allNoteItems
-      : allNoteItems.filter(([_, __, nonEmpty]) => nonEmpty.some(e => (e.tags || []).includes(mistakeTagFilter)));
+    const items = (studyLogMode === "notes" || mistakeTagFilter === "all")
+      ? modeBaseItems
+      : modeBaseItems.filter(([_, __, nonEmpty]) => nonEmpty.some(e => e.kind !== "note" && (e.tags || []).includes(mistakeTagFilter)));
 
     const flaggedPanelHtml = `
       <div class="flagged-panel">
@@ -2140,9 +2179,17 @@
       </div>
     `;
 
-    const tagFilterHtml = topTags.length ? `
+    const modeTabsHtml = `
+      <div class="study-log-tabs" role="tablist" aria-label="Study log view">
+        <button type="button" class="study-log-tab ${studyLogMode === "mistakes" ? "selected" : ""}" data-log-mode="mistakes">Mistakes (${mistakeQuestionItems.length})</button>
+        <button type="button" class="study-log-tab ${studyLogMode === "notes" ? "selected" : ""}" data-log-mode="notes">Notes (${noteQuestionItems.length})</button>
+        <button type="button" class="study-log-tab ${studyLogMode === "all" ? "selected" : ""}" data-log-mode="all">All (${allNoteItems.length})</button>
+      </div>
+    `;
+
+    const tagFilterHtml = (studyLogMode !== "notes" && topTags.length) ? `
       <div class="error-tags" style="margin-bottom:14px;">
-        <button type="button" class="err-chip ${mistakeTagFilter === "all" ? "selected" : ""}" data-tag-filter="all">All Notes (${allNoteItems.length})</button>
+        <button type="button" class="err-chip ${mistakeTagFilter === "all" ? "selected" : ""}" data-tag-filter="all">All (${modeBaseItems.length})</button>
         ${topTags.map(([tag, cnt]) => `<button type="button" class="err-chip ${mistakeTagFilter === tag ? "selected" : ""}" data-tag-filter="${tag}">${tag} (${cnt})</button>`).join("")}
       </div>
     ` : "";
@@ -2150,10 +2197,11 @@
     main.innerHTML = `
       <div class="card animate-in">
         <div class="q-header">
-          <div class="q-source">Personal Mistake Log</div>
+          <div class="q-source">Study Log</div>
           <small style="color:var(--muted);font-family:var(--sans);">${allNoteItems.length} logged question(s)</small>
         </div>
         ${flaggedPanelHtml}
+        ${modeTabsHtml}
         ${tagFilterHtml}
         <div id="mistakes-list"></div>
       </div>
@@ -2198,6 +2246,14 @@
       };
     });
 
+    main.querySelectorAll("[data-log-mode]").forEach(btn => {
+      btn.onclick = () => {
+        studyLogMode = btn.dataset.logMode;
+        mistakeTagFilter = "all";
+        renderMistakeLogView();
+      };
+    });
+
     main.querySelectorAll("[data-tag-filter]").forEach(btn => {
       btn.onclick = () => {
         mistakeTagFilter = btn.dataset.tagFilter;
@@ -2207,7 +2263,10 @@
 
     const list = main.querySelector("#mistakes-list");
     if (!items.length) {
-      list.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.88rem;">No written mistake notes yet. After attempting any Pure or Stats question, tag your errors or jot down what to remember!</p>`;
+      const emptyMsg = studyLogMode === "notes"
+        ? "No study notes yet. Switch any entry below a question to Note to save alternative methods or formulas."
+        : "No written mistake notes yet. After attempting any Pure or Stats question, tag your errors or jot down what to remember!";
+      list.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.88rem;">${emptyMsg}</p>`;
       return;
     }
 
@@ -2235,11 +2294,13 @@
         sub.className = "mistake-subentry";
 
         const renderReadMode = () => {
+          const isNote = entry.kind === "note";
           sub.innerHTML = `
             <div class="mistake-subentry-head">
               <div class="error-tags" style="margin-bottom:0;">
+                ${isNote ? `<span class="study-note-pill">Note</span>` : ""}
                 ${entry.part ? `<span class="mistake-part-pill">Part ${entry.part}</span>` : ""}
-                ${(entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("")}
+                ${!isNote ? (entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("") : ""}
               </div>
               <div class="mistake-entry-actions">
                 <button type="button" class="mistake-action-btn" data-edit-entry>Edit</button>
@@ -2262,7 +2323,7 @@
               if (fallbackIdx >= 0) fresh.entries.splice(fallbackIdx, 1);
             }
             if (!fresh.entries.length) {
-              fresh.entries = [{ id: "1", part: "", tags: [], text: "", updatedAt: null }];
+              fresh.entries = [{ id: "1", kind: "mistake", part: "", tags: [], text: "", updatedAt: null }];
             }
             state.notes[qId] = fresh;
             saveState();
@@ -2271,19 +2332,26 @@
         };
 
         const renderEditMode = () => {
+          let draftKind = entry.kind === "note" ? "note" : "mistake";
           let draftPart = entry.part || "";
           const draftTags = new Set(entry.tags || []);
           const showPartRow = q.parts.length > 1;
           sub.innerHTML = `
             <div class="mistake-inline-editor">
-              ${showPartRow ? `
-                <div class="note-part-row" style="margin-bottom:8px;">
-                  <span class="note-part-label">Part</span>
-                  <button type="button" class="note-part-pill ${!draftPart ? "selected" : ""}" data-part="">All</button>
-                  ${q.parts.map(p => `<button type="button" class="note-part-pill ${draftPart === p.label ? "selected" : ""}" data-part="${p.label}">${p.label}</button>`).join("")}
+              <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+                <div class="note-kind-toggle" role="group" aria-label="Entry type">
+                  <button type="button" class="note-kind-pill ${draftKind !== "note" ? "selected" : ""}" data-kind="mistake">Mistake</button>
+                  <button type="button" class="note-kind-pill ${draftKind === "note" ? "selected-note" : ""}" data-kind="note">Note</button>
                 </div>
-              ` : ""}
-              <div class="error-tags">
+                ${showPartRow ? `
+                  <div class="note-part-row">
+                    <span class="note-part-label">Part</span>
+                    <button type="button" class="note-part-pill ${!draftPart ? "selected" : ""}" data-part="">All</button>
+                    ${q.parts.map(p => `<button type="button" class="note-part-pill ${draftPart === p.label ? "selected" : ""}" data-part="${p.label}">${p.label}</button>`).join("")}
+                  </div>
+                ` : ""}
+              </div>
+              <div class="error-tags" style="display:${draftKind === "note" ? "none" : "flex"};">
                 ${ERROR_TAGS.map(tag => `<button type="button" class="err-chip ${draftTags.has(tag) ? "selected" : ""}" data-tag="${tag}">${tag}</button>`).join("")}
               </div>
               <textarea class="notes-textarea" placeholder="Amend your note (supports $LaTeX$)..."></textarea>
@@ -2295,6 +2363,7 @@
             </div>
           `;
           const ta = sub.querySelector("textarea");
+          const tagsRow = sub.querySelector(".error-tags");
           const preview = sub.querySelector(".note-math-preview");
           const syncPreview = (val) => {
             if (/\$\$[\s\S]+?\$\$|\$[^\$]+?\$/.test(val)) {
@@ -2310,6 +2379,17 @@
           attachDollarAutoPair(ta, (val) => syncPreview(val));
           ta.oninput = (e) => syncPreview(e.target.value);
 
+          sub.querySelectorAll(".note-kind-pill").forEach(btn => {
+            btn.onclick = () => {
+              draftKind = btn.dataset.kind === "note" ? "note" : "mistake";
+              const nowNote = draftKind === "note";
+              sub.querySelectorAll(".note-kind-pill").forEach(b => {
+                b.classList.toggle("selected", !nowNote && b.dataset.kind === "mistake");
+                b.classList.toggle("selected-note", nowNote && b.dataset.kind === "note");
+              });
+              tagsRow.style.display = nowNote ? "none" : "flex";
+            };
+          });
           sub.querySelectorAll(".note-part-pill").forEach(btn => {
             btn.onclick = () => {
               draftPart = btn.dataset.part || "";
@@ -2330,6 +2410,7 @@
             const target = fresh.entries.find(e => e.id === entry.id && e.text === entry.text)
               || fresh.entries.find(e => e.id === entry.id);
             if (target) {
+              target.kind = draftKind;
               target.part = draftPart;
               target.tags = Array.from(draftTags);
               target.text = ta.value;

@@ -1574,3 +1574,78 @@ summary:focus-visible {
   background: var(--bg);
   margin-bottom: 10px;
 }
+
+/* Mistake vs Note entry toggle & Study Log switcher */
+.note-kind-toggle {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 8px;
+  border: 1px solid rgba(120, 115, 110, 0.22);
+  background: rgba(250, 248, 244, 0.9);
+  gap: 2px;
+}
+.note-kind-pill {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1.3;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+.note-kind-pill:hover {
+  color: var(--ink);
+}
+.note-kind-pill.selected {
+  background: var(--bad);
+  color: #fff;
+}
+.note-kind-pill.selected-note {
+  background: #5b9bd5;
+  color: #fff;
+}
+.study-log-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 3px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--accent-border);
+  background: var(--bg);
+}
+.study-log-tab {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.study-log-tab:hover {
+  color: var(--ink);
+}
+.study-log-tab.selected {
+  background: var(--accent);
+  color: #fff;
+}
+.study-note-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 7px;
+  color: #3a76ad;
+  background: rgba(91, 155, 213, 0.14);
+  border: 1px solid rgba(91, 155, 213, 0.38);
+}
