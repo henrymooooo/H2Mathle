@@ -45,13 +45,25 @@ body {
 }
 
 .app-shell {
-  max-width: min(1360px, 95vw);
+  width: min(1240px, 95vw);
+  max-width: 100%;
   margin: 0 auto;
   padding: 28px 28px 72px;
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 38px;
   align-items: start;
+  transition:
+    width 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    padding 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    gap 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (min-width: 981px) {
+  .app-shell.has-dock {
+    width: 100%;
+    padding: 28px 20px 72px 20px;
+    gap: 28px;
+  }
 }
 
 .folio-rail {
@@ -207,9 +219,10 @@ body {
 }
 
 .main-content {
-  flex: 1 1 0%;
+  flex: 1 1 640px;
+  max-width: 926px;
   min-width: 0;
-  transition: all 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .folio-tools .meta-link.active {
@@ -998,42 +1011,70 @@ body {
 }
 
 @media (min-width: 981px) {
-  .mf26-modal {
+  .tool-dock {
     position: sticky;
-    top: 24px;
-    height: calc(100vh - 52px);
-    flex: 0 0 auto;
+    top: 20px;
+    height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 0px;
     width: 0;
+    min-width: 0;
     margin-left: 0;
     opacity: 0;
     overflow: hidden;
     pointer-events: none;
-    transform: translateX(18px);
-    display: flex;
     transition:
-      width 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-      margin-left 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.24s ease,
-      transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+      flex-grow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      flex-basis 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      min-width 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      margin-left 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.25s ease;
   }
-  .mf26-modal.open {
-    width: 400px;
-    margin-left: 26px;
+  .tool-dock.has-open {
+    flex: 1 1 400px;
+    width: auto;
+    min-width: 360px;
+    margin-left: 24px;
     opacity: 1;
     pointer-events: auto;
-    transform: translateX(0);
   }
-  .scratch-modal.open {
-    width: min(560px, 46vw);
-    margin-left: 26px;
-    padding: 0;
+  .tool-dock.has-open:has(.scratch-drawer.expanded) {
+    flex: 1.35 1 560px;
   }
-  .scratch-modal.open:has(.scratch-drawer.expanded) {
-    width: min(760px, 56vw);
+  .mf26-modal {
+    flex: 0 0 0px;
+    height: 0;
+    min-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateX(20px) scale(0.97);
+    display: flex;
+    transition:
+      flex-grow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      flex-basis 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      margin-top 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.24s ease,
+      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mf26-modal.open {
+    flex: 1 1 0%;
+    min-height: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) scale(1);
+  }
+  .mf26-modal.open ~ .mf26-modal.open {
+    margin-top: 12px;
   }
 }
 
 @media (max-width: 980px) {
+  .tool-dock {
+    display: contents;
+  }
   .mf26-modal {
     position: fixed;
     inset: 0;

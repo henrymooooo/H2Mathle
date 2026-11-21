@@ -2525,8 +2525,10 @@
       modal.querySelector("#mf26-close").onclick = closeMF26Modal;
       modal.onclick = (e) => { if (e.target === modal) closeMF26Modal(); };
     }
-    closeScratchpadModal();
-    closeAskModal();
+    if (window.innerWidth <= 980) {
+      closeScratchpadModal();
+      closeAskModal();
+    }
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     syncToolButtons();
@@ -2546,11 +2548,18 @@
       ["btn-scratchpad", "scratchpad-modal"],
       ["btn-ask", "ask-modal"]
     ];
+    let anyOpen = false;
     map.forEach(([btnId, modalId]) => {
       const btn = document.getElementById(btnId);
       const modal = document.getElementById(modalId);
-      if (btn) btn.classList.toggle("active", !!(modal && modal.classList.contains("open")));
+      const isOpen = !!(modal && modal.classList.contains("open"));
+      if (isOpen) anyOpen = true;
+      if (btn) btn.classList.toggle("active", isOpen);
     });
+    const dock = document.getElementById("tool-dock");
+    if (dock) dock.classList.toggle("has-open", anyOpen);
+    const shell = document.querySelector(".app-shell");
+    if (shell) shell.classList.toggle("has-dock", anyOpen);
   }
 
   // -------------------- 10b. SCRATCHPAD WHITEBOARD (VECTOR PAN & ZOOM) --------------------
@@ -2913,8 +2922,14 @@
 
       modal.querySelector("#scratch-close").onclick = closeScratchpadModal;
       modal.onclick = (e) => { if (e.target === modal) closeScratchpadModal(); };
+      if (typeof ResizeObserver !== "undefined") {
+        const ro = new ResizeObserver(() => {
+          if (modal.classList.contains("open")) resizeCanvas();
+        });
+        ro.observe(stage);
+      }
       modal.addEventListener("transitionend", (e) => {
-        if (e.target === modal && e.propertyName === "width" && modal.classList.contains("open")) {
+        if (e.target === modal && (e.propertyName === "flex-grow" || e.propertyName === "flex-basis") && modal.classList.contains("open")) {
           resizeCanvas();
         }
       });
@@ -2923,8 +2938,10 @@
       });
     }
 
-    closeMF26Modal();
-    closeAskModal();
+    if (window.innerWidth <= 980) {
+      closeMF26Modal();
+      closeAskModal();
+    }
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     syncToolButtons();
@@ -3083,8 +3100,10 @@
       };
     }
 
-    closeMF26Modal();
-    closeScratchpadModal();
+    if (window.innerWidth <= 980) {
+      closeMF26Modal();
+      closeScratchpadModal();
+    }
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     syncToolButtons();
