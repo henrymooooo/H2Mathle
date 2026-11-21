@@ -45,12 +45,12 @@ body {
 }
 
 .app-shell {
-  max-width: 1060px;
+  max-width: min(1360px, 95vw);
   margin: 0 auto;
-  padding: 32px 20px 72px;
+  padding: 28px 28px 72px;
   display: grid;
-  grid-template-columns: 235px 1fr;
-  gap: 34px;
+  grid-template-columns: 220px 1fr;
+  gap: 38px;
   align-items: start;
 }
 
