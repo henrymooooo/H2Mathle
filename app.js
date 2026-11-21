@@ -2904,24 +2904,48 @@
   async function sendAskRequest(qObj, history) {
     const sysPrompt = buildQuestionContextPrompt(qObj);
     if (askConfig.provider === "gemini") {
-      const model = (askConfig.model || "gemini-3.8-flash").trim();
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(askConfig.apiKey.trim())}`;
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: sysPrompt }] },
-          contents: history.map(m => ({
-            role: m.role === "assistant" ? "model" : "user",
-            parts: [{ text: m.text }]
-          }))
-        })
+      const primary = (askConfig.model || "gemini-3.8-flash").trim();
+      const candidates = [...new Set([primary, "gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash"])];
+      const payload = JSON.stringify({
+        system_instruction: { parts: [{ text: sysPrompt }] },
+        contents: history.map(m => ({
+          role: m.role === "assistant" ? "model" : "user",
+          parts: [{ text: m.text }]
+        }))
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error?.message || `HTTP ${res.status}`);
-      const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text).join("") || "";
-      if (!text) throw new Error("Empty response.");
-      return text;
+      const key = encodeURIComponent(askConfig.apiKey.trim());
+      let lastErr = null;
+      for (let i = 0; i < candidates.length; i++) {
+        const model = candidates[i];
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${key}`;
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: payload
+          });
+          const data = await res.json();
+          if (res.ok) {
+            const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text).join("") || "";
+            if (text) return text;
+            lastErr = new Error("Empty response.");
+            continue;
+          }
+          const msg = data?.error?.message || `HTTP ${res.status}`;
+          lastErr = new Error(msg);
+          const isRetryable = [404, 429, 500, 502, 503, 504].includes(res.status) ||
+            /high demand|overloaded|unavailable|try again|quota|not found/i.test(msg);
+          if (!isRetryable) throw lastErr;
+          if (i < candidates.length - 1) await new Promise(r => setTimeout(r, 400));
+        } catch (err) {
+          lastErr = err;
+          if (err && err.name !== "TypeError" && !/high demand|overloaded|unavailable|try again|quota|not found|HTTP (404|429|5\d\d)|Empty response/i.test(err.message)) {
+            throw err;
+          }
+          if (i < candidates.length - 1) await new Promise(r => setTimeout(r, 400));
+        }
+      }
+      throw lastErr || new Error("Request failed.");
     }
 
     const endpoint = (askConfig.endpoint || "https://openrouter.ai/api/v1/chat/completions").trim();
