@@ -62,7 +62,42 @@
     </aside>
 
     <div class="folio-workspace">
-      <main id="main-content" class="main-content"></main>
+      <div class="folio-column">
+        <main id="main-content" class="main-content"></main>
+        <footer class="folio-colophon" id="folio-colophon">
+          <div class="colophon-bar">
+            <span>H2 Mathle</span>
+            <span class="colophon-sep">&middot;</span>
+            <button type="button" class="colophon-link" id="btn-feedback" aria-expanded="false">Feedback</button>
+            <span class="colophon-sep">&middot;</span>
+            <a class="colophon-link" href="https://buymeacoffee.com/henrymoo" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
+          </div>
+          <form class="feedback-panel" id="feedback-form" hidden>
+            <div class="feedback-head">
+              <strong>Send feedback</strong>
+              <span class="feedback-context" id="feedback-context"></span>
+            </div>
+            <div class="feedback-row">
+              <select class="feedback-input" id="feedback-type" aria-label="Feedback category">
+                <option value="Bug / Typo">Bug / Typo</option>
+                <option value="Wrong Answer Key">Wrong Answer Key</option>
+                <option value="Suggestion">Suggestion</option>
+                <option value="Other">Other</option>
+              </select>
+              <input type="email" class="feedback-input" id="feedback-email" placeholder="Email (optional, for replies)" />
+            </div>
+            <textarea class="feedback-textarea" id="feedback-message" rows="3" required placeholder="Report a typo, wrong answer key, or suggestion..."></textarea>
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none;" />
+            <div class="feedback-actions">
+              <span class="feedback-status" id="feedback-status"></span>
+              <div style="display:flex;gap:8px;">
+                <button type="button" class="btn btn-ghost" id="feedback-cancel">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="feedback-submit">Send</button>
+              </div>
+            </div>
+          </form>
+        </footer>
+      </div>
       <aside class="tool-dock" id="tool-dock" aria-label="Study tools">
         <div id="mf26-modal" class="mf26-modal" aria-hidden="true"></div>
         <div id="scratchpad-modal" class="mf26-modal scratch-modal" aria-hidden="true"></div>

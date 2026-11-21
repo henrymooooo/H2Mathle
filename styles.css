@@ -207,11 +207,16 @@ body {
   width: 100%;
 }
 
-.main-content {
+.folio-column {
   flex: 1 1 640px;
   max-width: 926px;
   min-width: 0;
   transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.main-content {
+  width: 100%;
+  min-width: 0;
 }
 
 .folio-tools .meta-link.active {
@@ -1847,6 +1852,116 @@ summary:focus-visible {
   border: 1px solid rgba(91, 155, 213, 0.38);
 }
 
+/* Quiet Exam Folio colophon & expandable feedback form */
+.folio-colophon {
+  margin-top: 22px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.colophon-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.colophon-sep {
+  opacity: 0.55;
+}
+.colophon-link {
+  background: none;
+  border: none;
+  padding: 2px 3px;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--muted);
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: color 0.15s ease;
+}
+.colophon-link:hover,
+.colophon-link[aria-expanded="true"] {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.feedback-panel {
+  margin-top: 14px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--accent);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(28, 27, 24, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeSlideIn 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.feedback-panel[hidden] {
+  display: none;
+}
+.feedback-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.feedback-head strong {
+  font-family: var(--serif);
+  font-size: 0.96rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+.feedback-context {
+  font-size: 0.72rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+.feedback-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.feedback-input,
+.feedback-textarea {
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid #d7d1c4;
+  border-radius: 4px;
+  padding: 7px 10px;
+}
+.feedback-row .feedback-input {
+  flex: 1 1 180px;
+}
+.feedback-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 74px;
+  line-height: 1.5;
+}
+.feedback-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.feedback-status {
+  font-size: 0.78rem;
+  min-height: 1.1em;
+}
+
 @media print {
   body {
     background: #fff;
@@ -1854,6 +1969,7 @@ summary:focus-visible {
   }
   .folio-rail,
   .tool-dock,
+  .folio-colophon,
   .random-banner,
   .controls-row,
   .keypad,

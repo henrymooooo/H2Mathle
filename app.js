@@ -1,7 +1,27 @@
 (() => {
   const STORAGE_KEY = "h2_daily_math_v1";
   const LAUNCH_DAY_KEY = "2026-11-21";
+  const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/henrysymoo@gmail.com";
   const BASE_TITLE = document.title || "H2 Mathle";
+  const TAB_LABELS = {
+    pure: "Pure",
+    stats: "Statistics",
+    random: "Practice",
+    calendar: "Calendar",
+    mistakes: "Study Log"
+  };
+  function getFeedbackContext() {
+    const qId = (currentTab === "pure" || currentTab === "stats" || currentTab === "random") && qTimer.questionId
+      ? qTimer.questionId
+      : null;
+    return { qId, tab: currentTab, url: window.location.href };
+  }
+  function syncFeedbackContext() {
+    const badge = document.getElementById("feedback-context");
+    if (!badge) return;
+    const { qId, tab } = getFeedbackContext();
+    badge.textContent = qId ? `Attached: ${qId}` : `Tab: ${TAB_LABELS[tab] || tab}`;
+  }
   function setPageTitle(label) {
     document.title = label ? `${label} · ${BASE_TITLE}` : BASE_TITLE;
   }
@@ -1575,6 +1595,7 @@
     main.innerHTML = "";
     if (!q && !isRandom) {
       main.innerHTML = `<div class="card animate-in"><p style="color:var(--muted);font-family:var(--sans);margin:0;">No questions available in this bank yet.</p></div>`;
+      syncFeedbackContext();
       return;
     }
     const wrap = document.createElement("div");
@@ -1669,6 +1690,7 @@
 
     ensureQuestionTimer(q.id);
     updateScratchpadCounter(q.id);
+    syncFeedbackContext();
     const totalMarks = q.parts.reduce((sum, p) => sum + (Number(p.marks) || 0), 0);
     const stemDiagHtml = renderDiagramBox(q.diagramSvg, q.diagramImg);
     const card = document.createElement("div");
@@ -1926,6 +1948,7 @@
   function renderCalendarView() {
     setPageTitle("Calendar");
     syncUrlQuestion(null);
+    syncFeedbackContext();
     const main = document.getElementById("main-content");
     const sgt = getSGTNow();
     if (calendarYear === null || calendarMonth === null) {
@@ -2123,6 +2146,7 @@
   function renderMistakeLogView() {
     setPageTitle("Study Log");
     syncUrlQuestion(null);
+    syncFeedbackContext();
     const main = document.getElementById("main-content");
     const openQuestionForPractice = (q, focusFlaggedParts = null) => {
       randomQuestion = q;
@@ -3332,6 +3356,80 @@
     if (scratchBtn) scratchBtn.onclick = () => toggleTool("scratchpad-modal", openScratchpadModal, closeScratchpadModal);
     const askBtn = document.getElementById("btn-ask");
     if (askBtn) askBtn.onclick = () => toggleTool("ask-modal", openAskModal, closeAskModal);
+    const feedbackBtn = document.getElementById("btn-feedback");
+    const feedbackForm = document.getElementById("feedback-form");
+    const feedbackCancel = document.getElementById("feedback-cancel");
+    const feedbackMsg = document.getElementById("feedback-message");
+    const feedbackStatus = document.getElementById("feedback-status");
+    const feedbackSubmit = document.getElementById("feedback-submit");
+    if (feedbackBtn && feedbackForm) {
+      const setFeedbackOpen = (open) => {
+        feedbackForm.hidden = !open;
+        feedbackBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open) {
+          syncFeedbackContext();
+          if (feedbackStatus) feedbackStatus.textContent = "";
+          if (feedbackMsg) feedbackMsg.focus();
+        }
+      };
+      feedbackBtn.onclick = () => setFeedbackOpen(feedbackForm.hidden);
+      if (feedbackCancel) feedbackCancel.onclick = () => setFeedbackOpen(false);
+      feedbackForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const honey = feedbackForm.querySelector('input[name="_honey"]');
+        if (honey && honey.value) return;
+        const msg = (feedbackMsg ? feedbackMsg.value : "").trim();
+        if (!msg) return;
+        const typeEl = document.getElementById("feedback-type");
+        const emailEl = document.getElementById("feedback-email");
+        const ctx = getFeedbackContext();
+        const feedbackType = typeEl ? typeEl.value : "Feedback";
+        const replyEmail = emailEl ? emailEl.value.trim() : "";
+        if (feedbackSubmit) {
+          feedbackSubmit.disabled = true;
+          feedbackSubmit.textContent = "Sending...";
+        }
+        if (feedbackStatus) {
+          feedbackStatus.style.color = "var(--muted)";
+          feedbackStatus.textContent = "";
+        }
+        try {
+          const res = await fetch(FORMSUBMIT_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+              _subject: `[H2 Mathle] ${feedbackType}${ctx.qId ? ` (${ctx.qId})` : ""}`,
+              _template: "table",
+              type: feedbackType,
+              question: ctx.qId || "None (not on a question)",
+              tab: TAB_LABELS[ctx.tab] || ctx.tab,
+              page_url: ctx.url,
+              reply_email: replyEmail || "Not provided",
+              message: msg
+            })
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          if (feedbackMsg) feedbackMsg.value = "";
+          if (feedbackStatus) {
+            feedbackStatus.style.color = "var(--ok)";
+            feedbackStatus.textContent = "Sent. Thanks for the feedback.";
+          }
+        } catch (_) {
+          if (feedbackStatus) {
+            feedbackStatus.style.color = "var(--bad)";
+            feedbackStatus.textContent = "Could not send right now. Please try again.";
+          }
+        } finally {
+          if (feedbackSubmit) {
+            feedbackSubmit.disabled = false;
+            feedbackSubmit.textContent = "Send";
+          }
+        }
+      };
+    }
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") { closeMF26Modal(); closeScratchpadModal(); closeAskModal(); return; }
       const scratchModal = document.getElementById("scratchpad-modal");
