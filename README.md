@@ -2,7 +2,7 @@
 
 An offline-first daily practice web app for Singapore A-Level H2 Mathematics (9758) prelim questions. It runs as plain HTML, CSS, and JavaScript with no build step or backend, and stores everything locally in your browser.
 
-Live app: h2mathle.com
+Live app: www.h2mathle.com
 
 ![H2 Mathle screenshot](screenshot.png)
 
