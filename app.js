@@ -2,6 +2,81 @@
   const STORAGE_KEY = "h2_daily_math_v1";
   const LAUNCH_DAY_KEY = "2026-11-21";
   const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/2076cdb9647f5a023dd03868c1b25f8a";
+  const ANALYTICS_ENDPOINT = "https://api.h2mathle.com/v1/e";
+  let analyticsBooted = false;
+
+  function trackEvent(payload) {
+    try {
+      if (
+        location.protocol === "file:" ||
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1"
+      ) {
+        return;
+      }
+      const body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        const sent = navigator.sendBeacon(
+          ANALYTICS_ENDPOINT,
+          new Blob([body], { type: "text/plain" })
+        );
+        if (sent) return;
+      }
+      fetch(ANALYTICS_ENDPOINT, {
+        method: "POST",
+        mode: "cors",
+        keepalive: true,
+        headers: { "Content-Type": "text/plain" },
+        body
+      }).catch(() => {});
+    } catch (_) {}
+  }
+
+  function getReferrerHost() {
+    try {
+      if (!document.referrer) return "";
+      const host = new URL(document.referrer).hostname.toLowerCase();
+      if (!host || host === "h2mathle.com" || host === "www.h2mathle.com") return "";
+      return host;
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function resolveQuestionMode(q, isRandom, dayKey) {
+    if (isRandom) return "practice";
+    if (dayKey && dayKey !== getStudyDayKey()) return "past_day";
+    return q && q.category === "stats" ? "daily_stats" : "daily_pure";
+  }
+
+  function trackQuestionProgress(q, record, mode, action) {
+    if (!q || !record || !record.parts) return;
+    const st = getQuestionStatus(q, record);
+    const qStatus = st === "ok" ? "ok" : st === "bad" ? "bad" : "attempted";
+    const partsTotal = q.parts.length;
+    let partsDone = 0;
+    let partsOk = 0;
+    q.parts.forEach((_, i) => {
+      const p = record.parts[i];
+      if (p && (p.status === "ok" || p.status === "bad")) {
+        partsDone++;
+        if (p.status === "ok") partsOk++;
+      }
+    });
+    const elapsedSec = qTimer.questionId === q.id ? qTimer.elapsedSec : 0;
+    trackEvent({
+      type: "progress",
+      qId: q.id,
+      mode,
+      category: q.category || "",
+      action,
+      qStatus,
+      partsDone,
+      partsTotal,
+      partsOk,
+      elapsedSec
+    });
+  }
   const BASE_TITLE = document.title || "H2 Mathle";
   const TAB_LABELS = {
     pure: "Pure",
@@ -1262,7 +1337,7 @@
   }
 
   // -------------------- 7. RENDER QUESTION VIEW --------------------
-  function renderPartCard(pCard, part, idx, record, isRandom) {
+  function renderPartCard(pCard, part, idx, record, isRandom, qMeta = null) {
     if (!record.parts[idx]) {
       record.parts[idx] = { attempts: 0, status: "open", userInputs: [], asts: [], feedback: null, revealed: false };
     }
@@ -1354,7 +1429,8 @@
         btn.onclick = () => {
           pState.revealed = true;
           if (!isRandom) saveState();
-          renderPartCard(pCard, part, idx, record, isRandom);
+          if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, "reveal");
+          renderPartCard(pCard, part, idx, record, isRandom, qMeta);
         };
         zone.appendChild(btn);
       } else {
@@ -1370,7 +1446,8 @@
           b.onclick = () => {
             pState.status = b.dataset.grade;
             if (!isRandom) saveState();
-            renderPartCard(pCard, part, idx, record, isRandom);
+            if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, pState.status === "ok" ? "self_ok" : "self_bad");
+            renderPartCard(pCard, part, idx, record, isRandom, qMeta);
             pCard.classList.add(pState.status === "ok" ? "pop-ok" : "shake");
             updateMetaBar();
           };
@@ -1481,6 +1558,7 @@
 
     submitBtn.onclick = () => {
       if (pState.status === "ok" || pState.attempts >= 5) return;
+      const prevAttempts = pState.attempts;
       mathFields.forEach((mf, i) => {
         pState.asts[i] = mf.getAst();
         pState.userInputs[i] = mf.getEvalString();
@@ -1541,7 +1619,10 @@
         }
       }
       if (!isRandom) saveState();
-      renderPartCard(pCard, part, idx, record, isRandom);
+      if (qMeta && pState.attempts > prevAttempts) {
+        trackQuestionProgress(qMeta.q, record, qMeta.mode, pState.status === "ok" ? "check_ok" : "check_bad");
+      }
+      renderPartCard(pCard, part, idx, record, isRandom, qMeta);
       if (animClass) {
         pCard.classList.remove("shake", "pop-ok");
         void pCard.offsetWidth;
@@ -1553,7 +1634,8 @@
     revealBtn.onclick = () => {
       pState.revealed = !pState.revealed;
       if (!isRandom) saveState();
-      renderPartCard(pCard, part, idx, record, isRandom);
+      if (qMeta && pState.revealed) trackQuestionProgress(qMeta.q, record, qMeta.mode, "reveal");
+      renderPartCard(pCard, part, idx, record, isRandom, qMeta);
     };
 
     if (pState.feedback) {
@@ -1579,7 +1661,8 @@
           pState.status = "ok";
           pState.feedback = { type: "ok", text: "Manually marked as equivalent ✓" };
           if (!isRandom) saveState();
-          renderPartCard(pCard, part, idx, record, isRandom);
+          if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, "override_ok");
+          renderPartCard(pCard, part, idx, record, isRandom, qMeta);
           pCard.classList.add("pop-ok");
           updateMetaBar();
         };
@@ -1761,10 +1844,11 @@
     }
 
     const partsContainer = card.querySelector("#parts-container");
+    const qMeta = { q, mode: resolveQuestionMode(q, isRandom, dayKey) };
     q.parts.forEach((part, idx) => {
       const pCard = document.createElement("div");
       partsContainer.appendChild(pCard);
-      renderPartCard(pCard, part, idx, record, isRandom);
+      renderPartCard(pCard, part, idx, record, isRandom, qMeta);
     });
 
     if (!isRandom) {
@@ -2633,9 +2717,11 @@
       closeScratchpadModal();
       closeAskModal();
     }
+    const wasOpen = modal.classList.contains("open");
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     syncToolButtons();
+    if (!wasOpen) trackEvent({ type: "tool", tool: "mf27" });
   }
 
   function closeMF26Modal() {
@@ -3095,9 +3181,11 @@
       closeMF26Modal();
       closeAskModal();
     }
+    const wasOpen = modal.classList.contains("open");
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     syncToolButtons();
+    if (!wasOpen) trackEvent({ type: "tool", tool: "scratchpad" });
     if (modal._syncScratchpad) modal._syncScratchpad();
     setTimeout(() => {
       if (modal.classList.contains("open") && modal._syncScratchpad) modal._syncScratchpad();
@@ -3257,9 +3345,11 @@
       closeMF26Modal();
       closeScratchpadModal();
     }
+    const wasOpen = modal.classList.contains("open");
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     syncToolButtons();
+    if (!wasOpen) trackEvent({ type: "tool", tool: "ask" });
     if (modal._syncAsk) modal._syncAsk();
   }
 
@@ -3286,7 +3376,11 @@
   }
 
   function switchTab(tab, keepRandom = false) {
+    const prevTab = currentTab;
     currentTab = tab;
+    if (analyticsBooted && tab !== prevTab) {
+      trackEvent({ type: "tab", tab });
+    }
     document.body.dataset.theme = tab;
     document.querySelectorAll(".tab-btn").forEach(b => {
       const active = b.dataset.tab === tab;
@@ -3356,16 +3450,33 @@
     if (scratchBtn) scratchBtn.onclick = () => toggleTool("scratchpad-modal", openScratchpadModal, closeScratchpadModal);
     const askBtn = document.getElementById("btn-ask");
     if (askBtn) askBtn.onclick = () => toggleTool("ask-modal", openAskModal, closeAskModal);
+    const privacyBtn = document.getElementById("btn-privacy");
+    const privacyPanel = document.getElementById("privacy-panel");
     const feedbackBtn = document.getElementById("btn-feedback");
     const feedbackForm = document.getElementById("feedback-form");
     const feedbackCancel = document.getElementById("feedback-cancel");
     const feedbackMsg = document.getElementById("feedback-message");
     const feedbackStatus = document.getElementById("feedback-status");
     const feedbackSubmit = document.getElementById("feedback-submit");
+    if (privacyBtn && privacyPanel) {
+      privacyBtn.onclick = () => {
+        const open = privacyPanel.hidden;
+        privacyPanel.hidden = !open;
+        privacyBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open && feedbackForm && !feedbackForm.hidden) {
+          feedbackForm.hidden = true;
+          if (feedbackBtn) feedbackBtn.setAttribute("aria-expanded", "false");
+        }
+      };
+    }
     if (feedbackBtn && feedbackForm) {
       const setFeedbackOpen = (open) => {
         feedbackForm.hidden = !open;
         feedbackBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open && privacyPanel && !privacyPanel.hidden) {
+          privacyPanel.hidden = true;
+          if (privacyBtn) privacyBtn.setAttribute("aria-expanded", "false");
+        }
         if (open) {
           syncFeedbackContext();
           if (feedbackStatus) feedbackStatus.textContent = "";
@@ -3412,6 +3523,7 @@
             })
           });
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          trackEvent({ type: "feedback" });
           if (feedbackMsg) feedbackMsg.value = "";
           if (feedbackStatus) {
             feedbackStatus.style.color = "var(--ok)";
@@ -3468,6 +3580,8 @@
     } else {
       switchTab(getTabFromHash() || "pure");
     }
+    analyticsBooted = true;
+    trackEvent({ type: "visit", tab: currentTab, ref: getReferrerHost() });
     window.addEventListener("hashchange", () => {
       const targetTab = getTabFromHash();
       if (targetTab && targetTab !== currentTab) {

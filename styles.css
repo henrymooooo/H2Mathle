@@ -1905,6 +1905,21 @@ summary:focus-visible {
 .feedback-panel[hidden] {
   display: none;
 }
+.privacy-panel {
+  margin-top: 12px;
+  padding: 12px 15px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: center;
+  animation: fadeSlideIn 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.privacy-panel[hidden] {
+  display: none;
+}
 .feedback-head {
   display: flex;
   justify-content: space-between;
