@@ -4,16 +4,19 @@
   const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/2076cdb9647f5a023dd03868c1b25f8a";
   const ANALYTICS_ENDPOINT = "https://api.h2mathle.com/v1/e";
   let analyticsBooted = false;
+  let activeSolveToastTimer = null;
+
+  function isLocalAnalyticsHost() {
+    return (
+      location.protocol === "file:" ||
+      location.hostname === "localhost" ||
+      location.hostname === "127.0.0.1"
+    );
+  }
 
   function trackEvent(payload) {
     try {
-      if (
-        location.protocol === "file:" ||
-        location.hostname === "localhost" ||
-        location.hostname === "127.0.0.1"
-      ) {
-        return;
-      }
+      if (isLocalAnalyticsHost()) return;
       const body = JSON.stringify(payload);
       if (navigator.sendBeacon) {
         const sent = navigator.sendBeacon(
@@ -29,6 +32,162 @@
         headers: { "Content-Type": "text/plain" },
         body
       }).catch(() => {});
+    } catch (_) {}
+  }
+
+  async function trackEventWithResponse(payload) {
+    try {
+      if (isLocalAnalyticsHost()) return null;
+      const res = await fetch(ANALYTICS_ENDPOINT, {
+        method: "POST",
+        mode: "cors",
+        keepalive: true,
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok && res.status === 200) {
+        return await res.json();
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function formatOrdinal(n) {
+    const mod100 = n % 100;
+    if (mod100 >= 11 && mod100 <= 13) return `${n}th`;
+    const mod10 = n % 10;
+    if (mod10 === 1) return `${n}st`;
+    if (mod10 === 2) return `${n}nd`;
+    if (mod10 === 3) return `${n}rd`;
+    return `${n}th`;
+  }
+
+  function launchFirstSolverConfetti() {
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+      const canvas = document.createElement("canvas");
+      canvas.className = "confetti-canvas";
+      canvas.setAttribute("aria-hidden", "true");
+      document.body.appendChild(canvas);
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        canvas.remove();
+        return;
+      }
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let vw = window.innerWidth;
+      let vh = window.innerHeight;
+      canvas.width = Math.floor(vw * dpr);
+      canvas.height = Math.floor(vh * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const palette = ["#1e3a5f", "#d49b38", "#2c6e4f", "#b84a4a", "#4f709c", "#e6c27a"];
+      const particles = [];
+      const origins = [
+        { x: vw * 0.38, y: vh * 0.84, baseAngle: -Math.PI * 0.60 },
+        { x: vw * 0.62, y: vh * 0.84, baseAngle: -Math.PI * 0.40 }
+      ];
+
+      for (let i = 0; i < 76; i++) {
+        const origin = origins[i % 2];
+        const angle = origin.baseAngle + (Math.random() - 0.5) * 0.85;
+        const speed = 420 + Math.random() * 440;
+        particles.push({
+          x: origin.x + (Math.random() - 0.5) * 24,
+          y: origin.y + (Math.random() - 0.5) * 14,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          w: 6 + Math.random() * 5,
+          h: 4 + Math.random() * 4,
+          color: palette[i % palette.length],
+          rot: Math.random() * Math.PI * 2,
+          vRot: (Math.random() - 0.5) * 10,
+          tilt: Math.random() * Math.PI * 2,
+          vTilt: 4 + Math.random() * 6
+        });
+      }
+
+      const durationMs = 2200;
+      const fadeStartMs = 1600;
+      const startTime = performance.now();
+      let lastTime = startTime;
+
+      const frame = (now) => {
+        const elapsed = now - startTime;
+        const dt = Math.min((now - lastTime) / 1000, 0.05);
+        lastTime = now;
+
+        ctx.clearRect(0, 0, vw, vh);
+        const alpha = elapsed > fadeStartMs ? Math.max(0, 1 - (elapsed - fadeStartMs) / (durationMs - fadeStartMs)) : 1;
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.vx *= Math.pow(0.28, dt);
+          p.vy = p.vy * Math.pow(0.42, dt) + 680 * dt;
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.rot += p.vRot * dt;
+          p.tilt += p.vTilt * dt;
+
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.scale(1, Math.cos(p.tilt));
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        }
+
+        if (elapsed < durationMs) {
+          requestAnimationFrame(frame);
+        } else {
+          canvas.remove();
+        }
+      };
+
+      requestAnimationFrame(frame);
+    } catch (_) {}
+  }
+
+  function showSolverRankToast(rank, mode) {
+    try {
+      if (activeSolveToastTimer) {
+        clearTimeout(activeSolveToastTimer);
+        activeSolveToastTimer = null;
+      }
+      document.querySelectorAll(".solve-rank-toast").forEach(el => el.remove());
+
+      const section = mode === "daily_stats" ? "Statistics" : "Pure";
+      const isFirst = rank === 1;
+      const toast = document.createElement("div");
+      toast.className = "solve-rank-toast" + (isFirst ? " is-first" : "");
+      toast.setAttribute("role", "status");
+      toast.setAttribute("aria-live", "polite");
+      toast.textContent = isFirst
+        ? `✦ First solver of today's ${section}!`
+        : `${formatOrdinal(rank)} solver today · ${section}`;
+
+      const dismiss = (immediate = false) => {
+        if (activeSolveToastTimer) {
+          clearTimeout(activeSolveToastTimer);
+          activeSolveToastTimer = null;
+        }
+        toast.classList.remove("visible");
+        if (immediate) toast.remove();
+        else setTimeout(() => toast.remove(), 260);
+      };
+
+      toast.onclick = () => dismiss(true);
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add("visible"));
+
+      if (isFirst) launchFirstSolverConfetti();
+      activeSolveToastTimer = setTimeout(() => dismiss(false), isFirst ? 5200 : 4000);
     } catch (_) {}
   }
 
@@ -49,7 +208,7 @@
     return q && q.category === "stats" ? "daily_stats" : "daily_pure";
   }
 
-  function trackQuestionProgress(q, record, mode, action) {
+  function trackQuestionProgress(q, record, mode, action, prevQStatus = null) {
     if (!q || !record || !record.parts) return;
     const st = getQuestionStatus(q, record);
     const qStatus = st === "ok" ? "ok" : st === "bad" ? "bad" : "attempted";
@@ -64,7 +223,7 @@
       }
     });
     const elapsedSec = qTimer.questionId === q.id ? qTimer.elapsedSec : 0;
-    trackEvent({
+    const payload = {
       type: "progress",
       qId: q.id,
       mode,
@@ -75,7 +234,26 @@
       partsTotal,
       partsOk,
       elapsedSec
-    });
+    };
+
+    const isFreshDailySolve =
+      (mode === "daily_pure" || mode === "daily_stats") &&
+      qStatus === "ok" &&
+      prevQStatus !== "ok" &&
+      !record.solveCelebrated;
+
+    if (isFreshDailySolve) {
+      trackEventWithResponse(payload).then((data) => {
+        if (!record.solveCelebrated && data && Number.isInteger(data.rank) && data.rank >= 1) {
+          record.solveCelebrated = true;
+          record.solveRank = data.rank;
+          saveState();
+          showSolverRankToast(data.rank, mode);
+        }
+      });
+    } else {
+      trackEvent(payload);
+    }
   }
   const BASE_TITLE = document.title || "H2 Mathle";
   const TAB_LABELS = {
@@ -1444,9 +1622,10 @@
         `;
         row.querySelectorAll("button").forEach(b => {
           b.onclick = () => {
+            const prevQStatus = qMeta ? getQuestionStatus(qMeta.q, record) : null;
             pState.status = b.dataset.grade;
             if (!isRandom) saveState();
-            if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, pState.status === "ok" ? "self_ok" : "self_bad");
+            if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, pState.status === "ok" ? "self_ok" : "self_bad", prevQStatus);
             renderPartCard(pCard, part, idx, record, isRandom, qMeta);
             pCard.classList.add(pState.status === "ok" ? "pop-ok" : "shake");
             updateMetaBar();
@@ -1559,6 +1738,7 @@
     submitBtn.onclick = () => {
       if (pState.status === "ok" || pState.attempts >= 5) return;
       const prevAttempts = pState.attempts;
+      const prevQStatus = qMeta ? getQuestionStatus(qMeta.q, record) : null;
       mathFields.forEach((mf, i) => {
         pState.asts[i] = mf.getAst();
         pState.userInputs[i] = mf.getEvalString();
@@ -1620,7 +1800,7 @@
       }
       if (!isRandom) saveState();
       if (qMeta && pState.attempts > prevAttempts) {
-        trackQuestionProgress(qMeta.q, record, qMeta.mode, pState.status === "ok" ? "check_ok" : "check_bad");
+        trackQuestionProgress(qMeta.q, record, qMeta.mode, pState.status === "ok" ? "check_ok" : "check_bad", prevQStatus);
       }
       renderPartCard(pCard, part, idx, record, isRandom, qMeta);
       if (animClass) {
@@ -1658,10 +1838,11 @@
         ov.style.marginTop = "8px";
         ov.textContent = "My answer was equivalent (mark as correct)";
         ov.onclick = () => {
+          const prevQStatus = qMeta ? getQuestionStatus(qMeta.q, record) : null;
           pState.status = "ok";
           pState.feedback = { type: "ok", text: "Manually marked as equivalent ✓" };
           if (!isRandom) saveState();
-          if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, "override_ok");
+          if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, "override_ok", prevQStatus);
           renderPartCard(pCard, part, idx, record, isRandom, qMeta);
           pCard.classList.add("pop-ok");
           updateMetaBar();

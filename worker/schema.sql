@@ -36,3 +36,13 @@ CREATE TABLE IF NOT EXISTS daily_counters (
   count INTEGER NOT NULL DEFAULT 0,
   PRIMARY KEY (study_day, metric)
 );
+
+CREATE TABLE IF NOT EXISTS daily_solvers (
+  study_day TEXT NOT NULL,
+  mode TEXT NOT NULL,
+  anon_hash TEXT NOT NULL,
+  solve_rank INTEGER NOT NULL,
+  solved_at INTEGER NOT NULL,
+  PRIMARY KEY (study_day, mode, anon_hash),
+  UNIQUE (study_day, mode, solve_rank)
+);

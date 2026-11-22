@@ -220,6 +220,7 @@ async function handleIngest(request, env) {
   const device = /mobile|android|iphone|ipad|ipod/i.test(ua) ? "mobile" : "desktop";
 
   const stmts = [];
+  let dailySolveMode = null;
 
   switch (payload.type) {
     case "visit": {
@@ -279,6 +280,7 @@ async function handleIngest(request, env) {
       const elapsedSec = clampInt(payload.elapsedSec, 0, 86400, 0);
       const autoInc = action === "check_ok" || action === "check_bad" ? 1 : 0;
       const revealInc = action === "reveal" ? 1 : 0;
+      const isDailySolve = (mode === "daily_pure" || mode === "daily_stats") && qStatus === "ok";
 
       stmts.push(
         upsertVisitorStmt(env.DB, { studyDay, anonHash, referrerHost: "", country, device, nowSec }),
@@ -305,6 +307,23 @@ async function handleIngest(request, env) {
           ),
         incrementCounterStmt(env.DB, studyDay, "part:" + action, 1)
       );
+
+      if (isDailySolve) {
+        dailySolveMode = mode;
+        stmts.push(
+          env.DB
+            .prepare(
+              "INSERT OR IGNORE INTO daily_solvers (study_day, mode, anon_hash, solve_rank, solved_at) " +
+              "SELECT ?, ?, ?, " +
+              "COALESCE((SELECT MAX(solve_rank) FROM daily_solvers WHERE study_day = ? AND mode = ?), 0) + 1, ? " +
+              "WHERE NOT EXISTS (SELECT 1 FROM daily_solvers WHERE study_day = ? AND mode = ? AND anon_hash = ?)"
+            )
+            .bind(studyDay, mode, anonHash, studyDay, mode, nowSec, studyDay, mode, anonHash),
+          env.DB
+            .prepare("SELECT solve_rank FROM daily_solvers WHERE study_day = ? AND mode = ? AND anon_hash = ?")
+            .bind(studyDay, mode, anonHash)
+        );
+      }
       break;
     }
 
@@ -312,7 +331,15 @@ async function handleIngest(request, env) {
       return jsonResponse({ error: "Invalid event type" }, 400, corsHeaders);
   }
 
-  await env.DB.batch(stmts);
+  const batchRes = await env.DB.batch(stmts);
+  if (dailySolveMode) {
+    const rank = Number(batchRes[batchRes.length - 1].results?.[0]?.solve_rank) || 0;
+    return jsonResponse(
+      { ok: true, rank, isFirst: rank === 1, mode: dailySolveMode, studyDay },
+      200,
+      { ...corsHeaders, "Cache-Control": "no-store" }
+    );
+  }
   return new Response(null, { status: 204, headers: corsHeaders });
 }
 
