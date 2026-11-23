@@ -402,12 +402,31 @@
   }
 
   function isPracticeSolved(qId) {
-    return Boolean(state.practiceSolved && state.practiceSolved[qId]);
+    const entry = state.practiceSolved && state.practiceSolved[qId];
+    return Boolean(entry && !entry.unsolved);
+  }
+
+  function isPracticeUnsolved(qId) {
+    const entry = state.practiceSolved && state.practiceSolved[qId];
+    return Boolean(entry && entry.unsolved === true);
+  }
+
+  function hasDailySolved(qId) {
+    const q = window.H2_QUESTIONS.find(x => x.id === qId);
+    if (!q) return false;
+    for (const dayRec of Object.values(state.days || {})) {
+      for (const cat of ["pure", "stats"]) {
+        const rec = dayRec?.[cat];
+        if (rec && rec.questionId === qId && getQuestionStatus(q, rec) === "ok") return true;
+      }
+    }
+    return false;
   }
 
   function setPracticeSolved(qId, done) {
     const map = ensurePracticeSolved();
     if (done) map[qId] = { solvedAt: getStudyDayKey() };
+    else if (hasDailySolved(qId)) map[qId] = { unsolved: true };
     else delete map[qId];
     saveState();
   }
@@ -424,6 +443,7 @@
   }
 
   function getQuestionHistoryStatus(qId) {
+    const unmarkedFromDaily = isPracticeUnsolved(qId);
     let seenOk = isPracticeSolved(qId), seenBad = false, seenPartial = false;
     for (const dayRec of Object.values(state.days)) {
       for (const cat of ["pure", "stats"]) {
@@ -432,7 +452,7 @@
         const q = window.H2_QUESTIONS.find(x => x.id === qId);
         if (!q) continue;
         const st = getQuestionStatus(q, rec);
-        if (st === "ok") seenOk = true;
+        if (st === "ok") { if (!unmarkedFromDaily) seenOk = true; }
         else if (st === "bad") seenBad = true;
         else if (st === "partial") seenPartial = true;
       }
@@ -2501,9 +2521,14 @@
           masteryEl.innerHTML = `
             <div class="practice-mastery-copy">${checkSvg}<strong>Solved on Daily</strong><span>${dailyHit ? `${formatShortDate(dailyHit.dayKey)} &middot; ` : ""}Already counts toward topic progress.</span></div>
             <div class="practice-mastery-actions">
+              <button type="button" class="btn btn-ghost" id="btn-practice-unmark">Unmark</button>
               <button type="button" class="btn btn-primary" id="btn-practice-next">Next Question &rarr;</button>
             </div>
           `;
+          masteryEl.querySelector("#btn-practice-unmark").onclick = () => {
+            setPracticeSolved(q.id, false);
+            renderCurrent();
+          };
           masteryEl.querySelector("#btn-practice-next").onclick = () => pickRandom(null);
         } else if (confirming) {
           masteryEl.innerHTML = `
@@ -2728,6 +2753,10 @@
     const practiceSolved = {};
     for (const [k, v] of Object.entries(parsed.practiceSolved || {})) {
       if (!v) continue;
+      if (isPlainObj(v) && v.unsolved === true) {
+        practiceSolved[String(k)] = { unsolved: true };
+        continue;
+      }
       const rawDate = isPlainObj(v) ? v.solvedAt : (typeof v === "string" ? v : "");
       const solvedAt = typeof rawDate === "string" && DAY_KEY_RE.test(rawDate) ? rawDate : "";
       practiceSolved[String(k)] = { solvedAt };

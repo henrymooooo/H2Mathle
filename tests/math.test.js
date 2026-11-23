@@ -280,7 +280,8 @@ test("escapeHtml, MathML escaping, formatShortDate, and sanitizeBackupState", ()
     days: { "2026-11-24": { pure: {} }, "<script>": {} },
     practiceSolved: {
       Q1: { solvedAt: "<img onerror=1>" },
-      Q2: { solvedAt: "2026-11-24" }
+      Q2: { solvedAt: "2026-11-24" },
+      Q3: { unsolved: true }
     },
     notes: {
       Q1: { flaggedParts: ["<b>(a)</b>"], entries: [{ part: "(a)", tags: ["GC"], text: "hi" }] }
@@ -289,6 +290,8 @@ test("escapeHtml, MathML escaping, formatShortDate, and sanitizeBackupState", ()
   assert.deepEqual(Object.keys(sanitized.days), ["2026-11-24"]);
   assert.equal(sanitized.practiceSolved.Q1.solvedAt, "");
   assert.equal(sanitized.practiceSolved.Q2.solvedAt, "2026-11-24");
+  assert.equal(sanitized.practiceSolved.Q3.unsolved, true);
+  assert.deepEqual(Object.keys(sanitized.practiceSolved.Q3), ["unsolved"]);
   assert.deepEqual(sanitized.notes.Q1.flaggedParts, ["<b>(a)</b>"]);
   assert.equal(sanitized.notes.Q1.entries[0].text, "hi");
 });
