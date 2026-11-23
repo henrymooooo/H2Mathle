@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Maclaurin Series", "Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\ln\\sqrt{1 + \\mathrm{e}^{3x}}$.",
     parts: [
       {
@@ -47,7 +47,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Sequences and Series", "Method of Differences", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     stem: "",
     parts: [
       {
@@ -95,7 +95,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto \\frac{1}{2} + \\mathrm{e}^{-x}$, $x \\in \\mathbb{R}$, $x \\ge 0$.",
     parts: [
       {
@@ -165,7 +165,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Differentiation", "Maxima and Minima", "Rates of Change"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 380 165" width="380" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <path d="M 55 125 A 55 55 0 1 1 135 125 L 95 85 Z" fill="none" stroke-width="1.4"/>
   <path d="M 85 95 A 14 14 0 1 1 105 95" fill="none" stroke="#4a8fe7" stroke-width="1.2"/>
@@ -257,7 +257,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "In a simple archery game, a player shoots an arrow at a target. The probability of hitting the target depends on the player's skill and the wind conditions for the day. The wind can either be good or bad, with the probability of a good wind day being $0.7$.<br><br>According to past statistics:<ul><li>Dave has a $70\\%$ chance of hitting the target on a good wind day and a $60\\%$ chance on a bad wind day.</li><li>Rafael has an $80\\%$ chance of hitting the target on a good wind day and a $50\\%$ chance on a bad wind day.</li></ul>Dave and Rafael decide to compete in a game where each player shoots $2$ arrows at the target. The player who hits the target more times wins the game.",
     parts: [
       {
@@ -289,7 +289,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Permutations and Combinations"],
+    topics: ["Permutations & Combinations"],
     stem: "A treasure hunt game is to be played in a 3-storey building. There are $12$ specific locations where $5$ treasures are to be hidden. Among the $5$ treasures, $4$ of them are identical. The locations are distributed across the storeys as follows:<ul><li>$3$ locations on the 1st storey,</li><li>$3$ locations on the 2nd storey, and</li><li>$6$ locations on the 3rd storey.</li></ul>Each location can hold at most one treasure.",
     parts: [
       {
@@ -345,7 +345,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Binomial Distribution", "Central Limit Theorem", "Sampling Distributions"],
+    topics: ["Binomial Distribution", "Sampling & CLT"],
     stem: "A factory produces porcelain bowls. It is known that, on average, $8\\%$ of the bowls are faulty. The bowls are packed in boxes of $20$. A box is considered imperfect if it contains more than $2$ faulty bowls. Assume that the number of faulty bowls in a box follows a binomial distribution.",
     parts: [
       {
@@ -399,7 +399,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Normal Variables"],
+    topics: ["Normal Distribution"],
     stem: "An examination consists of two parts: a written paper and a lab-based practical. Marks obtained by a randomly chosen candidate follow normal distributions with means and standard deviations as shown in the following table.<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>Mean</th><th>Standard deviation</th></tr><tr><td>Written paper</td><td>62</td><td>$\\sigma$</td></tr><tr><td>Lab-based practical</td><td>56</td><td>12</td></tr></table></div>It is given that the $95^\\text{th}$ percentile score for the written paper is $85$ marks.",
     parts: [
       {
@@ -456,7 +456,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem", "Sampling"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "At a school canteen, the average queuing time (in minutes) for a student to be served at a stall is known to be $4.5$ minutes. The school operation manager claims that with a recent change in students' timetable, there is an improvement in the average queuing time.<br>A random sample of $10$ students' queuing time is observed after the change in students' timetable and the data is shown below.<br>$$4.2, \\; 5.2, \\; 3.1, \\; 3.5, \\; 4.6, \\; 4.8, \\; 3.8, \\; 3.7, \\; 4.5, \\; 5.0$$<br>Given that the population variance of queuing time is known to be $0.48\\text{ minutes}^2$, a one-tailed test is carried out to determine whether the manager's claim is justified.",
     parts: [
       {
@@ -513,7 +513,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Correlation and Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "Anand signed up for a privilege card with Temasek Airlines where cardholders earn more reward points as they fly further with the airline. From the airlines' website, Anand identified $8$ different destinations and recorded the flight distance, $x$ miles, of each destination from Singapore. He also recorded the corresponding reward points, $y$, credited into his card after each flight. The data are shown below.<div class='q-table-wrap'><table class='q-table'><tr><th>Destination</th><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td></tr><tr><th>Flight distance, $x$</th><td>200</td><td>400</td><td>600</td><td>800</td><td>1000</td><td>1200</td><td>1400</td><td>1600</td></tr><tr><th>Reward points, $y$</th><td>110</td><td>160</td><td>190</td><td>200</td><td>210</td><td>215</td><td>220</td><td>225</td></tr></table></div>",
     parts: [
       {

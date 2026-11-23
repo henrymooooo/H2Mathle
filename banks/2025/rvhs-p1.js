@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomials"],
+    topics: ["Complex Numbers"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}(x) = ax^3 + bx^2 + cx + d$ where $a, b, c$ and $d$ are real numbers.",
     parts: [
       {
@@ -40,7 +40,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Inequalities", "Exponential Functions"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -130,7 +130,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Sequences and Series", "Summation"],
+    topics: ["Sequences & Series"],
     stem: "It is given that $\\sum_{r=1}^{n} \\frac{1}{r(r+1)} = 1 - \\frac{1}{n+1}$.",
     parts: [
       {
@@ -175,7 +175,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Integration", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -218,7 +218,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Vectors", "Planes and Lines"],
+    topics: ["Vectors"],
     stem: "With respect to the origin $O$, the points $A$, $B$ and $C$ have position vectors $\\mathbf{a}$, $\\mathbf{b}$ and $\\mathbf{c}$ respectively. $O$, $A$, $B$ and $C$ are non-coplanar. The point $M$ is the mid-point of $AC$ and $p$ denotes the plane $OAB$.",
     parts: [
       {
@@ -273,7 +273,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Differentiation", "Implicit Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 260 220" width="260" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <line x1="25" y1="185" x2="235" y2="185" stroke-width="1.5"/>
       <polyline points="229,181 235,185 229,189" fill="none" stroke-width="1.5"/>
@@ -345,7 +345,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Maclaurin Series", "Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $(1 + 9x^2)\\frac{\\mathrm{d}y}{\\mathrm{d}x} = 3y$, and the curve $y = \\mathrm{f}(x)$ passes through the $y$-axis at $(0, \\mathrm{e}^2)$.",
     parts: [
       {
@@ -403,7 +403,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Graphing Techniques", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ has equation $y = ax + b + \\frac{b - 2a}{x + 2}$, where $a$ and $b$ are real constants such that $a > 0$, $a \\ne \\frac{1}{2}b$ and $x \\ne -2$.",
     parts: [
       {
@@ -486,7 +486,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     diagramSvg: `<svg viewBox="0 0 320 210" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <text x="160" y="14" text-anchor="middle" stroke="none" font-size="10" fill="#666">Graph of y = g(x) for part (d)</text>
       <!-- Axes: origin at (105, 130) -->
@@ -591,7 +591,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Integration", "Area Under Curve", "Differentiation"],
+    topics: ["Differentiation", "Integration"],
     stem: "The curve $C$ has cartesian equation $y = \\sqrt{4 - 2x^2}$.",
     parts: [
       {
@@ -696,7 +696,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Parametric Equations", "Differentiation", "Transformations"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The curve $C$ is defined by the parametric equations $x = 6t - 5$ and $y = 2t^2 + 1$, where $t \\ge \\frac{5}{6}$.",
     parts: [
       {

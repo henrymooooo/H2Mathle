@@ -1,7 +1,7 @@
 window.registerQuestions([
   {
     id: "ACJC-2026-P1-Q1", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q1", category: "pure",
-    topics: ["Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "Use an algebraic method to solve the inequalities $$\\frac{x(5x+9)}{x^2+2x+5} > x \\ge 3x - 6.$$",
     parts: [
       { label: "(Full)", marks: 4, prompt: "Solve the inequalities algebraically.", type: "self", solution: "First: $\\frac{-x^3+3x^2+4x}{x^2+2x+5} > 0$. Since $x^2+2x+5 = (x+1)^2+4 > 0$, $-x(x+1)(x-4) > 0 \\implies x < -1$ or $0 < x < 4$.<br>Second: $x \\ge 3x - 6 \\implies x \\le 3$.<br>Intersection: $x < -1$ or $0 < x \\le 3$." }
@@ -9,7 +9,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q2", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q2", category: "pure",
-    topics: ["Maclaurin Series", "Tangents"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "Using standard series from MF27, consider $y = \\ln(2 + \\sin x)$ where $x^3$ and higher terms are neglected.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Find the Maclaurin's series for $\\ln(2 + \\sin x)$ up to $x^2$.", type: "auto", mode: "expr", exactRequired: true, vars: { x: [0.1, 0.2] }, answer: "ln(2) + x/2 - (x^2)/8", placeholder: "Exact expansion in x", solution: "$\\ln(2+\\sin x) \\approx \\ln(2+x) = \\ln 2 + \\ln\\left(1+\\frac{x}{2}\\right) \\approx \\ln 2 + \\frac{x}{2} - \\frac{x^2}{8}$." },
@@ -18,7 +18,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q3", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q3", category: "pure",
-    topics: ["Differentiation", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 210 175" width="195" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="105,18 25,155 185,155" fill="none" stroke-dasharray="4,3" stroke-width="1.2"/><polygon points="75,130 135,130 105,78" fill="rgba(91,155,213,0.18)" stroke="#4a8fe7" stroke-width="1.5"/><line x1="75" y1="130" x2="75" y2="155" stroke-width="1.3"/><line x1="135" y1="130" x2="135" y2="155" stroke-width="1.3"/><text x="105" y="168" text-anchor="middle" stroke="none" font-style="italic">l</text><text x="142" y="146" stroke="none" font-style="italic">x</text><text x="48" y="148" stroke="none">π/3</text></svg>`,
     stem: "An equilateral triangular cardboard of side $l\\text{ cm}$ has six perpendicular cuts of length $x\\text{ cm}$ made to remove the corners and fold into an open box.",
     parts: [
@@ -28,7 +28,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q4", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q4", category: "pure",
-    topics: ["Implicit Differentiation", "Tangents"],
+    topics: ["Differentiation"],
     stem: "Curve $C$ has equation $3xy + 1 = (x + y)^2$.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Show that $\\frac{\\mathrm{d}y}{\\mathrm{d}x} = \\frac{2x-y}{x-2y}$.", type: "self", solution: "$3\\left(x\\frac{\\mathrm{d}y}{\\mathrm{d}x}+y\\right) = 2(x+y)\\left(1+\\frac{\\mathrm{d}y}{\\mathrm{d}x}\\right) \\implies \\frac{\\mathrm{d}y}{\\mathrm{d}x} = \\frac{2x-y}{x-2y}$." },
@@ -38,7 +38,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q5", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q5", category: "pure",
-    topics: ["Functions", "Graph Sketching"],
+    topics: ["Functions", "Graphs & Transformations"],
     stem: "Function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto \\frac{kx+2}{2-x}$, $x \\ne 2$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "If $(-7, 4)$ lies on $y = \\mathrm{f}^{-1}(x)$, show that $k = 3$.", type: "self", solution: "$(4, -7)$ lies on $y = \\mathrm{f}(x) \\implies \\frac{4k+2}{2-4} = -7 \\implies k = 3$." },
@@ -53,7 +53,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q6", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q6", category: "pure",
-    topics: ["Riemann Sums", "Definite Integrals"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 240 140" width="225" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><path d="M 38 35 Q 110 56 185 75 L 185 115 L 38 115 Z" fill="rgba(91,155,213,0.18)" stroke="none"/><line x1="20" y1="115" x2="225" y2="115" stroke-width="1.3"/><line x1="38" y1="128" x2="38" y2="14" stroke-width="1.3"/><path d="M 38 35 Q 110 56 198 78" fill="none" stroke="#2c2925" stroke-width="1.8"/><line x1="185" y1="75" x2="185" y2="115" stroke="#4a8fe7" stroke-width="1.4"/><text x="185" y="128" text-anchor="middle" stroke="none">1</text><text x="155" y="45" stroke="none" font-style="italic">y = f(x)</text></svg>`,
     stem: "Region $A$ under decreasing curve $y = \\mathrm{f}(x)$ between $x = 0$ and $x = 1$ is split into $n$ vertical strips of equal width $h$.",
     parts: [
@@ -64,7 +64,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q7", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q7", category: "pure",
-    topics: ["Functions", "Composite & Inverse Functions"],
+    topics: ["Functions"],
     stem: "$\mathrm{f}: x \\mapsto (x-4)^2 - |x-4|$, $0 \\le x \\le \\lambda$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Find the greatest value of $\\lambda$ for which $\\mathrm{f}^{-1}$ exists.", type: "auto", mode: "number", answer: "7/2", placeholder: "Exact value", solution: "For $0 \\le x \\le 4$, $\\mathrm{f}(x) = x^2 - 7x + 12$ with minimum at $x = \\frac{7}{2}$. Greatest $\\lambda = \\frac{7}{2}$." },
@@ -79,7 +79,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q8", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q8", category: "pure",
-    topics: ["Vectors", "Vector Product", "Planes"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 240 155" width="225" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="115" y1="130" x2="175" y2="55" stroke-width="1.4"/><line x1="115" y1="130" x2="215" y2="115" stroke-width="1.4"/><line x1="115" y1="130" x2="45" y2="25" stroke-width="1.4"/><line x1="45" y1="25" x2="215" y2="115" stroke="#4a8fe7" stroke-width="1.4"/><text x="115" y="144" text-anchor="middle" stroke="none" font-style="italic">O</text><text x="180" y="52" stroke="none" font-style="italic">A</text><text x="220" y="118" stroke="none" font-style="italic">B</text><text x="38" y="22" stroke="none" font-style="italic">C</text><text x="148" y="75" stroke="none" font-style="italic">X</text></svg>`,
     stem: "$\\overrightarrow{OA} = \\mathbf{a}$, $\\overrightarrow{OB} = \\mathbf{b}$, $\\overrightarrow{OC} = 2\\mathbf{a} - 2\\mathbf{b}$. Lines $OA$ and $BC$ meet at $X$.",
     parts: [
@@ -90,7 +90,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q9", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q9", category: "pure",
-    topics: ["AP & GP", "Limits"],
+    topics: ["Sequences & Series"],
     stem: "Part (a): Energy added to a robot's backup cell increases by a constant each hour; 8th hour is $26$ units, total over first $12$ hours is $258$ units.<br>Part (b)-(d): Wallet starts with $10\\,000$ tokens; each month $+K$ tokens, then $+2\\%$ yield, then $-2500$ tokens ($u_n$ at end of $n$th month).",
     parts: [
       {
@@ -106,7 +106,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q10", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q10", category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator in answering this question.</em>",
     parts: [
       {
@@ -126,7 +126,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q11", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q11", category: "pure",
-    topics: ["Differential Equations", "Population Modelling"],
+    topics: ["Differential Equations"],
     stem: "Scientist A models deer population $P$ (initial $P = 50$) using $\\frac{\\mathrm{d}P}{\\mathrm{d}t} = P(1 - 0.2\\ln P)$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Using $y = \\ln P$, show $\\frac{\\mathrm{d}y}{\\mathrm{d}t} = 1 - 0.2y$.", type: "self", solution: "$\\frac{\\mathrm{d}y}{\\mathrm{d}t} = \\frac{1}{P}\\frac{\\mathrm{d}P}{\\mathrm{d}t} = 1 - 0.2\\ln P = 1 - 0.2y$." },
@@ -137,7 +137,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P1-Q12", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 1", qNum: "Q12", category: "pure",
-    topics: ["Parametric Equations", "Related Rates", "Locus"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "Curve $C$ has parametric equations $x = a\\operatorname{cosec}\\theta$, $y = 2a\\cot\\theta$ ($\\frac{\\pi}{2} < \\theta < \\pi, a > 0$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "Line $y = -x$ intersects $C$ once. Find, in terms of $a$, the exact $x$-coordinate of intersection.", type: "auto", mode: "expr", exactRequired: true, vars: { a: [1, 2] }, answer: "2*a/sqrt(3)", placeholder: "Expression in terms of a", solution: "$2a\\cot\\theta = -a\\operatorname{cosec}\\theta \\implies \\cos\\theta = -\\frac{1}{2} \\implies \\theta = \\frac{2\\pi}{3} \\implies x = \\frac{2a}{\\sqrt{3}}$." },

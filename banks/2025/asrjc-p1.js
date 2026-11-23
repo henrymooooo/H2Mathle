@@ -35,7 +35,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Trigonometry", "Integration Techniques"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -78,7 +78,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations"],
+    topics: ["Maclaurin Series"],
     diagramSvg: `<svg viewBox="0 0 260 220" width="260" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="12" fill="#2c2925" stroke="#2c2925">
       <circle cx="110" cy="120" r="70" fill="none" stroke="#2c2925" stroke-width="1.5"/>
       <line x1="110" y1="120" x2="180" y2="120" stroke="#2c2925" stroke-width="1.5"/>
@@ -149,7 +149,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Implicit Differentiation", "Tangents & Normals", "Stationary Points"],
+    topics: ["Differentiation"],
     stem: "The Folium of Descartes is a curve, defined by the equation $x^3 + y^3 = 3axy$, where $a$ is a real constant. It is given that $a \\ne 0$ for this question.",
     parts: [
       {
@@ -202,7 +202,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations"],
+    topics: ["Graphs & Transformations"],
     stem: "The curve $C$ has equation given by $y = \\frac{1 + 3x - 18x^2}{9x + 3}$.",
     parts: [
       {
@@ -282,7 +282,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Summation of Series", "Method of Differences"],
+    topics: ["Sequences & Series"],
     stem: "It is given that $\\sum_{r=1}^{n} \\frac{7r + 4}{r(r + 1)(r + 2)} = \\frac{9}{2} - \\frac{2}{n + 1} - \\frac{5}{n + 2}$.",
     parts: [
       {
@@ -335,7 +335,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Definite Integration", "Area & Volume of Revolution"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 320 240" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Origin at (150, 130), scale 40px per unit, radius=80 -->
       <!-- Shaded region A: arc from (-2,0)=(70,130) to (1,sqrt(3))=(190,60.7) and chord back -->
@@ -429,7 +429,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Arithmetic & Geometric Progressions"],
+    topics: ["Sequences & Series"],
     stem: "",
     parts: [
       {
@@ -492,7 +492,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Vectors", "Lines & Planes"],
+    topics: ["Vectors"],
     stem: "The line $\\ell$ has the equation $\\frac{x - a}{2} = y - 2 = \\frac{1 - 2z}{b}$, where $a$ and $b$ are real constants. The plane $\\pi$ has the equation $3x - y + 4z = 10$.",
     parts: [
       {
@@ -559,7 +559,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions", "Area Under Curve"],
+    topics: ["Functions", "Integration"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f} : x$ → $2x - \\frac{1}{2x}$, $0 < x < 2$. It is given that $\\mathrm{f}^{-1}$ exists.",
     parts: [
       {

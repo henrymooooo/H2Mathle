@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Graphs and Transformations"],
+    topics: ["Graphs & Transformations"],
     stem: "The curve $y = \\mathrm{f}(x)$ undergoes in succession, the following transformations:<br>A: a translation in the positive $x$-direction by $1$ unit<br>B: a scaling parallel to the $x$-axis by factor $2$<br>C: a reflection in the $y$-axis<br>The equation of the resulting curve is $y = \\frac{2}{x-2}$.",
     parts: [
       {
@@ -60,7 +60,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Conics", "Ellipse"],
+    topics: ["Graphs & Transformations"],
     stem: "The curve $C$ has equation $$\\frac{(x-1)^2}{9} + \\frac{y^2}{25} = 1.$$",
     parts: [
       {
@@ -94,7 +94,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Graphs and Transformations", "Curve Sketching"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 260 185" width="250" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="15" y1="115" x2="245" y2="115" stroke-width="1.4"/><polyline points="239,111 245,115 239,119" fill="none" stroke-width="1.4"/><text x="249" y="119" stroke="none" font-style="italic">x</text><line x1="145" y1="175" x2="145" y2="14" stroke-width="1.4"/><polyline points="141,20 145,14 149,20" fill="none" stroke-width="1.4"/><text x="151" y="19" stroke="none" font-style="italic">y</text><line x1="15" y1="62" x2="240" y2="62" stroke-dasharray="4,3" stroke-width="1.2"/><text x="234" y="55" text-anchor="end" stroke="none" font-style="italic">y = p</text><path d="M 38 22 C 48 85, 58 158, 75 158 C 92 158, 102 88, 145 74 C 175 65, 210 64, 238 63.5" fill="none" stroke="#4a8fe7" stroke-width="2"/><text x="48" y="128" text-anchor="end" stroke="none">(a, 0)</text><text x="75" y="172" text-anchor="middle" stroke="none">(b, c)</text><text x="108" y="128" stroke="none">(d, 0)</text><text x="140" y="88" text-anchor="end" stroke="none">(0, e)</text><text x="135" y="128" stroke="none" font-style="italic">O</text><text x="200" y="34" stroke="none" font-style="italic">y = f(x)</text></svg>`,
     stem: "The diagram shows the graph of $y = \\mathrm{f}(x)$. It intersects the $x$-axis at $(a, 0)$ and $(d, 0)$ and the $y$-axis at $(0, e)$. It has a minimum point at $(b, c)$ and a horizontal asymptote with equation $y = p$.",
     parts: [
@@ -131,7 +131,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Area Under Curve", "Volumes of Revolution"],
+    topics: ["Integration"],
     stem: "The region $P$ is bounded by the curve $(y-5)^2 = 9(x+4)$ and the line $x = 4$.",
     parts: [
       {
@@ -165,7 +165,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Rational Functions", "Curve Sketching", "Inequalities"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     stem: "A curve $C$ has equation $$y = \\frac{x^2 - x - 2}{x - m}, \\quad \\text{where } m > 2.$$",
     parts: [
       {
@@ -199,7 +199,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Differentiation Applications", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 340 190" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><ellipse cx="85" cy="155" rx="60" ry="13" fill="none" stroke-dasharray="3,3" stroke-width="1.1"/><path d="M 25 155 A 60 13 0 0 0 145 155" fill="none" stroke-width="1.5"/><line x1="85" y1="20" x2="25" y2="155" stroke-width="1.5"/><line x1="85" y1="20" x2="145" y2="155" stroke-width="1.5"/><line x1="85" y1="20" x2="85" y2="155" stroke-dasharray="4,3" stroke-width="1.2"/><line x1="85" y1="155" x2="145" y2="155" stroke-dasharray="4,3" stroke-width="1.2"/><rect x="85" y="148" width="7" height="7" fill="none" stroke-width="1"/><text x="64" y="96" stroke="none" font-style="italic">H <tspan font-style="normal">cm</tspan></text><text x="115" y="151" text-anchor="middle" stroke="none">8 cm</text><text x="85" y="182" text-anchor="middle" stroke="none">Fig. 1</text><ellipse cx="250" cy="90" rx="35" ry="9" fill="none" stroke-width="1.4"/><ellipse cx="250" cy="155" rx="60" ry="13" fill="none" stroke-dasharray="3,3" stroke-width="1.1"/><path d="M 190 155 A 60 13 0 0 0 310 155" fill="none" stroke-width="1.5"/><line x1="215" y1="90" x2="190" y2="155" stroke-width="1.5"/><line x1="285" y1="90" x2="310" y2="155" stroke-width="1.5"/><line x1="250" y1="90" x2="250" y2="155" stroke-dasharray="4,3" stroke-width="1.2"/><line x1="250" y1="90" x2="285" y2="90" stroke-dasharray="4,3" stroke-width="1.2"/><line x1="250" y1="155" x2="310" y2="155" stroke-dasharray="4,3" stroke-width="1.2"/><rect x="250" y="148" width="7" height="7" fill="none" stroke-width="1"/><text x="268" y="87" text-anchor="middle" stroke="none" font-style="italic">r <tspan font-style="normal">cm</tspan></text><text x="232" y="128" stroke="none" font-style="italic">h <tspan font-style="normal">cm</tspan></text><text x="280" y="151" text-anchor="middle" stroke="none">8 cm</text><text x="250" y="182" text-anchor="middle" stroke="none">Fig. 2</text></svg>`,
     stem: "Fig. 1 shows a right circular cone with a base radius of $8\\text{ cm}$ and a height of $H\\text{ cm}$. A smaller right circular cone with a base radius of $r\\text{ cm}$ is removed from the cone in Fig. 1 along a plane parallel to the base, resulting in a frustrum as shown in Fig. 2. The variables $r$ and $h$ are related such that $r + h = 9$ where $0 < r < 8$.<br>[The volume of a cone of base radius $r$ and height $h$ is given by $V = \\frac{1}{3}\\pi r^2 h$.]",
     parts: [
@@ -230,7 +230,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Parametric Equations", "Tangents and Normals"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The curve $D$ is defined by the parametric equations $$x = t^3 + t \\quad \\text{and} \\quad y = t^4 + t^2 \\quad \\text{where } t \\in \\mathbb{R}.$$",
     parts: [
       {
@@ -263,7 +263,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Sequences and Series", "Sigma Notation"],
+    topics: ["Sequences & Series"],
     stem: "The sum of the first $n$ terms of a sequence $u_1, u_2, u_3, \\dots$ is given by $S_n = n^3 - n$.",
     parts: [
       {
@@ -303,7 +303,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations"],
+    topics: ["Maclaurin Series"],
     diagramSvg: `<svg viewBox="0 0 260 140" width="245" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="90,22 38,85 222,115" fill="none" stroke-width="1.6"/><path d="M 55 88 A 20 20 0 0 0 51 69" fill="none" stroke-width="1.1"/><text x="64" y="81" stroke="none" font-style="italic">θ</text><path d="M 76 38 A 22 22 0 0 0 108 36" fill="none" stroke-width="1.1"/><text x="86" y="54" stroke="none" font-size="10">θ + π/3</text><text x="90" y="15" text-anchor="middle" stroke="none" font-style="italic">A</text><text x="28" y="92" text-anchor="end" stroke="none" font-style="italic">B</text><text x="228" y="122" stroke="none" font-style="italic">C</text><text x="128" y="114" text-anchor="middle" stroke="none">6 cm</text></svg>`,
     stem: "Answer both parts.",
     parts: [
@@ -348,7 +348,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Functions", "Inverse & Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto (x-k)^2$, $x \\in \\mathbb{R}$, $x < k$, where $k$ is a positive constant.",
     parts: [
       {
@@ -401,7 +401,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Differential Equations", "Modelling"],
+    topics: ["Differential Equations"],
     stem: "Scientists are interested in the rate of release of a particular drug from a capsule. The capsule initially contains $100$ milligrams (mg) of the drug. When $3$ hours have elapsed, half of the drug has been released. Let $M$ be the mass, in mg, of drug released into a human body $t$ hours after the capsule is consumed.",
     parts: [
       {

@@ -28,7 +28,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Graphs and Transformations"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 280 175" width="265" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="15" y1="105" x2="265" y2="105" stroke-width="1.2"/><line x1="130" y1="168" x2="130" y2="12" stroke-width="1.2"/><line x1="20" y1="68" x2="260" y2="68" stroke-dasharray="4,3" stroke-width="1.1"/><path d="M 20 74 Q 80 80 102 105 Q 118 128 125 164" fill="none" stroke="#4a8fe7" stroke-width="2"/><path d="M 135 18 Q 152 105 180 105 Q 204 105 220 78 Q 238 70 262 69" fill="none" stroke="#4a8fe7" stroke-width="2"/><text x="95" y="120" text-anchor="end" stroke="none">(−2, 0)</text><text x="180" y="120" text-anchor="middle" stroke="none">(4, 0)</text><text x="32" y="62" stroke="none">y = 2</text><text x="136" y="164" stroke="none">x = 0</text><text x="122" y="116" stroke="none" font-style="italic">O</text></svg>`,
     stem: "The diagram shows the graph of $y = \\mathrm{f}(x)$. The curve passes through the $x$-axis at $(-2, 0)$ and has a stationary point at $(4, 0)$. The asymptotes are $x = 0$ and $y = 2$.",
     parts: [
@@ -57,7 +57,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Binomial Expansion", "Series Approximation"],
+    topics: ["Maclaurin Series"],
     stem: "It is given that $y = \\frac{1}{\\sqrt{4 - 3x}}$.",
     parts: [
       {
@@ -120,7 +120,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Vectors", "Vector Product", "Collinearity"],
+    topics: ["Vectors"],
     stem: "Answer all parts.",
     parts: [
       {
@@ -172,7 +172,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 220 185" width="205" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="45,165 45,75 110,25 175,75 175,165" fill="rgba(91,155,213,0.12)" stroke="#2c2925" stroke-width="1.8"/><path d="M 96 36 A 18 18 0 0 0 124 36" fill="none" stroke="#4a8fe7" stroke-width="1.3"/><text x="110" y="52" text-anchor="middle" stroke="none" font-style="italic">θ</text><text x="35" y="122" text-anchor="end" stroke="none">10</text><text x="185" y="122" stroke="none">10</text><text x="72" y="45" stroke="none">8</text><text x="148" y="45" stroke="none">8</text><text x="34" y="168" stroke="none" font-style="italic">A</text><text x="32" y="78" stroke="none" font-style="italic">B</text><text x="110" y="17" text-anchor="middle" stroke="none" font-style="italic">C</text><text x="182" y="78" stroke="none" font-style="italic">D</text><text x="182" y="168" stroke="none" font-style="italic">E</text></svg>`,
     stem: "An architectural firm is designing a signature glass façade for the entrance of a museum. The cross-section of the façade is modelled as a pentagon $ABCDE$. The lower portion $ABDE$ is a rectangle with fixed vertical sides $AB = DE = 10\\text{ m}$. The upper portion is an isosceles triangular roof $BCD$ where $BC = CD = 8\\text{ m}$ and $\\angle BCD = \\theta$, where $0 < \\theta < \\pi$.",
     parts: [
@@ -334,7 +334,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "The events $A$, $B$ and $C$ are such that $\\mathrm{P}(A) = 0.5$, $\\mathrm{P}(B) = 0.4$ and $\\mathrm{P}(B \\cap C) = 0.15$. The probability that none of the three events occur is $0.1$ and the events $A$ and $B$ are independent.",
     parts: [
       {
@@ -385,7 +385,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Correlation and Regression"],
+    topics: ["Correlation & Regression"],
     stem: "A researcher is investigating the relationship between sleep duration and academic achievement score of university students. The average daily sleep duration, $t$ hours, in the week before the assessments, and the academic achievement score, $y$ points, were recorded for a random sample of $9$ students.<div class='q-table-wrap'><table class='q-table'><tr><th>$t$</th><td>4.2</td><td>5.1</td><td>5.5</td><td>6.3</td><td>6.4</td><td>6.8</td><td>7.2</td><td>7.6</td><td>8.1</td></tr><tr><th>$y$</th><td>33</td><td>51</td><td>64</td><td>72</td><td>75</td><td>78</td><td>80</td><td>82</td><td>87</td></tr></table></div>It is thought that this set of data can be modelled by one of the following equations:<br>Model A: $y = mt + c$<br>Model B: $y = a\\ln t + b$",
     parts: [
       {
@@ -449,7 +449,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Hypothesis Testing", "Sampling", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A hand soap company claims that the mean volume of each bottle of their hand soap is $250\\text{ ml}$. The consumer association suspects that the company is overstating the mean volume of its hand soap and decides to carry out a hypothesis test on a sample of these bottles.",
     parts: [
       {

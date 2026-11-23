@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator in answering this question.</em><br>The complex number $z$ is such that $z = 1 - \\sqrt{3}\\,\\mathrm{i}$. Points $A, B$ and $C$ represent $z$, $\\mathrm{i}z$ and $\\mathrm{i}z + 2$ respectively.",
     parts: [
       {
@@ -50,7 +50,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Vectors", "Scalar & Vector Products"],
+    topics: ["Vectors"],
     stem: "Answer both parts on vectors.",
     parts: [
       {
@@ -80,7 +80,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Functions", "Inverse Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto \\frac{1}{(x-1)(x-2)}$, $x \\in \\mathbb{R}$, $x \\ne 1$, $x \\ne 2$.",
     parts: [
       {
@@ -132,7 +132,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Integration by Substitution", "Integration by Parts", "Volumes of Revolution"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 240 165" width="225" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10" fill="#2c2925" stroke="#2c2925"><path d="M 35 140 Q 95 102 185 28 L 185 128 Q 145 92 35 140 Z" fill="rgba(91,155,213,0.18)" stroke="none"/><line x1="15" y1="140" x2="225" y2="140" stroke-width="1.3"/><line x1="35" y1="152" x2="35" y2="12" stroke-width="1.3"/><line x1="185" y1="18" x2="185" y2="140" stroke-width="1.2"/><path d="M 35 140 Q 95 102 185 28" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><path d="M 35 140 Q 110 120 145 112 Q 168 110 185 128" fill="none" stroke="#cf5652" stroke-width="1.8"/><text x="190" y="65" stroke="none" font-style="italic">x = √π</text><text x="160" y="88" stroke="none" font-style="italic">R</text><text x="27" y="152" stroke="none" font-style="italic">O</text></svg>`,
     stem: "Answer all parts.",
     parts: [
@@ -174,7 +174,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Differentiation Applications", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 180 175" width="165" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="35,45 125,45 80,15" fill="none" stroke-width="1.4"/><polygon points="35,145 125,145 80,115" fill="none" stroke-dasharray="3,3" stroke-width="1.1"/><polyline points="35,145 125,145" stroke-width="1.5"/><line x1="35" y1="45" x2="35" y2="145" stroke-width="1.5"/><line x1="125" y1="45" x2="125" y2="145" stroke-width="1.5"/><line x1="80" y1="15" x2="80" y2="115" stroke-dasharray="3,3" stroke-width="1.1"/><text x="80" y="162" text-anchor="middle" stroke="none" font-style="italic">x <tspan font-style="normal">cm</tspan></text><line x1="145" y1="45" x2="145" y2="145" stroke-width="1.1"/><text x="152" y="98" stroke="none" font-style="italic">h <tspan font-style="normal">cm</tspan></text></svg>`,
     stem: "An open container is an upright prism with an equilateral triangular base of side $x\\text{ cm}$ and height $h\\text{ cm}$. Base material costs $2$ cents per $\\text{cm}^2$, side material costs $5$ cents per $\\text{cm}^2$, and total cost is a fixed $C$ cents.",
     parts: [
@@ -220,7 +220,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Discrete Random Variables", "Conditional Probability", "Central Limit Theorem"],
+    topics: ["Probability", "Discrete Random Variables", "Sampling & CLT"],
     stem: "A technician has $5$ cables, $3$ of which are faulty. He tests them one by one without replacement until all faulty cables are tested. Let $X$ denote the number of tests carried out.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Show that $\\mathrm{P}(X = 3) = \\frac{1}{10}$ and find the probability distribution of $X$.", type: "self", solution: "$\\mathrm{P}(X=3) = \\frac{3}{5}\\frac{2}{4}\\frac{1}{3} = \\frac{1}{10}$, $\\mathrm{P}(X=4) = \\frac{3}{10}$, $\\mathrm{P}(X=5) = \\frac{3}{5}$." },
@@ -236,7 +236,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Correlation & Regression", "Linearisation"],
+    topics: ["Correlation & Regression"],
     stem: "Active users $y$ (thousand users) after $x$ months:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>1</td><td>2</td><td>4</td><td>6</td><td>8</td><td>10</td></tr><tr><th>$y$</th><td>85</td><td>55</td><td>38</td><td>31</td><td>27</td><td>25</td></tr></table></div>",
     parts: [
       {
@@ -278,7 +278,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "Independent component masses: Type $A \\sim \\mathrm{N}(250, 3^2)$ grams and Type $B \\sim \\mathrm{N}(240, 4^2)$ grams.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Find the probability that the total mass of a randomly chosen Type $A$ and Type $B$ component exceeds $480$ grams.", type: "auto", mode: "number", answer: "0.97725", placeholder: "3 s.f.", solution: "$A + B \\sim \\mathrm{N}(490, 25) \\implies \\mathrm{P}(A + B > 480) = 0.977$ (3 s.f.)." },
@@ -299,7 +299,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Hypothesis Testing", "Unbiased Estimates", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Chilli sauce sachets are designed to have mean mass $50$ grams. A random sample of $40$ sachets gives $\\sum(x - 50) = 80.5$ and $\\sum(x - 50)^2 = 2415$.",
     parts: [
       {

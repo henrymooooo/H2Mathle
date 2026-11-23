@@ -1,7 +1,7 @@
 window.registerQuestions([
   {
     id: "EJC-2026-P1-Q1", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q1", category: "pure",
-    topics: ["Simultaneous Equations"],
+    topics: ["Equations & Inequalities"],
     stem: "Recoverable materials per broken machine:<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>Machine A ($550\\text{ dollars}$)</th><th>Machine B ($400\\text{ dollars}$)</th><th>Machine C ($350\\text{ dollars}$)</th></tr><tr><th>Copper (kg)</th><td>2</td><td>1</td><td>4</td></tr><tr><th>Steel (kg)</th><td>3</td><td>4</td><td>3</td></tr><tr><th>Plastic (kg)</th><td>1</td><td>5</td><td>8</td></tr></table></div>The company recovered $40\\text{ kg}$ copper, $61\\text{ kg}$ steel and $56\\text{ kg}$ plastic.",
     parts: [
       { label: "(Full)", marks: 4, prompt: "Find the total amount paid by the recycling company to purchase the machines (in dollars).", type: "auto", mode: "number", exactRequired: true, answer: "9250", placeholder: "Amount in dollars", solution: "$2a+b+4c=40$, $3a+4b+3c=61$, $a+5b+8c=56 \\implies a=12, b=4, c=3$.<br>Total $= 550(12)+400(4)+350(3) = 9250$ dollars." }
@@ -9,7 +9,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q2", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q2", category: "pure",
-    topics: ["Complex Numbers", "Polynomial Roots"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator.</em> One root of $px^4 - 7x^3 + 8x^2 - 3x + 10 = 0$ ($p \\in \\mathbb{R}$) is $2 - \\mathrm{i}$.",
     parts: [
       { label: "(Full) p", marks: 2, prompt: "Find the value of $p$.", type: "auto", mode: "number", exactRequired: true, answer: "2", placeholder: "Value of p", solution: "Conjugate $2+\\mathrm{i}$ gives factor $x^2-4x+5$. Factoring $(x^2-4x+5)(px^2+qx+2)$ and comparing $x^3$: $-7 = 1 - 4p \\implies p = 2$." },
@@ -18,7 +18,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q3", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q3", category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator.</em> $V$ and $W$ represent $v = (3+\\sqrt{3}\\,\\mathrm{i})(1-\\sqrt{3}\\,\\mathrm{i})$ and $w = v\\mathrm{i}$.",
     parts: [
       { label: "(a)", marks: 4, prompt: "Find the exact values of $|v|$ and $\\arg(v)$.", type: "auto", mode: "multi-field", fields: [{ label: "|v| =", answer: "4*sqrt(3)", exactRequired: true }, { label: "arg(v) =", answer: "-pi/6", exactRequired: true }], solution: "$v = 6 - 2\\sqrt{3}\\,\\mathrm{i} \\implies |v| = 4\\sqrt{3}$, $\\arg(v) = -\\tan^{-1}\\frac{\\sqrt{3}}{3} = -\\frac{\\pi}{6}$." },
@@ -27,7 +27,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q4", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q4", category: "pure",
-    topics: ["Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "Solve the following inequalities without using a calculator.",
     parts: [
       { label: "(a)", marks: 4, prompt: "Solve $\\frac{11-13x}{4x^2-1} < 1$.", type: "self", solution: "$\\frac{(4x-3)(x+4)}{(2x+1)(2x-1)} > 0 \\implies x < -4$ or $-\\frac{1}{2} < x < \\frac{1}{2}$ or $x > \\frac{3}{4}$." },
@@ -36,7 +36,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q5", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q5", category: "pure",
-    topics: ["Riemann Sums", "Integration by Parts"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 230 155" width="215" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="130" x2="215" y2="130" stroke-width="1.3"/><line x1="38" y1="142" x2="38" y2="12" stroke-width="1.3"/><g fill="rgba(91,155,213,0.16)" stroke="#4a8fe7" stroke-width="1"><rect x="62" y="124" width="24" height="6"/><rect x="86" y="112" width="24" height="18"/><rect x="148" y="68" width="24" height="62"/><rect x="172" y="42" width="24" height="88"/></g><path d="M 38 130 Q 125 122 196 22" fill="none" stroke="#2c2925" stroke-width="1.8"/><text x="196" y="143" text-anchor="middle" stroke="none">1</text><text x="120" y="60" stroke="none" font-style="italic">y = x²eˣ</text></svg>`,
     stem: "Curve $y = x^2\\mathrm{e}^x$ ($x \\ge 0$) has $n$ rectangles of width $\\frac{1}{n}$ drawn under the curve on $[0, 1]$, with total area $A_n$.",
     parts: [
@@ -46,7 +46,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q6", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q6", category: "pure",
-    topics: ["Functions", "Inverse & Composite Functions"],
+    topics: ["Functions"],
     stem: "Function $\\mathrm{f}$ is defined by $\\mathrm{f}(x) = \\sqrt{|2-x|+1}$, $x \\ge -1$.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Show that $\\mathrm{f}^{-1}$ does not exist.", type: "self", solution: "$\\mathrm{f}(-1) = 2 = \\mathrm{f}(5)$ (or $y=\\sqrt{3}$ cuts twice), so $\\mathrm{f}$ is not 1-1." },
@@ -56,7 +56,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q7", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q7", category: "pure",
-    topics: ["Rates of Change", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 180 180" width="165" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><ellipse cx="85" cy="35" rx="45" ry="10" fill="none" stroke-width="1.4"/><path d="M 40 35 L 40 115 A 45 45 0 0 0 130 115 L 130 35" fill="none" stroke-width="1.4"/><path d="M 40 115 A 45 10 0 0 0 130 115" fill="none" stroke-dasharray="3,3" stroke-width="1.1"/><line x1="85" y1="35" x2="130" y2="35" stroke-width="1.2"/><text x="108" y="30" text-anchor="middle" stroke="none" font-style="italic">r</text><line x1="145" y1="35" x2="145" y2="115" stroke-width="1.1"/><text x="153" y="78" stroke="none" font-style="italic">h</text></svg>`,
     stem: "A closed storage tank consists of a hemisphere (radius $r\\text{ m}$), cylinder (radius $r\\text{ m}$, height $h\\text{ m}$) and circular top (radius $r\\text{ m}$), with fixed volume $k\\text{ m}^3$.",
     parts: [
@@ -67,7 +67,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q8", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q8", category: "pure",
-    topics: ["Graph Transformations", "Derivative Graphs"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 240 165" width="225" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="85" x2="225" y2="85" stroke-width="1.3"/><line x1="95" y1="155" x2="95" y2="12" stroke-width="1.3"/><line x1="65" y1="12" x2="65" y2="155" stroke-dasharray="4,3" stroke-width="1.1"/><text x="58" y="22" text-anchor="end" stroke="none">x=−1</text><line x1="20" y1="55" x2="225" y2="55" stroke-dasharray="4,3" stroke-width="1.1"/><text x="218" y="49" text-anchor="end" stroke="none">y=2</text><path d="M 25 51 Q 56 46 61 16" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><path d="M 70 16 Q 82 65 95 85 Q 112 128 130 132 Q 158 128 190 92 Q 208 87 222 86" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><circle cx="130" cy="132" r="2.4" fill="#4a8fe7"/><text x="130" y="146" text-anchor="middle" stroke="none">(1,−3)</text></svg>`,
     stem: "The graph of $y = \\mathrm{f}(x)$ has turning point $(1, -3)$, asymptotes $x=-1, y=0, y=2$, and crosses $(0, 0)$.",
     parts: [
@@ -77,7 +77,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q9", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q9", category: "pure",
-    topics: ["GP Proof", "Method of Differences"],
+    topics: ["Sequences & Series"],
     stem: "Part (a): $W_n = \\sum_{r=1}^n U_r = \\frac{k^n}{3^{n-1}} - 3$ ($k \\ne 0, 3$). Part (b): $u_r = \\frac{1}{r!}$ ($r \\ge 1$).",
     parts: [
       { label: "(a)", marks: 5, prompt: "Find $U_n$ in terms of $k$ and $n$, prove $U_n$ is geometric, and find the range of $k$ for $W_\\infty$ to exist.", type: "self", solution: "$U_n = W_n - W_{n-1} = \\left(\\frac{k}{3}\\right)^n\\left(3-\\frac{9}{k}\\right)$. Ratio $\\frac{k}{3}$ is constant. Converges for $-3 < k < 3, k \\ne 0$." },
@@ -86,7 +86,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q10", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q10", category: "pure",
-    topics: ["3D Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     stem: "Plane $p: \\mathbf{r} = \\begin{pmatrix}0\\\\1\\\\2\\end{pmatrix} + \\lambda\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix} + \\mu\\begin{pmatrix}-1\\\\0\\\\1\\end{pmatrix}$. Line $l: \\mathbf{r} = \\begin{pmatrix}t\\\\1\\\\-2\\end{pmatrix} + s\\begin{pmatrix}-t\\\\t^2\\\\2t+4\\end{pmatrix}$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Use a vector product to show $2\\mathbf{i}-\\mathbf{j}+2\\mathbf{k}$ is normal to $p$, and find cartesian equation of $p$.", type: "self", solution: "$\\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix}\\times\\begin{pmatrix}-1\\\\0\\\\1\\end{pmatrix} = \\begin{pmatrix}2\\\\-1\\\\2\\end{pmatrix}$. Cartesian: $2x - y + 2z = 3$." },
@@ -96,7 +96,7 @@ window.registerQuestions([
   },
   {
     id: "EJC-2026-P1-Q11", year: 2026, school: "EJC", paper: "2026 Prelim Paper 1", qNum: "Q11", category: "pure",
-    topics: ["Differential Equations", "Logistic Model"],
+    topics: ["Differential Equations"],
     stem: "A prawn farm starts with $2000$ prawns and has $3000$ prawns after $12$ months.",
     parts: [
       { label: "(a)-(b)", marks: 6, prompt: "Rate of change of $P$ is proportional to $P$. Write and solve the DE for $P(t)$ and comment on its suitability.", type: "self", solution: "$P = 2000(1.5)^{t/12}$. Unrealistic because $P$ grows infinitely despite finite space." },

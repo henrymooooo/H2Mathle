@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Parametric Equations", "Stationary Points", "Simultaneous Equations"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities", "Differentiation"],
     stem: "A curve has parametric equations $$x = t^2 + 1, \\quad y = at^3 + bt^2 + ct,$$ where $t > -2$ and $a$, $b$ and $c$ are constants.<br>The curve has stationary points at $t = -1$ and $t = 2$. The curve passes through the point $(5, -2)$.",
     parts: [
       {
@@ -31,7 +31,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Sequences and Series", "Recurrence Relations", "Sigma Notation"],
+    topics: ["Sequences & Series"],
     stem: "The sequence $u_1, u_2, u_3$, … is defined by $u_1 = 4$ and $u_{n+1} = -\\frac{1}{3}u_n + 2$, for $n \\ge 1$.",
     parts: [
       {
@@ -75,7 +75,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Differentiation Applications", "Rates of Change"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 260 175" width="260" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><ellipse cx="100" cy="50" rx="90" ry="18" fill="none"/><path d="M10 50 A90 90 0 0 0 190 50" fill="none"/><line x1="100.0" y1="28.0" x2="100.0" y2="146.0" stroke-dasharray="4,3" opacity="0.6"/><ellipse cx="100" cy="110" rx="67.1" ry="12" fill="rgba(91,155,213,0.22)" stroke="#4a8fe7" stroke-dasharray="4,3"/><circle cx="100.0" cy="50.0" r="3" fill="#2c2925" stroke="#2c2925"/><circle cx="100.0" cy="110.0" r="3" fill="#2c2925" stroke="#2c2925"/><line x1="100.0" y1="110.0" x2="167.1" y2="110.0" stroke="#cf5652" stroke-width="1.5"/><text x="132.0" y="106.0" text-anchor="middle" stroke="none" font-style="italic">r</text><line x1="100.0" y1="50.0" x2="228.0" y2="50.0" stroke-dasharray="4,3" opacity="0.6"/><line x1="100.0" y1="140.0" x2="228.0" y2="140.0" stroke-dasharray="4,3" opacity="0.6"/><line x1="100.0" y1="110.0" x2="182.0" y2="110.0" stroke-dasharray="4,3" opacity="0.6"/><line x1="225.0" y1="95.0" x2="225.0" y2="50.0" /><polyline points="228.5,56.1 225.0,50.0 221.5,56.1" fill="none"/><line x1="225.0" y1="95.0" x2="225.0" y2="140.0" /><polyline points="221.5,133.9 225.0,140.0 228.5,133.9" fill="none"/><text x="232.0" y="99.0" text-anchor="start" stroke="none" >3</text><line x1="178.0" y1="125.0" x2="178.0" y2="110.0" /><polyline points="181.5,116.1 178.0,110.0 174.5,116.1" fill="none"/><line x1="178.0" y1="125.0" x2="178.0" y2="140.0" /><polyline points="174.5,133.9 178.0,140.0 181.5,133.9" fill="none"/><text x="184.0" y="129.0" text-anchor="start" stroke="none" font-style="italic">h</text></svg>`,
     stem: "Water is poured at a rate of $0.5\\ \\text{m}^3$ per minute into an empty container in the form of an open hemisphere with inside radius $3$ m (see diagram). At time $t$ minutes after the start, the radius of the water surface is $r$ m and the volume of the water in the hemispherical container is $\\frac{1}{3}\\pi h^2(9 - h)$, where $h$ m is the depth of the water.<br>When the depth of the water is $1$ m,",
     parts: [
@@ -108,7 +108,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Vectors", "Scalar Product", "Vector Product"],
+    topics: ["Vectors"],
     stem: "With reference to the origin $O$, three distinct points $A$, $B$ and $C$ have position vectors $\\mathbf{a}$, $\\mathbf{b}$ and $\\mathbf{c}$ respectively. The mid-point of $AC$ is $D$.",
     parts: [
       {
@@ -146,7 +146,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Equations"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator in answering this question.</em><br>It is given that $1 + 2\\mathrm{i}$ is a complex root of the quartic equation $$z^4 + pz^3 + qz^2 + rz + 45 = 0,$$ where $p$, $q$ and $r$ are real numbers.",
     parts: [
       {
@@ -189,7 +189,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Inequalities", "Modulus Function"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -215,7 +215,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Differential Equations", "Modelling"],
+    topics: ["Differential Equations"],
     stem: "Conservationists are investigating the effect of habitat loss on the number of deer on an island. They observe that the population of the deer on the island decreases at a rate of $2\\%$ every year. The number of deer on the island is $P$ at a time $t$ years after conservationists begin observations.",
     parts: [
       {
@@ -259,7 +259,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Parametric Equations", "Curve Sketching", "Tangents and Normals"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The curve $C$ has parametric equations $$x = a\\sin t, \\quad y = a\\sin t\\cos t,$$ for $0 \\le t < \\pi$ and $a$ is a positive constant.",
     parts: [
       {
@@ -305,7 +305,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Differentiation", "Integration", "Volumes of Revolution", "Curve Sketching"],
+    topics: ["Graphs & Transformations", "Differentiation", "Integration"],
     stem: "A curve $C$ has equation $y = x\\mathrm{e}^{-x}$, $x \\ge 0$.",
     parts: [
       {
@@ -353,7 +353,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Graphs and Transformations", "Curve Sketching", "Rational Functions"],
+    topics: ["Graphs & Transformations"],
     stem: "It is given that $$f(x) = \\frac{x^2 - 20x + 109}{x - 10}.$$",
     parts: [
       {
@@ -399,7 +399,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Vectors", "Planes", "Vector Product", "Distance Between Point and Line"],
+    topics: ["Vectors"],
     stem: "With reference to the origin $O$, the coordinates of $A$, $B$ and $C$ are $(2, 8, -a)$, $(1, -10, 3)$ and $(5, 6, a)$ respectively. The plane $\\pi$ contains points $O$, $A$, $B$ and $C$.",
     parts: [
       {
@@ -448,7 +448,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Arithmetic Progression", "Geometric Progression", "Sigma Notation", "Applications of Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "A seating specialist was tasked to install seats for a performance arena. In the curved section of the arena, he installed 21 seats in the front row facing the arena and for each subsequent row, there are 2 more seats than the row before it. The seating capacity of this curved section is 1664.",
     parts: [
       {

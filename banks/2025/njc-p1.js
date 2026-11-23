@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Systems of Linear Equations"],
+    topics: ["Equations & Inequalities"],
     stem: "Paul is helping his friends to convert their foreign currencies back to Singapore Dollars. The amounts of foreign currencies converted, and the total amount received in Singapore Dollars are shown in the following table.<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>Alex</th><th>Nicholas</th><th>Palmer</th><th>Maybelline</th></tr><tr><th>US Dollar (USD)</th><td>150</td><td>250</td><td>425</td><td>$a$</td></tr><tr><th>Japanese Yen (JPY)</th><td>5500</td><td>9500</td><td>1000</td><td>0</td></tr><tr><th>Chinese Yuan (CNY)</th><td>1000</td><td>2200</td><td>2000</td><td>1200</td></tr><tr><th>Total amount: Singapore Dollars (SGD)</th><td>419.30</td><td>797.20</td><td>913.10</td><td>568.40</td></tr></table></div>However, he has forgotten the amount of US Dollar that Maybelline has passed to him.",
     parts: [
       {
@@ -55,7 +55,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Graphs & Transformations", "Inequalities"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     stem: "Consider the curves $y = -\\frac{b}{x-a}$ and $y = |x-a|$, where $a$ and $b$ are positive constants and $a > b > 1$.",
     parts: [
       {
@@ -205,7 +205,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["AP & GP", "Sequences & Series"],
+    topics: ["Sequences & Series"],
     stem: "This question is about geometric and arithmetic progressions.",
     parts: [
       {
@@ -245,7 +245,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Parametric Equations", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The curve $C$ is defined parametrically by $x = \\mathrm{e}^{4t}$, $y = t^2$, where $t \\ge 0$.",
     parts: [
       {
@@ -297,7 +297,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Maclaurin Series", "Binomial Expansion"],
+    topics: ["Maclaurin Series"],
     stem: "<strong>In this question, you may use expansions from the List of Formulae and Results (MF27).</strong><br>It is given that $a > 0$.",
     parts: [
       {
@@ -334,7 +334,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Integration Techniques"],
+    topics: ["Integration"],
     stem: "Evaluate the following indefinite integrals.",
     parts: [
       {
@@ -390,7 +390,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Sequences & Series", "Summation of Series"],
+    topics: ["Sequences & Series"],
     stem: "A sequence of numbers $u_1, u_2, u_3, \\ldots$ has a sum $S_n$, where $S_n = \\sum_{r=1}^n u_r$. It is given that $$S_n = A - \\frac{2}{(n+1)!},$$ where $A$ is a non-zero constant.",
     parts: [
       {

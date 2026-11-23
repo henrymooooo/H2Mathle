@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     diagramSvg: `<svg viewBox="0 0 260 200" width="250" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="125" x2="242" y2="125" stroke-width="1.4"/><polyline points="236,121 242,125 236,129" fill="none" stroke-width="1.4"/><text x="246" y="129" stroke="none">Re</text><line x1="130" y1="190" x2="130" y2="15" stroke-width="1.4"/><polyline points="126,21 130,15 134,21" fill="none" stroke-width="1.4"/><text x="136" y="21" stroke="none">Im</text><text x="135" y="138" stroke="none" font-style="italic">O</text><polygon points="200,85 160,15 20,95 60,165" fill="rgba(91,155,213,0.12)" stroke="#4a8fe7" stroke-width="1.6"/><text x="206" y="88" stroke="none" font-style="italic">A</text><text x="164" y="16" stroke="none" font-style="italic">B</text><text x="10" y="96" stroke="none" font-style="italic">C</text><text x="50" y="178" stroke="none" font-style="italic">D</text></svg>`,
     stem: "Answer the following parts on complex numbers.",
     parts: [
@@ -64,7 +64,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Integration", "Partial Fractions", "Substitutions"],
+    topics: ["Integration"],
     stem: "Evaluate the following integrals.",
     parts: [
       {
@@ -105,7 +105,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Functions", "Inverse & Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is given by $\\mathrm{f}: x \\mapsto a - \\mathrm{e}^{|x-a|}$, $x \\in \\mathbb{R}$, where $a$ is a positive constant. The range of $\\mathrm{f}$ is $(-\\infty, k]$, where $k > 0$.",
     parts: [
       {
@@ -158,7 +158,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations"],
+    topics: ["Maclaurin Series"],
     stem: "<em>Do not use a calculator in answering this question.</em>",
     parts: [
       {
@@ -221,7 +221,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation & Variance"],
+    topics: ["Discrete Random Variables"],
     stem: "A random variable $X$ has $\\mathrm{P}(X = x) = kx^2$ for $x = 1, 2, 3$; $\\mathrm{P}(X = x) = k(7-x)$ for $x = 4, 5, 6$; and $0$ otherwise ($k > 0$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "Show that $k = \\frac{1}{20}$.", type: "self", solution: "$\\sum \\mathrm{P}(X=x) = k(1+4+9+3+2+1) = 20k = 1 \\implies k = \\frac{1}{20}$." },
@@ -257,7 +257,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations"],
+    topics: ["Normal Distribution"],
     stem: "Time taken by Sports Recreational Club members for a $20\\text{ km}$ race is $\\mathrm{N}(105, 12^2)$ minutes.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Find the probability a randomly chosen Sports Recreational Club member finishes in less than $100$ minutes.", type: "auto", mode: "number", answer: "0.33846", placeholder: "3 s.f.", solution: "$\\mathrm{P}(X < 100) = 0.338$ (3 s.f.)." },
@@ -278,7 +278,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Correlation & Regression", "Linearisation"],
+    topics: ["Correlation & Regression"],
     stem: "Light intensity $y$ (lux) at distance $x$ (cm) is recorded below:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>10</td><td>15</td><td>20</td><td>30</td><td>40</td><td>50</td><td>70</td><td>100</td></tr><tr><th>$y$</th><td>112.2</td><td>60.1</td><td>42.5</td><td>28.8</td><td>24.2</td><td>22.0</td><td>20.1</td><td>19.2</td></tr></table></div>",
     parts: [
       {
@@ -310,7 +310,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Binomial Distribution", "Central Limit Theorem"],
+    topics: ["Binomial Distribution", "Sampling & CLT"],
     stem: "An inspector randomly selects $30$ components for testing daily ($0.8\\%$ are defective).",
     parts: [
       { label: "(a)", marks: 2, prompt: "State, in context, two assumptions needed for the number of defective components found each day to be well-modelled by a binomial distribution.", type: "self", solution: "1. Probability of a component being defective is constant at $0.008$.<br>2. The event of a component being defective is independent of any other component being defective." },
@@ -328,7 +328,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Bus waiting time $X$ minutes has $\\sigma = 1.2$ and claimed mean $6.5$ minutes. A random sample of $20$ waiting times has mean $\\bar{x}$.",
     parts: [
       { label: "(a)(i)", marks: 4, prompt: "Given $\\bar{x} = 6.9$, test at $5\\%$ significance level whether the mean waiting time differs from $6.5$ minutes, stating a necessary assumption.", type: "self", solution: "Assume $X$ is normally distributed. $\\mathrm{H}_0: \\mu = 6.5$, $\\mathrm{H}_1: \\mu \\ne 6.5$.<br>$\\bar{X} \\sim \\mathrm{N}(6.5, \\frac{1.2^2}{20})$. $p$-value $= 2\\mathrm{P}(\\bar{X} \\ge 6.9) = 0.136 > 0.05$.<br>Do not reject $\\mathrm{H}_0$: insufficient evidence at $5\\%$ level that mean waiting time differs from $6.5$ minutes." },

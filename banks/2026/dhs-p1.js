@@ -1,7 +1,7 @@
 window.registerQuestions([
   {
     id: "DHS-2026-P1-Q1", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q1", category: "pure",
-    topics: ["Rational Functions", "Remainder Theorem"],
+    topics: ["Graphs & Transformations"],
     stem: "Curve $y = \\frac{1}{\\mathrm{f}(x)}$ ($\\mathrm{f}$ cubic) has stationary point $(-1, \\frac{1}{4})$, asymptote $x=-2$, and $\\mathrm{f}(x)$ leaves remainder $4$ when divided by $(x-2)$.",
     parts: [
       { label: "(Full)", marks: 4, prompt: "Find the equation of the curve.", type: "self", solution: "Using $\\mathrm{f}(-2)=0, \\mathrm{f}(2)=4, \\mathrm{f}(-1)=4, \\mathrm{f}'(-1)=0$: $y = \\frac{1}{x^3 - 3x + 2}$." }
@@ -9,7 +9,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q2", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q2", category: "pure",
-    topics: ["Rates of Change", "Mensuration"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 280 215" width="270" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" font-size="13" fill="#2c2925" stroke="#2c2925"><path d="M 76 108 L 94 178 A 36 8 0 0 0 166 178 L 184 108 Z" fill="rgba(91, 155, 213, 0.22)" stroke="none"/><ellipse cx="130" cy="108" rx="54" ry="10" fill="rgba(91, 155, 213, 0.32)" stroke="#4a8fe7" stroke-width="1.3"/><ellipse cx="130" cy="38" rx="72" ry="13" fill="none" stroke-width="1.6"/><path d="M 94 178 A 36 8 0 0 1 166 178" fill="none" stroke-dasharray="4,3" stroke-width="1.3"/><path d="M 94 178 A 36 8 0 0 0 166 178" fill="none" stroke-width="1.6"/><line x1="58" y1="38" x2="94" y2="178" stroke-width="1.6"/><line x1="202" y1="38" x2="166" y2="178" stroke-width="1.6"/><line x1="130" y1="38" x2="130" y2="178" stroke-dasharray="5,4" stroke-width="1.2"/><text x="166" y="18" text-anchor="middle" stroke="none">6 cm</text><text x="148" y="201" text-anchor="middle" stroke="none">3 cm</text><text x="234" y="112" stroke="none">8 cm</text><text x="10" y="147" font-style="italic" stroke="none">h <tspan font-style="normal">cm</tspan></text></svg>`,
     stem: "Water leaks at $15\\text{ cm}^3/\\text{s}$ from an inverted truncated cone cup (rim radius $6\\text{ cm}$, base radius $3\\text{ cm}$, height $8\\text{ cm}$).",
     parts: [
@@ -29,7 +29,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q4", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q4", category: "pure",
-    topics: ["Integration by Parts", "Partial Fractions"],
+    topics: ["Integration"],
     stem: "Evaluate the following integrals.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Find $\\int \\frac{\\ln x}{x^2}\\,\\mathrm{d}x$.", type: "auto", mode: "antiderivative", domainPoints: [1, 2, 4], answer: "-ln(x)/x - 1/x", placeholder: "Expression in x + c", solution: "By parts: $-\\frac{\\ln x}{x} - \\frac{1}{x} + A$." },
@@ -38,7 +38,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q5", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q5", category: "pure",
-    topics: ["Functions", "Inverse & Composite Functions"],
+    topics: ["Functions"],
     stem: "$\\mathrm{f}: x \\mapsto \\frac{a-x}{10x+b}$ ($x \\ne k$).",
     parts: [
       { label: "(a)-(c)", marks: 7, prompt: "Express $k$ in terms of $b$, find $\\mathrm{f}^{-1}(x)$ and its range, and given $\\mathrm{f}(x)=\\mathrm{f}^{-1}(x)$, determine $a$ and $b$.", type: "self", solution: "$k = -\\frac{b}{10}$; $\\mathrm{f}^{-1}(x) = \\frac{a-bx}{10x+1}$, range $\\mathbb{R}\\setminus\\{-b/10\\}$. $b = 1$, $a \\ne -\\frac{1}{10}$." },
@@ -47,7 +47,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q6", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q6", category: "pure",
-    topics: ["Graph Transformations", "Reciprocal & Derivative Graphs"],
+    topics: ["Graphs & Transformations"],
     stem: "Part (b) uses $y = \\mathrm{f}(x)$ crossing $(0,0)$ with asymptote $y=0$ and turning points $(a, b)$ (min, $a<0$) and $(c, d)$ (max, $c>0$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "Describe two transformations mapping $3(1-x)^2 + y^2 = 1$ onto $x^2 + y^2 = 1$.", type: "self", solution: "1. Translate $1$ unit in negative $x$-direction. 2. Scale parallel to $x$-axis by factor $\\sqrt{3}$." },
@@ -56,7 +56,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q7", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q7", category: "pure",
-    topics: ["Conics", "Maxima & Minima"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     diagramSvg: `<svg viewBox="0 0 200 180" width="185" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="35" y1="155" x2="180" y2="155" stroke-width="1.3"/><line x1="35" y1="155" x2="35" y2="18" stroke-width="1.3"/><path d="M 35 28 A 115 127 0 0 1 150 155" fill="none" stroke-width="1.6"/><rect x="35" y="65" width="81" height="90" fill="rgba(91,155,213,0.2)" stroke="#4a8fe7" stroke-width="1.4"/><text x="120" y="62" stroke="none" font-style="italic">P(x,y)</text><text x="95" y="170" text-anchor="middle" stroke="none">2k</text><text x="18" y="90" text-anchor="middle" stroke="none">4k²</text></svg>`,
     stem: "Quadrant of ellipse has semi-minor axis $2k$ ($x$-axis) and semi-major axis $4k^2$ ($y$-axis). Rectangular patio $OMPN$ touches $P(x,y)$.",
     parts: [
@@ -67,7 +67,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q8", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q8", category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "Complex number $z$ has modulus $2$ and argument $-\\frac{\\pi}{6}$.",
     parts: [
       { label: "(a)-(b)", marks: 6, prompt: "Mark $A(z), P(z^*), Q(z+z^*), R(z-z^*)$ on an Argand diagram, state the shape of $OPQR$, and explain if $A$ lies on $QR$.", type: "self", solution: "$OPQR$ is a trapezium ($OR \\parallel PQ$). $A(\\sqrt{3}, -1)$ is the midpoint of $Q(2\\sqrt{3}, 0)$ and $R(0, -2)$, so $A$ lies on $QR$." },
@@ -76,7 +76,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q9", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q9", category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\sqrt{2 + \\cos x}$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Show that $2y\\frac{\\mathrm{d}^2y}{\\mathrm{d}x^2} + 2\\left(\\frac{\\mathrm{d}y}{\\mathrm{d}x}\\right)^2 + y^2 = 2$.", type: "self", solution: "$y^2 = 2+\\cos x \\implies 2y\\frac{\\mathrm{d}y}{\\mathrm{d}x} = -\\sin x \\implies 2y\\frac{\\mathrm{d}^2y}{\\mathrm{d}x^2} + 2(\\frac{\\mathrm{d}y}{\\mathrm{d}x})^2 = -(y^2-2)$." },
@@ -85,7 +85,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q10", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q10", category: "pure",
-    topics: ["Volumes of Revolution", "Integration by Substitution", "Area Under Curve"],
+    topics: ["Integration"],
     stem: "Region $R$ above the $x$-axis is enclosed by $C: y = 3x\\sqrt{1-2x}$ on $[0, 0.5]$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Find the <strong>exact</strong> volume when $R$ is rotated $2\\pi$ radians about the $x$-axis.", type: "auto", mode: "number", exactRequired: true, answer: "3*pi/32", placeholder: "Exact value in pi", solution: "$\\pi\\int_0^{0.5}(9x^2-18x^3)\\,\\mathrm{d}x = \\pi[3x^3-4.5x^4]_0^{0.5} = \\frac{3\\pi}{32}$." },
@@ -95,7 +95,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q11", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q11", category: "pure",
-    topics: ["3D Vectors", "Planes & Reflections"],
+    topics: ["Vectors"],
     stem: "$A(1,2,-1)$, $B(-1,2,3)$, $C(2,1,4)$, $D(p, 0, 2)$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Find the cartesian equation of plane $ABC$.", type: "self", solution: "$\\overrightarrow{AB}\\times\\overrightarrow{AC} = 2\\begin{pmatrix}2\\\\7\\\\1\\end{pmatrix} \\implies 2x + 7y + z = 15$." },
@@ -106,7 +106,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P1-Q12", year: 2026, school: "DHS", paper: "2026 Prelim Paper 1", qNum: "Q12", category: "pure",
-    topics: ["Geometric Progression", "Limits"],
+    topics: ["Sequences & Series"],
     stem: "A ball is dropped from height $H\\text{ m}$ and rebounds to $c$ times ($0<c<1$) its previous fall height on each bounce.",
     parts: [
       { label: "(a)-(b)", marks: 4, prompt: "Find rebound height after 3rd impact, and show total vertical distance before $(n+1)$th impact is $D_n = H\\left(\\frac{1+c-2c^{n+1}}{1-c}\\right)$.", type: "self", solution: "After 3rd impact: $Hc^3$. $D_n = H + 2Hc\\frac{1-c^n}{1-c} = H\\left(\\frac{1+c-2c^{n+1}}{1-c}\\right)$." },

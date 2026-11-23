@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Graphs and Transformations", "Conics"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 340 240" width="340" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Origin at (210, 165), scale: 16px/unit -->
   <line x1="35" y1="165" x2="285" y2="165" stroke-width="1.3" />
@@ -63,7 +63,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Sequences and Series", "Summation"],
+    topics: ["Sequences & Series"],
     stem: "The $n$th term of a sequence is given by $u_n = an^2 + bn + c$. The first three terms of this sequence of numbers are $2$, $6$ and $12$.",
     parts: [
       {
@@ -99,7 +99,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Parametric Equations", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ has parametric equations $$x = \\sin^2 t, \\quad y = 1 + 2\\sin t, \\quad -\\frac{\\pi}{2} \\le t \\le \\frac{\\pi}{2}.$$",
     parts: [
       {
@@ -145,7 +145,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Graphs and Transformations", "Integration", "Area"],
+    topics: ["Graphs & Transformations", "Integration"],
     stem: "It is given that<br>$\\mathrm{f}(x) = 2 - \\frac{2}{\\pi}x \\quad$ for $0 \\le x < \\pi$,<br>$\\mathrm{f}(x) = x\\sin x \\quad$ for $\\pi \\le x < 2\\pi$,<br>and that $\\mathrm{f}(x) = \\mathrm{f}(x + 2\\pi)$ for all real values of $x$.",
     parts: [
       {
@@ -214,7 +214,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Sequences and Series", "Graphs and Transformations"],
+    topics: ["Graphs & Transformations", "Sequences & Series"],
     stem: "A sequence of negative real numbers $u_1, u_2, u_3, \\ldots$ is given by $$u_1 = -1 \\quad \\text{and} \\quad u_{n+1} = \\frac{-2u_n + 6}{u_n - 1}, \\quad \\text{for } n \\ge 1.$$",
     parts: [
       {
@@ -323,7 +323,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Maclaurin Series", "Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that the curve $y = \\mathrm{f}(x)$ satisfies the equation $$\\ln y = \\frac{\\pi}{4} - \\tan^{-1}(\\mathrm{e}^x).$$",
     parts: [
       {
@@ -366,7 +366,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Vectors", "3D Lines and Planes"],
+    topics: ["Vectors"],
     stem: "The plane $p$ passes through the points $A$, $B$ and $C$ with coordinates $(1, 0, 2)$, $(2, -1, 3)$ and $(-4, -1, 0)$ respectively.",
     parts: [
       {
@@ -414,7 +414,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Differential Equations", "Graphs and Transformations"],
+    topics: ["Graphs & Transformations", "Differential Equations"],
     diagramSvg: `<svg viewBox="0 0 360 190" width="360" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Outer circular pond: centre (180, 95), radius 75 -->
   <circle cx="180" cy="95" r="75" fill="none" stroke-width="1.6" />
@@ -501,7 +501,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["AP and GP", "Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "Mr Huat is saving for a car that he plans to buy in the future. He needs to save a minimum of SGD 150,000.<br>A savings plan allows him to deposit SGD 6,000 into a savings account on the first day of every month. At the end of each month, the total amount in the savings account (including interest) is increased by $3\\%$. Mr Huat makes an initial deposit on 1 January 2026.",
     parts: [
       {
@@ -550,7 +550,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Integration", "Partial Fractions", "Area", "Volume of Revolution"],
+    topics: ["Integration"],
     stem: "Answer both parts (a) and (b).",
     parts: [
       {

@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Vectors", "Dot Product"],
+    topics: ["Vectors"],
     stem: "",
     parts: [
       {
@@ -29,7 +29,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<strong>Do not use a calculator in answering this question.</strong><br><br>It is given that $z = \\sqrt{3} - \\mathrm{i}$ and $w = 2\\mathrm{i}z$.",
     parts: [
       {
@@ -104,7 +104,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     stem: "A closed cylindrical tank with radius $r\\text{ m}$ and height $h\\text{ m}$ is to be constructed to hold $1000\\text{ m}^3$ of water. The material for the base and lid costs SGD 50 per $\\text{m}^2$, while the material for the curved surface costs SGD 30 per $\\text{m}^2$.",
     parts: [
       {
@@ -165,7 +165,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Sequences and Series", "AP and GP", "Sigma Notation"],
+    topics: ["Sequences & Series"],
     stem: "",
     parts: [
       {
@@ -219,7 +219,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $\\mathrm{e}^y = 1 + \\mathrm{e}^x$.",
     parts: [
       {
@@ -261,7 +261,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Permutations and Combinations"],
+    topics: ["Permutations & Combinations"],
     diagramSvg: `<svg viewBox="0 0 265 115" width="265" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Row 1: 1 brick -->
       <rect x="79" y="10" width="26" height="22" fill="none" stroke-width="1.2"/>
@@ -376,7 +376,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Correlation and Regression"],
+    topics: ["Correlation & Regression"],
     stem: "Andy is learning how to solve a Rubik's cube. The table shows his personal record time, $y$ seconds, for solving a Rubik's cube, $x$ days after he started.<br><div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>5</td><td>10</td><td>15</td><td>20</td><td>25</td><td>30</td><td>35</td><td>40</td></tr><tr><th>$y$</th><td>220</td><td>150</td><td>100</td><td>70</td><td>48</td><td>35</td><td>25</td><td>18</td></tr></table></div>",
     parts: [
       {
@@ -506,7 +506,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Sampling", "Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A company advertises that its rechargeable batteries can run non-stop for an average of $505$ minutes after a full charge. $100$ batteries are randomly selected, and their running time after a full charge, $x$ minutes, are measured. The data obtained is summarised by $$\\sum(x - 500) = 320, \\quad \\sum(x - 500)^2 = 8416.$$",
     parts: [
       {
@@ -559,7 +559,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Binomial Distribution", "Central Limit Theorem"],
+    topics: ["Binomial Distribution", "Sampling & CLT"],
     stem: "In a large shipment of second-hand T-shirts, $4\\%$ of the T-shirts are torn. The T-shirts are sold in boxes of $25$ pieces each. Let $X$ denote the number of torn T-shirts in a box.",
     parts: [
       {

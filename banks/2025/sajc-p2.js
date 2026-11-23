@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Inequalities", "Modulus Functions"],
+    topics: ["Equations & Inequalities"],
     stem: "Solve the following inequalities involving modulus functions.",
     parts: [
       {
@@ -44,7 +44,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Equations"],
+    topics: ["Complex Numbers"],
     stem: "This question consists of two independent parts (a) and (b) on roots of polynomial equations.",
     parts: [
       {
@@ -91,7 +91,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations", "Trigonometry"],
+    topics: ["Maclaurin Series"],
     diagramSvg: `<svg viewBox="0 0 320 170" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- B(35, 140), E(85, 140), C(135, 140), D(285, 140), A(85, 35) -->
       <polygon points="35,140 85,35 135,140" fill="rgba(91,155,213,0.12)" stroke="#2c2925" stroke-width="1.5"/>
@@ -151,7 +151,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Sequences and Series", "Recurrence Relations", "Geometric Series"],
+    topics: ["Sequences & Series"],
     stem: "A sequence $u_1, u_2, u_3, \\dots$ is such that $23u_{r+1} = 19u_r + 16$, for $r > 0$ and $u_1 = 2$.",
     parts: [
       {
@@ -218,7 +218,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Parametric Differentiation", "Tangents and Normals", "Connected Rates of Change"],
+    topics: ["Differentiation"],
     stem: "A curve $C$ has parametric equations<br>$$x = \\tan\\theta - \\cot\\theta, \\quad y = \\tan\\theta + \\cot\\theta, \\quad \\text{for } 0 < \\theta < \\frac{\\pi}{4}.$$",
     parts: [
       {
@@ -268,7 +268,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Permutations and Combinations"],
+    topics: ["Permutations & Combinations"],
     diagramSvg: `<svg viewBox="0 0 380 125" width="380" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Taxi X -->
       <text x="105" y="16" text-anchor="middle" stroke="none" font-weight="bold">Taxi X</text>
@@ -333,7 +333,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Probability", "Conditional Probability", "Discrete Random Variables"],
+    topics: ["Probability", "Discrete Random Variables"],
     diagramSvg: `<svg viewBox="0 0 260 120" width="260" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <text x="130" y="13" text-anchor="middle" stroke="none" font-style="italic" font-size="10">Venn diagram for part (a)</text>
       <rect x="20" y="20" width="210" height="90" fill="none" stroke-width="1.3"/>
@@ -407,7 +407,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Binomial Distribution", "Conditional Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "A company sells toys in blind boxes. Each blind box contains exactly one toy. On average, $2\\%$ of such blind boxes contain a faulty toy.<br>A collector buys $15$ such blind boxes at random.",
     parts: [
       {
@@ -478,7 +478,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Correlation and Linear Regression", "Data Transformation"],
+    topics: ["Correlation & Regression"],
     stem: "Alvin is investigating the relationship between the amount of screen time per day and the sleep quality of youths. He recorded the sleep quality score, $y$, on a scale of $1$ to $10$ with $1$ being the worst and $10$ being the best, of particular youths with $x$ hours of screen time per day.<br>" +
       "<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>$1.6$</td><td>$1.7$</td><td>$1.9$</td><td>$2.0$</td><td>$2.5$</td><td>$2.8$</td><td>$3.9$</td></tr>" +
       "<tr><th>$y$</th><td>$9$</td><td>$8$</td><td>$7$</td><td>$6$</td><td>$4$</td><td>$3$</td><td>$1$</td></tr></table></div>",
@@ -605,7 +605,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Normal Variables", "Central Limit Theorem"],
+    topics: ["Normal Distribution", "Sampling & CLT"],
     diagramSvg: `<svg viewBox="0 0 420 155" width="420" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Left: pdf of X ~ N(40, alpha^2) -->
       <text x="105" y="13" text-anchor="middle" stroke="none" font-style="italic" font-size="10">PDF of X</text>
@@ -720,7 +720,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem", "Unbiased Estimates"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A beverage company produces bottled orange juice, claiming that the mean vitamin C content in each $250\\text{ ml}$ bottle is $50\\text{ mg}$. It is known that the vitamin C content is normally distributed with a standard deviation of $2\\text{ mg}$.<br>Due to feedback from consumers, the quality control manager wants to test, at the $4\\%$ level of significance, whether the mean vitamin C content is, in fact, $50\\text{ mg}$. He randomly samples $12$ bottles and measures the vitamin C content.",
     parts: [
       {

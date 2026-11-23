@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Complex Numbers", "Modulus & Argument"],
+    topics: ["Complex Numbers"],
     stem: "Two complex numbers $z$ and $w$ are such that $2z + 5 = |w|$.",
     parts: [
       {
@@ -36,7 +36,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Integration by Substitution", "Volumes of Revolution"],
+    topics: ["Integration"],
     stem: "A toy plane is modelled using curves $C$ and $S$.",
     parts: [
       {
@@ -70,7 +70,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["3D Vectors", "Lines & Planes"],
+    topics: ["Vectors"],
     stem: "In a 3D kingdom with origin $O$, a wizard travels along $l_1: 5 - \\frac{x}{2} = z + 1, y = 3$. Later he enters a Cursed Forest along $l_2: \\mathbf{r} = \\begin{pmatrix} 4 \\\\ 1 \\\\ 0 \\end{pmatrix} + \\mu\\begin{pmatrix} -1 \\\\ 0 \\\\ 4 \\end{pmatrix}$ ($\\mu > 0$), bounded by planes $p_1: x+2y+2z=3$ and $p_2: 2x+y-2z=5$. Point $A$ is $(6, 3, 9)$.",
     parts: [
       {
@@ -121,7 +121,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Differentiation", "Maxima & Minima", "Rates of Change"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 240 155" width="225" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="125" x2="225" y2="125" stroke-width="1.5"/><line x1="65" y1="22" x2="65" y2="125" stroke-dasharray="4,3" stroke-width="1.3"/><line x1="65" y1="22" x2="145" y2="125" stroke="#4a8fe7" stroke-width="1.7"/><rect x="65" y="117" width="8" height="8" fill="none" stroke-width="1"/><circle cx="65" cy="22" r="3" fill="#2c2925"/><circle cx="195" cy="125" r="3" fill="#2c2925"/><text x="65" y="14" text-anchor="middle" stroke="none" font-style="italic">B</text><text x="58" y="75" text-anchor="end" stroke="none">1 km</text><text x="65" y="140" text-anchor="middle" stroke="none" font-style="italic">P</text><text x="145" y="140" text-anchor="middle" stroke="none" font-style="italic">Q</text><text x="195" y="140" text-anchor="middle" stroke="none" font-style="italic">A</text><text x="105" y="120" text-anchor="middle" stroke="none" font-style="italic">w <tspan font-style="normal">km</tspan></text><text x="130" y="151" text-anchor="middle" stroke="none">← 2 km →</text></svg>`,
     stem: "Paul, at point $A$ on a straight beach, sees a swimmer at point $B$ in the sea ($BP = 1\\text{ km}$, $AP = 2\\text{ km}$, $BP \\perp AP$). Paul runs from $A$ to $Q$ ($PQ = w\\text{ km}$, $0 \\le w \\le 2$) at $4$ min/km and swims from $Q$ to $B$ at $10$ min/km.",
     parts: [
@@ -190,7 +190,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation & Variance"],
+    topics: ["Discrete Random Variables"],
     stem: "Deck A has $9$ cards ($2$ showing $10$ dollars, $3$ showing $20$ dollars, $4$ showing $50$ dollars). Deck B has $9$ cards ($6$ showing $\\times 1$, $3$ showing $\\times 2$). One card is drawn from each deck; $X$ is the product (cash prize in dollars).",
     parts: [
       {
@@ -231,7 +231,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Unbiased Estimates", "Central Limit Theorem", "Hypothesis Testing"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A study reported that the population mean daily screen time of teenagers is $8.5$ hours. A random sample of $200$ teenagers had standard deviation $1.5$ hours.",
     parts: [
       {
@@ -277,7 +277,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "The continuous random variable $X$ has distribution $\\mathrm{N}(593, 127^2)$.",
     parts: [
       {
@@ -311,7 +311,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Binomial Distribution", "Conditional Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "On average $4\\%$ of cookies produced by a bakery are substandard. Ben randomly selects $50$ cookies each day ($X$).",
     parts: [
       {
@@ -358,7 +358,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Correlation & Regression", "Linearisation"],
+    topics: ["Correlation & Regression"],
     stem: "Answer both parts (a) and (b).",
     parts: [
       {
@@ -426,7 +426,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Probability", "Permutations & Combinations"],
+    topics: ["Permutations & Combinations", "Probability"],
     stem: "A $5$-member Executive Committee is randomly selected from $12$ representatives: $4$ Physicists, $3$ Biologists, $2$ Historians and $3$ Philosophers.",
     parts: [
       {

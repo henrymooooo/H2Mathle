@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Modulus Functions", "Curve Sketching"],
+    topics: ["Graphs & Transformations"],
     stem: "The curve $C$ has equation $y = |1 + 2\\cos x|$, $0 \\le x \\le 2\\pi$.",
     parts: [
       {
@@ -33,7 +33,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Differentiation Applications", "Rates of Change"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 210 175" width="195" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><ellipse cx="95" cy="30" rx="60" ry="12" fill="none" stroke-width="1.4"/><line x1="35" y1="30" x2="95" y2="155" stroke-width="1.5"/><line x1="155" y1="30" x2="95" y2="155" stroke-width="1.5"/><ellipse cx="95" cy="75" rx="38.4" ry="8" fill="rgba(91,155,213,0.22)" stroke="#4a8fe7" stroke-width="1.3"/><polygon points="56.6,75 133.4,75 95,155" fill="rgba(91,155,213,0.18)" stroke="none"/><line x1="95" y1="30" x2="95" y2="155" stroke-dasharray="4,3" stroke-width="1.1"/><line x1="95" y1="30" x2="155" y2="30" stroke-width="1.1"/><text x="125" y="25" text-anchor="middle" stroke="none">6 cm</text><line x1="172" y1="30" x2="172" y2="155" stroke-width="1.1"/><text x="178" y="96" stroke="none">12 cm</text></svg>`,
     stem: "Water is draining from an inverted right circular conical container with its vertex at the bottom. The container has a height of $12\\text{ cm}$ and a base radius of $6\\text{ cm}$. Water drains at a constant rate of $2\\text{ cm}^3/\\text{min}$. [Volume of cone $= \\frac{1}{3}\\pi r^2 h$.]",
     parts: [
@@ -56,7 +56,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Area Under Curve", "Volumes of Revolution"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 240 190" width="225" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><path d="M 90 140 L 146 84 L 146 117.4 A 70 70 0 0 1 90 140 Z" fill="rgba(91,155,213,0.25)" stroke="none"/><line x1="15" y1="70" x2="225" y2="70" stroke-width="1.3"/><line x1="90" y1="180" x2="90" y2="12" stroke-width="1.3"/><path d="M 20 70 A 70 70 0 0 0 160 70" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><line x1="40" y1="185" x2="195" y2="30" stroke-width="1.4"/><line x1="146" y1="15" x2="146" y2="178" stroke-width="1.4"/><text x="152" y="24" stroke="none" font-style="italic">x = 4</text><text x="196" y="42" stroke="none" font-style="italic">y = x − 5</text><text x="155" y="138" stroke="none" font-size="10">y = −√(25−x²)</text><text x="128" y="114" stroke="none" font-style="italic">R</text><text x="80" y="62" stroke="none" font-style="italic">O</text></svg>`,
     stem: "The diagram shows the region $R$ which is bounded by the curve $y = -\\sqrt{25 - x^2}$, the lines $y = x - 5$ and $x = 4$.",
     parts: [
@@ -89,7 +89,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Differentiation Applications", "Maxima & Minima"],
+    topics: ["Differentiation"],
     stem: "A solid cylinder has radius $r\\text{ cm}$, height $h\\text{ cm}$ and total surface area $1500\\text{ cm}^2$.",
     parts: [
       {
@@ -112,7 +112,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Vectors", "Planes", "Vector Product"],
+    topics: ["Vectors"],
     stem: "Answer both parts on vectors.",
     parts: [
       {
@@ -156,7 +156,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Roots", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "It is given that $-2 + 3\\mathrm{i}$ is a root of the equation $z^3 + az^2 - 7z + b = 0$, where $a$ and $b$ are real constants.",
     parts: [
       {
@@ -210,7 +210,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Recurrence Relations", "Sigma Notation"],
+    topics: ["Sequences & Series"],
     stem: "Answer both parts (a) and (b).",
     parts: [
       {
@@ -280,7 +280,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Integration", "Integration by Parts", "Substitutions"],
+    topics: ["Integration"],
     stem: "Evaluate the following integrals.",
     parts: [
       {
@@ -336,7 +336,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Parametric Equations", "Tangents and Normals"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The curve $C$ is defined by $x = 3t^2 - 4t + \\frac{1}{2}$, $y = 3t^3 - \\frac{9}{2}t^2 + 2t + \\frac{49}{18}$, for $0 < t < 1$, $t \\ne \\frac{2}{3}$.",
     parts: [
       {
@@ -396,7 +396,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["3D Vectors", "Lines & Planes"],
+    topics: ["Vectors"],
     stem: "A line $L_1$ has cartesian equation $x - 4 = -z$, $y = 1$. Another line $L_2$ is parallel to $\\begin{pmatrix} -2 \\\\ 1 \\\\ 3 \\end{pmatrix}$ and passes through $A(4, 3, c)$, where $c$ is a constant.",
     parts: [
       {
@@ -444,7 +444,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Graphs and Transformations", "Curve Sketching"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 360 155" width="340" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="15" y1="115" x2="160" y2="115" stroke-width="1.2"/><line x1="75" y1="145" x2="75" y2="12" stroke-width="1.2"/><line x1="108" y1="15" x2="108" y2="145" stroke-dasharray="4,3" stroke-width="1.1"/><path d="M 20 112 Q 58 106 75 45 Q 88 85 94 115 Q 102 68 105 22" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><path d="M 112 22 Q 118 98 156 112" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><text x="68" y="46" text-anchor="end" stroke="none">4</text><text x="94" y="127" text-anchor="middle" stroke="none">1</text><text x="108" y="153" text-anchor="middle" stroke="none">x=2</text><text x="67" y="126" stroke="none" font-style="italic">O</text><text x="118" y="50" stroke="none" font-style="italic">y=|f(x)|</text><line x1="195" y1="90" x2="345" y2="90" stroke-width="1.2"/><line x1="255" y1="145" x2="255" y2="12" stroke-width="1.2"/><line x1="288" y1="15" x2="288" y2="145" stroke-dasharray="4,3" stroke-width="1.1"/><path d="M 200 92 Q 225 108 238 106 Q 248 102 255 90 Q 272 58 284 18" fill="none" stroke="#cf5652" stroke-width="1.8"/><path d="M 292 142 Q 298 96 342 92" fill="none" stroke="#cf5652" stroke-width="1.8"/><text x="247" y="101" stroke="none" font-style="italic">O</text><text x="288" y="153" text-anchor="middle" stroke="none">x=2</text><text x="298" y="45" stroke="none" font-style="italic">y=f'(x)</text></svg>`,
     stem: "(i) The graphs of $y = |\\mathrm{f}(x)|$ and $y = \\mathrm{f}'(x)$ are shown in the diagram.<br>(ii) Consider transforming $y = \\mathrm{g}(x)$ to $y = \\mathrm{g}(3x+1)$.",
     parts: [
@@ -487,7 +487,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Differential Equations", "Logistic Model"],
+    topics: ["Differential Equations"],
     stem: "The number of fish, $t$ days after a study begins, is $x$ (in thousands). The birth rate per day is twice of $x$ and the death rate per day is proportional to $x^2$.",
     parts: [
       {

@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<strong>Do not use a calculator in answering this question.</strong><br>The complex number $w$ is such that $w = \\mathrm{i} - \\sqrt{3}$.",
     parts: [
       {
@@ -71,7 +71,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Graphs & Transformations", "Differentiation", "Applications of Integration"],
+    topics: ["Graphs & Transformations", "Differentiation", "Integration"],
     stem: "The curve $E$ has equation $$(x-a)^2 + 4y^2 = 4,$$ where $0 < a < 2$.",
     parts: [
       {
@@ -253,7 +253,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Discrete Random Variables", "Probability"],
+    topics: ["Probability", "Discrete Random Variables"],
     diagramSvg: `<svg viewBox="0 0 200 180" width="200" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="13" fill="#2c2925" stroke="#2c2925">
   <circle cx="100" cy="90" r="72" fill="none" stroke-width="1.5" />
   <line x1="28" y1="90" x2="172" y2="90" stroke-width="1.2" />
@@ -330,7 +330,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Correlation & Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "The Ministry of Health declared \"War on Diabetes\" in 2016 to rally a whole-of-nation effort to tackle diabetes. A study was conducted to investigate the effects of diabetes on one's health, specifically to determine if the blood pressure of an adult aged between $50$ and $60$ years old is dependent on one's haemoglobin level. Data from six patients in this age group from a hospital was collected. Their haemoglobin level, $s\\text{ mmol/mol}$, and blood pressure, $p\\text{ mmHg}$, are shown in the table.<div class='q-table-wrap'><table class='q-table'><tr><th>$s$</th><td>32</td><td>37</td><td>41</td><td>46</td><td>50</td><td>54</td></tr><tr><th>$p$</th><td>120</td><td>150</td><td>168</td><td>172</td><td>179</td><td>183</td></tr></table></div>",
     parts: [
       {
@@ -386,7 +386,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "In a sales campaign, a supermarket gives each shopper a receipt printed with a cartoon character when a shopper pays for his or her purchase. There are $10$ different cartoon characters available, character $A, B, C, \\ldots, J$. The printed cartoon character is equally likely to be any one of the $10$ different cartoon characters.",
     parts: [
       {
@@ -436,7 +436,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Sampling & Central Limit Theorem", "Hypothesis Testing"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "The production manager of a food container manufacturing company wishes to take a random sample of a certain type of lunch box from the thousands produced one day at his factory, for quality control purposes. He wishes to check that the mean height of the lunch boxes is $12.8\\text{ cm}$.",
     parts: [
       {

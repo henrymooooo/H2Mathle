@@ -2,7 +2,7 @@ window.registerQuestions([
   // ==================== TJC 2026 PAPER 2: PURE MATH (Q1 - Q5) ====================
   {
     id: "TJC-2026-P2-Q1", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q1", category: "pure",
-    topics: ["Sequences & Series", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "A sequence is defined by $x_1 = a$ and $x_{n+1} = x_n + \\left(\\frac{3}{2}\\right)^n$.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Find $x_2$, $x_3$ and $x_4$ in terms of $a$.", type: "self", solution: "$x_2 = a + \\frac{3}{2}$, $x_3 = a + \\frac{15}{4}$, $x_4 = a + \\frac{57}{8}$." },
@@ -12,7 +12,7 @@ window.registerQuestions([
   },
   {
     id: "TJC-2026-P2-Q2", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q2", category: "pure",
-    topics: ["3D Vectors", "Ratio Theorem", "Projection"],
+    topics: ["Vectors"],
     stem: "Points $A$ and $B$ have position vectors $\\begin{pmatrix}1\\\\7\\\\2\\end{pmatrix}$ and $\\begin{pmatrix}4\\\\-2\\\\2\\end{pmatrix}$. Point $C$ divides $AB$ in ratio $AC:CB = 2:1$. $D$ is midpoint of $OB$ and $E$ is $(1, k, 0)$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Find the position vector of $C$.", type: "auto", mode: "tuple", exactRequired: true, answer: [3, 1, 2], placeholder: "Coordinates (x, y, z)", solution: "$\\overrightarrow{OC} = \\frac{2\\mathbf{b}+\\mathbf{a}}{3} = \\begin{pmatrix}3\\\\1\\\\2\\end{pmatrix}$." },
@@ -22,7 +22,7 @@ window.registerQuestions([
   },
   {
     id: "TJC-2026-P2-Q3", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q3", category: "pure",
-    topics: ["Complex Numbers", "Quadratic Equations"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator.</em> $z^2(-2+\\mathrm{i}) + 4\\mathrm{i}z + q = 0$ ($q \\in \\mathbb{R}$) has a root $p + p\\mathrm{i}$ ($p \\ne 0, p \\in \\mathbb{R}$).",
     parts: [
       { label: "(a)", marks: 4, prompt: "Find the values of $p$ and $q$.", type: "auto", mode: "multi-field", fields: [{ label: "p =", answer: "1", exactRequired: true }, { label: "q =", answer: "6", exactRequired: true }], solution: "Sub $z = p+p\\mathrm{i}$: $(-2p^2-4p+q) + (-4p^2+4p)\\mathrm{i} = 0 \\implies p = 1, q = 6$." },
@@ -31,7 +31,7 @@ window.registerQuestions([
   },
   {
     id: "TJC-2026-P2-Q4", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q4", category: "pure",
-    topics: ["Parametric Equations", "Tangents"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "Curve $C$ has parametric equations $x = t^2 - 1$, $y = t^3 - 3t^2 + 1$ for $t > 0$.",
     parts: [
       { label: "(a)", marks: 4, prompt: "Find $\\frac{\\mathrm{d}y}{\\mathrm{d}x}$ in terms of $t$, and find the coordinates of the stationary point of $C$.", type: "auto", mode: "tuple", exactRequired: true, answer: [3, -3], placeholder: "Coordinates (x, y)", solution: "$\\frac{\\mathrm{d}y}{\\mathrm{d}x} = \\frac{3}{2}(t-2) = 0 \\implies t = 2 \\implies (3, -3)$." },
@@ -46,7 +46,7 @@ window.registerQuestions([
   },
   {
     id: "TJC-2026-P2-Q5", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q5", category: "pure",
-    topics: ["Integration by Substitution", "Volumes of Revolution"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 220 185" width="205" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="125" x2="205" y2="125" stroke-width="1.3"/><line x1="75" y1="175" x2="75" y2="12" stroke-width="1.3"/><circle cx="75" cy="125" r="42" fill="none" stroke="#2c2925" stroke-width="1.5"/><circle cx="117" cy="83" r="42" fill="none" stroke="#4a8fe7" stroke-width="1.5"/><path d="M 75 83 A 42 42 0 0 1 117 125 A 42 42 0 0 1 75 83 Z" fill="rgba(91,155,213,0.28)" stroke="none"/><text x="93" y="109" stroke="none" font-style="italic" font-size="12">R</text></svg>`,
     stem: "Part (b) shows circles $x^2+y^2=4$ and $(x-2)^2+(y-2)^2=4$ enclosing shaded region $R$.",
     parts: [
@@ -58,7 +58,7 @@ window.registerQuestions([
   // ==================== TJC 2026 PAPER 2: STATISTICS (Q6 - Q11) ====================
   {
     id: "TJC-2026-P2-Q6", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q6", category: "stats",
-    topics: ["Discrete Random Variables", "Central Limit Theorem"],
+    topics: ["Discrete Random Variables", "Sampling & CLT"],
     stem: "In each game, Anand tosses $3$ tokens (red cup prob $0.7$). Scores: $0$ red $\\to 0$ pts; $1$ or $2$ red $\\to 1$ pt; $3$ red $\\to 3$ pts. Score is $S$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Show that $\\mathrm{E}(S) = 1.659$.", type: "self", solution: "$\\mathrm{P}(S=0)=0.027$, $\\mathrm{P}(S=1)=0.63$, $\\mathrm{P}(S=3)=0.343 \\implies \\mathrm{E}(S) = 0.63 + 3(0.343) = 1.659$." },
@@ -79,7 +79,7 @@ window.registerQuestions([
   },
   {
     id: "TJC-2026-P2-Q8", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q8", category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations"],
+    topics: ["Normal Distribution"],
     stem: "Task A time $\\sim \\mathrm{N}(m, 1.25)$ min, Task B time $\\sim \\mathrm{N}(7, 1)$ min (independent). $3.1\\%$ take at least $22.8$ min for both.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Show that $m = 13.0$, correct to 1 decimal place.", type: "self", solution: "$T \\sim \\mathrm{N}(m+7, 2.25)$. $\\frac{22.8-(m+7)}{1.5} = 1.8663 \\implies m = 13.0$." },
@@ -90,7 +90,7 @@ window.registerQuestions([
   },
   {
     id: "TJC-2026-P2-Q9", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q9", category: "stats",
-    topics: ["Correlation & Regression", "Quadratic Model"],
+    topics: ["Correlation & Regression"],
     stem: "Rice yield $y$ (tons/ha) vs rainfall $x$ (cm), with $r = 0.93244$:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>60</td><td>80</td><td>100</td><td>120</td><td>140</td><td>160</td><td>180</td><td>200</td></tr><tr><th>$y$</th><td>2.1</td><td>2.8</td><td>3.5</td><td>4.2</td><td>4.6</td><td>4.9</td><td>5.0</td><td>4.8</td></tr></table></div>Quadratic model $y = c + d(x-H)^2$ gives $r = -0.997383$ ($H=182$), $-0.997390$ ($H=183$), $-0.997293$ ($H=185$).",
     parts: [
       { label: "(a)-(c)", marks: 4, prompt: "State what $r=0.93244$ suggests, sketch the scatter diagram & explain why (a) changes, and give a contextual reason why a linear model is inappropriate.", type: "self", solution: "(a) Strong positive linear correlation. (b) Points increase at decreasing rate then decrease; linear correlation does not hold. (c) Too much rainfall floods/damages crops." },
@@ -116,7 +116,7 @@ window.registerQuestions([
   },
   {
     id: "TJC-2026-P2-Q11", year: 2026, school: "TJC", paper: "2026 Prelim Paper 2", qNum: "Q11", category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Teabag claimed mean mass is $3.2\\text{ g}$. Random sample of $50$: $\\sum x = 156$, $\\sum(x-\\bar{x})^2 = 7$.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Find unbiased estimates of population mean and variance.", type: "auto", mode: "multi-field", fields: [{ label: "Mean =", answer: "3.12", exactRequired: true }, { label: "Var =", answer: "1/7" }], solution: "$\\bar{x} = 3.12$, $s^2 = \\frac{7}{49} = \\frac{1}{7} \\approx 0.143$." },

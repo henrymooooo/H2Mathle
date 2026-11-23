@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Differentiation", "Definite Integrals", "Simultaneous Equations"],
+    topics: ["Equations & Inequalities", "Differentiation", "Integration"],
     stem: "A curve with equation $y = ax + b + \\frac{c}{x-1}$, where $a$, $b$ and $c$ are non-zero constants, has a turning point at $(3, 7)$. The area bounded by the curve for $y > 0$, the $x$-axis, the lines $x = 2$ and $x = 3$ is $4.5 + \\ln 16\\text{ units}^2$.",
     parts: [
       {
@@ -31,7 +31,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Inequalities", "Exponential Functions"],
+    topics: ["Equations & Inequalities"],
     stem: "Solve the following inequalities.",
     parts: [
       {
@@ -57,7 +57,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Vectors", "Vector Product", "Scalar Product"],
+    topics: ["Vectors"],
     stem: "Referred to the origin $O$, points $A$, $B$ and $C$ have non-zero position vectors $\\mathbf{a}$, $\\mathbf{b}$ and $\\mathbf{c}$ respectively. It is given that $\\mathbf{a} \\times \\mathbf{b} = \\mathbf{c}$ and $\\mathbf{b} \\times \\mathbf{c} = k\\mathbf{a}$, where $k$ is a positive constant.",
     parts: [
       {
@@ -94,7 +94,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator in answering this question.</em><br>It is given that $1 - 3\\mathrm{i}$ is a complex root of the equation $z^3 + pz^2 + (p+12)z + q = 0$, where $p$ and $q$ are real numbers.",
     parts: [
       {
@@ -142,7 +142,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Summation of Series", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "The sum, $S_n$, of the first $n$ terms of a sequence $u_1, u_2, u_3, \\dots$ is given by $S_n = \\frac{1}{6} + \\frac{1}{n+3} - \\frac{2}{n+4}$.",
     parts: [
       {
@@ -179,7 +179,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Differentiation", "Normals", "Area Under Curve"],
+    topics: ["Differentiation", "Integration"],
     stem: "A curve has equation $y = \\frac{\\ln(5-x)}{5-x}$.",
     parts: [
       {
@@ -209,7 +209,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\cos(\\mathrm{e}^{-2x} - 1)$.",
     parts: [
       {
@@ -260,7 +260,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Parametric Equations", "Volumes of Revolution"],
+    topics: ["Graphs & Transformations", "Integration"],
     stem: "A curve $C$ has parametric equations $x = \\sec\\theta + 1$, $y = \\tan\\theta - 2$, where $-\\frac{\\pi}{2} < \\theta < \\frac{\\pi}{2}$.",
     parts: [
       {
@@ -307,7 +307,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["AP & GP", "Mensuration"],
+    topics: ["Sequences & Series"],
     diagramSvg: `<svg viewBox="0 0 280 140" width="265" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><path d="M 80 120 L 32 32 A 95 95 0 0 1 132 32 Z" fill="rgba(91,155,213,0.22)" stroke="#4a8fe7" stroke-width="1.5"/><path d="M 142 110 L 112 52 A 65 65 0 0 1 178 52 Z" fill="rgba(91,155,213,0.18)" stroke="#4a8fe7" stroke-width="1.3"/><path d="M 188 100 L 168 62 A 42 42 0 0 1 210 62 Z" fill="rgba(91,155,213,0.15)" stroke="#4a8fe7" stroke-width="1.2"/><path d="M 222 92 L 210 68 A 26 26 0 0 1 236 68 Z" fill="rgba(91,155,213,0.12)" stroke="#4a8fe7" stroke-width="1.1"/><text x="24" y="30" stroke="none" font-style="italic">A</text><text x="135" y="30" stroke="none" font-style="italic">B</text><text x="80" y="134" text-anchor="middle" stroke="none" font-style="italic">O</text></svg>`,
     stem: "A pattern on a T-shirt consists of a sequence of similar sectors. The first sector $AOB$ has centre $O$ and radii $OA, OB$.",
     parts: [
@@ -358,7 +358,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Integration by Substitution", "Integration by Parts", "Area Under Curve"],
+    topics: ["Integration"],
     stem: "Let $a$ be a positive constant.",
     parts: [
       {
@@ -404,7 +404,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["3D Vectors", "Lines & Planes"],
+    topics: ["Vectors"],
     stem: "Lines $l_1$ and $l_2$ have equations $\\mathbf{r} = \\begin{pmatrix}2\\\\1\\\\-1\\end{pmatrix} + \\lambda\\begin{pmatrix}1\\\\-2\\\\3\\end{pmatrix}$ and $\\mathbf{r} = \\begin{pmatrix}3\\\\4\\\\p\\end{pmatrix} + \\mu\\begin{pmatrix}2\\\\1\\\\q\\end{pmatrix}$, where $p, q$ are constants.",
     parts: [
       {
@@ -468,7 +468,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Differential Equations", "Integrating Factor"],
+    topics: ["Differential Equations"],
     stem: "The amount of Carbon-11, $C$, in a plant decreases through radioactive decay at a rate equal to $2.5\\%$ of the amount present at time $t$ minutes.",
     parts: [
       {

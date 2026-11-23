@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations"],
+    topics: ["Maclaurin Series"],
     stem: "In this question you may use expansions from the List of Formulae (MF27).<br>It is given that $\\mathrm{f}(\\theta) = \\frac{1}{3 - \\sin\\theta}$, for $\\theta > 0$.",
     parts: [
       {
@@ -35,7 +35,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Graphing Techniques", "Inequalities"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     diagramSvg: `<svg viewBox="0 0 320 240" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes: origin at (125, 130), scale 20px per unit -->
   <line x1="20" y1="130" x2="295" y2="130" stroke-width="1.2"/>
@@ -139,7 +139,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Integration Techniques"],
+    topics: ["Integration"],
     stem: "Find the following indefinite integrals.",
     parts: [
       {
@@ -196,7 +196,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Equations & Systems", "Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem:
       "Three different blends of coffee beans – Blend A, Blend B and Blend C – are sold at both M Café and I Café. The usual selling prices of the blends are the same at both cafés. The total cost of buying one package each of Blend A, Blend B and Blend C is SGD 176. During a holiday sale, the two cafés offered the following discounts:<br>" +
       "<div class='q-table-wrap'><table class='q-table'>" +
@@ -258,7 +258,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Integration Techniques", "Definite Integrals"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -302,7 +302,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Differentiation", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 280 230" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Rectangle ABFG: A(75,30), B(165,30), F(165,190), G(75,190) -->
   <!-- Two semicircles on BD and DF with radius 40: center1 (165,70), center2 (165,150) -->
@@ -379,7 +379,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["AP & GP", "Sequences & Series"],
+    topics: ["Sequences & Series"],
     stem:
       "Epidemiologists are modelling the spread of an infectious disease in a town. The following assumptions are made:<br>" +
       "• At Week 0, there are 500 new infections.<br>" +
@@ -443,7 +443,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Maclaurin Series", "Differentiation", "Definite Integrals"],
+    topics: ["Differentiation", "Maclaurin Series", "Integration"],
     stem: "It is given that $y = \\mathrm{e}^{2\\sin^{-1} x}$.",
     parts: [
       {
@@ -501,7 +501,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Vectors", "Lines & Planes"],
+    topics: ["Vectors"],
     stem: "The coordinates of point $A$ and $B$ are $(1, 2, 3)$ and $(17, 10, 19)$ respectively. The line $l_1$ passes through both points $A$ and $B$ and is parallel to the vector $\\begin{pmatrix} k \\\\ 1 \\\\ 2 \\end{pmatrix}$, where $k$ is a constant.",
     parts: [
       {
@@ -569,7 +569,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Applications of Integration", "Area & Volume"],
+    topics: ["Integration"],
     stem: "The curves $C_1$ and $C_2$ are given by the equations $y = \\frac{1}{1 + 4x^2}$ and $y = \\frac{x^2}{5}$ respectively.",
     parts: [
       {

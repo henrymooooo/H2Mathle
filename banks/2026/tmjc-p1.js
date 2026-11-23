@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Implicit Differentiation", "Normals"],
+    topics: ["Differentiation"],
     stem: "A curve $C$ has equation $2x^2 + xy + y^2 = 14$.",
     parts: [
       {
@@ -47,7 +47,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Integration by Substitution", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "Evaluate the following integrals.",
     parts: [
       {
@@ -81,7 +81,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Differential Equations", "Substitution"],
+    topics: ["Differential Equations"],
     stem: "Consider the differential equation $(1+x^2)\\frac{\\mathrm{d}y}{\\mathrm{d}x} = y(1+y^2)$.",
     parts: [
       {
@@ -100,7 +100,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Summation of Series", "Integration & Divergence"],
+    topics: ["Sequences & Series", "Integration"],
     diagramSvg: `<svg viewBox="0 0 260 155" width="245" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="130" x2="245" y2="130" stroke-width="1.3"/><line x1="40" y1="145" x2="40" y2="12" stroke-width="1.3"/><g fill="rgba(91,155,213,0.16)" stroke="#4a8fe7" stroke-width="1.1"><rect x="65" y="42" width="26" height="88"/><rect x="91" y="86" width="26" height="44"/><rect x="117" y="101" width="26" height="29"/><rect x="195" y="120" width="26" height="10"/></g><path d="M 48 16 Q 60 65 91 86 T 232 123" fill="none" stroke="#2c2925" stroke-width="1.7"/><g stroke="none" text-anchor="middle" font-size="10"><text x="65" y="143">1</text><text x="91" y="143">2</text><text x="117" y="143">3</text><text x="143" y="143">4</text><text x="195" y="143" font-style="italic">n</text><text x="223" y="143" font-style="italic">n+1</text></g><text x="210" y="96" stroke="none" font-style="italic">y = 1/x</text></svg>`,
     stem: "Part (b) refers to the graph of $y = \\frac{1}{x}$ with $n$ rectangles of equal width $1$ unit from $x = 1$ to $x = n + 1$.",
     parts: [
@@ -132,7 +132,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Rational Functions", "Conics", "Graph Sketching"],
+    topics: ["Graphs & Transformations"],
     stem: "Curve $C$ has equation $y = \\frac{2x^2 + kx + 13}{x - 2}$, and the line $y = 2x - 4$ is an asymptote of $C$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Show that $k = -8$.", type: "self", solution: "$\\frac{2x^2+kx+13}{x-2} = 2x - 4 + \\frac{A}{x-2} = \\frac{2x^2 - 8x + 8 + A}{x-2}$. Comparing gives $k = -8$." },
@@ -153,7 +153,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Conics", "Volumes of Revolution"],
+    topics: ["Graphs & Transformations", "Integration"],
     stem: "Curves $C$ and $D$ have equations $x^2 + \\frac{y^2}{(\\mathrm{e}-1)^2} = 1$ and $y = \\mathrm{e}^{x+1} - 1$ respectively. The smaller region enclosed by $C$ and $D$ is denoted by $R$.",
     parts: [
       {
@@ -182,7 +182,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Small Angle Approximations", "Trigonometry"],
+    topics: ["Maclaurin Series"],
     diagramSvg: `<svg viewBox="0 0 240 130" width="225" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="85,22 35,105 205,105" fill="none" stroke-width="1.6"/><text x="85" y="16" text-anchor="middle" stroke="none" font-style="italic">A</text><text x="26" y="110" stroke="none" font-style="italic">B</text><text x="212" y="110" stroke="none" font-style="italic">C</text><text x="50" y="64" stroke="none">2</text><text x="88" y="42" stroke="none" font-style="italic">θ</text><text x="55" y="96" stroke="none">π/3</text></svg>`,
     stem: "In triangle $ABC$, $AB = 2$, ∠$BAC = \\theta$ radians and ∠$ABC = \\frac{\\pi}{3}$ radians.",
     parts: [
@@ -198,7 +198,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator in answering this question.</em><br>The equation $z^2 - (7+\\mathrm{i})z + (24+7\\mathrm{i}) = 0$ has a root $z_1 = 4 + k\\mathrm{i}$, where $k \\in \\mathbb{R}$.",
     parts: [
       { label: "(a)", marks: 4, prompt: "Show that $k = -3$ and find the other root, $z_2$.", type: "auto", mode: "complex-list", exactRequired: true, answer: ["3+4*i"], placeholder: "Other root z2", solution: "Sub $z_1=4+k\\mathrm{i}$ and compare imaginary parts: $k + 3 = 0 \\implies k = -3$.<br>Sum of roots: $7 + \\mathrm{i} = (4-3\\mathrm{i}) + z_2 \\implies z_2 = 3 + 4\\mathrm{i}$." },
@@ -219,7 +219,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["AP & GP", "Financial Modelling"],
+    topics: ["Sequences & Series"],
     stem: "Starting 1 Jan 2026, Aaron deposits $1500$ dollars (increasing by $20$ dollars each subsequent year) plus a $b$ dollar bonus every 31 Dec. Bob deposits $1500$ dollars each 1 Jan at $3\\%$ p.a. compound interest (credited 31 Dec).",
     parts: [
       { label: "(a)", marks: 6, prompt: "Show that after $n$ years, $A_n = 10n^2 + (1490+b)n$ and $B_n = 51500(1.03^n - 1)$.", type: "self", solution: "$A_n = \\frac{n}{2}[2(1500)+(n-1)(20)] + bn = 10n^2 + (1490+b)n$.<br>$B_n = 1500(1.03)\\frac{1.03^n-1}{1.03-1} = 51500(1.03^n - 1)$." },
@@ -235,7 +235,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["3D Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     stem: "Plane $p_1$ has equation $x - 2y + 2z = 5$ and line $l_1$ has equation $\\frac{x-1}{\\alpha} = \\frac{2-y}{2} = z + 3$ ($\\alpha \\ne 0$).",
     parts: [
       { label: "(a)", marks: 4, prompt: "The acute angle between $p_1$ and $l_1$ is $\\sin^{-1}\\frac{4}{9}$. Find the possible values of $\\alpha$.", type: "auto", mode: "number-list", answer: [-2, 122 / 7], placeholder: "Values separated by comma", solution: "$\\frac{|\\alpha+6|}{3\\sqrt{\\alpha^2+5}} = \\frac{4}{9} \\implies 7\\alpha^2 - 108\\alpha - 244 = 0 \\implies \\alpha = -2$ or $\\frac{122}{7}$." },

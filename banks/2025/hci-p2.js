@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Area Under Curve", "Volume of Revolution"],
+    topics: ["Integration"],
     stem: "The region $A$ is bounded by the curves $y = \\sqrt{x + 1}$, $y = \\sqrt{7 - 2x}$, the $x$-axis and the $y$-axis.",
     parts: [
       {
@@ -60,7 +60,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Maclaurin Series", "Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\ln\\left[\\sin\\left(x + \\frac{\\pi}{4}\\right)\\right]$, where $-\\frac{\\pi}{4} < x < \\frac{3\\pi}{4}$.",
     parts: [
       {
@@ -86,7 +86,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Parametric Equations", "Tangents and Normals", "Conic Sections"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The parametric equations of the curve $C$ are<br>$$x = 1 - 3\\cosec\\theta \\quad \\text{and} \\quad y = 2\\cot\\theta - 3, \\quad \\text{where } 0 \\le \\theta \\le \\pi.$$",
     parts: [
       {
@@ -151,7 +151,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Vectors", "Dot Product", "Cross Product"],
+    topics: ["Vectors"],
     stem: "Let $A$, $B$ and $C$ be the points on the same plane with position vectors $\\mathbf{a}$, $\\mathbf{b}$ and $\\mathbf{c}$ respectively and $\\mathbf{a} + \\mathbf{b} + \\mathbf{c} = \\mathbf{0}$. It is given that vectors $\\mathbf{a}$, $\\mathbf{b}$ and $\\mathbf{c}$ are unit vectors.",
     parts: [
       {
@@ -229,7 +229,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Permutations and Combinations", "Probability"],
+    topics: ["Permutations & Combinations", "Probability"],
     stem: "The eleven letters in the word <strong>INSPIRATION</strong> are each printed on separate, identical cards.",
     parts: [
       {
@@ -273,7 +273,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "A basketball free throw game involves a team of two players, Ben and John. The game consists of at most three throws and the moment a player makes a successful shot, the team wins, and the game will end.<br>The game uses the following rules:<br>• Only one player is selected for each game and the probability that Ben is selected in a game is $0.7$.<br>• The probabilities that Ben and John make a successful shot in any single attempt are $0.1$ and $0.07$ respectively.<br>• The shots are independent of each other.",
     parts: [
       {
@@ -316,7 +316,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Correlation and Regression"],
+    topics: ["Correlation & Regression"],
     stem: "An ice-cream seller records the monthly ice cream sales, $s$ thousand dollars for different temperature, $t$ degrees Celsius during the winter season. The recorded values are shown in the table below.<br><div class='q-table-wrap'><table class='q-table'><tr><th>$t$</th><td>1</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr><tr><th>$s$</th><td>14</td><td>15</td><td>15</td><td>16</td><td>18</td><td>21</td><td>23</td></tr></table></div>",
     parts: [
       {
@@ -385,7 +385,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Sampling", "Hypothesis Testing"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A food producer claims that the mean mass of a can of beans it produces is $425\\text{ g}$. Following customer feedback, the production manager wishes to test if the mean mass of a can of beans is indeed $425\\text{ g}$.<br>The production manager took a random sample of size $50$ and the mass of each can, in $x\\text{ g}$, is recorded and the results are shown below:<br>$$\\sum x = 21209, \\qquad \\sum (x - 424.18)^2 = 522.$$",
     parts: [
       {
@@ -430,7 +430,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Discrete Random Variables", "Central Limit Theorem", "Binomial Distribution"],
+    topics: ["Discrete Random Variables", "Binomial Distribution", "Sampling & CLT"],
     stem: "In each round of a treasure hunt game, a player randomly selects a spot from a large number of predefined treasure locations on an island. Each spot uncovers one outcome, and a score $x$ is awarded based on the outcome. The table below shows all the possible outcomes in a round and the corresponding scores. Each round is independent and the game resets after every round, so that the probabilities remain unchanged.<br><div class='q-table-wrap'><table class='q-table'><tr><th>Outcome</th><td>Cursed trap</td><td>Small trap</td><td>Mystery box</td><td>Gold chest</td></tr><tr><th>Score, $x$</th><td>$-3$</td><td>$-0.3$</td><td>$p$</td><td>$5$</td></tr><tr><th>$\\mathrm{P}(X = x)$</th><td>$0.2$</td><td>$p$</td><td>$q$</td><td>$0.1$</td></tr></table></div>",
     parts: [
       {
@@ -492,7 +492,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Random Variables", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "<strong>In this question you should state the parameters of any distributions you use.</strong><br>At a burger shop, the wait time, $W$ (in minutes), is defined to be the time from when a customer places an order at the counter until the food is collected. It was proposed that $W$ is modelled by $\\mathrm{N}(2, 1.5^2)$.",
     parts: [
       {

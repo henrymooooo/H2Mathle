@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Graphs and Transformations"],
+    topics: ["Graphs & Transformations"],
     stem: "A graph with equation $y = \\mathrm{f}(x)$ undergoes, in succession, the following transformations:<br>I: A translation of $3$ units in the negative $y$-direction;<br>II: A translation of $1$ unit in the negative $x$-direction;<br>III: A scale parallel to the $x$-axis by a scale factor of $\\frac{1}{2}$;<br>IV: A reflection in the $y$-axis.<br>The equation of the resulting curve is $y = \\ln(2 - 4x) - 2$.",
     parts: [
       {
@@ -25,7 +25,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Inequalities", "Modulus Functions"],
+    topics: ["Equations & Inequalities"],
     stem: "Solve the following inequalities.",
     parts: [
       {
@@ -51,7 +51,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Parametric Equations", "Normals"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ has parametric equations $x = \\sin t$, $y = \\cos 2t$, for $\\frac{\\pi}{2} < t < \\frac{3\\pi}{2}$, $t \\ne \\pi$.",
     parts: [
       {
@@ -77,7 +77,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Rational Functions", "Curve Sketching"],
+    topics: ["Graphs & Transformations"],
     stem: "A curve $C$ has equation $x^2 + 3x - xy + 3y - 2 = 0$.",
     parts: [
       {
@@ -108,7 +108,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Integration", "Integration by Parts", "Modulus Functions"],
+    topics: ["Integration"],
     stem: "Answer all parts.",
     parts: [
       {
@@ -145,7 +145,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Vectors", "Scalar & Vector Products"],
+    topics: ["Vectors"],
     stem: "Relative to the origin $O$, the position vectors of $A$, $B$ and $C$ are $\\mathbf{a}$, $\\mathbf{b}$ and $\\mathbf{c}$ respectively where $\\mathbf{c} = 3\\mathbf{b} - \\mathbf{a}$. Given that $\\mathbf{b}$ is a unit vector, $|\\mathbf{a}| = 3$, $|\\mathbf{b} - \\mathbf{a}| = \\sqrt{7}$ and the angle between $\\mathbf{a}$ and $\\mathbf{b}$ is $\\frac{\\pi}{3}$,",
     parts: [
       {
@@ -179,7 +179,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "Given that $y = \\mathrm{e}^{\\sqrt{1-x}}$,",
     parts: [
       {
@@ -222,7 +222,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Arithmetic Progression", "Geometric Progression", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "<em>For this question, all answers for distance are to be expressed in kilometres.</em><br>Madilyn and Nancy are participating in a $60$-day charity running challenge. Madilyn runs on alternate days starting on Day $1$: $2\\text{ km}$ on Day $1$, $2.1\\text{ km}$ on Day $3$, $2.2\\text{ km}$ on Day $5$, and so on. Nancy runs every day: $2\\text{ km}$ on Day $1$, $2.2\\text{ km}$ on Day $2$, $2.38\\text{ km}$ on Day $3$, where each subsequent additional distance is $90\\%$ of the previous day's additional distance.",
     parts: [
       {
@@ -281,7 +281,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Functions", "Inverse & Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto -4x^2 - 2x + 2$, $x \\in \\mathbb{R}$, $-2 \\le x < 2$.",
     parts: [
       {
@@ -322,7 +322,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Sequences and Series", "Recurrence Relations", "Sigma Notation"],
+    topics: ["Sequences & Series"],
     stem: "Answer all parts.",
     parts: [
       {
@@ -396,7 +396,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "Answer all parts on complex numbers.",
     parts: [
       {
@@ -449,7 +449,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Differential Equations", "Modelling"],
+    topics: ["Differential Equations"],
     stem: "An ocean-monitoring sensor stores electrical energy generated from wave motion. Let $E$ joules be the amount of energy stored $t$ hours after activation. Wave motion supplies energy at a rate of $\\frac{12}{t+1}$ joules per hour, and energy is consumed by the sensor at a rate of $\\frac{3E^2}{16(t+1)}$ joules per hour. Initially, $E = 4$.",
     parts: [
       {

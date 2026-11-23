@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Inequalities", "Modulus Functions"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -32,7 +32,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Graphing Techniques", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The graph of $y = \\frac{ax^2 + bx + c}{x + d}$ has a vertical asymptote with equation $x = -1$ and an oblique asymptote with equation $y = 2x + 2$. It is given that $c \\ne 2$.",
     parts: [
       {
@@ -73,7 +73,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Implicit Differentiation", "Tangents and Normals"],
+    topics: ["Differentiation"],
     stem: "It is given that $y = x^{xy}$, where $x > 0$, $y > 0$.",
     parts: [
       {
@@ -102,7 +102,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Integration by Parts", "Volumes of Revolution"],
+    topics: ["Integration"],
     stem: "The region $R$ is bounded by the curve with equation $y = x \\ln x$, the lines $x = \\mathrm{e}$, $x = \\mathrm{e}^2$ and the $x$-axis.",
     parts: [
       {
@@ -126,7 +126,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "Relative to the origin $O$, the points $A$ and $B$ have non-zero and non-parallel position vectors $\\mathbf{a}$ and $\\mathbf{b}$ respectively. The plane $p$ has equation $\\mathbf{r} \\cdot \\mathbf{n} = 0$.",
     parts: [
       {
@@ -159,7 +159,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 380 185" width="380" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Figure 1: Open cylindrical tank -->
   <ellipse cx="95" cy="48" rx="48" ry="12" fill="none" stroke-width="1.5"/>
@@ -230,7 +230,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Differential Equations", "Exponential Models"],
+    topics: ["Differential Equations"],
     stem: "A freshly brewed cup of tea, initially at a temperature of $85^\\circ\\text{C}$, is left out to cool in a room with a room temperature of $25^\\circ\\text{C}$. After $20$ minutes, the temperature of the tea is $55^\\circ\\text{C}$.<br>It is known that the rate of change of the temperature of the tea is proportional to the difference between the temperature of the tea and the room temperature.",
     parts: [
       {
@@ -270,7 +270,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations", "Functions", "Inverse Functions"],
+    topics: ["Functions", "Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 280 210" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <line x1="20" y1="145" x2="260" y2="145" stroke-width="1.3"/>
   <polyline points="254,141 260,145 254,149" fill="none" stroke-width="1.3"/>
@@ -406,7 +406,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "The planes $\\pi_1$ and $\\pi_2$ have equations $3x + c(y + z) - 2 = 0$ and $\\mathbf{r} = (\\mathbf{i} + 3\\mathbf{j} - 2\\mathbf{k}) + s(2\\mathbf{i} - \\mathbf{j} + 3\\mathbf{k}) + t(\\mathbf{i} - \\mathbf{k})$ respectively, where $c$ is a constant, and $s$ and $t$ are parameters. The point $A(1, 3, -2)$ lies in both planes.",
     parts: [
       {
@@ -446,7 +446,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<strong>Do not use a calculator in answering this question.</strong>",
     parts: [
       {
@@ -517,7 +517,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Parametric Equations", "Tangents and Normals", "Area Under Curves"],
+    topics: ["Graphs & Transformations", "Differentiation", "Integration"],
     diagramSvg: `<svg viewBox="0 0 280 215" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Diagram for part (d): xy^2 = 1 with tangent at (p^2, 1/p) cutting at (4p^2, -1/(2p)), shaded region S -->
   <line x1="20" y1="110" x2="255" y2="110" stroke-width="1.3"/>
@@ -600,7 +600,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Arithmetic Progression", "Geometric Progression", "Financial Applications"],
+    topics: ["Sequences & Series"],
     stem: "Sarah, a Singaporean Citizen, started a 4-year undergraduate Computing course at the National University of Singapore (NUS) in August 2021. The annual tuition fee, after the MOE Tuition Grant, is SGD 8,250. Sarah took a Tuition Fee Loan (TFL) covering $90\\%$ of her tuition fees. This loan is interest-free during her course of study.<br><br>Sarah decided to set aside SGD $x$ per month from August 2021. This amount is increased by SGD 2 each subsequent month. (Sarah set aside SGD $x$ in August 2021, SGD $(x + 2)$ in September 2021, ...) With the amount set aside, she repaid one-fifth of her total TFL at the end of July 2025.",
     parts: [
       {

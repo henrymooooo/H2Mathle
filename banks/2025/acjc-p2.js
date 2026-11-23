@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Vectors", "Foot of Perpendicular", "Reflection"],
+    topics: ["Vectors"],
     stem: "It is given that $OA = 3\\mathbf{i} + \\mathbf{j} + 3\\mathbf{k}$ and $OB = 5\\mathbf{i} - 4\\mathbf{j} + 3\\mathbf{k}$.",
     parts: [
       {
@@ -25,7 +25,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Maclaurin Series", "Binomial Expansion"],
+    topics: ["Maclaurin Series"],
     stem: "It is given that $\\mathrm{f}(x) = \\frac{1}{\\sqrt{1 - 4x^2}}$ where $-\\frac{1}{2} < x < \\frac{1}{2}$.",
     parts: [
       {
@@ -59,7 +59,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Summation of Series", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     stem: "",
     parts: [
       {
@@ -103,7 +103,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto \\frac{1}{x^2 + 6x + 5}$, for $x \\ge -3$, $x \\ne -1$.",
     parts: [
       {
@@ -140,7 +140,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Integration by Substitution", "Differential Equations"],
+    topics: ["Integration", "Differential Equations"],
     stem: "",
     parts: [
       {
@@ -177,7 +177,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Conditional Probability", "Venn Diagrams"],
+    topics: ["Probability"],
     stem: "",
     parts: [
       {
@@ -239,7 +239,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Permutations and Combinations", "Probability"],
+    topics: ["Permutations & Combinations", "Probability"],
     stem: "A gathering of 12 people break into 3 groups of 4 to play 3 different games: carrom, UNO and bridge.",
     parts: [
       {
@@ -283,7 +283,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation and Variance"],
+    topics: ["Discrete Random Variables"],
     stem: "The probability distribution of a discrete random variable $X$ is given as follows:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>$-2$</td><td>$-1$</td><td>$0$</td><td>$1$</td><td>$3$</td></tr><tr><th>$\\mathrm{P}(X = x)$</th><td>$0.1$</td><td>$a$</td><td>$0.3$</td><td>$b$</td><td>$c$</td></tr></table></div>",
     parts: [
       {
@@ -308,7 +308,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Binomial Distribution", "Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "A fruit seller sources his oranges from a supplier with a large plantation where $1\\%$ of the oranges are rotten. The supplier picks the oranges regardless of whether the oranges are rotten or not, and packs 20 oranges in each box at random.",
     parts: [
       {
@@ -368,7 +368,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Correlation and Linear Regression", "Scatter Diagrams"],
+    topics: ["Correlation & Regression"],
     stem: "Scientists are studying the growth of a particular species of bamboo. They want to understand how the height of the bamboo stalk changes over time. The table below shows the height, $h$ inches, of a bamboo stalk at age, $t$ weeks, after sprouting.<div class='q-table-wrap'><table class='q-table'><tr><th>$t$</th><td>$1$</td><td>$2$</td><td>$3$</td><td>$4$</td><td>$5$</td><td>$7$</td><td>$8$</td><td>$9$</td></tr><tr><th>$h$</th><td>$3.6$</td><td>$7.4$</td><td>$10.2$</td><td>$11.7$</td><td>$12.6$</td><td>$14.1$</td><td>$14.5$</td><td>$15.5$</td></tr></table></div>",
     parts: [
       {
@@ -457,7 +457,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "In a laboratory, the time in minutes for an inspector to test an electrical circuit board is a continuous random variable $X$. The standard deviation of $X$ is $0.63$ and under ordinary conditions, the expected value of $X$ is $5.82$. As a result of the introduction of an incentive scheme, the laboratory supervisor claims that the inspector carries out the test more quickly. It is found that for a random sample of 150 tests, the mean time taken to test an electrical circuit board is $5.74$.",
     parts: [
       {
@@ -504,7 +504,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q12",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Normal Variables"],
+    topics: ["Normal Distribution"],
     stem: "<strong>In this question you should state the parameters of any distribution you use.</strong><br><br>A customer service call centre categorises incoming calls for follow-up resolution of the issues. The time taken to categorise an incoming call, $T$ minutes, follows a normal distribution $\\mathrm{N}(2, 0.2^2)$. Incoming calls are categorised as routine or complex calls. The time taken to resolve a routine call, $X$ minutes, follows a normal distribution $\\mathrm{N}(5, k)$ and the time taken to resolve a complex call, $Y$ minutes, follows a normal distribution $\\mathrm{N}(20, 6^2)$. You may assume that any incoming call is first categorised as either routine or complex and is immediately followed up with the resolution of the issue. The duration of the call is taken to be the sum of the time taken to categorise the call and then to resolve the issue.",
     parts: [
       {

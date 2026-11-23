@@ -1883,7 +1883,45 @@
 
     if (isRandom) {
       const filteredPool = getFilteredRandomPool();
-      const allTopics = [...new Set(window.H2_QUESTIONS.flatMap(x => x.topics || []))].sort();
+      const PURE_TOPIC_ORDER = [
+        "Functions",
+        "Graphs & Transformations",
+        "Equations & Inequalities",
+        "Sequences & Series",
+        "Vectors",
+        "Complex Numbers",
+        "Differentiation",
+        "Maclaurin Series",
+        "Integration",
+        "Differential Equations"
+      ];
+      const STATS_TOPIC_ORDER = [
+        "Permutations & Combinations",
+        "Probability",
+        "Discrete Random Variables",
+        "Binomial Distribution",
+        "Normal Distribution",
+        "Sampling & CLT",
+        "Hypothesis Testing",
+        "Correlation & Regression"
+      ];
+      const sortByOrder = (set, order) => [...set].sort((a, b) => {
+        const ia = order.indexOf(a);
+        const ib = order.indexOf(b);
+        if (ia !== -1 && ib !== -1) return ia - ib;
+        if (ia !== -1) return -1;
+        if (ib !== -1) return 1;
+        return a.localeCompare(b);
+      });
+      const pureTopicSet = new Set();
+      const statsTopicSet = new Set();
+      for (const item of window.H2_QUESTIONS) {
+        const target = item.category === "stats" ? statsTopicSet : pureTopicSet;
+        for (const t of (item.topics || [])) target.add(t);
+      }
+      const pureTopics = sortByOrder(pureTopicSet, PURE_TOPIC_ORDER);
+      const statsTopics = sortByOrder(statsTopicSet, STATS_TOPIC_ORDER);
+      const renderTopicOpt = (t) => `<option value="${t}" ${randomFilters.topic === t ? "selected" : ""}>${t}</option>`;
       const allSchools = [...new Set(window.H2_QUESTIONS.map(x => x.school).filter(Boolean))].sort();
 
       const banner = document.createElement("div");
@@ -1901,7 +1939,8 @@
         <div class="random-filters">
           <select class="q-jump-select" id="flt-topic" aria-label="Filter by topic">
             <option value="all">All Topics</option>
-            ${allTopics.map(t => `<option value="${t}" ${randomFilters.topic === t ? "selected" : ""}>${t}</option>`).join("")}
+            ${pureTopics.length ? `<optgroup label="Pure Mathematics">${pureTopics.map(renderTopicOpt).join("")}</optgroup>` : ""}
+            ${statsTopics.length ? `<optgroup label="Probability &amp; Statistics">${statsTopics.map(renderTopicOpt).join("")}</optgroup>` : ""}
           </select>
           <select class="q-jump-select" id="flt-school" aria-label="Filter by school">
             <option value="all">All Schools</option>

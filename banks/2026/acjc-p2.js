@@ -2,7 +2,7 @@ window.registerQuestions([
   // ==================== ACJC 2026 PAPER 2: PURE MATH (Q1 - Q5) ====================
   {
     id: "ACJC-2026-P2-Q1", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q1", category: "pure",
-    topics: ["Graph Sketching", "Reciprocal & Derivative Graphs"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 260 165" width="245" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="88" x2="245" y2="88" stroke-width="1.3"/><line x1="120" y1="155" x2="120" y2="12" stroke-width="1.3"/><line x1="90" y1="12" x2="90" y2="155" stroke-dasharray="4,3" stroke-width="1.1"/><text x="72" y="148" stroke="none">x=−2</text><path d="M 28 84 Q 78 82 86 18" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><path d="M 98 18 Q 120 112 142 122 Q 158 112 168 88 Q 180 56 196 52 Q 214 48 232 16" fill="none" stroke="#4a8fe7" stroke-width="1.8"/><circle cx="142" cy="122" r="2.5" fill="#4a8fe7"/><text x="142" y="136" text-anchor="middle" stroke="none">(2,−2)</text><circle cx="196" cy="52" r="2.5" fill="#4a8fe7"/><text x="196" y="44" text-anchor="middle" stroke="none">(6,4)</text><text x="165" y="102" stroke="none">(4,0)</text></svg>`,
     stem: "The diagram shows $y = \\mathrm{g}(x)$ cutting $(0,0)$ and $(4,0)$, with stationary points at $(2,-2)$ and $(6,4)$ and asymptotes $x=-2, y=0$.",
     parts: [
@@ -17,7 +17,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P2-Q2", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q2", category: "pure",
-    topics: ["Rational Functions", "Graph Transformations"],
+    topics: ["Graphs & Transformations"],
     stem: "Curve $C$ has equation $y = \\frac{(x-k)^2}{x+k}$ ($k > 0$).",
     parts: [
       { label: "(a)", marks: 3, prompt: "Use an algebraic method to find the range of values of $y$ in terms of $k$.", type: "self", solution: "$x^2 + (-y-2k)x + (k^2-yk) = 0$. For real $x$, $\\Delta = y^2 + 8ky \\ge 0 \\implies y \\le -8k$ or $y \\ge 0$." },
@@ -26,7 +26,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P2-Q3", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q3", category: "pure",
-    topics: ["Summation of Series", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     stem: "Answer the following.",
     parts: [
       { label: "(a)-(b)", marks: 4, prompt: "Show $\\sum_{r=1}^n r(3r+1) = n(n+1)^2$, and hence show $\\sum_{k=4}^{n+3}\\frac{(k-3)(3k-8)}{n^3} = \\left(1+\\frac{1}{n}\\right)^2$.", type: "self", solution: "Replace $k$ with $r+3$: $\\frac{1}{n^3}\\sum_{r=1}^n r(3r+1) = \\frac{n(n+1)^2}{n^3} = \\left(1+\\frac{1}{n}\\right)^2$." },
@@ -36,7 +36,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P2-Q4", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q4", category: "pure",
-    topics: ["3D Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     stem: "Plane $\\pi_1$ contains $A(1,3,-1), B(3,2,0)$ and is perpendicular to $\\pi_2: 3x - z = 1$.",
     parts: [
       { label: "(a)-(b)", marks: 3, prompt: "Show $\\pi_1$ is $x+5y+3z=13$, and find the line of intersection of $\\pi_1$ and $\\pi_2$.", type: "self", solution: "$\\mathbf{n}_1 = \\overrightarrow{AB}\\times\\begin{pmatrix}3\\\\0\\\\-1\\end{pmatrix} = \\begin{pmatrix}1\\\\5\\\\3\\end{pmatrix}$. Line: $\\mathbf{r} = \\begin{pmatrix}1/3\\\\38/15\\\\0\\end{pmatrix} + \\mu\\begin{pmatrix}1/3\\\\-2/3\\\\1\\end{pmatrix}$." },
@@ -47,7 +47,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P2-Q5", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q5", category: "pure",
-    topics: ["Integration by Substitution", "Volumes of Revolution"],
+    topics: ["Integration"],
     stem: "In this question $\\sin^{-1}(1-x)$ refers to the principal value.",
     parts: [
       {
@@ -73,7 +73,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P2-Q7", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q7", category: "stats",
-    topics: ["Probability", "Independent Events"],
+    topics: ["Probability"],
     stem: "$\\mathrm{P}(A)=0.6, \\mathrm{P}(B)=0.5, \\mathrm{P}(A\\cap B)=k$. Event $C$ has $\\mathrm{P}(C)=0.2$, $\\mathrm{P}(B|C)=0.4$, $A$ and $C$ mutually exclusive, and $k=0.25$.",
     parts: [
       { label: "(a)-(b)", marks: 3, prompt: "Before introducing $C$, state the exact range of $k$. With $k=0.25$, explain whether $A$ and $B$ are independent.", type: "self", solution: "(a) $0.1 \\le k \\le 0.5$. (b) $\\mathrm{P}(A)\\mathrm{P}(B)=0.3 \\ne 0.25$, so not independent." },
@@ -102,7 +102,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P2-Q10", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q10", category: "stats",
-    topics: ["Binomial Distribution", "Central Limit Theorem"],
+    topics: ["Binomial Distribution", "Sampling & CLT"],
     stem: "Drones are intercepted with probability $p$ ($0 < p < 1$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "State, in context, two assumptions for number of intercepted drones to follow a binomial distribution.", type: "self", solution: "1. Constant probability $p$ of intercepting each drone. 2. Independent interception events." },
@@ -124,7 +124,7 @@ window.registerQuestions([
   },
   {
     id: "ACJC-2026-P2-Q12", year: 2026, school: "ACJC", paper: "2026 Prelim Paper 2", qNum: "Q12", category: "stats",
-    topics: ["Correlation & Regression", "Linearisation"],
+    topics: ["Correlation & Regression"],
     stem: "Part (a) data (resting heart rate $h$, exercise time $t$):<div class='q-table-wrap'><table class='q-table'><tr><th>$h$</th><td>79</td><td>74</td><td>73</td><td>68</td><td>66</td><td>64</td><td>64</td><td>60</td><td>58</td></tr><tr><th>$t$</th><td>20</td><td>25</td><td>30</td><td>35</td><td>40</td><td>45</td><td>50</td><td>55</td><td>60</td></tr></table></div>Part (b) data (sleep $y$, screen $x$): $(0.9, 8.2), (1.9, p), (3.3, 6.9), (3.9, 6.6), (4.7, 6.1)$, regression $y = -0.55x + 8.72$.",
     parts: [
       { label: "(a)(i)&(iii)", marks: 3, prompt: "Sketch scatter diagram for (a), explain which of (A) $h = a+b\\ln t$ or (B) $h = d+et^2$ fits better, and state its equation.", type: "self", solution: "Model (A) $h = a+b\\ln t$ has $r=-0.990$ closer to $-1$ than (B). Equation: $h = 134 - 18.3\\ln t$." },

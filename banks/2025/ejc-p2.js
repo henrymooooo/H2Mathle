@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Implicit Differentiation", "Tangents and Normals"],
+    topics: ["Differentiation"],
     stem: "The curve $C$ has equation $x^3 + y^3 - 3xy = k$, where $k$ is a positive constant.<br>$C$ intersects the $x$-axis at the point $A$.",
     parts: [
       {
@@ -36,7 +36,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Recurrence Relations", "Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "A sequence $u_1, u_2, u_3, \\ldots$ is defined by $$u_{n+1} = 2u_n(1 - u_n)$$ for all positive integers $n$.",
     parts: [
       {
@@ -66,7 +66,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Graphing Techniques", "Conics", "Volume of Revolution"],
+    topics: ["Graphs & Transformations", "Integration"],
     stem: "The curve $C_1$ has equation $y = \\frac{x^2 - 8x + 28}{2 - x}$.<br>The curve $C_2$ has equation $\\frac{(x - 6)^2}{16} + \\frac{y^2}{25} = 1$.",
     parts: [
       {
@@ -136,7 +136,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "Relative to the origin $O$, point $A$ has position vector given by $\\mathbf{a} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 1 \\end{pmatrix}$. The line $l_1$ passes through the point $A$ and is parallel to $\\begin{pmatrix} t \\\\ 3 - t^2 \\\\ 1 \\end{pmatrix}$. The plane $p$ has equation $\\mathbf{r} = \\lambda\\begin{pmatrix} 0 \\\\ 5 \\\\ 2 \\end{pmatrix} + \\mu\\begin{pmatrix} 5 \\\\ 0 \\\\ t \\end{pmatrix}$, $\\lambda, \\mu \\in \\mathbb{R}$ where $t$ is a real constant. It is known that $l_1$ and $p$ are parallel and $l_1$ is not on $p$.",
     parts: [
       {
@@ -179,7 +179,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Permutations and Combinations"],
+    topics: ["Permutations & Combinations"],
     diagramSvg: `<svg viewBox="0 0 180 180" width="160" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Outer circular tray -->
   <circle cx="90" cy="90" r="74" fill="none" stroke-width="1.6" />
@@ -235,7 +235,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "An online game consists of three stages. All players start with Stage 1, and no matter whether they win or lose, they proceed to Stage 2. Players are allowed to proceed to Stage 3 only if they have won at least one of the first two stages.<br>Ming's probability of winning Stage 1 is $p$.<br>If Ming wins a stage, his probability of winning the next stage is halved. If he loses a stage, his probability of winning remains unchanged in the next stage.",
     parts: [
       {
@@ -337,7 +337,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Correlation and Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "An investigation into the relationship between two variables $x$ and $y$ results in the following data.<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr><tr><th>$y$</th><td>1.1</td><td>5.7</td><td>9.3</td><td>9.8</td><td>8.6</td><td>6.4</td><td>0.9</td></tr></table></div>",
     parts: [
       {
@@ -453,7 +453,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Sampling", "Hypothesis Testing"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "The students in Eunoia Junior College (EJC) have been complaining of long queue times at the canteen during peak hours. It was claimed that the average queue time per student is $20$ minutes. It is known that the standard deviation of the queue times is $3.8$ minutes.<br>The admin manager of EJC wishes to test if the average queue time is in fact $20$ minutes. She examines a random sample of $15$ students to determine the average queue time.",
     parts: [
       {
@@ -518,7 +518,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "<strong>In this question you should state the parameters of any distributions you use.</strong><br>A drinks stall specialises in fruit smoothies, which contain apples. The apples used by the stall have masses, in grams, that follow the distribution $\\mathrm{N}(100, 6^2)$.",
     parts: [
       {

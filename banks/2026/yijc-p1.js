@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Differentiation", "Stationary Points", "Simultaneous Equations"],
+    topics: ["Equations & Inequalities", "Differentiation"],
     stem: "A function $\\mathrm{f}$ is defined by $\\mathrm{f}(x) = ax^3 + bx^2 + cx + d$. The graph of $y = \\mathrm{f}(x)$ has turning points at $(-1, 4)$ and $\\left(\\frac{1}{2}, -\\frac{11}{4}\\right)$.",
     parts: [
       {
@@ -32,7 +32,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Geometric Progression", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "A geometric series has first term $a$ and common ratio $r$. The sum to infinity of the series is $16$ and its fourth term is $\\frac{3}{16}$.",
     parts: [
       {
@@ -62,7 +62,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Functions", "Integration", "Periodic Functions"],
+    topics: ["Functions", "Integration"],
     stem: "It is given that<br>$$\\mathrm{f}(x) = \\begin{cases} \\frac{10}{9 - 4x^2} & \\text{for } -1 \\le x < 1, \\\\ 2 & \\text{for } 1 \\le x < 3, \\end{cases}$$<br>and that $\\mathrm{f}(x) = \\mathrm{f}(x + 4)$ for all real values of $x$.",
     parts: [
       {
@@ -104,7 +104,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Modulus Functions", "Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "Consider the equation $|x^2 - 6| = 2x + 7$.",
     parts: [
       {
@@ -135,7 +135,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Sequences and Series", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "The sum of the first $n$ terms of a sequence $u_1, u_2, u_3, \\dots$ is given by<br>$$\\sum_{r=1}^{n} u_r = a - \\frac{2a}{(n+2)!}, \\quad \\text{where } a \\text{ is a positive constant.}$$",
     parts: [
       {
@@ -184,7 +184,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Graphs and Transformations"],
+    topics: ["Graphs & Transformations"],
     stem: "Answer both parts (a) and (b).",
     parts: [
       {
@@ -217,7 +217,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Parametric Equations", "Curve Sketching"],
+    topics: ["Graphs & Transformations"],
     stem: "A curve has parametric equations $x = \\cos 2\\theta$, $y = \\ln(\\sin 2\\theta)$, $0 < \\theta < \\frac{\\pi}{2}$.",
     parts: [
       {
@@ -251,7 +251,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Implicit Differentiation", "Tangents", "Rates of Change"],
+    topics: ["Differentiation"],
     stem: "A curve has equation $\\frac{1}{x} - \\frac{1}{y} = 3$, where $x < \\frac{1}{3}$.",
     parts: [
       {
@@ -325,7 +325,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\mathrm{e}^{\\sin^{-1}(3x)}$, where $-\\frac{1}{3} < x < \\frac{1}{3}$.",
     parts: [
       {
@@ -368,7 +368,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["3D Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     stem: "The plane $\\pi_1$ has equation $x + 2y + 2z = 14$. The line $l_1$ passes through $A(1, 0, 2)$ and is parallel to $\\mathbf{i} + \\mathbf{j}$.",
     parts: [
       {
@@ -430,7 +430,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Differential Equations", "Recurrence Relations", "Modelling"],
+    topics: ["Sequences & Series", "Differential Equations"],
     stem: "Scientists investigate toxin levels $u\\text{ mg}$ in marine fish after $t$ days. In Model A, the rate of change of $u$ is proportional to $a - u$, where $a\\text{ mg}$ is the constant habitat toxin level.",
     parts: [
       {

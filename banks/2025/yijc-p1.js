@@ -26,7 +26,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Sequences and Series", "AP and GP"],
+    topics: ["Sequences & Series"],
     stem: "Ronald is writing a novel. He began his new novel on 1 March 2025, writing 23 pages on the first day. On each subsequent day, he writes $90\\%$ of the number of pages he has written the previous day.",
     parts: [
       {
@@ -64,7 +64,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Binomial Expansion", "Maclaurin Series"],
+    topics: ["Maclaurin Series"],
     stem: "",
     parts: [
       {
@@ -103,7 +103,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Differentiation", "Parametric Equations"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve has parametric equations $x = \\frac{4t^3}{3} - t$, $y = t - 3t^2$.",
     parts: [
       {
@@ -134,7 +134,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -161,7 +161,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 280 210" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Axes -->
       <line x1="25" y1="95" x2="260" y2="95" stroke-width="1.2"/>
@@ -275,7 +275,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Graphing Techniques", "Inequalities", "Modulus Functions"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -337,7 +337,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Integration", "Integration by Parts", "Differentiation"],
+    topics: ["Differentiation", "Integration"],
     stem: "",
     parts: [
       {
@@ -413,7 +413,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "Planes $p$ and $q$ are perpendicular. Plane $p$ has equation $\\mathbf{r} \\cdot (\\mathbf{i} + 2\\mathbf{j} - \\mathbf{k}) = 6$. Plane $q$ contains the line $l$ with equation $\\mathbf{r} = \\mathbf{j} - 12\\mathbf{k} + \\lambda(4\\mathbf{i} + \\mathbf{j} + 10\\mathbf{k})$ where $\\lambda$ is a parameter. The point $A$ has coordinates $(0, 1, -12)$.",
     parts: [
       {
@@ -473,7 +473,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $$\\mathrm{f} : x \\mapsto \\frac{1}{x^2 + 2x}, \\quad x \\in \\mathbb{R},\\; x < -1,\\; x \\ne -2.$$",
     parts: [
       {
@@ -539,7 +539,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Integration", "Area and Volume", "Integration by Substitution"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 240 220" width="240" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Axes: origin at (100, 180), scale 40 px/unit -->
       <line x1="20" y1="180" x2="225" y2="180" stroke-width="1.2"/>
@@ -601,7 +601,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q13",
     category: "pure",
-    topics: ["Differential Equations", "Applications of Differentiation"],
+    topics: ["Differentiation", "Differential Equations"],
     stem: "Around November 2019, there was an outbreak of COVID-19 in Wuhan, China, caused by the coronavirus SARS-CoV-2 virus, which subsequently spread to the rest of the world. On 23 January 2020, there was 1 confirmed case in Singapore. 70 days later, there were 1 049 confirmed cases.<br><br>A student is interested to study the spread of the virus in Singapore and uses the model $\\frac{\\mathrm{d}N}{\\mathrm{d}t} = rN$, where $r$ is a positive constant, $N$ denotes the total number of confirmed cases, and $t$ is the number of days after 23 January 2020.",
     parts: [
       {

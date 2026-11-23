@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Graph Transformations", "Modulus Functions"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `
       <svg viewBox="0 0 280 185" width="260" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" font-size="13" fill="#2c2925" stroke="#2c2925">
         <line x1="20" y1="150" x2="262" y2="150" stroke-width="1.5"/>
@@ -61,7 +61,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Roots"],
+    topics: ["Complex Numbers"],
     stem: "It is given that $P(z) = z^6 + az^4 + bz^2 + c$, where $a$, $b$ and $c$ are real constants and $c < 0$.",
     parts: [
       {
@@ -101,7 +101,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Vectors", "Scalar & Vector Products"],
+    topics: ["Vectors"],
     stem: "Answer both parts below.",
     parts: [
       {
@@ -130,7 +130,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations"],
+    topics: ["Maclaurin Series"],
     stem: "Answer the following.",
     parts: [
       {
@@ -174,7 +174,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Rational Functions", "Graph Sketching", "Algebraic Proof"],
+    topics: ["Graphs & Transformations"],
     stem: "The curve $C$ has equation $y = \\frac{-2x^2 - 5x + a}{x - 2}$, where $a$ is a constant and $a < 18$.",
     parts: [
       {
@@ -221,7 +221,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Binomial Distribution", "Quality Control"],
+    topics: ["Binomial Distribution"],
     stem: "A factory produces a large batch of electronic microchips, of which $20\\%$ are defective. A quality control test consists of an inspector selecting a random sample of $n$ microchips from the batch. If at most one defective microchip is found, the batch is accepted. If more than two defective microchips are found, the batch is rejected. If exactly two defective microchips are found, the inspector selects a second random sample of $n$ microchips and the batch is rejected if this sample contains any defective microchips; otherwise it is accepted.",
     parts: [
       {
@@ -261,7 +261,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Probability", "Independent Events", "Venn Diagrams"],
+    topics: ["Probability"],
     stem: "For events $A$ and $B$, it is given that $\\mathrm{P}(A \\cap B) = \\frac{7}{20}$, $\\mathrm{P}(B \\mid A) = \\frac{7}{12}$ and $\\mathrm{P}(A \\mid B) = \\frac{7}{9}$.",
     parts: [
       {
@@ -313,7 +313,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation & Variance", "Permutations & Combinations"],
+    topics: ["Permutations & Combinations", "Discrete Random Variables"],
     stem: "A box contains $6$ red balls, $5$ white balls and $3$ black balls. A player draws one ball at random at a time without replacement until two balls of the same colour are drawn. Let $X$ denote the total number of balls drawn.",
     parts: [
       {
@@ -366,7 +366,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Normal Distribution", "Central Limit Theorem"],
+    topics: ["Normal Distribution", "Sampling & CLT"],
     stem: "The capacity of a Standard battery cell has distribution $\\mathrm{N}(\\mu, \\sigma^2)$ (in mAh). A Standard battery cell is equally likely to have a capacity of less than $2750\\text{ mAh}$ and more than $3650\\text{ mAh}$.",
     parts: [
       {
@@ -424,7 +424,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Hypothesis Testing", "Random Sampling"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Bottles of tomato juice are said to contain on average $250\\text{ ml}$. The production manager takes a random sample of $n$ bottles and measures volume $x\\text{ ml}$.",
     parts: [
       {
@@ -464,7 +464,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Correlation & Regression", "Linearisation"],
+    topics: ["Correlation & Regression"],
     stem: "New user acquisitions ($y$, in hundreds) and digital advertising spend ($x$, in hundreds of dollars) are tabulated below:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>300</td><td>1100</td><td>1900</td><td>2700</td><td>3500</td><td>4300</td><td>5100</td><td>5900</td><td>6700</td><td>7500</td></tr><tr><th>$y$</th><td>55</td><td>66</td><td>70</td><td>73</td><td>76</td><td>$k$</td><td>79</td><td>80</td><td>81</td><td>82</td></tr></table></div>",
     parts: [
       {

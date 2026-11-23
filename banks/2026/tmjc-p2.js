@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Inequalities", "Graph Sketching"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     stem: "Consider $y = |x - a|$ and $y = (x + 1)^2$, where $a > 1$.",
     parts: [
       {
@@ -26,7 +26,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Vectors", "Vector Product"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 220 175" width="205" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="40,150 180,150 165,25" fill="none" stroke-width="1.5"/><line x1="180" y1="150" x2="90" y2="100" stroke="#4a8fe7" stroke-width="1.4"/><line x1="165" y1="25" x2="124" y2="150" stroke="#4a8fe7" stroke-width="1.4"/><text x="32" y="162" stroke="none" font-style="italic">O</text><text x="184" y="162" stroke="none" font-style="italic">A</text><text x="168" y="22" stroke="none" font-style="italic">B</text><text x="122" y="164" stroke="none" font-style="italic">C</text><text x="80" y="96" stroke="none" font-style="italic">D</text><text x="142" y="114" stroke="none" font-style="italic">E</text></svg>`,
     stem: "$A$ and $B$ have position vectors $\\mathbf{a}$ and $\\mathbf{b}$. $C$ lies on $OA$ with $OC = kOA$ ($0<k<1$), and $D$ lies on $OB$ with $5OD = 2OB$. Lines $AD$ and $BC$ intersect at $E$.",
     parts: [
@@ -42,7 +42,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Differentiation", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 220 185" width="205" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="65,148 115,148 140,130 115,112 65,112 40,130" fill="none" stroke-width="1.4"/><line x1="90" y1="22" x2="40" y2="130" stroke-width="1.4"/><line x1="90" y1="22" x2="65" y2="148" stroke-width="1.4"/><line x1="90" y1="22" x2="115" y2="148" stroke-width="1.4"/><line x1="90" y1="22" x2="140" y2="130" stroke-width="1.4"/><line x1="90" y1="22" x2="115" y2="112" stroke-dasharray="3,3" stroke-width="1.1"/><line x1="90" y1="22" x2="65" y2="112" stroke-dasharray="3,3" stroke-width="1.1"/><line x1="168" y1="22" x2="168" y2="130" stroke-width="1.2"/><text x="175" y="78" stroke="none" font-style="italic">h <tspan font-style="normal">m</tspan></text><text x="90" y="168" text-anchor="middle" stroke="none" font-style="italic">x <tspan font-style="normal">m</tspan></text></svg>`,
     stem: "A right pyramid tentage has a regular hexagonal base (side $x\\text{ m}$) and height $h\\text{ m}$, with interior volume $\\frac{75\\sqrt{3}}{2}\\text{ m}^3$. $S\\text{ m}^2$ is the total area of the six triangular surfaces.",
     parts: [
@@ -57,7 +57,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Graph Sketching", "Piecewise & Periodic Functions", "Definite Integrals"],
+    topics: ["Functions", "Graphs & Transformations", "Integration"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}(x) = \\sin\\left(\\frac{\\pi x}{2}\\right) + a$ ($0 < x \\le 1$), $\\mathrm{f}(x) = -x + 2 + a$ ($1 < x \\le 2$), where $a > 0$ and $\\mathrm{f}(x) = \\mathrm{f}(x+2)$ for all real $x$.",
     parts: [
       {
@@ -80,7 +80,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Functions", "Inverse & Composite Functions"],
+    topics: ["Functions"],
     stem: "Function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto x^2 - 4x + 12$ for $x \\in \\mathbb{R}$.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Explain why $\\mathrm{f}$ does not have an inverse.", type: "self", solution: "Since the horizontal line $y = 9$ cuts $y = \\mathrm{f}(x)$ twice, $\\mathrm{f}$ is not one-one and has no inverse." },
@@ -114,7 +114,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Correlation & Regression", "Linearisation"],
+    topics: ["Correlation & Regression"],
     stem: "Median monthly household income per member $x$ (dollars) and life expectancy $y$ (years):<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>1337</td><td>1448</td><td>1736</td><td>2129</td><td>2503</td><td>2799</td><td>3033</td><td>3621</td></tr><tr><th>$y$</th><td>79.1</td><td>80.3</td><td>81.4</td><td>82.1</td><td>82.9</td><td>83.4</td><td>83.2</td><td>83.7</td></tr></table></div>",
     parts: [
       {
@@ -140,7 +140,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Conditional Probability", "Binomial Distribution"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "TMFoodRide assigns $65\\%$ of peak-hour orders to motorcycle riders (late prob $0.14$) and $35\\%$ to bicycle riders (late prob $0.3$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "Find the probability that a randomly chosen peak-hour order is delivered late.", type: "auto", mode: "number", answer: "0.196", placeholder: "Exact or 3 s.f.", solution: "$(0.65)(0.14) + (0.35)(0.3) = 0.196$." },
@@ -157,7 +157,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Milk cartons are labelled $1000\\text{ ml}$. A sample of $60$ cartons has $\\sum x = 59760$ and $\\sum x^2 = 59534496$.",
     parts: [
       {
@@ -177,7 +177,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation & Variance"],
+    topics: ["Discrete Random Variables"],
     stem: "A bag contains $3$ blue and $n$ red counters ($n \\ge 3$). Mathias removes $3$ counters without replacement. Score $X =$ number of red drawn minus number of blue drawn.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Show that $\\mathrm{P}(X = -1) = \\frac{18n}{(n+3)(n+2)(n+1)}$.", type: "self", solution: "$\\mathrm{P}(1\\text{ red}, 2\\text{ blue}) = \\frac{n}{n+3}\\cdot\\frac{3}{n+2}\\cdot\\frac{2}{n+1}\\cdot\\frac{3!}{2!} = \\frac{18n}{(n+3)(n+2)(n+1)}$." },
@@ -194,7 +194,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Normal Distribution", "Binomial Distribution", "Sampling"],
+    topics: ["Binomial Distribution", "Normal Distribution", "Sampling & CLT"],
     stem: "Packet masses are independent and normal: Coffee $\\mathrm{N}(252, 6^2)$ g, Cocoa $\\mathrm{N}(195, \\sigma^2)$ g.",
     parts: [
       { label: "(a)", marks: 1, prompt: "State what it means for a sample of coffee bean packets to be random in this context.", type: "self", solution: "Every packet of coffee beans has an equal probability of being selected and whether one is selected is independent of any other packet." },

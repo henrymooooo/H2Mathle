@@ -11,7 +11,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Inequalities", "Logarithms"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -39,7 +39,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Functions", "Composite Functions", "Inverse Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $$\\mathrm{f} : x \\mapsto \\frac{x-1}{x}, \\quad x \\in \\mathbb{R}, \\; x \\ne 0, \\; x \\ne 1.$$",
     parts: [
       {
@@ -112,7 +112,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Vectors", "Ratio Theorem", "Vector Projection"],
+    topics: ["Vectors"],
     stem: "Referred to the origin $O$, points $A$ and $B$ have position vectors $\\mathbf{a}$ and $\\mathbf{b}$ respectively. Point $C$ lies on $OA$, such that $OC : CA = 2 : 1$. Point $D$ lies on $OB$, such that $OD : DB = \\lambda : \\mu$. It is given that the area of triangle $ABD$ is half the area of triangle $ABC$.",
     parts: [
       {
@@ -147,7 +147,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Sequences and Series", "Recurrence Relations", "Arithmetic Progression"],
+    topics: ["Sequences & Series"],
     stem: "",
     parts: [
       {
@@ -186,7 +186,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Graphing Techniques", "Periodic Functions", "Conic Sections"],
+    topics: ["Functions", "Graphs & Transformations"],
     stem: "The function $\\mathrm{f}$ is given by<br>$\\mathrm{f}(x) = 2 + \\sqrt{2^2 - (x-2)^2}$ for $0 < x \\le 4$,<br>$\\mathrm{f}(x) = 2 - \\sqrt{2^2 - (x-6)^2}$ for $4 < x \\le 8$.<br>It is given that $\\mathrm{f}(x) = \\mathrm{f}(x+8)$ for all real values of $x$.",
     parts: [
       {
@@ -259,7 +259,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Summation of Series", "Convergence of Series"],
+    topics: ["Sequences & Series"],
     stem: "It is given that $$\\sum_{r=2}^{n} \\frac{1}{r(r^2-1)} = \\frac{1}{4} + \\frac{1}{2(n+1)} - \\frac{1}{2n}.$$",
     parts: [
       {
@@ -309,7 +309,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<strong>Do not use a calculator in answering this question.</strong>",
     parts: [
       {
@@ -350,7 +350,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Transformations of Graphs", "Graphing Techniques", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     diagramSvg: `<svg viewBox="0 0 320 200" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
   <!-- Axes: O at (170, 130) -->
   <line x1="20" y1="130" x2="300" y2="130" stroke-width="1.2"/>
@@ -431,7 +431,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Applications of Integration", "Area and Volume"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 340 210" width="340" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
   <!-- Scale: x in [-7, 7] -> 1 unit = 18px, x=0 at 175; y in [-2, 9] -> 1 unit = 16px, y=0 at 165 -->
   <!-- Key points:
@@ -501,7 +501,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Integration Techniques", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -549,7 +549,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Differential Equations", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Differential Equations"],
     stem: "It is given that $$2\\frac{\\mathrm{d}y}{\\mathrm{d}x} + \\frac{2}{x} - \\ln x = y.$$",
     parts: [
       {
@@ -614,7 +614,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Arithmetic and Geometric Progressions", "Applications of Series"],
+    topics: ["Sequences & Series"],
     stem: "A chemical processing plant uses two types of automated dosing pumps, Pump A and Pump B, to regulate the flow of a catalyst into a reaction chamber. Each pump is removed from the plant and tested over a 10-hour trial period, and the volume of liquid dosed per hour is recorded.<br><br>The following data were collected.<br>• <strong>Pump A</strong>: The volume of liquid dosed was $4.5$ litres in the first hour, and for each subsequent hour, the volume of liquid dosed decreased by a constant percentage of $r\\%$.<br>• <strong>Pump B</strong>: The volume of liquid dosed was $4.7$ litres in the first hour, and for each subsequent hour, the volume of liquid dosed decreased by $0.1$ litres.",
     parts: [
       {

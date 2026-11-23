@@ -13,7 +13,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Differential Equations", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Differential Equations"],
     stem: "To prepare for the General Election, a political party studies the effectiveness of spreading information on Instantglam, a social media platform, by uploading a particular video. The number of Instantglam users who have viewed the video increases at a rate that is directly proportional to the number of Instantglam users who have yet to view the video. The number of Instantglam users who have viewed the video $t$ hours after the video is uploaded is $x$. The total number of Instantglam users is $P$, assumed to be fixed.",
     parts: [
       {
@@ -71,7 +71,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Vectors", "Cross Product"],
+    topics: ["Vectors"],
     stem: "With reference to the origin $O$, the points $A$, $P$ and $Q$ have position vectors $\\mathbf{a}$, $\\mathbf{p}$ and $\\mathbf{q}$ respectively. A straight line $l$ through the point $A$ is parallel to a unit vector $\\mathbf{e}$.",
     parts: [
       {
@@ -119,7 +119,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Parametric Equations", "Differentiation", "Tangents and Normals"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The curve $C$ has parametric equations<br>$$x = \\sin\\theta + 1 \\quad \\text{and} \\quad y = \\sqrt{3}\\cos\\theta - 1, \\quad \\text{where } -\\frac{\\pi}{2} \\le \\theta \\le \\frac{\\pi}{2}.$$",
     parts: [
       {
@@ -201,7 +201,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Roots", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<strong>Do not use a calculator in answering this question.</strong>",
     parts: [
       {
@@ -278,7 +278,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Permutations and Combinations"],
+    topics: ["Permutations & Combinations"],
     stem: "In a strategy game called <em>Colour Clash</em>, players draw coloured orbs from a magical pouch to determine their elemental powers. The pouch contains:<br>• $5$ red orbs (Level 1 to 5),<br>• $4$ blue orbs (Level 1 to 4),<br>• $3$ green orbs (Level 1 to 3).<br>Orbs of the same colour are non-identical with each same-coloured orb representing a different level.<br>A player randomly draws four orbs without replacement at the start of the game. Given that the order in which the orb is drawn is not relevant, find the number of ways this can be done such that",
     parts: [
       {
@@ -327,7 +327,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A particular streaming service platform claims that the average time a user spends watching content on the platform per visit is more than $15$ minutes. A team of data analysts for the platform wants to verify this claim. They randomly select a sample of $80$ users and record the amount of time each user spends watching content in a single visit. The sample mean of time spent is found to be $16$ minutes. The population standard deviation of time spent is assumed to be $\\sigma$ minutes.",
     parts: [
       {
@@ -371,7 +371,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Discrete Random Variables", "Central Limit Theorem"],
+    topics: ["Discrete Random Variables", "Sampling & CLT"],
     stem: "In a game, a player selects one ball at random from a bag which contains four balls numbered '1', '1', '2' and '3'. The player notes the number on the selected ball, and then tosses that number of fair coins. The number of heads obtained is denoted by $X$ and has a probability distribution as follows:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>$0$</td><td>$1$</td><td>$2$</td><td>$3$</td></tr><tr><th>$\\mathrm{P}(X = x)$</th><td>$a$</td><td>$\\frac{15}{32}$</td><td>$b$</td><td>$\\frac{1}{32}$</td></tr></table></div>",
     parts: [
       {
@@ -416,7 +416,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Binomial Distribution", "Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "A company makes portable speakers. Some speakers turn out to be faulty. Each carton has $24$ portable speakers.",
     parts: [
       {
@@ -466,7 +466,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Probability", "Conditional Probability", "Venn Diagrams"],
+    topics: ["Probability"],
     stem: "The events $A$ and $B$ are such that $\\mathrm{P}(B) = \\frac{1}{3}$, $\\mathrm{P}(A \\mid B) = \\frac{2}{5}$ and $\\mathrm{P}(A \\cup B) = \\frac{3}{5}$.",
     parts: [
       {
@@ -528,7 +528,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Normal Variables"],
+    topics: ["Normal Distribution"],
     stem: "<strong>In this question, you should state clearly all the distributions that you use, together with the values of the appropriate parameters.</strong><br>A company produces two types of yarn balls with two machines. Machine $A$ produces balls of 2-ply yarn. Over a period of time, it is found that $80\\%$ of the balls of yarn from Machine $A$ have lengths less than $340$ metres and $10\\%$ of the balls of yarn from Machine $A$ have lengths less than $280$ metres.",
     parts: [
       {
@@ -582,7 +582,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Correlation and Regression", "Scatter Diagrams"],
+    topics: ["Correlation & Regression"],
     stem: "",
     parts: [
       {

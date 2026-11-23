@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -32,7 +32,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 260 210" width="240" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="12" fill="#2c2925" stroke="#2c2925">
   <!-- Rectangle sides (left, bottom, right, and outer thirds of top) -->
   <polyline points="100,45 55,45 55,175 190,175 190,45 145,45" fill="none" stroke-width="1.6" />
@@ -70,7 +70,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Trigonometry", "Small Angle Approximations", "Binomial Expansion"],
+    topics: ["Maclaurin Series"],
     diagramSvg: `<svg viewBox="0 0 320 155" width="300" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="12" fill="#2c2925" stroke="#2c2925">
   <!-- Triangle ABC: A=(35,130), C=(275,130), B=(275,30), X=(275,70) -->
   <polygon points="35,130 275,130 275,30" fill="none" stroke-width="1.6" />
@@ -128,7 +128,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 300 200" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes -->
   <line x1="25" y1="140" x2="278" y2="140" stroke-width="1.3" />
@@ -252,7 +252,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Definite Integrals", "Sigma Notation", "Area Under Curve"],
+    topics: ["Sequences & Series", "Integration"],
     diagramSvg: `<svg viewBox="0 0 320 195" width="300" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes -->
   <line x1="25" y1="160" x2="50" y2="160" stroke-width="1.3" />
@@ -412,7 +412,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Arithmetic and Geometric Progressions"],
+    topics: ["Sequences & Series"],
     stem: "<strong>Do not use a calculator in answering this question.</strong><br>An arithmetic sequence $u_1, u_2, u_3, \\ldots$ has $u_1 = 9$ and $u_3 = b$, where $b$ is a constant.",
     parts: [
       {
@@ -573,7 +573,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Integration Techniques", "Definite Integrals"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {

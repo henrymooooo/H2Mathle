@@ -9,7 +9,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Transformations of Graphs", "Definite Integrals"],
+    topics: ["Graphs & Transformations", "Integration"],
     diagramSvg: `<svg viewBox="0 0 300 200" width="300" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes: origin at (130, 105) -->
   <line x1="25" y1="105" x2="270" y2="105" stroke-width="1.2"/>
@@ -99,7 +99,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Parametric Equations", "Differentiation", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ has parametric equations $x = \\sqrt{t}$, $y = t^2 + 4$, where $0 \\le t \\le 16$.",
     parts: [
       {
@@ -241,7 +241,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Sequences & Series", "AP & GP"],
+    topics: ["Sequences & Series"],
     stem: "A sequence is defined by $T_{n+2} = T_{n+1} + T_n$ with $T_1 = 3$, $T_2 = 1$ for $n \\ge 1$. Another sequence is defined by $r_n = \\frac{T_{n+1}}{T_n}$ for $n \\ge 1$.",
     parts: [
       {
@@ -307,7 +307,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Functions", "Graphing Techniques"],
+    topics: ["Functions", "Graphs & Transformations"],
     stem: "The function $\\mathrm{g}$ is given by $\\mathrm{g} : x \\mapsto \\frac{x - 3}{x - 1}$, for $x \\in \\mathbb{R}$, $x \\ne 1$.",
     parts: [
       {
@@ -453,7 +453,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Discrete Random Variables", "Probability"],
+    topics: ["Probability", "Discrete Random Variables"],
     stem: "A deck of 12 cards consists of 2 gold cards and 10 silver cards. The cards are identical other than their colours. In a game, three cards are drawn from the deck of cards at random without replacement. The number of gold cards drawn is denoted by $G$.",
     parts: [
       {
@@ -600,7 +600,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Binomial Distribution", "Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem:
       "In a particular stage of a computer game, a player is given a first set of 20 tasks.<br>" +
       "• If he completes fewer than 13 tasks, he has to retry the stage.<br>" +
@@ -670,7 +670,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Random Variables"],
+    topics: ["Normal Distribution"],
     stem:
       "In this question you should state clearly all the distributions that you use, together with the values of the appropriate parameters.<br>" +
       "In a fruit shop, the masses, in kg, of a certain type of apple and pear are modelled as having independent normal distributions with means and standard deviations as shown in the table.<br>" +
@@ -732,7 +732,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Correlation & Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem:
       "Cardiovascular fitness is commonly measured using $\\mathrm{VO}_2$ max, the maximum amount of oxygen the body can use during intense exercise. The higher the value of $\\mathrm{VO}_2$ max, the fitter the person is. In a study on cardiovascular fitness, the resting heart rate $x$, measured in beats/min and the $\\mathrm{VO}_2$ max $y$, measured in ml/kg/min, of 8 randomly selected people are given in the table below.<br>" +
       "<div class='q-table-wrap'><table class='q-table'>" +
@@ -832,7 +832,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q12",
     category: "stats",
-    topics: ["Hypothesis Testing", "Sampling"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem:
       "Supernova School is a school which specialises in sports. The mean reaction time of the students in this school is 250 milliseconds. To reduce the reaction times of students, the teachers implemented a reflex training programme. After its completion, 50 students were randomly selected from the school, and their reaction times $x$ (in milliseconds) were recorded as follows:<br>" +
       "$$\\sum (x - 200) = 2159.62 \\qquad \\sum (x - 200)^2 = 112081.09$$",

@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\tan^{-1}(px)$, where $p$ is a constant and $-\\frac{\\pi}{2} < \\tan^{-1}(px) < \\frac{\\pi}{2}$.",
     parts: [
       {
@@ -36,7 +36,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Inequalities", "Modulus Functions"],
+    topics: ["Equations & Inequalities"],
     stem: "Solve the following inequalities.",
     parts: [
       {
@@ -63,7 +63,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Implicit Differentiation", "Tangents and Normals"],
+    topics: ["Differentiation"],
     stem: "A curve $C$ has equation $y - 2\\sqrt{3}x + 3\\mathrm{e}^{-y} = 0$, for $x > 0$. The normal to $C$ at a point $P$ has positive gradient and makes an angle of $30^\\circ$ with the $x$-axis.",
     parts: [
       {
@@ -82,7 +82,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Vectors", "Ratio Theorem", "Collinearity"],
+    topics: ["Vectors"],
     stem: "With reference to the origin $O$, the points $A$ and $B$ are such that $OA = \\mathbf{a}$ and $OB = \\mathbf{b}$, where $\\mathbf{a}$ and $\\mathbf{b}$ are both non-zero and non-parallel.<br>The point $X$ lies on $OA$ such that $OX : XA = 2 : 1$. The point $Y$ lies on $OB$ such that $OY : YB = 3 : 2$. The lines $AY$ and $BX$ intersect at the point $P$.",
     parts: [
       {
@@ -123,7 +123,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Trigonometry", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "Answer both parts.",
     parts: [
       {
@@ -186,7 +186,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima & Minima", "Rates of Change"],
+    topics: ["Differentiation"],
     stem: "Let $a$ and $b$ be fixed positive real numbers. A variable line $C$ passing through $(a, b)$ with varying gradient $m$ has equation $y - b = m(x - a)$, where $m < 0$. The line $C$ cuts the $x$-axis and $y$-axis at the points $P(p, 0)$ and $Q(0, q)$ respectively.",
     parts: [
       {
@@ -227,7 +227,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Sequences and Series", "Summation"],
+    topics: ["Sequences & Series"],
     stem: "Answer both parts.",
     parts: [
       {
@@ -280,7 +280,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f} : x \\mapsto 4 + \\mathrm{e}^{-x}$, where $0 < x \\le 4$.",
     parts: [
       {
@@ -332,7 +332,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Graphs and Transformations"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 300 200" width="285" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="15" y1="130" x2="285" y2="130" stroke-width="1.2"/><line x1="145" y1="190" x2="145" y2="12" stroke-width="1.2"/><line x1="195" y1="15" x2="195" y2="188" stroke-dasharray="4,3" stroke-width="1.1"/><line x1="20" y1="95" x2="280" y2="95" stroke-dasharray="4,3" stroke-width="1.1"/><path d="M 22 92 Q 70 90 102 52 Q 124 72 145 95 Q 165 120 175 130 Q 186 155 191 185" fill="none" stroke="#4a8fe7" stroke-width="2"/><path d="M 200 18 Q 208 88 228 112 Q 250 124 282 127" fill="none" stroke="#4a8fe7" stroke-width="2"/><circle cx="102" cy="52" r="2.6" fill="#2c2925"/><text x="102" y="42" text-anchor="middle" stroke="none">(−5, 6)</text><circle cx="145" cy="95" r="2.6" fill="#2c2925"/><text x="150" y="90" stroke="none">(0, 3)</text><circle cx="175" cy="130" r="2.6" fill="#2c2925"/><text x="172" y="122" stroke="none">(2, 0)</text><text x="200" y="185" stroke="none">x = 4</text><text x="255" y="89" stroke="none">y = 3</text><text x="30" y="143" stroke="none">y = 0</text><text x="135" y="142" stroke="none" font-style="italic">O</text></svg>`,
     stem: "The diagram shows the graph of $y = \\mathrm{f}(x)$. The graph intersects the axes at $(2, 0)$ and $(0, 3)$. It has a turning point at $(-5, 6)$ and asymptotes with equations $x = 4$, $y = 0$ and $y = 3$.",
     parts: [
@@ -368,7 +368,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Roots"],
+    topics: ["Complex Numbers"],
     stem: "<strong>Do not use a calculator in answering this question.</strong>",
     parts: [
       {
@@ -404,7 +404,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["3D Vectors", "Planes", "Lines"],
+    topics: ["Vectors"],
     stem: "Underwater sonar buoys are deployed in the ocean to detect and monitor threats in the ocean and on the ocean surface. Two underwater sonar buoys, buoy $A$ and buoy $B$, are located at points $A$ and $B$ respectively.<br>Points are defined relative to an origin $(0, 0, 0)$ on the ocean bed, with units in metres.<br>The ocean surface is modelled as the plane with equation $3y + 4z = 240$. A submarine moves along a straight path with equation $$\\frac{x}{2} = y - 20 = \\frac{-z + 13}{2}.$$ $A$ and $B$ have coordinates $(-10, 31, 5)$ and $(4, 17, 19)$ respectively.",
     parts: [
       {

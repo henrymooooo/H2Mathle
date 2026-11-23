@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Vectors", "Vector Product"],
+    topics: ["Vectors"],
     stem: "Relative to the origin $O$, the position vectors of two points $A$ and $B$ are $\\mathbf{a}$ and $\\mathbf{b}$ respectively. The length of $\\mathbf{a}$ is $k$ units and $\\mathbf{b}$ is a unit vector. The angle between $\\mathbf{a}$ and $\\mathbf{b}$ is $\\frac{\\pi}{6}$ radians.",
     parts: [
       {
@@ -72,7 +72,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Maclaurin Series", "Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\tan^{-1}\\left(\\frac{1}{5}x\\right)$.",
     parts: [
       {
@@ -112,7 +112,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Parametric Equations", "Graphing Techniques"],
+    topics: ["Graphs & Transformations"],
     stem: "The curve $C$ is defined by the parametric equations $x = \\cos t + \\frac{1}{2}\\cos 5t$, $y = \\sin t + \\frac{1}{2}\\sin 5t$ for $0 \\le t \\le \\frac{\\pi}{2}$.",
     parts: [
       {
@@ -196,7 +196,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Integration Techniques", "Graphing Techniques", "Definite Integration"],
+    topics: ["Graphs & Transformations", "Integration"],
     stem: "",
     parts: [
       {
@@ -287,7 +287,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagrams"],
+    topics: ["Complex Numbers"],
     stem: "The points $P$ and $Q$ are represented by the complex numbers $p$ and $q$ respectively, where $p = \\sqrt{2} + \\sqrt{2}\\mathrm{i}$, $\\arg(q) = \\frac{2}{3}\\pi$ and $|q| = 2$.",
     parts: [
       {
@@ -381,7 +381,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation & Variance"],
+    topics: ["Discrete Random Variables"],
     stem: "Anthony plays a game using a four-sided fair die with the numbers $1$, $2$, $3$ and $4$ printed on its sides. Anthony rolls the die and should the outcome be a prime number, he wins an amount equivalent to that number in dollars. Conversely, if the outcome is a non-prime number, Anthony will lose an amount equivalent to that number in dollars. The random variable $X$ represents the amount of money Anthony wins in a roll of the die.",
     parts: [
       {
@@ -451,7 +451,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Correlation & Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "A study was conducted on a group of pre-diabetic seniors to examine whether the number of hours of exercise per week ($t$) has any effect on their fasting blood sugar levels ($S$, measured in mg/dL). The results were as follows.<div class='q-table-wrap'><table class='q-table'><tr><th>$t$</th><td>$1.5$</td><td>$1.8$</td><td>$2.1$</td><td>$2.4$</td><td>$2.5$</td><td>$3.1$</td><td>$3.5$</td><td>$4.2$</td></tr><tr><th>$S$</th><td>$119$</td><td>$108$</td><td>$100$</td><td>$95$</td><td>$93$</td><td>$88$</td><td>$86$</td><td>$85$</td></tr></table></div>",
     parts: [
       {
@@ -545,7 +545,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Normal Variables"],
+    topics: ["Normal Distribution"],
     stem: "In this question, you should state clearly all the distributions that you use, together with the values of the appropriate parameters.<br><br>A toy designer creates weighted wooden blocks used in balance-based educational toys. There are two types of blocks: cylindrical blocks and cuboidal blocks. The mass, in grams, of each cylindrical block and cuboidal block follow a normal distribution with the following parameters:<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>Mean</th><th>Standard Deviation</th></tr><tr><th>cylindrical block</th><td>$280$</td><td>$6$</td></tr><tr><th>cuboidal block</th><td>$220$</td><td>$5$</td></tr></table></div>",
     parts: [
       {
@@ -602,7 +602,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Binomial Distribution", "Central Limit Theorem"],
+    topics: ["Binomial Distribution", "Sampling & CLT"],
     stem: "Green Earth Factory produces solar panels. On average, $2\\%$ of the solar panels produced are found to contain defects. The solar panels are packed in batches of $10$.",
     parts: [
       {
@@ -667,7 +667,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Probability", "Permutations & Combinations"],
+    topics: ["Permutations & Combinations", "Probability"],
     stem: "For part (a): In a survey conducted by a library, a group of $100$ members were asked the number of days in a month they visit the library. The results are shown below:<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>$1$ or less</th><th>$2$ to $4$</th><th>$5$ or more</th></tr><tr><th>Male</th><td>$15$</td><td>$25$</td><td>$22$</td></tr><tr><th>Female</th><td>$20$</td><td>$18 - n$</td><td>$n$</td></tr></table></div>A member is selected at random from the group. The events are defined as follows:<br>$A$: The member visits the library on $4$ days or less in a month.<br>$B$: The member visits the library on $2$ days or more in a month.<br>$F$: The member is a female.",
     parts: [
       {
@@ -767,7 +767,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q12",
     category: "stats",
-    topics: ["Sampling", "Hypothesis Testing"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Flour is packed in bags of $1.5$ kg, as stated on the packaging, by two separate machines $A$ and $B$ in a factory. During a quality control inspection, the production manager selects a random sample of $40$ bags filled by machine $A$ for checking. The masses, $x$ kg, of these $40$ bags are recorded as follows:<br>$\\sum x = 60.32$, &nbsp; $\\sum x^2 = 90.993$.",
     parts: [
       {

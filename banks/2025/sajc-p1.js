@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["System of Linear Equations", "Differentiation", "Integration"],
+    topics: ["Equations & Inequalities", "Differentiation", "Integration"],
     stem: "A function $\\mathrm{f}$ is defined by $\\mathrm{f}(x) = ax^3 + bx^2 + cx + d$ where $a$, $b$, $c$ and $d$ are constants. The graph of $y = \\mathrm{f}(x)$ has a turning point at $x = -1$ and passes through the points $(2, 10)$ and $(-2, -2)$. Given also that $\\int_{-2}^{2} \\mathrm{f}(x)\\,\\mathrm{d}x = 16$, find the values of $a$, $b$, $c$ and $d$.",
     parts: [
       {
@@ -40,7 +40,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     stem: "A closed cylinder is designed to have a fixed external surface area of $p\\text{ cm}^2$ such that its volume is maximum.",
     parts: [
       {
@@ -72,7 +72,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "The lines $l_1$ and $l_2$ have equations<br>" +
       "$$l_1 : \\mathbf{r} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 0 \\end{pmatrix} + \\lambda \\begin{pmatrix} -2 \\\\ 1 \\\\ 2 \\end{pmatrix}, \\quad l_2 : \\mathbf{r} = \\begin{pmatrix} 0 \\\\ 5 \\\\ -8 \\end{pmatrix} + \\mu \\begin{pmatrix} 2 \\\\ -2 \\\\ 3 \\end{pmatrix},$$" +
       "where $\\lambda$ and $\\mu$ are parameters.",
@@ -134,7 +134,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Functions", "Composite Functions", "Inverse Functions"],
+    topics: ["Functions"],
     diagramSvg: `<svg viewBox="0 0 280 210" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <text x="140" y="14" text-anchor="middle" stroke="none" font-style="italic" font-size="10">Diagram for part (b)</text>
       <!-- Axes -->
@@ -265,7 +265,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Arithmetic and Geometric Progressions", "Convergence of Series"],
+    topics: ["Sequences & Series"],
     stem: "An arithmetic progression has first term $a$ and common difference $d$, where $a$ and $d$ are non-zero. The $3\\text{rd}$, $9\\text{th}$ and $11\\text{th}$ terms of the arithmetic progression are three distinct consecutive terms of a geometric progression.",
     parts: [
       {
@@ -331,7 +331,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     diagramSvg: `<svg viewBox="0 0 420 190" width="420" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Left graph: y = f(x) -->
       <line x1="15" y1="95" x2="195" y2="95" stroke-width="1.2"/>
@@ -409,7 +409,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Graphing Techniques", "Applications of Integration", "Riemann Sums"],
+    topics: ["Graphs & Transformations", "Integration"],
     stem: "This question consists of two independent parts (a) and (b) on graphs and definite integrals.",
     parts: [
       {
@@ -548,7 +548,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Implicit Differentiation", "Tangents and Normals"],
+    topics: ["Differentiation"],
     stem: "A curve has equation $(x - y)^2 = 2\\mathrm{e}^{xy}$.",
     parts: [
       {
@@ -597,7 +597,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Integration Techniques", "Substitution", "Volume of Revolution"],
+    topics: ["Integration"],
     stem: "This question tests integration by trigonometric substitution and volume of revolution.",
     parts: [
       {
@@ -666,7 +666,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     diagramSvg: `<svg viewBox="0 0 280 185" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <text x="140" y="13" text-anchor="middle" stroke="none" font-style="italic" font-size="10">Argand diagram for part (b)</text>
       <!-- Axes -->
@@ -777,7 +777,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Vectors", "Scalar Product", "Vector Product"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 220 200" width="220" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Circle center O(110, 100), radius 75 -->
       <circle cx="110" cy="100" r="75" fill="none" stroke-width="1.3"/>
@@ -835,7 +835,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Differential Equations", "Modelling"],
+    topics: ["Differential Equations"],
     stem: "Welding fumes contain a dangerous amount of particulates. To protect workers in a workshop, an extraction device removes particulates in the air continuously. Let $V\\text{ mg}$ represent the mass of particulates in the air in the workshop at time $t\\text{ min}$ after the extraction device is activated.<br><br>" +
       "Particulates are produced at a constant rate of $0.32\\text{ mg/min}$. The rate at which particulates are removed is proportional to the mass of particulates in the air.<br>" +
       "When the mass of particulates in the air in the workshop is $18.75\\text{ mg}$, the mass of particulates in the air increases at a rate of $0.12\\text{ mg/min}$.",

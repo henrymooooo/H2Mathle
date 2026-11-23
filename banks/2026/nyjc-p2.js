@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Sequences & Series", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     stem: "A sequence is such that $u_1 = a$ ($a \\ne \\frac{1}{2}$) and $u_{n+1} = 1 - u_n$ for $n > 0$.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Find $u_2$ and $u_3$ in terms of $a$.", type: "self", solution: "$u_2 = 1 - a$, $u_3 = 1 - (1 - a) = a$." },
@@ -22,7 +22,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "The complex number $a + b\\mathrm{i}$ is denoted by $z$, where $a, b \\in \\mathbb{R}$, $a > 0$ and $b < 0$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Find the complex number $w$ in terms of $a$ and $b$ such that $3z^*\\mathrm{i}w = |z|^2$.", type: "self", solution: "$w = \\frac{zz^*}{3z^*\\mathrm{i}} = \\frac{z}{3\\mathrm{i}} = -\\frac{\\mathrm{i}}{3}(a + b\\mathrm{i}) = \\frac{1}{3}(b - a\\mathrm{i})$." },
@@ -41,7 +41,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Differentiation", "Maxima & Minima"],
+    topics: ["Differentiation"],
     stem: "A conical paper cup has base radius $r\\text{ cm}$, height $h\\text{ cm}$, and volume $k\\pi\\text{ cm}^3$ ($k > 0$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "Show that the curved surface area $S$ is given by $S^2 = \\pi^2\\left(r^4 + \\frac{9k^2}{r^2}\\right)$.", type: "self", solution: "$\\frac{1}{3}\\pi r^2 h = k\\pi \\implies h = \\frac{3k}{r^2}$. $S^2 = \\pi^2 r^2(r^2+h^2) = \\pi^2\\left(r^4 + \\frac{9k^2}{r^2}\\right)$." },
@@ -61,7 +61,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Graph Transformations", "Piecewise & Periodic Functions"],
+    topics: ["Functions", "Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 220 155" width="205" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="115" x2="205" y2="115" stroke-width="1.3"/><line x1="75" y1="145" x2="75" y2="12" stroke-width="1.3"/><path d="M 75 40 Q 112 45 145 142" fill="none" stroke="#4a8fe7" stroke-width="2"/><circle cx="113" cy="78" r="2.8" fill="#2c2925"/><text x="68" y="42" text-anchor="end" stroke="none">(0, b)</text><text x="118" y="75" stroke="none">(1, 1)</text><text x="148" y="110" stroke="none">(a, 0)</text></svg>`,
     stem: "Part (a) refers to the graph of $y = \\mathrm{f}(x)$ shown above ($1 < a < b$). Part (b) uses $\\mathrm{g}(x) = \\cos x$ ($0 \\le x \\le \\pi$), $\\mathrm{g}(x) = \\frac{2}{\\pi}x - 3$ ($\\pi < x \\le 2\\pi$), with $\\mathrm{g}(x) = \\mathrm{g}(x + 2\\pi)$.",
     parts: [
@@ -83,7 +83,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Functions", "Graph Transformations"],
+    topics: ["Functions", "Graphs & Transformations"],
     stem: "Function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto x^2 - 6x + 7$, $x \\in \\mathbb{R}$, $x > 3$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Explain how you know $\\mathrm{f}^{-1}$ exists.", type: "self", solution: "Every horizontal line $y = k$ intersects $y = \\mathrm{f}(x)$ at most once ($x > 3$ is strictly increasing), so $\\mathrm{f}$ is 1-1 and $\\mathrm{f}^{-1}$ exists." },
@@ -118,7 +118,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Probability", "Independent Events", "Discrete Random Variables"],
+    topics: ["Probability", "Discrete Random Variables"],
     stem: "Aden and Ben each have a bag containing $r$ red discs and $4$ white discs ($r \\ge 2$).",
     parts: [
       { label: "(a)(i)", marks: 1, prompt: "Aden takes $3$ discs without replacement. $A$: 1st disc is white; $B$: total white discs is exactly $1$. Find $\\mathrm{P}(A \\cap B)$ in terms of $r$.", type: "auto", mode: "expr", exactRequired: true, vars: { r: [2, 5, 8] }, answer: "4*r*(r-1)/((r+4)*(r+3)*(r+2))", placeholder: "Expression in r", solution: "$\\mathrm{P}(WRR) = \\frac{4}{r+4}\\cdot\\frac{r}{r+3}\\cdot\\frac{r-1}{r+2} = \\frac{4r(r-1)}{(r+4)(r+3)(r+2)}$." },
@@ -134,7 +134,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Discrete Random Variables", "Binomial Distribution", "Central Limit Theorem"],
+    topics: ["Discrete Random Variables", "Binomial Distribution", "Sampling & CLT"],
     stem: "Each cafe customer gets a reward coupon:<div class='q-table-wrap'><table class='q-table'><tr><th>Points ($Y$)</th><td>0</td><td>1</td><td>4</td></tr><tr><th>Probability</th><td>0.4</td><td>$p$</td><td>$0.6-p$</td></tr></table></div>",
     parts: [
       { label: "(a)", marks: 1, prompt: "Given $\\mathrm{E}(Y) = 1.8$, find $p$.", type: "auto", mode: "number", exactRequired: true, answer: "0.2", placeholder: "Value of p", solution: "$0(0.4) + 1(p) + 4(0.6-p) = 1.8 \\implies 2.4 - 3p = 1.8 \\implies p = 0.2$." },
@@ -151,7 +151,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A beverage company claims bottles are filled to mean $500\\text{ ml}$. A random sample of $50$ bottles has sample variance $24.5\\text{ ml}^2$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Find an unbiased estimate of the population variance.", type: "auto", mode: "number", exactRequired: true, answer: "25", placeholder: "Exact value", solution: "$s^2 = \\frac{50}{49}(24.5) = 25$." },
@@ -168,7 +168,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Correlation & Regression", "Linearisation", "Residuals"],
+    topics: ["Correlation & Regression"],
     stem: "Rate of photosynthesis $w$ (units/s) at light intensity $x$ (lumens/$\\text{m}^2$) is recorded:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>300</td><td>900</td><td>1500</td><td>2100</td><td>2700</td></tr><tr><th>$w$</th><td>30.0</td><td>78.0</td><td>97.2</td><td>104.9</td><td>108.0</td></tr></table></div>",
     parts: [
       { label: "(a)-(b)", marks: 2, prompt: "Explain what the scatter diagram suggests about $x$ and $w$, and why $w = a + b\\ln x$ ($a, b > 0$) may not model it well given rate approaches a maximum.", type: "self", solution: "(a) As $x$ increases, $w$ increases at a decreasing rate.<br>(b) $w = a + b\\ln x$ tends to infinity as $x$ grows, contradicting the maximum rate." },
@@ -185,7 +185,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Normal Distribution", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "For a randomly selected semiconductor chip, processing speed $S \\sim \\mathrm{N}(4.80, 0.12^2)$ GHz and power $P \\sim \\mathrm{N}(1.50, 0.10^2)$ W independently. Quality score $Q = 20S - 5P$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "A chip is Premium if $Q > 89$. Find the probability a randomly selected chip is Premium.", type: "auto", mode: "number", answer: "0.41919", placeholder: "3 s.f.", solution: "$Q \\sim \\mathrm{N}(88.5, 6.01) \\implies \\mathrm{P}(Q > 89) = 0.419$ (3 s.f.)." },

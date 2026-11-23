@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Sequences and Series", "Geometric Progressions"],
+    topics: ["Sequences & Series"],
     stem: "The sequence $\\{u_n\\}$ is a geometric sequence with first term $a$ and common ratio $\\frac{3}{2}$, where $a > 0$.<br>Another sequence $\\{v_n\\}$ is defined by $v_n = \\frac{9}{u_n}$ for all positive integers $n$.",
     parts: [
       {
@@ -36,7 +36,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Differentiation", "Implicit Differentiation"],
+    topics: ["Differentiation"],
     stem: "The curve $C$ has equation $$xy = 1 + (x - y)^3.$$",
     parts: [
       {
@@ -58,7 +58,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations"],
+    topics: ["Graphs & Transformations"],
     stem: "A curve $C$ has equation $y = \\frac{a}{2bx - x^2}$, where $a, b > 0$.",
     parts: [
       {
@@ -103,7 +103,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations", "Trigonometry"],
+    topics: ["Maclaurin Series"],
     stem: "In the triangle $ABC$, $AC = 1$, angle $BAC = \\frac{\\pi}{3}$ radians and angle $ABC = \\left(\\frac{\\pi}{6} + \\theta\\right)$ radians.",
     parts: [
       {
@@ -145,7 +145,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Equations and Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -211,7 +211,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Sequences and Series", "Arithmetic and Geometric Progressions", "Financial Context"],
+    topics: ["Sequences & Series"],
     stem: "Mabel and Janice decided to start a 5-year savings plan beginning in January 2026.<br><br>Mabel saves using a piggy bank. At the start of January 2026, she deposits SGD 101. Each subsequent month, she increases her deposit by SGD 1 — so she deposits SGD 101 in January, SGD 102 in February, SGD 103 in March, and so on, until SGD 112 in December. At the start of each new year, she resets her monthly deposit to SGD 101 in January and repeats the same pattern through December. She continues this routine from 2026 to 2030, inclusive.<br><br>Janice, on the other hand, deposits SGD 100 at the start of every month into a bank account that earns $0.3\\%$ interest per month, with interest calculated and added into the account at the end of each month.",
     parts: [
       {
@@ -237,7 +237,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "",
     parts: [
       {
@@ -306,7 +306,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Parametric Equations", "Differentiation", "Tangents and Normals"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ is defined parametrically by the equations $$x = t + \\frac{1}{t}, \\quad y = t - \\frac{1}{t}, \\quad t \\ne 0.$$",
     parts: [
       {
@@ -373,7 +373,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Integration", "Integration by Parts", "Area and Volume"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -441,7 +441,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes in 3D"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 340 200" width="340" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <polygon points="45,175 260,175 305,70 95,70" fill="#eceae6" stroke="none"/>
   <polygon points="150,35 225,78 258,145 208,158" fill="#4a8fe7" stroke="#2c2925" stroke-width="1.3"/>

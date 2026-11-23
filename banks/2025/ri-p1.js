@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Differentiation", "Equations & Systems"],
+    topics: ["Equations & Inequalities", "Differentiation"],
     stem: "A curve has equation $y = ax + b + \\frac{c}{x^2 - 1}$, where $a$, $b$ and $c$ are real constants. It is given that the curve crosses the $x$-axis at $x = 2$. The normal to the curve at the point $(0, 3)$ meets the $x$-axis at $x = 7.5$.",
     parts: [
       {
@@ -44,7 +44,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Differentiation", "Rates of Change"],
+    topics: ["Differentiation"],
     stem: "The point $P$ travels along the curve $C$ with equation $y = x\\sin^{-1} x$, $-1 < x < 1$. Let the gradient of the curve $C$ at the point $P$ be $m$.",
     parts: [
       {
@@ -163,7 +163,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Integration", "Partial Fractions", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -236,7 +236,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 360 220" width="360" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes -->
   <line x1="20" y1="135" x2="345" y2="135" stroke-width="1.2"/>
@@ -381,7 +381,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Sequences & Series", "AP & GP"],
+    topics: ["Sequences & Series"],
     stem: "",
     parts: [
       {
@@ -519,7 +519,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     diagramSvg: `<svg viewBox="0 0 280 180" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <line x1="20" y1="120" x2="260" y2="120" stroke-width="1.2"/>
   <polyline points="254,116 260,120 254,124" fill="none" stroke-width="1.2"/>
@@ -700,7 +700,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Integration", "Area & Volume", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Integration"],
     diagramSvg: `<svg viewBox="0 0 340 220" width="340" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes: origin at (40, 120), x scale ~32px/unit, y scale ~35px/unit -->
   <line x1="25" y1="120" x2="325" y2="120" stroke-width="1.2"/>
@@ -841,7 +841,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Parametric Equations", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ has parametric equations<br>$$x = 2\\cos\\theta + \\cos 2\\theta, \\quad y = 2\\sin\\theta - \\sin 2\\theta,$$where $0 < \\theta < 2\\pi$ and $\\theta \\ne \\frac{2\\pi}{3},\\, \\pi,\\, \\frac{4\\pi}{3}$.<br><br>The point $P$ with parameter $p$ lies on $C$, and the lines $M_p$ and $N_p$ are the tangent and normal to $C$ at $P$ respectively.",
     parts: [
       {

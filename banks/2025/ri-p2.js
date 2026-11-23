@@ -8,7 +8,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Inequalities", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -79,7 +79,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximation", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "",
     parts: [
       {
@@ -149,7 +149,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Sequences & Series", "Recurrence Relations", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "The terms of the sequence $U$ are given by<br>$$u_1 = k \\quad \\text{and} \\quad u_{n+1} = \\frac{8u_n - 14}{u_n - 1}, \\quad n \\ge 1.$$",
     parts: [
       {
@@ -213,7 +213,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 300 185" width="300" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Slope plane parallelogram -->
   <polygon points="45,75 150,20 245,105 140,165" fill="rgba(91,155,213,0.12)" stroke="#2c2925" stroke-width="1.3"/>
@@ -510,7 +510,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Correlation & Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "A small cafe sells one type of coffee. The selling price of a cup of coffee is reviewed and adjusted at the beginning of every year depending on market conditions. Based on sales figures collected over $7$ years, the cafe owner, Mr Tay, studied the effect of the selling price of a cup of coffee, SGD $x$, on the average number of cups, $y$ cups, sold per day within the year. The data is shown in the table below.<br><div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>2.0</td><td>2.2</td><td>2.5</td><td>3.0</td><td>4.0</td><td>4.4</td><td>4.5</td></tr><tr><th>$y$</th><td>280</td><td>250</td><td>190</td><td>150</td><td>90</td><td>100</td><td>70</td></tr></table></div>",
     parts: [
       {
@@ -684,7 +684,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Probability", "Binomial Distribution", "Central Limit Theorem"],
+    topics: ["Probability", "Binomial Distribution", "Sampling & CLT"],
     stem: "A bag contains $4$ identical red balls and $6$ identical blue balls.",
     parts: [
       {

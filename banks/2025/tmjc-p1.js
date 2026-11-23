@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Graphing Techniques", "Inequalities"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     stem: "Let $a$ be a real constant such that $a > 1$.",
     parts: [
       {
@@ -68,7 +68,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Differentiation", "Implicit Differentiation", "Tangents and Normals"],
+    topics: ["Differentiation"],
     stem: "A curve $C$ has equation $y^2 = x + \\mathrm{e}^{2x}y$.",
     parts: [
       {
@@ -94,7 +94,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Integration Techniques"],
+    topics: ["Integration"],
     stem: "Find the following integrals.",
     parts: [
       {
@@ -131,7 +131,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["AP and GP", "Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "An arithmetic series has first term $a$ and common difference $d$, where $a$ and $d$ are non-zero real constants. A convergent geometric series has first term $b$ and common ratio $r$, where $b > 0$ and $r$ is a non-zero real constant. The sum of the first $n$ terms of the geometric series is denoted by $S$.<br>It is given that the 7th, 10th and 11th terms of the arithmetic series are equal to the 3rd, 6th and 10th terms of the geometric series respectively.",
     parts: [
       {
@@ -161,7 +161,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Sequences and Series", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     diagramSvg: `<svg viewBox="0 0 280 200" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes: origin at (115, 115), scale x: 35px/unit, y: 20px/unit -->
   <line x1="25" y1="115" x2="250" y2="115" stroke-width="1.4"/>
@@ -213,7 +213,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Applications of Differentiation", "Rates of Change"],
+    topics: ["Differentiation"],
     stem: "[It is given that the volume of a circular cone with base radius $r$ and height $h$ is $\\frac{1}{3}\\pi r^2 h$.]<br>A container is made in the shape of an inverted open right circular cone. The height of the container is $6$ metres, and the radius is $2$ metres. The container is initially empty. Water is poured into the container while, at the same time, water is leaking from a hole at the bottom of the container at a rate of $0.03\\text{ m}^3/\\text{s}$, resulting in the depth of water in the container to be increasing at a rate of $0.1\\text{ m/s}$. At time $t$ seconds after the start, the depth of water in the container is $h$ metres.",
     parts: [
       {
@@ -246,7 +246,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Functions", "Composite Functions", "Inverse Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is such that $$\\mathrm{f}: x \\mapsto \\frac{1}{2}\\sqrt{36 - (x - 3)^2} \\quad \\text{for } x \\in \\mathbb{R},\\; k \\le x < 9,$$ where $k$ is a real constant.",
     parts: [
       {
@@ -340,7 +340,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Parametric Equations", "Tangents and Normals", "Applications of Integration"],
+    topics: ["Graphs & Transformations", "Differentiation", "Integration"],
     stem: "A curve $C$ has parametric equations $$x = 2t + 3, \\quad y = 5 - 4t^2,$$ for all real values of $t$.<br>The line $N$ is the normal to $C$ at the point where $t = -\\frac{1}{2}$.",
     parts: [
       {
@@ -413,7 +413,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagrams"],
+    topics: ["Complex Numbers"],
     stem: "It is given that $-2 + 2\\mathrm{i}$ is a root of the equation $$z^3 + az^2 + bz - 16\\sqrt{2} = 0,$$ where $a$ and $b$ are real numbers.",
     parts: [
       {
@@ -508,7 +508,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "A drone flies in a straight line towards a rooftop for inspection. The drone's flight path is modelled by the line $$l: \\mathbf{r} = \\begin{pmatrix} 2 \\\\ 1 \\\\ 0 \\end{pmatrix} + \\lambda \\begin{pmatrix} 3 \\\\ -2 \\\\ 1 \\end{pmatrix} \\quad \\text{where } \\lambda \\in \\mathbb{R},$$ and the rooftop is modelled by the plane $p: 2x + y - z = 7$.",
     parts: [
       {
@@ -556,7 +556,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Maclaurin Series", "Applications of Differentiation", "Applications of Integration"],
+    topics: ["Differentiation", "Maclaurin Series", "Integration"],
     stem: "An architect designs a flower bed for a garden. The flower bed is enclosed by the curve $C$ with equation $$\\left(\\frac{x + y}{2}\\right)^2 + \\left(\\frac{y - x}{4}\\right)^2 = 1.$$ The region in the first quadrant bounded by $C$, the $x$-axis and the lines $x = 0$ and $x = 0.5$, is to be planted with tulips.",
     parts: [
       {

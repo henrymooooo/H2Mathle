@@ -2,7 +2,7 @@ window.registerQuestions([
   // ==================== SAJC 2026 PAPER 2: PURE MATH (Q1 - Q4) ====================
   {
     id: "SAJC-2026-P2-Q1", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q1", category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $y = \\frac{1}{\\sqrt{1-\\sin 2x}}$, where $0 \\le x < \\frac{\\pi}{4}$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Show that $\\frac{\\mathrm{d}y}{\\mathrm{d}x} = y^3\\cos 2x$, and hence show that $\\left(\\frac{\\mathrm{d}y}{\\mathrm{d}x}\\right)^2 = 2y^4 - y^2$.", type: "self", solution: "$y^2(1-\\sin 2x)=1 \\implies \\frac{\\mathrm{d}y}{\\mathrm{d}x} = y^3\\cos 2x$.<br>$\\left(\\frac{\\mathrm{d}y}{\\mathrm{d}x}\\right)^2 = y^6(1-\\sin^2 2x) = y^4(1+\\sin 2x) = y^4(2 - \\frac{1}{y^2}) = 2y^4 - y^2$." },
@@ -13,7 +13,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q2", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q2", category: "pure",
-    topics: ["AP & GP", "Financial Modelling"],
+    topics: ["Sequences & Series"],
     stem: "Jane's 1st year salary is $\\$k$. Scheme A gives a fixed annual increment of $35\\%$ of her 1st year salary; Scheme B gives an annual increment of $r\\%$ of her previous year's salary.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Show that under Scheme A, her total salary in the first $n$ years is $\\$\\frac{nk(7n+33)}{40}$.", type: "self", solution: "$\\frac{n}{2}[2k + (n-1)(0.35k)] = \\frac{nk}{2}(0.35n + 1.65) = \\frac{nk(7n+33)}{40}$." },
@@ -23,7 +23,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q3", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q3", category: "pure",
-    topics: ["Rational Functions", "Graph Sketching"],
+    topics: ["Graphs & Transformations"],
     stem: "Curve $C$ has equation $y = ax + \\frac{b}{x-2}$, where $a, b \\in \\mathbb{R}$ and $x \\ne 2$.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Find a condition on $a$ and $b$ for $C$ to have two stationary points.", type: "self", solution: "$\\frac{\\mathrm{d}y}{\\mathrm{d}x} = a - \\frac{b}{(x-2)^2} = 0 \\implies x = 2 \\pm \\sqrt{\\frac{b}{a}}$. Requires $\\frac{b}{a} > 0$, i.e. $ab > 0$." },
@@ -36,7 +36,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q4", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q4", category: "pure",
-    topics: ["Parametric Equations", "Tangents & Normals"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "Curve $C$ has parametric equations $x = a\\cos^3 t$, $y = a\\sin^2 t$ for $0 \\le t \\le \\pi$ ($a > 0$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "Sketch $C$.", type: "self",
@@ -51,7 +51,7 @@ window.registerQuestions([
   // ==================== SAJC 2026 PAPER 2: STATISTICS (Q5 - Q11) ====================
   {
     id: "SAJC-2026-P2-Q5", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q5", category: "stats",
-    topics: ["Probability", "Venn Diagrams"],
+    topics: ["Probability"],
     stem: "Events $A, B, C$ satisfy $\\mathrm{P}(C) = \\frac{1}{5}$, $\\mathrm{P}(A\\cap B) = \\frac{1}{10}$, $\\mathrm{P}(A'\\cap B'\\cap C') = \\frac{2}{5}$. $B$ and $C$ are independent; $A$ and $C$ are mutually exclusive.",
     parts: [
       {
@@ -76,7 +76,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q7", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q7", category: "stats",
-    topics: ["Binomial Distribution", "Conditional Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "In an online game, $p\\%$ of summons result in a hero.",
     parts: [
       { label: "(a)", marks: 1, prompt: "State, in context, the assumption needed for the number of heroes out of $n$ summons to be well-modelled by a binomial distribution.", type: "self", solution: "Whether a summon results in a hero is independent of whether any other summon results in a hero." },
@@ -88,7 +88,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q8", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q8", category: "stats",
-    topics: ["Discrete Random Variables", "Central Limit Theorem"],
+    topics: ["Discrete Random Variables", "Sampling & CLT"],
     stem: "A discrete random variable $X$ takes values $1, 2, 3$ with probabilities $p, q, r$. Two independent observations are taken and $M = \\max(X_1, X_2)$.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Show that $\\mathrm{P}(M=2) = q(2p+q)$.", type: "self", solution: "$\\mathrm{P}(1,2)+\\mathrm{P}(2,1)+\\mathrm{P}(2,2) = pq+qp+q^2 = q(2p+q)$." },
@@ -109,7 +109,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q9", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q9", category: "stats",
-    topics: ["Normal Distribution", "Sampling"],
+    topics: ["Normal Distribution", "Sampling & CLT"],
     stem: "Masses of D13 and MSW durians follow independent normal distributions:<div class='q-table-wrap'><table class='q-table'><tr><th>Type</th><th>Mean (g)</th><th>SD (g)</th></tr><tr><td>D13</td><td>250</td><td>10</td></tr><tr><td>MSW</td><td>550</td><td>20</td></tr></table></div>",
     parts: [
       { label: "(a)", marks: 1, prompt: "The manager collected a sample of $50$ durians of each type from the earliest delivery available. Explain why the sample is non-random.", type: "self", solution: "Not every durian delivered in the day has an equal chance of being selected; durians from later deliveries have zero chance." },
@@ -121,7 +121,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q10", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q10", category: "stats",
-    topics: ["Correlation & Regression", "Residuals"],
+    topics: ["Correlation & Regression"],
     stem: "Hours used ($x$) and remaining battery capacity ($y\\%$) are recorded:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>2</td><td>4</td><td>6</td><td>8</td><td>10</td><td>12</td></tr><tr><th>$y$</th><td>92</td><td>81</td><td>73</td><td>65</td><td>60</td><td>54</td></tr></table></div>",
     parts: [
       { label: "(a)", marks: 1, prompt: "Draw a scatter diagram of the data.", type: "self", solution: "Points curve gently downwards from $(2, 92)$ to $(12, 54)$." },
@@ -134,7 +134,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P2-Q11", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 2", qNum: "Q11", category: "stats",
-    topics: ["Hypothesis Testing", "Unbiased Estimates"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A bubble tea chain claims mean sugar content is $35\\text{ g}$. A nutritionist suspects the chain is understating the mean $\\mu\\text{ g}$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Explain why a one-tailed test is more appropriate than a two-tailed test.", type: "self", solution: "The nutritionist specifically suspects the mean is higher than $35\\text{ g}$ (directional), not merely different." },

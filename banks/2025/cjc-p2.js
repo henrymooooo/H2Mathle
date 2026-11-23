@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Graphs and Transformations"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 460 205" width="460" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
   <!-- Left panel: y = f(|x|), origin at (120, 110), x-scale: 18px/unit, y-scale: 13px/unit -->
   <line x1="20" y1="110" x2="220" y2="110" stroke-width="1.2" />
@@ -158,7 +158,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Functions", "Graphs and Transformations"],
+    topics: ["Functions", "Graphs & Transformations"],
     stem: "Functions $\\mathrm{f}$ and $\\mathrm{g}$ are defined by<br>$\\mathrm{f}: x$ → $\\frac{4}{(x-4)^2}, \\quad x \\in \\mathbb{R},\\; x \\ne 4,$<br>$\\mathrm{g}: x$ → $\\ln\\left(1 + \\frac{1}{x}\\right), \\quad x \\in \\mathbb{R},\\; x > 0.$",
     parts: [
       {
@@ -222,7 +222,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 420 220" width="420" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Fig. 1: Star net centred at (110, 105), inner hexagon radius r=34, outer star tips radius R=88 -->
   <!-- Hexagon vertices at angles 0, 60, 120, 180, 240, 300 deg:
@@ -309,7 +309,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagrams"],
+    topics: ["Complex Numbers"],
     stem: "One of the roots of the equation $$2z^4 - 14z^3 + 33z^2 - 26z + p = 0, \\quad \\text{where } p \\text{ is a constant}$$ is $3 + \\mathrm{i}$.",
     parts: [
       {
@@ -369,7 +369,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Sampling", "Permutations and Combinations"],
+    topics: ["Permutations & Combinations", "Sampling & CLT"],
     stem: "The basketball club in a college has $5$ centers, $8$ forwards and $7$ guards. With the National School Games approaching, the coach wishes to find out the opinions of members of the club about the training programme. He gives a questionnaire to all the members of the club and receives replies from everyone.",
     parts: [
       {
@@ -417,7 +417,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Venn Diagrams"],
+    topics: ["Probability"],
     diagramSvg: `<svg viewBox="0 0 300 215" width="300" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="12" fill="#2c2925" stroke="#2c2925">
   <rect x="10" y="10" width="280" height="195" fill="none" stroke-width="1.3" />
   <circle cx="150" cy="82" r="54" fill="none" stroke="#4ca885" stroke-width="1.5" />
@@ -471,7 +471,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation and Variance"],
+    topics: ["Discrete Random Variables"],
     stem: "Happie, the owner of a store selling novelty items, is organizing a publicity stunt for his store. Using a stock of ultra-rare Lubaba dolls that he acquired, he sets up a game where a player opens \"mystery boxes\" to try to find a Lubaba doll hidden inside one of the identical boxes used for the game.<br>The rules of the game are:<br>• The player pays an initial SGD 5 to start the game to open one of $n$ boxes.<br>• If the opened box is empty, the player can pay an additional SGD 3 to open a second box.<br>• If the second box is empty, the player can pay SGD 2.50 again to open a third box.<br>• If the third box is still empty, the player loses the game. The doll that is not won will then be donated away and the game is reset for the next player.<br>As the Lubaba dolls are considered rare collectors' items, it can be assumed that in every game, the players will keep opening the boxes until they win the doll and that they have the means to pay for the maximum of $3$ allowable tries at opening the boxes.<br>Let $X$ be the random variable denoting the number of empty boxes a player has opened in a game.",
     parts: [
       {
@@ -519,7 +519,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Binomial Distribution", "Conditional Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "In each batch of pralines that a chocolate factory produces, they are packed into boxes of $16$. Due to the new health guidelines regarding sugar content, quality control tests are implemented and show that on average, the proportion of pralines that exceed the recommended sugar content is $p$. The number of pralines in a box that exceed the recommended sugar content is denoted by $X$.",
     parts: [
       {
@@ -565,7 +565,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Correlation and Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "A teacher conducts a survey on $7$ students to investigate the relationship between the number of hours ($h$) of \"screen-time\" per week and the average scores ($s$) they obtained in a recently concluded examination. She records her findings as shown in the following table.<div class='q-table-wrap'><table class='q-table'><tr><th>$h$</th><td>$8.5$</td><td>$14$</td><td>$20$</td><td>$27$</td><td>$10.5$</td><td>$17$</td><td>$23$</td></tr><tr><th>$s$</th><td>$68$</td><td>$61$</td><td>$44$</td><td>$12$</td><td>$\\alpha$</td><td>$58$</td><td>$31$</td></tr></table></div>",
     parts: [
       {
@@ -632,7 +632,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Sampling Distributions"],
+    topics: ["Normal Distribution", "Sampling & CLT"],
     stem: "Fishing Company A has two types of fishing vessels, the \"Standard\" vessel and the \"Large\" vessel. The amount of fish caught by the respective vessels on a typical fishing trip are normally distributed with means and standard deviations as shown in the table.<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>Mean (kg)</th><th>Standard deviation (kg)</th></tr><tr><th>Standard</th><td>$300$</td><td>$\\sigma$</td></tr><tr><th>Large</th><td>$540$</td><td>$110$</td></tr></table></div>",
     parts: [
       {
@@ -689,7 +689,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "EastHam is a football club in a competitive league. It is found that the average time taken by EastHam to score their first goal in a match is $50$ minutes. The coach trialled a new play tactic and the time taken, $x$ minutes, to score the first goal is recorded for a random sample of $35$ matches in the season. The total time taken is found to be $1650$ minutes and the variance of the time is $250\\text{ minutes}^2$.<br>The coach wants to test if the average time taken to score the first goal has decreased with the implementation of the new play tactic.",
     parts: [
       {

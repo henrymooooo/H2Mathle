@@ -1,7 +1,7 @@
 window.registerQuestions([
   {
     id: "SAJC-2026-P1-Q1", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q1", category: "pure",
-    topics: ["Inequalities", "Integration"],
+    topics: ["Equations & Inequalities", "Integration"],
     stem: "Consider $\\sin x$ and $\\cos x$ for $0 \\le x \\le \\pi$.",
     parts: [
       {
@@ -20,7 +20,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q2", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q2", category: "pure",
-    topics: ["Differentiation", "Integration by Parts"],
+    topics: ["Differentiation", "Integration"],
     stem: "Answer both parts.",
     parts: [
       {
@@ -39,7 +39,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q3", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q3", category: "pure",
-    topics: ["Graph Transformations", "Inverse Functions"],
+    topics: ["Functions", "Graphs & Transformations"],
     stem: "Curve $C$ has equation $y = \\mathrm{f}(x)$ where $\\mathrm{f}(x) = \\mathrm{e}^{3x+6} - 2$. $C$ undergoes in succession:<br>1. Translation of $2$ units in positive $x$-direction.<br>2. Scaling parallel to $x$-axis with scale factor $k$.<br>3. Translation of $1$ unit in positive $y$-direction.<br>The resulting curve has equation $y = \\mathrm{g}(x)$.",
     parts: [
       {
@@ -58,7 +58,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q4", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q4", category: "pure",
-    topics: ["Sequences & Series", "GP"],
+    topics: ["Sequences & Series"],
     stem: "A sequence of numbers $u_1, u_2, \\dots, u_n$ has the sum $S_n = 5^{2n+1} - 5$.",
     parts: [
       {
@@ -91,7 +91,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q5", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q5", category: "pure",
-    topics: ["Functions", "Composite & Inverse Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $\\mathrm{f}: x \\mapsto 3x|x-2|$, $x \\in \\mathbb{R}$, $0 < x \\le 1$.",
     parts: [
       {
@@ -129,7 +129,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q6", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q6", category: "pure",
-    topics: ["Vectors", "Scalar & Vector Products"],
+    topics: ["Vectors"],
     stem: "Points $A$ and $B$ have non-zero, non-parallel position vectors $\\mathbf{a}$ and $\\mathbf{b}$.",
     parts: [
       {
@@ -160,7 +160,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q7", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q7", category: "pure",
-    topics: ["Differentiation", "Maxima & Minima", "Rates of Change"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 260 165" width="245" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="12" fill="#2c2925" stroke="#2c2925"><line x1="25" y1="140" x2="225" y2="140" stroke-dasharray="4,3" stroke-width="1.2"/><line x1="185" y1="20" x2="185" y2="140" stroke-width="1.3"/><rect x="182" y="25" width="6" height="62" fill="#e0726e" stroke-width="1.2"/><line x1="45" y1="140" x2="182" y2="25" stroke="#4a8fe7" stroke-width="1.4"/><line x1="45" y1="140" x2="182" y2="87" stroke="#4a8fe7" stroke-width="1.4"/><text x="195" y="60" stroke="none" font-style="italic">h</text><text x="195" y="116" stroke="none" font-style="italic">d</text><text x="115" y="155" stroke="none" font-style="italic">x</text><text x="90" y="115" stroke="none" font-style="italic">θ</text><text x="20" y="144" stroke="none" font-size="10">Eye</text></svg>`,
     stem: "A digital screen of height $h\\text{ m}$ is mounted on a wall, $d\\text{ m}$ above eye level. An observer stands $x\\text{ m}$ away; $\\theta$ is the angle subtended by the screen.",
     parts: [
@@ -192,7 +192,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q8", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q8", category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "<em>Do not use a calculator in answering this question.</em>",
     parts: [
       {
@@ -236,7 +236,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q9", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q9", category: "pure",
-    topics: ["Volumes of Revolution", "Riemann Sums"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 260 155" width="245" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="130" x2="245" y2="130" stroke-width="1.3"/><line x1="38" y1="145" x2="38" y2="12" stroke-width="1.3"/><line x1="38" y1="35" x2="235" y2="35" stroke-dasharray="4,3" stroke-width="1.1"/><text x="236" y="39" stroke="none">y = 1</text><line x1="125" y1="18" x2="125" y2="130" stroke-width="1.2"/><text x="125" y="144" text-anchor="middle" stroke="none" font-style="italic">x = k</text><path d="M 38 130 Q 75 68 125 54 T 230 40" fill="none" stroke="#4a8fe7" stroke-width="2"/></svg>`,
     stem: "Curve $C$ has equation $y = \\frac{x}{\\sqrt{1+x^2}}$ for $x \\ge 0$. Region $R$ is bounded by $C$, the $x$-axis and $x = k$ ($k > 0$).",
     parts: [
@@ -263,7 +263,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q10", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q10", category: "pure",
-    topics: ["3D Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 240 205" width="225" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><polygon points="65,120 155,120 185,95 95,95" fill="none" stroke-width="1.3"/><line x1="65" y1="120" x2="65" y2="170" stroke-width="1.3"/><line x1="155" y1="120" x2="155" y2="170" stroke-width="1.3"/><line x1="185" y1="95" x2="185" y2="145" stroke-width="1.3"/><line x1="95" y1="95" x2="95" y2="145" stroke-dasharray="3,3" stroke-width="1.1"/><line x1="65" y1="170" x2="155" y2="170" stroke-width="1.3"/><line x1="155" y1="170" x2="185" y2="145" stroke-width="1.3"/><line x1="65" y1="170" x2="95" y2="145" stroke-dasharray="3,3" stroke-width="1.1"/><line x1="95" y1="145" x2="185" y2="145" stroke-dasharray="3,3" stroke-width="1.1"/><polyline points="65,120 125,22 155,120" fill="none" stroke="#4a8fe7" stroke-width="1.5"/><line x1="125" y1="22" x2="185" y2="95" stroke="#4a8fe7" stroke-width="1.5"/><line x1="125" y1="22" x2="95" y2="95" stroke="#4a8fe7" stroke-dasharray="3,3" stroke-width="1.3"/><text x="125" y="16" text-anchor="middle" stroke="none" font-style="italic">V</text><text x="53" y="122" stroke="none" font-style="italic">A</text><text x="160" y="126" stroke="none" font-style="italic">B</text><text x="190" y="96" stroke="none" font-style="italic">C</text><text x="53" y="176" stroke="none" font-style="italic">E</text><text x="160" y="178" stroke="none" font-style="italic">F</text><text x="124" y="162" stroke="none" font-style="italic">O</text></svg>`,
     stem: "A right pyramid $VABCD$ ($VA=VB=VC=VD=5$) is placed on cuboid $ABCDEFGH$ ($EF=EH=4, EA=2$). $O$ is the centre of $EFGH$, with unit vectors $\\mathbf{i}, \\mathbf{j}, \\mathbf{k}$ parallel to $EF, EH, EA$.",
     parts: [
@@ -275,7 +275,7 @@ window.registerQuestions([
   },
   {
     id: "SAJC-2026-P1-Q11", year: 2026, school: "SAJC", paper: "2026 Prelim Paper 1", qNum: "Q11", category: "pure",
-    topics: ["Differential Equations", "Population Modelling"],
+    topics: ["Differential Equations"],
     stem: "The birth rate of marsupials is proportional to $P$ and death rate is proportional to $P^2$. When $P = N$, the population stabilizes.",
     parts: [
       { label: "(a)", marks: 3, prompt: "Write down a differential equation and show $\\frac{\\mathrm{d}P}{\\mathrm{d}t} = kP\\left(1-\\frac{P}{N}\\right)$ ($k > 0$).", type: "self", solution: "$\\frac{\\mathrm{d}P}{\\mathrm{d}t} = aP - bP^2$. At $P=N, \\frac{\\mathrm{d}P}{\\mathrm{d}t}=0 \\implies b = \\frac{a}{N}$, giving $\\frac{\\mathrm{d}P}{\\mathrm{d}t} = kP(1-\\frac{P}{N})$." },

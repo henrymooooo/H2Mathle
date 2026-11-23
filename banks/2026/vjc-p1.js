@@ -1,7 +1,7 @@
 window.registerQuestions([
   {
     id: "VJC-2026-P1-Q1", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q1", category: "pure",
-    topics: ["Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "Solve the following inequalities without using a calculator.",
     parts: [
       {
@@ -20,7 +20,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q2", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q2", category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     diagramSvg: `<svg viewBox="0 0 240 165" width="230" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="12" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="95" x2="215" y2="95" stroke-width="1.4"/><polyline points="209,91 215,95 209,99" fill="none" stroke-width="1.4"/><text x="220" y="99" stroke="none">Re</text><line x1="115" y1="155" x2="115" y2="15" stroke-width="1.4"/><polyline points="111,21 115,15 119,21" fill="none" stroke-width="1.4"/><text x="122" y="21" stroke="none">Im</text><text x="120" y="109" stroke="none" font-style="italic">O</text><path d="M 96 42 L 102 48 M 102 42 L 96 48" stroke="#4a8fe7" stroke-width="1.8"/><text x="82" y="48" stroke="none" font-style="italic">Q</text></svg>`,
     stem: "Answer both parts on complex numbers.",
     parts: [
@@ -79,7 +79,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q4", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q4", category: "pure",
-    topics: ["Differentiation", "Maxima & Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 280 185" width="265" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="12" fill="#2c2925" stroke="#2c2925"><line x1="25" y1="140" x2="255" y2="140" stroke-width="1.5"/><line x1="150" y1="24" x2="150" y2="140" stroke-dasharray="4,3" stroke-width="1.3"/><line x1="150" y1="24" x2="72" y2="140" stroke="#4a8fe7" stroke-width="1.6"/><line x1="150" y1="24" x2="228" y2="140" stroke="#4a8fe7" stroke-width="1.6"/><rect x="142" y="132" width="8" height="8" fill="none" stroke-width="1.1"/><path d="M 138 42 Q 150 48 162 42" fill="none" stroke-width="1.2"/><text x="147" y="56" stroke="none" font-style="italic">θ</text><text x="150" y="16" text-anchor="middle" stroke="none" font-style="italic">C</text><text x="122" y="88" stroke="none">30 m</text><text x="28" y="155" stroke="none" font-style="italic">A</text><text x="68" y="155" stroke="none" font-style="italic">X</text><text x="146" y="155" stroke="none" font-style="italic">B</text><text x="224" y="155" stroke="none" font-style="italic">Y</text><text x="48" y="169" stroke="none" font-size="11" font-style="italic">x <tspan font-style="normal">m</tspan></text><text x="188" y="169" stroke="none" font-size="11" font-style="italic">y <tspan font-style="normal">m</tspan></text><text x="90" y="178" text-anchor="middle" stroke="none" font-size="11">← 30 m →</text></svg>`,
     stem: "Points $A$ and $B$ are $30\\text{ m}$ apart on a straight track. Drone $X$ flies from $A$ toward $B$ ($x\\text{ m}$ from $A$, $0 \\le x < 30$) while Drone $Y$ flies from $B$ away from $A$ ($y\\text{ m}$ from $B$). A camera $C$ is $30\\text{ m}$ vertically above $B$, with tracking angle $\\theta = \\angle XCY$.",
     parts: [
@@ -99,7 +99,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q5", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q5", category: "pure",
-    topics: ["Integration by Parts", "Area Under Curve"],
+    topics: ["Integration"],
     stem: "Answer both parts.",
     parts: [
       {
@@ -118,7 +118,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q6", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q6", category: "pure",
-    topics: ["Circles", "Parametric Equations"],
+    topics: ["Graphs & Transformations"],
     stem: "The equation of a circle $C$ is $x^2 + y^2 = 2ax + 2by - 16$ where $a$ and $b$ are non-zero real constants. The radius of $C$ is $3$ units and the line $y = -3x + 5$ passes through the centre of $C$.",
     parts: [
       {
@@ -137,7 +137,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q7", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q7", category: "pure",
-    topics: ["Conics", "Hyperbola", "Implicit Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "The hyperbola $H$ has equation $(y-4)^2 - (x-2)^2 = 1$.",
     parts: [
       {
@@ -162,7 +162,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q8", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q8", category: "pure",
-    topics: ["Summation of Series", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "It is given that $\\sum_{r=1}^n \\frac{1}{(2r-1)(2r+1)} = \\frac{1}{2} - \\frac{1}{4n+2}$.",
     parts: [
       {
@@ -188,7 +188,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q9", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q9", category: "pure",
-    topics: ["Volumes of Revolution", "Integration by Substitution"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 280 185" width="265" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><path d="M 60 66 Q 115 86 190 98 L 190 155 L 60 155 Z" fill="rgba(91,155,213,0.22)" stroke="none"/><line x1="25" y1="155" x2="255" y2="155" stroke-width="1.4"/><line x1="60" y1="170" x2="60" y2="15" stroke-width="1.4"/><text x="260" y="159" stroke="none" font-style="italic">x</text><text x="50" y="21" stroke="none" font-style="italic">y</text><text x="48" y="168" stroke="none" font-style="italic">O</text><line x1="190" y1="28" x2="190" y2="155" stroke-width="1.3"/><text x="195" y="34" stroke="none" font-style="italic">x <tspan font-style="normal">= 3</tspan></text><path d="M 40 52 Q 100 84 225 102" fill="none" stroke="#4a8fe7" stroke-width="2"/><text x="125" y="128" stroke="none" font-style="italic" font-size="13">R</text><text x="202" y="88" stroke="none" font-size="11">y = 1 / (1+√(x+1))</text></svg>`,
     stem: "The curve $C$ has equation $y = \\frac{1}{1+\\sqrt{x+1}}$. The shaded region $R$ is bounded by $C$, the $x$-axis and the lines $x = 0$ and $x = 3$.",
     parts: [
@@ -208,7 +208,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q10", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q10", category: "pure",
-    topics: ["3D Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     stem: "Planes $\\pi_1$ and $\\pi_2$ have equations $\\mathbf{r} = \\begin{pmatrix}-4\\\\1\\\\2\\end{pmatrix} + \\lambda\\begin{pmatrix}1\\\\1\\\\2\\end{pmatrix} + \\mu\\begin{pmatrix}2\\\\1\\\\3\\end{pmatrix}$ and $\\mathbf{r}\\cdot\\begin{pmatrix}-1\\\\-2\\\\2\\end{pmatrix} = 10$ respectively, and intersect in $l_1$.",
     parts: [
       {
@@ -245,7 +245,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q11", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q11", category: "pure",
-    topics: ["Functions", "Graph Transformations"],
+    topics: ["Functions", "Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 280 185" width="265" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="75" x2="265" y2="75" stroke-width="1.3"/><line x1="95" y1="175" x2="95" y2="12" stroke-width="1.3"/><text x="268" y="79" stroke="none" font-style="italic">x</text><text x="100" y="19" stroke="none" font-style="italic">y</text><text x="86" y="88" stroke="none" font-style="italic">O</text><line x1="155" y1="14" x2="155" y2="170" stroke-dasharray="4,3" stroke-width="1.2"/><text x="155" y="182" text-anchor="middle" stroke="none">x = 2k</text><line x1="25" y1="40" x2="250" y2="152" stroke-dasharray="4,3" stroke-width="1.2"/><text x="48" y="34" stroke="none" font-style="italic">y = −x/2</text><path d="M 28 38 Q 75 64 95 62 Q 130 60 148 16" fill="none" stroke="#4a8fe7" stroke-width="2"/><path d="M 161 18 Q 168 65 182 75 Q 205 110 250 148" fill="none" stroke="#4a8fe7" stroke-width="2"/><circle cx="95" cy="62" r="2.5" fill="#4a8fe7"/><text x="99" y="57" stroke="none">(0, k)</text><circle cx="182" cy="75" r="2.5" fill="#4a8fe7"/><text x="186" y="69" stroke="none">(3k, 0)</text></svg>`,
     stem: "The diagram shows $y = \\mathrm{f}(x)$, with turning point $(0, k)$, $x$-intercept $(3k, 0)$ ($k > 1$), and asymptotes $x = 2k$ and $y = -\\frac{x}{2}$.",
     parts: [
@@ -278,7 +278,7 @@ window.registerQuestions([
   },
   {
     id: "VJC-2026-P1-Q12", year: 2026, school: "VJC", paper: "2026 Prelim Paper 1", qNum: "Q12", category: "pure",
-    topics: ["AP & GP", "Financial Modelling"],
+    topics: ["Sequences & Series"],
     stem: "Mrs Lin wants to save at least $\\$20\\,000$. On 1 Jan 2024, she sets aside $\\$50$, and on the 1st of each subsequent month sets aside $\\$a$ more than the previous month.",
     parts: [
       {

@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Equations and Inequalities", "Modulus Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -32,7 +32,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Equations"],
+    topics: ["Complex Numbers"],
     stem: "",
     parts: [
       {
@@ -61,7 +61,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Integration", "Riemann Sums", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -112,7 +112,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Differentiation", "Implicit Differentiation", "Tangents and Normals"],
+    topics: ["Differentiation"],
     stem: "The equation of a curve $C$ is $x^3 + xy + 2y^3 = k$, where $k$ is a constant.",
     parts: [
       {
@@ -153,7 +153,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Vectors", "Planes and Lines"],
+    topics: ["Vectors"],
     stem: "Two planes $p_1$ and $p_2$ have respective cartesian equations given by $$4x + y + z = 8 \\quad \\text{and} \\quad 4x + 3y - z = 0.$$",
     parts: [
       {
@@ -215,7 +215,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Conditional Probability", "Independence"],
+    topics: ["Probability"],
     stem: "Two fair six-sided dice are thrown. Events $A$, $B$ and $C$ are defined as follows.<br>$A$: sum of the two scores is odd<br>$B$: at least one of the two scores is greater than $4$<br>$C$: the two scores are equal",
     parts: [
       {
@@ -311,7 +311,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem", "Sampling"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Helen is a conservationist who monitors the health of fish in a river. She is investigating whether a new water-treatment plant has affected the mass of adult trout in the river. Previously, the mean mass of adult trout in the river has been $w$ kg. Helen carries out a test, at the $10\\%$ level of significance to find out whether there has been a change in the mean mass of adult trout in the river.<br><br>Helen catches $45$ adult trout and measures the mass, $X$, kilograms, of each fish. Her summarised data are as follows.<br>$$n = 45, \\quad \\sum x = 80.1, \\quad \\sum (x - \\bar{x})^2 = 24.29$$",
     parts: [
       {
@@ -349,7 +349,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Binomial Distribution", "Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "A small ceramic workshop produces $100$ plates each working day. Some of the plates turn out to be faulty.",
     parts: [
       {
@@ -392,7 +392,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Correlation and Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "The director of an art gallery wishes to find out the relationship between the time spent, $t$ minutes, in the art gallery and the age, $a$ (in years), of the visitors. Ten visitors were randomly selected and the data are summarised as follows:<div class='q-table-wrap'><table class='q-table'><tr><th>$t$ (minutes)</th><td>$20$</td><td>$70$</td><td>$56$</td><td>$75$</td><td>$k$</td><td>$42$</td><td>$50$</td><td>$52$</td><td>$60$</td><td>$60$</td></tr><tr><th>$a$ (years)</th><td>$21$</td><td>$56$</td><td>$42$</td><td>$77$</td><td>$22$</td><td>$34$</td><td>$40$</td><td>$41$</td><td>$48$</td><td>$47$</td></tr></table></div>",
     parts: [
       {
@@ -475,7 +475,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations of Random Variables"],
+    topics: ["Normal Distribution"],
     stem: "In this question you should state the parameters of any normal distributions you use.<br><br>A machine grades apples according to their mass. Apples with mass exceeding $120\\text{ g}$ are labelled as \"large\" and apples with mass less than $80\\text{ g}$ are labelled as \"small\". A large batch of apples is graded and it is found that $15\\%$ are \"large\" and $10\\%$ are \"small\". It is known that the masses of the apples are normally distributed.",
     parts: [
       {

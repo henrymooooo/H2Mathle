@@ -9,7 +9,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Sequences and Series", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     stem: "A sequence is such that $u_1 = N$ where $N$ is a constant, and $u_{n+1} = 3u_n - 8$, for $n \\ge 1$.",
     parts: [
       {
@@ -72,7 +72,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "The points $A$, $B$ and $C$ represent the complex numbers $z_A = 5 + 6\\mathrm{i}$, $z_B = 9 + 3\\mathrm{i}$ and $z_C$ respectively. $ABC$ is an isosceles triangle labelled in a clockwise direction where ∠$CAB = 90^\\circ$.",
     parts: [
       {
@@ -134,7 +134,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Integration", "Volume of Revolution"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -224,7 +224,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Sequences and Series", "AP and GP"],
+    topics: ["Sequences & Series"],
     stem: "The dosage of medicine given to a patient needs to be carefully managed in order to achieve the desired result.",
     parts: [
       {
@@ -292,7 +292,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Vectors", "3D Lines and Planes"],
+    topics: ["Vectors"],
     stem: "The Planetary Defense Coordination Office at NASA observes and tracks Near Earth Objects (NEOs) that could be potentially hazardous in a collision with Earth. Over short periods of time, vectors can be used to model the trajectories of the Earth and NEOs. They use coordinates $(x, y, z)$ with units in millions of kilometers relative to the sun which is at position $(0, 0, 0)$.<br>Earth's orbit is contained by the plane $\\Pi$ with equation $\\mathbf{r} \\cdot \\begin{pmatrix} 1 \\\\ -1 \\\\ 5 \\end{pmatrix} = 0$.",
     parts: [
       {
@@ -377,7 +377,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Permutations and Combinations"],
+    topics: ["Permutations & Combinations"],
     stem: "A Pizzeria sells pizza by individual slices. $8$ slices forms a full pizza.",
     parts: [
       {
@@ -421,7 +421,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation and Variance"],
+    topics: ["Discrete Random Variables"],
     stem: "In a game, a fair six-sided die is rolled. If a $1$ or a $2$ is rolled, then the die is rerolled and the score is the result of the reroll. Otherwise, the score is the number rolled originally.",
     parts: [
       {
@@ -472,7 +472,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "A game at a funfair involves pulling balls of different colours out of a bag. A bag contains $1$ white ball, $2$ blue balls, $3$ green balls and $4$ red balls. The aim of the game is to pull the white ball from the bag as many times as possible. Players get three attempts. If a red ball is drawn, it is discarded, but any other ball is replaced in the bag.",
     parts: [
       {
@@ -528,7 +528,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Binomial Distribution", "Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "A machine produces a large number of camera lenses daily. During the process, lenses could get scratched and become defective.",
     parts: [
       {
@@ -596,7 +596,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Correlation and Regression", "Residuals"],
+    topics: ["Correlation & Regression"],
     stem:
       "As part of the sound calibration for the National Day Parade at the Padang, sound engineers test how sound intensity changes with distance from the main stage speakers during rehearsals. This is helpful for calibrating the speaker system to avoid sound distortion or echo across seating zones.<br>" +
       "At a particular rehearsal, the engineers record the sound intensity, $y$, measured in decibels, at various distances, $x$, measured in metres from the stage speakers and recorded the data in the table below." +
@@ -709,7 +709,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Sampling", "Hypothesis Testing"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A family business sells strings which are manually cut into stipulated lengths. A client placed an order for $10\\,000$ strings of length $100$ centimetres. The business owner got the workers to cut out the $10\\,000$ strings. To ensure quality, a random sample of $40$ strings is chosen from the $10\\,000$ strings for measurement and a constant $a$ was subtracted from the lengths in centimetres to produce the following summary data.<br>$$\\sum (x - a) = 10.316, \\qquad \\sum (x - a)^2 = 41.7$$",
     parts: [
       {
@@ -776,7 +776,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q12",
     category: "stats",
-    topics: ["Normal Distribution", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "A factory produces metal discs and metal bars for constructing machinery parts. The mass of a randomly chosen metal disc follows a normal distribution with mean $18$ grams and standard deviation $0.6$ grams. The mass of a randomly chosen metal bar has an independent normal distribution with mean $20$ grams and standard deviation $\\sigma$ grams.",
     parts: [
       {

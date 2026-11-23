@@ -9,7 +9,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Differentiation", "Integration", "Area Under Curve"],
+    topics: ["Differentiation", "Integration"],
     stem: "The curve $C$ has equation $y = \\frac{1}{4x - x^2}$.",
     parts: [
       {
@@ -43,7 +43,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Inequalities", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -105,7 +105,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Differentiation", "Connected Rates of Change"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 280 200" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Wall and floor -->
   <line x1="65" y1="20" x2="65" y2="165" stroke-width="1.5"/>
@@ -152,7 +152,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     stem: "Functions $\\mathrm{f}$ and $\\mathrm{g}$ are defined by<br>$\\mathrm{f} : x$ ↦ $[\\ln(x-1)]^2 + 2, \\quad x \\ge a,$<br>$\\mathrm{g} : x$ ↦ $4 + 3x - x^2, \\quad x \\le \\frac{3}{2}.$",
     parts: [
       {
@@ -193,7 +193,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Graphing Techniques", "Conics", "Piecewise & Periodic Functions"],
+    topics: ["Functions", "Graphs & Transformations"],
     stem: "",
     parts: [
       {
@@ -324,7 +324,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Integration by Parts", "Volume of Revolution"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 320 190" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Axes (origin at (55, 145), x-scale 48px/unit, y-scale 130px/unit) -->
   <line x1="25" y1="145" x2="298" y2="145" stroke-width="1.2"/>
@@ -385,7 +385,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Integration Techniques", "Integration by Substitution"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -434,7 +434,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Sequences and Series", "Summation of Series"],
+    topics: ["Sequences & Series"],
     stem: "",
     parts: [
       {
@@ -490,7 +490,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Integration Techniques", "Binomial Expansion", "Maclaurin Series"],
+    topics: ["Maclaurin Series", "Integration"],
     stem: "It is given that $\\mathrm{f}(x) = \\frac{1}{4 + 9x^2}$.",
     parts: [
       {
@@ -568,7 +568,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations of Graphs", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "",
     parts: [
       {
@@ -605,7 +605,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["AP and GP", "Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "A company posted a video on a social media platform to advertise a new product. The video is uploaded at the start of 1st April and the number of daily views is recorded at the end of each day. Let $u_n$, where $n \\ge 1$, denote the number of daily views recorded each day. It is given that<br>$$u_{n+1} = (1 + k)u_n,$$<br>where $k$ is a positive constant.",
     parts: [
       {
@@ -664,7 +664,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes in 3D"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 330 220" width="330" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Ground parallelogram -->
   <polygon points="75,180 170,152 295,152 200,180" fill="rgba(44,41,37,0.04)" stroke="#2c2925" stroke-width="1.2"/>

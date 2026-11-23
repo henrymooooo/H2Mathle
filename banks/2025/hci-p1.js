@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Differentiation", "Inequalities"],
+    topics: ["Equations & Inequalities", "Differentiation"],
     stem: "",
     parts: [
       {
@@ -25,7 +25,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Recurrence Relations", "System of Linear Equations"],
+    topics: ["Equations & Inequalities", "Sequences & Series"],
     stem: "A sequence of real numbers, $x_n$, satisfies the recurrence relation<br>$$x_{n+1} = a(-3)^n + bn^2 + cx_n,$$<br>for $n, a, b, c$ ∈ ℤ and $n \\ge 1$.",
     parts: [
       {
@@ -62,7 +62,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Differential Equations", "Integration"],
+    topics: ["Integration", "Differential Equations"],
     stem: "It is given that $\\left(2xy\\frac{\\mathrm{d}y}{\\mathrm{d}x} + y^2\\right)\\cos x = \\frac{1}{xy^2}$, where $0 < x < \\frac{\\pi}{2}$ and $y \\ne 0$.",
     parts: [
       {
@@ -88,7 +88,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Definite Integrals", "Area Under Curve"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 280 185" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <line x1="25" y1="150" x2="260" y2="150" stroke-width="1.3"/>
   <polyline points="254,146 260,150 254,154" fill="none" stroke-width="1.3"/>
@@ -159,7 +159,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Maxima and Minima", "Differentiation"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 240 210" width="240" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <circle cx="115" cy="105" r="76" fill="none" stroke-dasharray="4,3" opacity="0.7" stroke-width="1.2"/>
   <line x1="157" y1="42" x2="73" y2="168" stroke-dasharray="4,3" opacity="0.7" stroke-width="1.2"/>
@@ -202,7 +202,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Transformations of Graphs", "Graphing Techniques"],
+    topics: ["Graphs & Transformations"],
     stem: "Given that $b$ is a real constant such that $0 < b < 4$:",
     parts: [
       {
@@ -242,7 +242,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Maclaurin Series", "Summation of Series"],
+    topics: ["Sequences & Series", "Maclaurin Series"],
     stem: "",
     parts: [
       {
@@ -279,7 +279,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\text{f}$ is defined by<br>$$\\text{f}(x) = \\frac{ax - 3}{5x - 4}, \\quad \\text{for } x \\text{ ∈ ℝ},\\; x \\ne \\frac{4}{5}, \\text{ and } a \\text{ ∈ ℝ}.$$",
     parts: [
       {
@@ -327,7 +327,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Integration by Parts", "Definite Integrals"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -362,7 +362,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Partial Fractions", "Differential Equations"],
+    topics: ["Differential Equations"],
     stem: "",
     parts: [
       {
@@ -399,7 +399,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "The points $A$ and $B$ have coordinates $(15, 3, 0)$ and $(5, 9, 5)$ respectively. Two lines $l_1$ and $l_2$, which are perpendicular to each other, have the following equations:<br>$$l_1 : \\mathbf{r} = (15 - \\lambda)\\mathbf{i} + (3 + 2\\lambda)\\mathbf{j} + 4\\lambda\\mathbf{k},$$<br>$$l_2 : \\mathbf{r} = (5 + 8\\mu)\\mathbf{i} + (9 - 2\\mu)\\mathbf{j} + (5 + m\\mu)\\mathbf{k},$$<br>where $\\lambda$ and $\\mu$ are parameters and $m$ is a constant.",
     parts: [
       {
@@ -472,7 +472,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Equations"],
+    topics: ["Complex Numbers"],
     stem: "<strong>Do not use a graphing calculator for this question.</strong><br>It is given that $\\text{f}(z) = z^4 - 6z^2 + k$, where $k$ is a non-zero constant.",
     parts: [
       {
@@ -523,7 +523,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q13",
     category: "pure",
-    topics: ["Sequences and Series", "Geometric Progression", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     stem: "Frederick, a social media influencer, is starting a new online account at the start of a month. From the second month onwards:<br>• His organic followers at the end of each month will be $a$ times the total followers he had at the end of the previous month, where $a$ is a positive constant.<br>• A company he engaged in will provide him with $1000$ additional followers in the middle of each month.<br><br>Let $F(n)$ denote the total number of organic and additional followers Frederick had at the end of $n$ months after he started his new online account, for $n$ ∈ ℤ⁺.",
     parts: [
       {

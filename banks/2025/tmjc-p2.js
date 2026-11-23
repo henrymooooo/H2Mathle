@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Inequalities", "Trigonometry"],
+    topics: ["Equations & Inequalities"],
     stem: "",
     parts: [
       {
@@ -32,7 +32,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Maclaurin Series", "Small Angle Approximations", "Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $\\mathrm{f}(\\theta) = a\\theta^2 + b\\theta + c$, where $a$, $b$ and $c$ are real constants. The curve with equation $y = \\mathrm{f}(\\theta)$ passes through the point with coordinates $(0, 1)$ and has a turning point at $\\left(-\\frac{\\sqrt{3}}{3}, \\frac{1}{2}\\right)$.",
     parts: [
       {
@@ -71,7 +71,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations of Graphs"],
+    topics: ["Graphs & Transformations"],
     stem: "The function $\\mathrm{f}$ is defined by<br>• $\\mathrm{f}(x) = x + 4$ for $-4 \\le x < -1$,<br>• $\\mathrm{f}(x) = x^2 + 2$ for $-1 \\le x < 2$.<br>It is given that $\\mathrm{f}(x) = \\mathrm{f}(x + 6)$ for all real values of $x$.",
     parts: [
       {
@@ -237,7 +237,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Vectors", "Vector Product", "Geometry"],
+    topics: ["Vectors"],
     stem: "Referred to the origin $O$, the points $A$, $B$ and $C$ have position vectors $\\mathbf{a}$, $\\mathbf{b}$ and $\\mathbf{c}$ respectively where $\\mathbf{a}$ is a non-zero vector and $\\mathbf{b} \\ne \\mathbf{c}$.",
     parts: [
       {
@@ -301,7 +301,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Venn Diagrams", "Independent Events"],
+    topics: ["Probability"],
     stem: "For events $A$, $B$ and $C$, it is given that $\\mathrm{P}(A) = 0.3$, $\\mathrm{P}(B) = 0.4$, $\\mathrm{P}(C) = 0.42$, $\\mathrm{P}(A' \\cap B \\cap C) = x$ and $\\mathrm{P}(A \\cap B \\cap C) = 0.02$. It is also given that events $A$ and $B$ are independent, and that events $A$ and $C$ are independent.",
     parts: [
       {
@@ -367,7 +367,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Hypothesis Testing", "Sampling"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A coffee shop owner claims that its signature coffee has a mean caffeine content of $120\\text{ mg}$ per cup. To investigate this claim, a random sample of $60$ cups of coffee is selected and the caffeine content, $x\\text{ mg}$ per cup, is summarised as follows.<br>$$\\sum x = 6960, \\qquad \\sum x^2 = 822465$$",
     parts: [
       {
@@ -405,7 +405,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Binomial Distribution", "Conditional Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "A manufacturer produces mystery boxes, each containing either a regular or a seasonal toy. On average, $p\\%$ of the mystery boxes contain a seasonal toy.<br>Amber orders $n$ mystery boxes from the manufacturer. The number of seasonal toys that Amber gets is the random variable $S$.",
     parts: [
       {
@@ -445,7 +445,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Correlation and Regression"],
+    topics: ["Correlation & Regression"],
     stem: "A car dealer is investigating how the value of a car depreciates over time. A random sample of eight cars of the same model is selected and the current resale value, $y$ thousand dollars of each car is recorded along with its age in $x$ years. The results are shown in the table.<div class='q-table-wrap'><table class='q-table'><tr><th>Age of car ($x$ years)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr><tr><th>Resale Value ($y$ thousand dollars)</th><td>30.0</td><td>25.8</td><td>22.3</td><td>19.2</td><td>16.5</td><td>14.4</td><td>12.5</td><td>10.9</td></tr></table></div>",
     parts: [
       {
@@ -520,7 +520,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Discrete Random Variables", "Probability"],
+    topics: ["Probability", "Discrete Random Variables"],
     stem: "Wardrobe $A$ contains $4$ distinct blouses, labelled $T_1, T_2, T_3$ and $T_4$. Wardrobe $B$ contains $3$ distinct pairs of pants, labelled $P_1, P_2$ and $P_3$. The following table shows the formality (formal or casual) of all the clothing.<div class='q-table-wrap'><table class='q-table'><tr><th>Wardrobe</th><th>Clothing</th><th>Formal</th><th>Casual</th></tr><tr><td>$A$</td><td>Blouse</td><td>$T_1, T_2$</td><td>$T_3, T_4$</td></tr><tr><td>$B$</td><td>Pants</td><td>$P_1, P_2$</td><td>$P_3$</td></tr></table></div>Nancy selects an outfit at random, by first choosing one blouse from Wardrobe $A$, followed by choosing one pair of pants from Wardrobe $B$.<br>$X$ denotes the score of a randomly chosen outfit.<br>• If the blouse and pants have the same formality, then the score of the outfit is the sum of their respective indices. For example, the score of an outfit comprising $T_4$ and $P_3$ is $7$.<br>• If the blouse and pants have different formality, then the score of the outfit is the product of their respective indices. For example, the score of an outfit comprising $T_2$ and $P_3$ is $6$.",
     parts: [
       {
@@ -563,7 +563,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "Anastasia leaves her house to travel to school every school day. On each school day, she will first take $C$ minutes to cycle from her house to the train station, followed by taking a train ride of $T$ minutes, and finally taking a bus ride of $B$ minutes, before she reaches her school. You should assume that all waiting and walking times are negligible. It is given that $C$, $T$ and $B$ follow independent normal distributions, with means and standard deviations as shown in the table.<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>Mean (minutes)</th><th>Standard Deviation (minutes)</th></tr><tr><td>$C$</td><td>8</td><td>0.2</td></tr><tr><td>$T$</td><td>17</td><td>$\\sigma$</td></tr><tr><td>$B$</td><td>15</td><td>2.1</td></tr></table></div>Anastasia is supposed to reach school by 7.30 am so that she is not late for school.",
     parts: [
       {

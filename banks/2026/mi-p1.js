@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["System of Linear Equations"],
+    topics: ["Equations & Inequalities"],
     stem: "Priya intends to buy $5$ jars of strawberry jam, $4$ bottles of honey and $6$ cans of sardines. She will have to pay SGD $59.80$ in total if she buys them at their usual retail prices. However, two supermarkets are each running their own promotions.<br>At Supermarket $A$, there is a $25\\%$ discount for each jar of strawberry jam, and for every $3$ bottles of honey purchased, one additional bottle is given free of charge. Priya can also redeem an SGD $8$ voucher at Supermarket $A$ which would bring her total bill to SGD $41.05$.<br>At Supermarket $B$, there is a $40\\%$ discount for each jar of strawberry jam while $3$ bottles of honey are sold for the price of $2$ bottles at the usual price. Each can of sardines is also $20$ cents cheaper than its usual retail price. Priya notes that shopping at Supermarket $B$ would cost her SGD $44.70$ in total.",
     parts: [
       {
@@ -31,7 +31,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Summation", "Series Convergence"],
+    topics: ["Sequences & Series"],
     stem: "It is given that $$\\sum_{r=1}^{n} \\frac{1}{r(r+1)} = 1 - \\frac{1}{n+1}.$$",
     parts: [
       {
@@ -72,7 +72,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Roots"],
+    topics: ["Complex Numbers"],
     stem: "Answer both parts.",
     parts: [
       {
@@ -104,7 +104,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Maclaurin Series", "Implicit Differentiation"],
+    topics: ["Differentiation", "Maclaurin Series"],
     stem: "It is given that $\\mathrm{e}^{y-1} + xy = \\cos x - x^2$.",
     parts: [
       {
@@ -134,7 +134,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Recurrence Relations", "Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "A sequence $u_1, u_2, u_3, \\dots$ is defined by the recurrence relation $$u_1 = k, \\quad u_{n+1} = 2u_n - 3$$ where $k \\in \\mathbb{Z}$ and $k \\ge 3$.",
     parts: [
       {
@@ -178,7 +178,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Applications of Integration", "Area and Volume"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 260 190" width="245" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="160" x2="245" y2="160" stroke-width="1.2"/><line x1="40" y1="175" x2="40" y2="12" stroke-width="1.2"/><path d="M 40 160 Q 85 156 125 112 Q 170 128 210 160 Z" fill="rgba(91,155,213,0.22)" stroke="none"/><path d="M 40 160 Q 85 156 125 112 Q 160 72 185 25" fill="none" stroke="#4a8fe7" stroke-width="2"/><path d="M 40 96 Q 90 100 125 112 Q 175 130 210 160" fill="none" stroke="#4a8fe7" stroke-width="2"/><line x1="125" y1="112" x2="125" y2="160" stroke-dasharray="3,3" stroke-width="1"/><text x="125" y="174" text-anchor="middle" stroke="none">1/2</text><text x="210" y="174" text-anchor="middle" stroke="none">1</text><text x="125" y="146" text-anchor="middle" stroke="none" font-style="italic">R</text><text x="190" y="32" stroke="none">y = (4π/3)x²</text><text x="195" y="128" stroke="none">y = cos⁻¹(x)</text><text x="30" y="172" stroke="none" font-style="italic">O</text></svg>`,
     stem: "The curves with equations $y = \\cos^{-1}(x)$ and $y = \\frac{4\\pi}{3}x^2$, where $0 \\le x \\le 1$, intersect at $x = \\frac{1}{2}$. The shaded region $R$ is bounded by the two curves and the $x$-axis, as shown in the diagram.",
     parts: [
@@ -224,7 +224,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Integration Techniques", "Integration by Substitution", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "Find the following indefinite integrals.",
     parts: [
       {
@@ -280,7 +280,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["3D Vectors", "Lines", "Planes"],
+    topics: ["Vectors"],
     stem: "The line $l$ has equation $\\mathbf{r} = \\begin{pmatrix} 2 \\\\ 0 \\\\ 1 \\end{pmatrix} + \\lambda\\begin{pmatrix} 1 \\\\ 3 \\\\ -2 \\end{pmatrix}$, where $\\lambda$ is a parameter. The point $P$ has coordinates $(-2, 0, 1)$.",
     parts: [
       {
@@ -338,7 +338,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Functions", "Inverse Functions", "Composite Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $$\\mathrm{f} : x \\mapsto \\frac{ax + 2}{x - 1}, \\quad x \\in \\mathbb{R},\\, x \\ne 1,$$ where $a$ is a positive constant.",
     parts: [
       {
@@ -386,7 +386,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Parametric Equations", "Normals", "Curve Sketching"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ has parametric equations $$x = 3t^2, \\quad y = 2t^3 - 6t, \\quad \\text{for } t \\in \\mathbb{R}.$$",
     parts: [
       {

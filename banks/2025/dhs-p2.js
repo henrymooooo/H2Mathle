@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Differentiation", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "A curve $C$ has equation $y = x + \\frac{9}{x+1}$.",
     parts: [
       {
@@ -59,7 +59,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Integration", "Integration by Substitution", "Integration by Parts"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -90,7 +90,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Implicit Differentiation", "Stationary Points"],
+    topics: ["Differentiation"],
     stem: "A curve $C$ has equation $x^3 + y^3 - 5xy = 0$ where $x > 0$.",
     parts: [
       {
@@ -131,7 +131,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Vectors", "Scalar Product"],
+    topics: ["Vectors"],
     diagramSvg: `<svg viewBox="0 0 280 200" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- O=(65,165), A=(40,105), B=(235,165), C=(160,25) -->
       <!-- D on AB (k=0.4): (40+0.4*195, 105+0.4*60) = (118, 129) -->
@@ -200,7 +200,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "pure",
-    topics: ["Differential Equations", "Graphing Techniques"],
+    topics: ["Graphs & Transformations", "Differential Equations"],
     stem: "A heated metal block at $160^\\circ\\text{C}$ is left to cool in a laboratory with an ambient temperature of $30^\\circ\\text{C}$. The temperature, $T$ in $^\\circ\\text{C}$, of the metal block $t$ minutes after it is left in the laboratory is modelled as a function $T(t)$. The rate of cooling is proportional to the difference between the object's temperature and the ambient temperature, with a positive constant of proportionality $k$.",
     parts: [
       {
@@ -276,7 +276,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "The events $A$, $B$ and $C$ are such that $\\mathrm{P}(A) = 0.8$, $\\mathrm{P}(B) = 0.2$ and $\\mathrm{P}(C) = 0.6$. It is also known that $\\mathrm{P}(A \\cap B) = \\mathrm{P}(B)$ and $\\mathrm{P}(B \\cap C) = 0.1$.",
     parts: [
       {
@@ -343,7 +343,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Permutations and Combinations"],
+    topics: ["Permutations & Combinations"],
     diagramSvg: `<svg viewBox="0 0 470 155" width="470" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
       <!-- Column headers -->
       <text x="72" y="18" stroke="none" font-style="italic">C</text>
@@ -490,7 +490,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Correlation and Linear Regression"],
+    topics: ["Correlation & Regression"],
     diagramSvg: `<svg viewBox="0 0 480 125" width="480" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
       <!-- Scatter Diagram I (r = 0) -->
       <text x="75" y="14" stroke="none" text-anchor="middle" font-weight="bold">Scatter Diagram I</text>
@@ -610,7 +610,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Binomial Distribution"],
+    topics: ["Binomial Distribution", "Normal Distribution"],
     stem: "<strong>In this question you should state the parameters of any distributions that you use.</strong><br><br>To regulate the use of its facilities by its paying members, a gym provides a guideline of a maximum usage time of 90 minutes per visit per paying member. However, the gym's records show that the usage time, $X$ minutes, of its paying members follows the distribution $\\mathrm{N}(95, \\sigma^2)$, where $\\sigma$ is the standard deviation. Only $30\\%$ of its paying members adhere to the guideline.",
     parts: [
       {
@@ -691,7 +691,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Sampling", "Hypothesis Testing"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Mr Dough's factory produces packets of flour for sale in local supermarkets packed in 2 sizes – Regular-sized packets and Large-sized packets. Automated machines weigh and pack the flour. A recent major power outage resulted in all his machines being needed to be recalibrated upon restarting.<br><br>Regular-sized packets are supposed to have a mean mass of 1 kg. Mr Dough suspects that his machines now pack Regular-sized packets that are underweight. He took a sample of his Regular-sized packets and measured their masses, $x\\text{ g}$ (correct to nearest $5\\text{ g}$). The results are recorded as follows:<div class='q-table-wrap'><table class='q-table'><tr><th>Mass, $x$ (g)</th><td>980</td><td>985</td><td>990</td><td>995</td><td>1000</td><td>1005</td><td>1010</td><td>1015</td><td>1020</td></tr><tr><th>No. of Regular-sized packets</th><td>5</td><td>6</td><td>7</td><td>7</td><td>9</td><td>6</td><td>5</td><td>3</td><td>2</td></tr></table></div>",
     parts: [
       {

@@ -26,7 +26,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Sequences and Series", "Sigma Notation"],
+    topics: ["Sequences & Series"],
     stem: "A series is given by $\\sum_{r=1}^{n} 2(4-3x)^r$ where $x$ is constant.",
     parts: [
       {
@@ -59,7 +59,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Maclaurin Series", "Binomial Expansion"],
+    topics: ["Maclaurin Series"],
     stem: "",
     parts: [
       {
@@ -97,7 +97,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Sequences and Series", "Recurrence Relations"],
+    topics: ["Sequences & Series"],
     stem: "A sequence of real numbers $x_1, x_2, x_3, \\dots$ satisfies the recurrence relation $$x_{n+1} = \\frac{5x_n + 2}{2x_n + 3} \\quad \\text{for all } n \\ge 1.$$",
     parts: [
       {
@@ -139,7 +139,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Graphing Techniques", "Differentiation"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     diagramSvg: `<svg viewBox="0 0 540 210" width="540" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
       <!-- Left graph: y = f'(x) -->
       <!-- Axes -->
@@ -290,7 +290,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Parametric Equations", "Graphing Techniques", "Integration"],
+    topics: ["Graphs & Transformations", "Integration"],
     stem: "A curve $C$ is defined parametrically by $$x = a\\tan t, \\quad y = a\\sec^2 t \\sin t, \\quad -\\frac{\\pi}{4} < t < \\frac{\\pi}{4},$$ where $a$ is a positive constant.",
     parts: [
       {
@@ -441,7 +441,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "A complex number $z$ varies with $t$ such that $$z = 2\\cos t + \\mathrm{i}(3\\sin t), \\quad \\text{where } 0 \\le t < 2\\pi.$$",
     parts: [
       {
@@ -521,7 +521,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Vectors", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "The point $A$ has coordinates $(1, -2, 4)$ and the plane $\\pi_1$ has equation $2x - y + 2z = 5$.",
     parts: [
       {
@@ -566,7 +566,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q10",
     category: "pure",
-    topics: ["Integration", "Volume of Revolution", "Area Under Curve"],
+    topics: ["Integration"],
     diagramSvg: `<svg viewBox="0 0 340 190" width="340" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
       <!-- Axes -->
       <line x1="35" y1="150" x2="315" y2="150" stroke-width="1.2"/>
@@ -663,7 +663,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Differentiation", "Maxima and Minima", "Rates of Change"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 460 190" width="460" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
       <!-- Left: Tank (cylinder + circular cover + hemispherical base) -->
       <!-- Top ellipse -->

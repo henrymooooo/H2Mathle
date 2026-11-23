@@ -2,7 +2,7 @@ window.registerQuestions([
   // ==================== DHS 2026 PAPER 2: PURE MATH (Q1 - Q5) ====================
   {
     id: "DHS-2026-P2-Q1", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q1", category: "pure",
-    topics: ["Inequalities"],
+    topics: ["Equations & Inequalities"],
     stem: "Solve the following inequalities without using a calculator.",
     parts: [
       { label: "(a)", marks: 4, prompt: "Solve $\\frac{2x^2-3x+5}{x^2+3x-4} > 1$.", type: "self", solution: "$\\frac{(x-3)^2}{(x-1)(x+4)} > 0 \\implies x < -4$ or $x > 1, x \\ne 3$." },
@@ -11,7 +11,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P2-Q2", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q2", category: "pure",
-    topics: ["3D Vectors", "Geometrical Interpretation"],
+    topics: ["Vectors"],
     stem: "Variable point $R(\\mathbf{r})$, fixed points $A(\\mathbf{a}), B(\\mathbf{b})$ (non-zero, non-parallel).",
     parts: [
       { label: "(a)-(c)", marks: 5, prompt: "Interpret $|\\mathbf{a}\\times\\mathbf{b}|$, $3\\mathbf{r}\\times(\\mathbf{b}-\\mathbf{a}) = \\mathbf{0}$, and $\\mathbf{r}\\cdot\\mathbf{b} = \\mathbf{r}\\cdot\\mathbf{a}$ geometrically.", type: "self", solution: "(a) Area of parallelogram with sides $OA, OB$. (b) Line through $O$ parallel to $AB$. (c) Plane through $O$ with normal $AB$." },
@@ -20,7 +20,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P2-Q3", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q3", category: "pure",
-    topics: ["Algebraic Proofs", "Discriminant"],
+    topics: ["Equations & Inequalities"],
     stem: "Curve $(x+y)^2 + axy = 6$ ($a > 0$) is intersected by line $y = -x + k$ for all $|k| \\ge 2$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Show that the $x$-coordinate satisfies $ax^2 - akx + (6-k^2) = 0$.", type: "self", solution: "$k^2 + ax(-x+k) = 6 \\implies ax^2 - akx + (6-k^2) = 0$." },
@@ -29,7 +29,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P2-Q4", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q4", category: "pure",
-    topics: ["Parametric Equations", "Trigonometry"],
+    topics: ["Graphs & Transformations"],
     stem: "Curve $C$: $x = \\sin t + \\sqrt{3}\\cos t$, $y = \\sqrt{3}\\cos t$ ($0 \\le t \\le \\pi$).",
     parts: [
       { label: "(a)", marks: 2, prompt: "Express $x = R\\sin(t + \\alpha)$ ($R > 0$, $\\alpha$ acute).", type: "auto", mode: "multi-field", fields: [{ label: "R =", answer: "2", exactRequired: true }, { label: "α =", answer: "pi/3", exactRequired: true }], solution: "$R = \\sqrt{1+3} = 2$, $\\tan\\alpha = \\sqrt{3} \\implies \\alpha = \\frac{\\pi}{3}$." },
@@ -54,7 +54,7 @@ window.registerQuestions([
   // ==================== DHS 2026 PAPER 2: STATISTICS (Q6 - Q11) ====================
   {
     id: "DHS-2026-P2-Q6", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q6", category: "stats",
-    topics: ["Probability", "Conditional Probability"],
+    topics: ["Probability"],
     stem: "$90$ ornaments:<div class='q-table-wrap'><table class='q-table'><tr><th></th><th>White</th><th>Blue</th><th>Pink</th><th>Green</th></tr><tr><th>Star</th><td>12</td><td>6</td><td>9</td><td>13</td></tr><tr><th>Diamond</th><td>2</td><td>3</td><td>7</td><td>10</td></tr><tr><th>Moon</th><td>4</td><td>5</td><td>11</td><td>8</td></tr></table></div>Tom chooses $2$ items at random.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Given neither is green, find probability both are either white or have a moon design (or both).", type: "auto", mode: "number", answer: "561/1711", placeholder: "Exact or 3 s.f.", solution: "Non-green $= 59$; white-or-moon (non-green) $= 34$. $\\frac{\\binom{34}{2}}{\\binom{59}{2}} = \\frac{561}{1711} \\approx 0.328$." },
@@ -75,7 +75,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P2-Q8", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q8", category: "stats",
-    topics: ["Correlation & Regression", "Residuals"],
+    topics: ["Correlation & Regression"],
     stem: "Light meter ($x$) and phone app ($y$) readings:<div class='q-table-wrap'><table class='q-table'><tr><th>$x$</th><td>289</td><td>329</td><td>395</td><td>420</td><td>508</td></tr><tr><th>$y$</th><td>220</td><td>280</td><td>260</td><td>360</td><td>400</td></tr></table></div>",
     parts: [
       { label: "(a)(i)-(iii)", marks: 4, prompt: "Draw $x = 98 + 0.95y$, explain why residual $a - \\mathrm{f}(b)$ and sum of squares are used, and mark residuals.", type: "self", solution: "Horizontal residuals measure error in estimating $x$ from $y$; squaring prevents positive/negative cancellation." },
@@ -86,7 +86,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P2-Q9", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q9", category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations"],
+    topics: ["Normal Distribution"],
     stem: "Large cheese blocks $\\sim \\mathrm{N}(4.25, 0.15^2)$ kg; Standard blocks $\\sim \\mathrm{N}(2.85, 0.2^2)$ kg.",
     parts: [
       { label: "(a)", marks: 2, prompt: "Calculate expected number out of $90$ Standard blocks weighing $> 2.9\\text{ kg}$.", type: "auto", mode: "number", answer: "36.1161", placeholder: "3 s.f.", solution: "$90 \\times \\mathrm{P}(S > 2.9) = 90(0.40129) = 36.1$ (3 s.f.)." },
@@ -96,7 +96,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P2-Q10", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q10", category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "Claimed average order prep time $< 12\\text{ min}$. Sample of $50$ orders: $\\sum(x-12) = -11.9$, $\\sum(x-12)^2 = 17.36$.",
     parts: [
       { label: "(a)", marks: 1, prompt: "Explain random sample in context.", type: "self", solution: "Each order is selected independently and has an equal chance of being selected." },
@@ -107,7 +107,7 @@ window.registerQuestions([
   },
   {
     id: "DHS-2026-P2-Q11", year: 2026, school: "DHS", paper: "2026 Prelim Paper 2", qNum: "Q11", category: "stats",
-    topics: ["Discrete Random Variables", "Binomial Distribution", "Central Limit Theorem"],
+    topics: ["Discrete Random Variables", "Binomial Distribution", "Sampling & CLT"],
     stem: "Bag has 1 blue, 1 red, 1 green marble drawn with replacement; $X =$ draws needed for any colour to appear a second time.",
     parts: [
       { label: "(a)(i)", marks: 2, prompt: "Show $\\mathrm{P}(X=4) = \\frac{2}{9}$ and find the probability distribution of $X$.", type: "self", solution: "$\\mathrm{P}(X=2)=\\frac{1}{3}, \\mathrm{P}(X=3)=\\frac{4}{9}, \\mathrm{P}(X=4)=\\frac{2}{9}$." },

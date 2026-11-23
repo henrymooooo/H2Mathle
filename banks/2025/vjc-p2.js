@@ -13,7 +13,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Maclaurin Series", "Standard Series Expansions"],
+    topics: ["Maclaurin Series"],
     stem: "It is given that $\\mathrm{f}(x) = \\ln(a + x)$, $x \\in \\mathbb{R}$, $x > -a$, where $a$ is a constant.",
     parts: [
       {
@@ -63,7 +63,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     diagramSvg: `<svg viewBox="0 0 280 200" width="280" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Top face ABCD: A(60,70), B(220,70), C(188,26), D(92,26) -->
   <!-- Bottom face EFGH: E(60,166), F(220,166), G(188,122), H(92,122) -->
@@ -142,7 +142,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Vectors in 3D", "Lines and Planes"],
+    topics: ["Vectors"],
     stem: "With reference to the point $O$ as the origin and the $x$-$y$ plane as a horizontal plane, the pyramid $OPQRV$ has a parallelogram base $OPQR$ and height $OV$. The position vectors of the points $P$ and $R$ are $-3\\mathbf{i} + 4\\mathbf{j} + 3\\mathbf{k}$ and $5\\mathbf{i} - 2\\mathbf{j} - \\mathbf{k}$ respectively.",
     parts: [
       {
@@ -191,7 +191,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     diagramSvg: `<svg viewBox="0 0 260 170" width="260" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <line x1="25" y1="100" x2="235" y2="100" stroke-width="1.2"/>
   <polyline points="230,96 236,100 230,104" fill="none" stroke-width="1.2"/>
@@ -296,7 +296,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Permutations and Combinations", "Probability"],
+    topics: ["Permutations & Combinations", "Probability"],
     stem: "A code consists of 10 characters.<br>The first 5 characters of the code is formed using 5 letters chosen from the set $\\{\\text{A, B, C, D, E, F, G, H}\\}$ and the last 5 characters of the code is formed using 5 digits chosen from the set $\\{1, 2, 3, 4, 5, 6, 7, 8, 9, 0\\}$. The code allows for repetitions of letters and/or digits.",
     parts: [
       {
@@ -341,7 +341,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Probability", "Conditional Probability", "Venn Diagrams"],
+    topics: ["Probability"],
     stem: "Two events $A$ and $B$ are such that $\\mathrm{P}(A) = p$ and $\\mathrm{P}(B) = \\frac{5}{4}p$. It is given that $\\mathrm{P}(A \\cup B) = \\mathrm{P}(A \\mid B) = 0.6$.",
     parts: [
       {
@@ -449,7 +449,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation and Variance"],
+    topics: ["Discrete Random Variables"],
     diagramSvg: `<svg viewBox="0 0 240 210" width="240" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="10.5" fill="#2c2925" stroke="#2c2925">
   <!-- Concentric circles centred at (120, 105): radii 92 (40cm), 55 (24cm), 28 (12cm) -->
   <circle cx="120" cy="105" r="92" fill="rgba(76,168,133,0.10)" stroke-width="1.5"/>
@@ -552,7 +552,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Sampling", "Central Limit Theorem"],
+    topics: ["Normal Distribution", "Sampling & CLT"],
     stem: "<strong>In this question you should state the parameters of any distributions you use.</strong><br>An orchard sells kiwis of two varieties, Type $A$ and Type $B$. The masses, in grams, of Type $A$ and Type $B$ kiwis follow the distributions $\\mathrm{N}(110, 6^2)$ and $\\mathrm{N}(85, 8^2)$ respectively. It is assumed that these two distributions are independent.<br>Kiwis are selected randomly and packed into bags. Type $A$ kiwis are packed in bags of $30$, while Type $B$ kiwis are packed in bags of $60$.",
     parts: [
       {
@@ -603,7 +603,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Correlation and Linear Regression"],
+    topics: ["Correlation & Regression"],
     stem: "An energy company is studying the relationship between the average daily temperature, $x$ (in degrees Celsius), and the amount of electricity consumed, $y$ (in megawatt-hours MWh). For a random sample of ten days, the records are shown in the table below.<br><div class='q-table-wrap'><table class='q-table'><tr><th>Average daily temperature ($x\\,^\\circ\\text{C}$)</th><td>$20$</td><td>$22$</td><td>$24$</td><td>$26$</td><td>$28$</td><td>$30$</td><td>$32$</td><td>$34$</td><td>$36$</td><td>$38$</td></tr><tr><th>Electricity consumption ($y$ MWh)</th><td>$12.5$</td><td>$12.8$</td><td>$13.2$</td><td>$14.0$</td><td>$14.7$</td><td>$16.2$</td><td>$16.2$</td><td>$19.9$</td><td>$22.3$</td><td>$29.5$</td></tr></table></div>",
     parts: [
       {
@@ -692,7 +692,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 2",
     qNum: "Q12",
     category: "stats",
-    topics: ["Hypothesis Testing", "Sampling"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A hospital introduces a new medication regimen to help patients recover from a viral infection more quickly. Previously, the average recovery time was $7.2$ days.<br>After adopting the new regimen, a random sample of $40$ patients is observed, and their recovery times, $x$, in days, are recorded. The results are summarised below.$$\\sum(x - 7.2) = -42 \\qquad \\text{and} \\qquad \\sum(x - 7.2)^2 = 648$$",
     parts: [
       {

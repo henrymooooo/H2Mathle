@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q1",
     category: "pure",
-    topics: ["Graphing Techniques", "Differentiation", "Asymptotes"],
+    topics: ["Graphs & Transformations", "Differentiation"],
     stem: "Curve $C$ has equation $y = \\frac{px^2 + qx + r}{x - 1}$, where $p$, $q$ and $r$ are real numbers. Given that $C$ has a turning point at $(3, 7)$ and an oblique asymptote parallel to the line $y = \\frac{3}{2}x + \\sqrt{5}$,",
     parts: [
       {
@@ -31,7 +31,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q2",
     category: "pure",
-    topics: ["Applications of Differentiation", "Maxima and Minima"],
+    topics: ["Differentiation"],
     stem: "An ornament consists of two identical solid right circular cones whose flat bases are separated by a solid sphere, such that the sphere is in contact with the two bases. The axis passes through the vertex of each cone and the centre of the sphere. It is given that the distance between the vertices of the cones is $2l$, and the radii of the bases of the cones are $\\sqrt{\\frac{3}{2}}\\,l$, where $l$ is a constant.<br>[The volume of a sphere with radius $r$ is given by $V = \\frac{4}{3}\\pi r^3$.]",
     parts: [
       {
@@ -84,7 +84,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q3",
     category: "pure",
-    topics: ["Vectors", "Dot Product", "Cross Product"],
+    topics: ["Vectors"],
     stem: "",
     parts: [
       {
@@ -120,7 +120,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q4",
     category: "pure",
-    topics: ["Graphing Techniques", "Transformations of Graphs"],
+    topics: ["Graphs & Transformations"],
     diagramSvg: `<svg viewBox="0 0 640 230" width="600" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925">
   <!-- Panel (a): y = f(x) -->
   <text x="15" y="18" stroke="none" font-weight="bold">(a)</text>
@@ -249,7 +249,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q5",
     category: "pure",
-    topics: ["Sequences and Series", "Sigma Notation"],
+    topics: ["Sequences & Series"],
     stem: "The $n$th term of a series $G$ is given by $g_n = 3n^2 - 17n + 17$, where $n \\ge 1$.",
     parts: [
       {
@@ -290,7 +290,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q6",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "The points $P$, $Q$ and $R$ representing the complex numbers $p$, $q$ and $r$ on an Argand diagram are such that $\\arg(p) = \\alpha$ and $\\arg(q) = \\beta$, where $0 < \\alpha < \\beta < \\frac{\\pi}{2}$, $\\beta > 2\\alpha$ and $r = p + q$.",
     parts: [
       {
@@ -366,7 +366,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q7",
     category: "pure",
-    topics: ["Integration Techniques", "Integration by Substitution", "Definite Integrals"],
+    topics: ["Integration"],
     stem: "",
     parts: [
       {
@@ -400,7 +400,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q8",
     category: "pure",
-    topics: ["Arithmetic and Geometric Progressions", "Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "A sequence is such that $u_{n+1} = u_n + 1.5$, for $n = 1, 2, 3, \\dots$.",
     parts: [
       {
@@ -452,7 +452,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q9",
     category: "pure",
-    topics: ["Functions", "Composite Functions", "Inverse Functions"],
+    topics: ["Functions"],
     stem: "The function $\\mathrm{f}$ is defined by $$\\mathrm{f}(x) = \\frac{x + 1}{2x - 3} \\quad \\text{for } x \\in \\mathbb{R},\\; x \\ne k.$$",
     parts: [
       {
@@ -544,7 +544,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q11",
     category: "pure",
-    topics: ["Applications of Integration", "Area and Volume of Revolution"],
+    topics: ["Integration"],
     stem: "The curve $C$ has equation $x^2 - y^2 = 16$, where $y \\ge 0$. The line $L$ has equation $y = -\\frac{1}{2}x + \\frac{11}{2}$.",
     parts: [
       {
@@ -617,7 +617,7 @@ window.registerQuestions([
     paper: "2025 Prelim Paper 1",
     qNum: "Q12",
     category: "pure",
-    topics: ["Differential Equations", "Modelling"],
+    topics: ["Differential Equations"],
     stem: "Scientists are studying the growth of a newly discovered biomass that entered Earth's atmosphere together with an asteroid. A sample of $100$ grams of the biomass was collected initially. It was found that on the next day, the sample grew to $110$ grams. The scientists observed that the rate of growth of biomass was proportional to the amount of biomass present. The amount of biomass at time $t$ days is denoted by $B$ grams.",
     parts: [
       {

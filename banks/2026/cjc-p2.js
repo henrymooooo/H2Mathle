@@ -7,7 +7,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Vectors", "Scalar Product"],
+    topics: ["Vectors"],
     stem: "The vectors $\\mathbf{v}$ and $\\mathbf{w}$ are defined as $\\mathbf{v} = \\mathbf{a} - 2\\mathbf{b}$ and $\\mathbf{w} = 5\\mathbf{a} + 4\\mathbf{b}$, where $\\mathbf{a}$ and $\\mathbf{b}$ are unit vectors.",
     parts: [
       {
@@ -30,7 +30,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["Arithmetic Progression", "Geometric Progression", "Convergence"],
+    topics: ["Sequences & Series"],
     stem: "An arithmetic progression $A$ has first term $a$ and non-zero common difference $d$. A geometric progression $G$ has first term $a$ and common ratio $r$, where $r \\ne 1$. It is given that the first, fourth and thirteenth terms of $A$ are equal to the first three consecutive terms of $G$ respectively.",
     parts: [
       {
@@ -79,7 +79,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Complex Numbers", "Polynomial Roots", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     stem: "Given that $3 + \\mathrm{i}$ is a root of the equation $P(z) = 0$, such that $P(z) = 2z^4 - 14z^3 + az^2 + bz + 10$, where $a$ and $b$ are real constants.",
     parts: [
       {
@@ -129,7 +129,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["3D Vectors", "Planes & Lines"],
+    topics: ["Vectors"],
     stem: "The points $A(0, 2, 1)$, $B(8, 6, 0)$ and $C(-4, 1, 1)$ lie on a plane $\\Pi_1$.",
     parts: [
       {
@@ -175,7 +175,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q5",
     category: "stats",
-    topics: ["Discrete Random Variables", "Expectation & Variance", "Binomial Distribution"],
+    topics: ["Discrete Random Variables", "Binomial Distribution"],
     stem: "Vis plays a game where he puts a 1-dollar coin into a coin-operated machine to start the game. Vis loses with probability $0.8$ (pays out nothing), draws with probability $0.15$ (pays out one 1-dollar coin), or wins with probability $0.05$ (pays out ten 1-dollar coins). Let $Y$ represent the number of 1-dollar coins profited at the end of one game.",
     parts: [
       {
@@ -217,7 +217,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Binomial Distribution", "Conditional Probability"],
+    topics: ["Probability", "Binomial Distribution"],
     stem: "A railway company sells $200$ non-reserved tickets for a train that has $180$ seats. Historical records show that on average, each ticket holder turns up with probability $0.88$. Let $X$ represent the number of ticket holders who turn up.",
     parts: [
       {
@@ -342,7 +342,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Hypothesis Testing", "Unbiased Estimates", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "A researcher investigates the average time taken by students to complete a certain test using a random sample of $40$ students:<br>$$n = 40, \\quad \\sum x = 1080, \\quad \\sum x^2 = 31100.$$",
     parts: [
       {
@@ -446,7 +446,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Normal Distribution", "Linear Combinations"],
+    topics: ["Normal Distribution"],
     stem: "A manufacturer produces electrical components with length $L\\text{ mm}$. $30.85\\%$ of the components are longer than $15\\text{ mm}$ while $15.87\\%$ are shorter than $12\\text{ mm}$. Assume $L \\sim \\mathrm{N}(\\mu, \\sigma^2)$.",
     parts: [
       {

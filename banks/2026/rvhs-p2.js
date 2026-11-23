@@ -6,7 +6,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q1",
     category: "pure",
-    topics: ["Parametric Equations", "Curve Sketching"],
+    topics: ["Graphs & Transformations"],
     stem: "The curve $C$ has parametric equations $$x = t + \\frac{4}{t}, \\quad y = -\\frac{2}{t}, \\quad 0 < t < 2.$$",
     parts: [
       {
@@ -44,7 +44,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q2",
     category: "pure",
-    topics: ["AP and GP", "Sequences and Series"],
+    topics: ["Sequences & Series"],
     stem: "A start-up company is launching a project to capture airborne dust particles using two different filtration models $A$ and $B$, with its efficiency measured over time.<br>Model $A$ is programmed such that the amount of dust particles captured in its first month of operation is $8$ units and increases by a fixed amount of $d$ units each month. In its first $12$ months of operation, Model $A$ captured a total of $360$ units of dust particles.",
     parts: [
       {
@@ -90,7 +90,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q3",
     category: "pure",
-    topics: ["Complex Numbers", "Argand Diagram"],
+    topics: ["Complex Numbers"],
     diagramSvg: `<svg viewBox="0 0 260 200" width="245" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="11" fill="#2c2925" stroke="#2c2925"><line x1="20" y1="135" x2="245" y2="135" stroke-width="1.2"/><line x1="120" y1="190" x2="120" y2="15" stroke-width="1.2"/><polygon points="120,135 180,106 151,46 91,75" fill="rgba(91,155,213,0.14)" stroke="#4a8fe7" stroke-width="1.8"/><text x="186" y="108" stroke="none" font-style="italic">A</text><text x="156" y="42" stroke="none" font-style="italic">B</text><text x="80" y="74" stroke="none" font-style="italic">C</text><text x="108" y="149" stroke="none" font-style="italic">O</text><text x="238" y="149" stroke="none">Re</text><text x="102" y="24" stroke="none">Im</text></svg>`,
     stem: "The point $A$ on the Argand diagram represents the complex number $z$, where $|z| = 3$ and $\\arg(z) = \\frac{\\pi}{7}$. Points $B$ and $C$ are on the diagram such that $OABC$ is a square.",
     parts: [
@@ -144,7 +144,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q4",
     category: "pure",
-    topics: ["Integration by Substitution", "Area and Volume"],
+    topics: ["Integration"],
     stem: "Answer all parts.",
     parts: [
       {
@@ -230,7 +230,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q6",
     category: "stats",
-    topics: ["Sampling", "Central Limit Theorem"],
+    topics: ["Sampling & CLT"],
     stem: "A consumer wants to investigate the average delivery timing by recording $50$ timings of food delivery to his house for dinner over $6$ months.",
     parts: [
       {
@@ -271,7 +271,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q7",
     category: "stats",
-    topics: ["Correlation and Regression"],
+    topics: ["Correlation & Regression"],
     stem: "The following table shows the number of charge cycles, $n$, undergone by a battery, and its capacity, as a percentage of its original capacity, $p\\%$.<div class='q-table-wrap'><table class='q-table'><tr><th>$n$</th><td>100</td><td>150</td><td>200</td><td>250</td><td>300</td><td>350</td><td>400</td><td>450</td></tr><tr><th>$p$</th><td>96</td><td>90</td><td>85</td><td>83</td><td>80</td><td>79</td><td>77</td><td>76</td></tr></table></div>",
     parts: [
       {
@@ -328,7 +328,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q8",
     category: "stats",
-    topics: ["Hypothesis Testing", "Central Limit Theorem"],
+    topics: ["Sampling & CLT", "Hypothesis Testing"],
     stem: "White truffles are harvested from the forest. According to harvest records, the distribution of the mass of a white truffle has mean $20$ grams and standard deviation $3.5$ grams.<br>It is known that climate change affects the mass of white truffles. To investigate these effects, Lucia collects a random sample of $32$ white truffles with a mean mass of $19$ grams. She decides to test, at the $5\\%$ level of significance, whether the mean mass of white truffles has decreased.",
     parts: [
       {
@@ -375,7 +375,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q9",
     category: "stats",
-    topics: ["Probability", "Permutations & Combinations"],
+    topics: ["Permutations & Combinations", "Probability"],
     stem: "Answer both parts.",
     parts: [
       {
@@ -430,7 +430,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q10",
     category: "stats",
-    topics: ["Binomial Distribution", "Discrete Random Variables"],
+    topics: ["Discrete Random Variables", "Binomial Distribution"],
     stem: "A robot is programmed to move along the $x$-axis on the $x$-$y$ plane. It starts at the origin $O(0, 0)$.<br>The robot receives a signal to either:<br>• move one unit to the right with a probability of $0.3$; or<br>• move one unit to the left with a probability of $0.7$.<br>The signals are independent of each other. The robot receives $10$ signals. The random variable $R$ denotes the number of times the robot moves to the right.",
     parts: [
       {
@@ -502,7 +502,7 @@ window.registerQuestions([
     paper: "2026 Prelim Paper 2",
     qNum: "Q11",
     category: "stats",
-    topics: ["Normal Distribution", "Conditional Probability"],
+    topics: ["Probability", "Normal Distribution"],
     diagramSvg: `<svg viewBox="0 0 340 72" width="320" xmlns="http://www.w3.org/2000/svg" font-family="Georgia,serif" font-size="9.5" fill="#2c2925" stroke="#2c2925"><line x1="25" y1="30" x2="315" y2="30" stroke="#4ca885" stroke-width="3"/><circle cx="25" cy="30" r="6" fill="#fff" stroke="#4ca885" stroke-width="2"/><circle cx="95" cy="30" r="6" fill="#fff" stroke="#4ca885" stroke-width="2"/><circle cx="165" cy="30" r="6" fill="#fff" stroke="#4ca885" stroke-width="2"/><circle cx="245" cy="30" r="6" fill="#fff" stroke="#4ca885" stroke-width="2"/><circle cx="315" cy="30" r="6" fill="#fff" stroke="#4ca885" stroke-width="2"/><text x="60" y="18" text-anchor="middle" stroke="none">1st seg</text><text x="130" y="18" text-anchor="middle" stroke="none">2nd seg</text><text x="205" y="18" text-anchor="middle" stroke="none">…</text><text x="280" y="18" text-anchor="middle" stroke="none">12th seg</text><text x="25" y="52" text-anchor="middle" stroke="none">1st</text><text x="95" y="52" text-anchor="middle" stroke="none">2nd</text><text x="165" y="52" text-anchor="middle" stroke="none">3rd</text><text x="205" y="52" text-anchor="middle" stroke="none">…</text><text x="245" y="52" text-anchor="middle" stroke="none">12th</text><text x="315" y="52" text-anchor="middle" stroke="none">13th</text></svg>`,
     stem: "Mr Lim travels to work by train every weekday morning. His journey begins at the 1st station and ends at the 13th station. The train passes through $12$ segments, where each segment is the distance between two consecutive stations.<br>Mr Lim leaves the 1st station at $8.25$ am every weekday. If Mr Lim arrives at the final station at or before $9$ am, he is considered to be early. Otherwise, he is considered to be late.<br>On fine days, the travel time for each train segment is independent and normally distributed with mean $2.5$ minutes and standard deviation $0.8$ minutes.",
     parts: [
