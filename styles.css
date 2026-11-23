@@ -507,8 +507,8 @@ body::before {
   border: none;
   border-top: 1px solid #ece7dc;
   border-left: 3px solid transparent;
-  border-radius: 0;
-  padding: 19px 0 20px 20px;
+  border-radius: 0 4px 4px 0;
+  padding: 19px 20px 20px 20px;
   margin-bottom: 20px;
   background: transparent;
   transition: border-color 0.25s ease, background-color 0.25s ease;
@@ -1041,6 +1041,7 @@ body::before {
 @media (max-width: 600px) {
   .app-shell { width: 100%; }
   .card { padding: 16px 14px; }
+  .part-card { padding: 16px 14px; }
   .nav-tabs {
     flex-wrap: nowrap;
     width: 100%;
