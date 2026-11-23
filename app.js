@@ -3855,19 +3855,19 @@
           </div>
           <div class="scratch-pinned-parts" id="ask-pinned-parts" style="display:none;"></div>
           <div class="ask-messages">
-            <div class="ask-empty" style="margin-top:12px;">
+            <div class="ask-empty">
               Copies the current question (and any pinned parts) along with your prompt so you can paste straight into Gemini with <strong>Ctrl+V</strong>.
-              <div class="ask-chips" style="margin-top:14px;">
+              <div class="ask-chips">
                 <button type="button" class="btn" data-prompt="Give me a small hint to start this question without spoiling the answer.">Hint to start</button>
                 <button type="button" class="btn" data-prompt="What key concept or formula from MF27 applies here?">Key concept</button>
                 <button type="button" class="btn" data-prompt="Walk me through the solution step by step.">Explain solution</button>
                 <button type="button" class="btn" data-prompt="Where did I go wrong? Here is my working: ">Check my working</button>
               </div>
-              <div id="ask-copy-status" style="margin-top:14px;font-size:0.8rem;color:var(--ok);min-height:1.2em;"></div>
+              <div id="ask-copy-status" class="ask-copy-status"></div>
             </div>
           </div>
           <div class="ask-compose" style="flex-direction:column;align-items:stretch;">
-            <textarea id="ask-input" rows="3" placeholder="Optional: type your question or paste your working (defaults to step-by-step walkthrough)..."></textarea>
+            <textarea id="ask-input" rows="2" placeholder="Optional: type your question or paste your working (defaults to step-by-step walkthrough)..."></textarea>
             <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
               <button type="button" class="btn" id="ask-copy-only">Copy Prompt</button>
               <button type="button" class="btn btn-primary" id="ask-open-gemini">Copy &amp; Open Gemini ↗</button>
