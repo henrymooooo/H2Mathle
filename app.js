@@ -279,8 +279,12 @@
     const { qId, tab } = getFeedbackContext();
     badge.textContent = qId ? `Attached: ${qId}` : `Tab: ${TAB_LABELS[tab] || tab}`;
   }
-  function setPageTitle(label) {
-    document.title = label ? `${label} · ${BASE_TITLE}` : BASE_TITLE;
+  function setPageTitle(label, { prefixBrand = true } = {}) {
+    if (!label) {
+      document.title = BASE_TITLE;
+      return;
+    }
+    document.title = prefixBrand ? `${BASE_TITLE} - ${label}` : `${label} - ${BASE_TITLE}`;
   }
   const TAB_TO_HASH = {
     pure: "pure",
@@ -1858,7 +1862,13 @@
   }
 
   function renderQuestionView(q, record, { isRandom = false, dayKey = null } = {}) {
-    setPageTitle(q ? `${q.school} ${q.paper} ${q.qNum}` : "Practice");
+    if (isRandom) {
+      if (q) setPageTitle(`${q.school} ${q.paper} ${q.qNum}`, { prefixBrand: false });
+      else setPageTitle("Practice");
+    } else {
+      const sectionLabel = (q ? q.category === "pure" : currentTab === "pure") ? "Pure" : "Statistics";
+      setPageTitle(sectionLabel);
+    }
     syncUrlQuestion(isRandom && q ? q.id : null);
     const main = document.getElementById("main-content");
     main.innerHTML = "";
@@ -2045,7 +2055,7 @@
       np.innerHTML = `
         <div class="notes-head">
           <h3>Study Log &amp; Reflection <small id="save-ind" style="font-weight:400;color:var(--muted);"></small></h3>
-          <button type="button" class="notes-add-btn" id="add-note-entry" title="Add another entry">+</button>
+          <button type="button" class="notes-add-btn" id="add-note-entry" title="Add another entry" aria-label="Add another entry"><svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true"><path d="M7 2.5v9M2.5 7h9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
         </div>
         <div id="note-entries-list"></div>
       `;
