@@ -1,4 +1,4 @@
-const CACHE_NAME = "h2-daily-math-v12";
+const CACHE_NAME = "h2-daily-math-v13";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const CORE_ASSETS = [
   "./manifest.json",
   "./questions.js",
   "./banks/manifest.js",
+  "./gc.js",
   "./app.js"
 ];
 

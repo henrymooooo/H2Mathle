@@ -3176,6 +3176,7 @@
       modal.onclick = (e) => { if (e.target === modal) closeMF26Modal(); };
     }
     if (window.innerWidth <= 980) {
+      closeGCModal();
       closeScratchpadModal();
       closeAskModal();
     }
@@ -3197,6 +3198,7 @@
   function syncToolButtons() {
     const map = [
       ["btn-mf26", "mf26-modal"],
+      ["btn-gc", "gc-modal"],
       ["btn-scratchpad", "scratchpad-modal"],
       ["btn-ask", "ask-modal"]
     ];
@@ -3212,6 +3214,34 @@
     if (dock) dock.classList.toggle("has-open", anyOpen);
     const shell = document.querySelector(".app-shell");
     if (shell) shell.classList.toggle("has-dock", anyOpen);
+  }
+
+  function openGCModal() {
+    const modal = document.getElementById("gc-modal");
+    if (!modal) return;
+    if (!modal.dataset.built && window.H2GC) {
+      modal.dataset.built = "1";
+      window.H2GC.build(modal, closeGCModal);
+    }
+    if (window.innerWidth <= 980) {
+      closeMF26Modal();
+      closeScratchpadModal();
+      closeAskModal();
+    }
+    const wasOpen = modal.classList.contains("open");
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    syncToolButtons();
+    if (window.H2GC) requestAnimationFrame(() => window.H2GC.refreshLayout());
+    if (!wasOpen) trackEvent({ type: "tool", tool: "gc" });
+  }
+
+  function closeGCModal() {
+    const modal = document.getElementById("gc-modal");
+    if (!modal) return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    syncToolButtons();
   }
 
   // -------------------- 10b. SCRATCHPAD WHITEBOARD (VECTOR PAN & ZOOM) --------------------
@@ -3742,6 +3772,7 @@
 
     if (window.innerWidth <= 980) {
       closeMF26Modal();
+      closeGCModal();
       closeAskModal();
     }
     const wasOpen = modal.classList.contains("open");
@@ -3906,6 +3937,7 @@
 
     if (window.innerWidth <= 980) {
       closeMF26Modal();
+      closeGCModal();
       closeScratchpadModal();
     }
     const wasOpen = modal.classList.contains("open");
@@ -4009,6 +4041,8 @@
     };
     const mf26Btn = document.getElementById("btn-mf26");
     if (mf26Btn) mf26Btn.onclick = () => toggleTool("mf26-modal", openMF26Modal, closeMF26Modal);
+    const gcBtn = document.getElementById("btn-gc");
+    if (gcBtn) gcBtn.onclick = () => toggleTool("gc-modal", openGCModal, closeGCModal);
     const scratchBtn = document.getElementById("btn-scratchpad");
     if (scratchBtn) scratchBtn.onclick = () => toggleTool("scratchpad-modal", openScratchpadModal, closeScratchpadModal);
     const askBtn = document.getElementById("btn-ask");
@@ -4106,7 +4140,7 @@
       };
     }
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") { closeMF26Modal(); closeScratchpadModal(); closeAskModal(); return; }
+      if (e.key === "Escape") { closeMF26Modal(); closeGCModal(); closeScratchpadModal(); closeAskModal(); return; }
       const scratchModal = document.getElementById("scratchpad-modal");
       if (scratchModal && scratchModal.classList.contains("open") && (e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
@@ -4121,6 +4155,10 @@
         const modal = document.getElementById("mf26-modal");
         if (modal && modal.classList.contains("open")) closeMF26Modal();
         else openMF26Modal();
+      } else if (e.key === "c" || e.key === "C") {
+        const modal = document.getElementById("gc-modal");
+        if (modal && modal.classList.contains("open")) closeGCModal();
+        else openGCModal();
       } else if (e.key === "w" || e.key === "W") {
         const modal = document.getElementById("scratchpad-modal");
         if (modal && modal.classList.contains("open")) closeScratchpadModal();
