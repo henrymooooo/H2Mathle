@@ -1960,17 +1960,7 @@
       banner.querySelector("#rnd-pure").onclick = () => pickRandom("pure");
       banner.querySelector("#rnd-stats").onclick = () => pickRandom("stats");
 
-      const applyFilterChange = () => {
-        const nextPool = getFilteredRandomPool();
-        if (nextPool.length && (!randomQuestion || !nextPool.some(x => x.id === randomQuestion.id))) {
-          randomQuestion = nextPool[0];
-          randomState = { questionId: randomQuestion.id, parts: {} };
-        } else if (!nextPool.length) {
-          randomQuestion = null;
-          randomState = {};
-        }
-        renderCurrent();
-      };
+      const applyFilterChange = () => pickRandom(null);
 
       banner.querySelector("#flt-topic").onchange = (e) => { randomFilters.topic = e.target.value; applyFilterChange(); };
       banner.querySelector("#flt-school").onchange = (e) => { randomFilters.school = e.target.value; applyFilterChange(); };
