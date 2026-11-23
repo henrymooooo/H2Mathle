@@ -3784,5 +3784,68 @@
         switchTab(targetTab);
       }
     });
+
+    const mainEl = document.getElementById("main-content");
+    if (mainEl) {
+      let snapRaf = 0;
+      let cardRO = null;
+
+      function snapLastCardToGrid() {
+        const cards = mainEl.querySelectorAll(".card");
+        if (!cards.length) return;
+        if (window.innerWidth <= 860) {
+          cards.forEach((c) => { if (c.style.paddingBottom) c.style.paddingBottom = ""; });
+          return;
+        }
+        const lastCard = cards[cards.length - 1];
+        cards.forEach((c) => { if (c !== lastCard && c.style.paddingBottom) c.style.paddingBottom = ""; });
+        const visibleChildren = [...lastCard.children].filter((el) => el.offsetParent !== null);
+        const lastChild = visibleChildren[visibleChildren.length - 1];
+        if (!lastChild) return;
+        const cardTransform = getComputedStyle(lastCard).transform;
+        const ty = cardTransform && cardTransform !== "none" ? (new DOMMatrix(cardTransform).m42 || 0) : 0;
+        const lastRect = lastChild.getBoundingClientRect();
+        const lastMb = parseFloat(getComputedStyle(lastChild).marginBottom) || 0;
+        const contentBottomDoc = (lastRect.bottom - ty) + window.scrollY + lastMb;
+        const snappedLineY = Math.ceil((contentBottomDoc + 20) / 20) * 20;
+        const nextPad = Math.max(20, snappedLineY - contentBottomDoc);
+        const curPad = parseFloat(lastCard.style.paddingBottom) || 0;
+        if (Math.abs(nextPad - curPad) > 0.25) {
+          lastCard.style.paddingBottom = nextPad.toFixed(2) + "px";
+        }
+      }
+
+      function scheduleGridSnap() {
+        if (snapRaf) return;
+        snapRaf = requestAnimationFrame(() => {
+          snapRaf = 0;
+          snapLastCardToGrid();
+        });
+      }
+
+      function bindCardResizeObserver() {
+        if (!window.ResizeObserver) return;
+        if (cardRO) cardRO.disconnect();
+        cardRO = new ResizeObserver(scheduleGridSnap);
+        const cards = mainEl.querySelectorAll(".card");
+        const lastCard = cards[cards.length - 1];
+        if (!lastCard) return;
+        [...lastCard.children].forEach((el) => cardRO.observe(el));
+        lastCard.querySelectorAll("textarea").forEach((ta) => cardRO.observe(ta));
+      }
+
+      const mainMO = new MutationObserver(() => {
+        bindCardResizeObserver();
+        scheduleGridSnap();
+      });
+      mainMO.observe(mainEl, { childList: true, subtree: true });
+      mainEl.addEventListener("animationend", scheduleGridSnap);
+      window.addEventListener("resize", scheduleGridSnap);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(scheduleGridSnap);
+      }
+      bindCardResizeObserver();
+      scheduleGridSnap();
+    }
   });
 })();
