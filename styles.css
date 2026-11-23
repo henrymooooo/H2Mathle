@@ -614,7 +614,7 @@ body::before {
 
 .mf-slot {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   min-width: 3px;
   min-height: 1.15em;
   line-height: 1.15;
@@ -647,8 +647,6 @@ body::before {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  align-self: center;
-  vertical-align: middle;
   margin: 0 2px;
   font-size: 0.9em;
   line-height: 1.05;
@@ -670,7 +668,7 @@ body::before {
 .mf-sqrt {
   position: relative;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   padding-left: 0.62em;
   margin: 0 1px;
 }
@@ -686,9 +684,9 @@ body::before {
 }
 .mf-sqrt-body {
   border-top: 1.2px solid var(--ink);
-  padding: 1.5px 2px 0 1.5px;
+  padding: 3px 2px 0 1.5px;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
 }
 .mf-katex-static {
   display: inline-flex;
@@ -699,10 +697,11 @@ body::before {
 }
 
 .mf-sup {
-  font-size: 0.74em;
-  vertical-align: super;
-  margin-bottom: 10px;
+  font-size: 0.72em;
+  line-height: 1;
+  margin-bottom: 0.95em;
   margin-left: 1px;
+  margin-right: 1px;
   display: inline-flex;
   align-items: center;
 }

@@ -885,6 +885,20 @@
       for (const ch of str) insertChar(ch);
     }
 
+    function insertInverseTrig(fnName) {
+      if (disabled) return;
+      for (const ch of fnName) {
+        cursor.slot.splice(cursor.index, 0, { type: "char", ch });
+        cursor.index++;
+      }
+      const sup = { type: "sup", body: [{ type: "char", ch: "-" }, { type: "char", ch: "1" }] };
+      cursor.slot.splice(cursor.index, 0, sup);
+      cursor.index++;
+      cursor.slot.splice(cursor.index, 0, { type: "char", ch: "(" });
+      cursor.index++;
+      notify();
+    }
+
     function handleBackspace() {
       if (disabled) return;
       const s = cursor.slot;
@@ -987,7 +1001,7 @@
     function toLatexString(slot = root) {
       let out = "";
       let i = 0;
-      const fnWords = new Set(["sin", "cos", "tan", "ln", "log", "exp", "sec", "csc", "cot", "cosec", "arg"]);
+      const fnWords = new Set(["arcsin", "arccos", "arctan", "asin", "acos", "atan", "sin", "cos", "tan", "ln", "log", "exp", "sec", "csc", "cot", "cosec", "arg", "Re", "Im"]);
       while (i < slot.length) {
         const node = slot[i];
         if (node.type === "char") {
@@ -999,7 +1013,11 @@
               j++;
             }
             if (fnWords.has(word)) {
-              out += (word === "cosec" ? "\\operatorname{cosec} " : `\\${word} `);
+              if (word === "asin") out += "\\arcsin ";
+              else if (word === "acos") out += "\\arccos ";
+              else if (word === "atan") out += "\\arctan ";
+              else if (word === "cosec" || word === "Re" || word === "Im") out += `\\operatorname{${word}} `;
+              else out += `\\${word} `;
             } else {
               out += word;
             }
@@ -1061,7 +1079,7 @@
 
       addCaretIf(0);
 
-      const fnWords = new Set(["sin", "cos", "tan", "ln", "log", "exp", "sec", "csc", "cot", "cosec", "arg", "Re", "Im"]);
+      const fnWords = new Set(["arcsin", "arccos", "arctan", "asin", "acos", "atan", "sin", "cos", "tan", "ln", "log", "exp", "sec", "csc", "cot", "cosec", "arg", "Re", "Im"]);
       const fnIndices = new Set();
       let runStart = -1;
       for (let i = 0; i <= slot.length; i++) {
@@ -1219,6 +1237,7 @@
       getEvalString: () => toEvalString(),
       getAst: () => root,
       insertText,
+      insertInverseTrig,
       insertFraction,
       insertSqrt,
       insertSuperscript,
@@ -1241,21 +1260,33 @@
       .replace(/\\sqrt\{([^{}]+)\}/g, "sqrt($1)")
       .replace(/\\pi/g, "pi").replace(/π/g, "pi")
       .replace(/\\ln/g, "ln").replace(/\\log/g, "log")
+      .replace(/\\arcsin/g, "asin").replace(/\\arccos/g, "acos").replace(/\\arctan/g, "atan")
       .replace(/\\sin/g, "sin").replace(/\\cos/g, "cos").replace(/\\tan/g, "tan")
+      .replace(/\\sec/g, "sec").replace(/\\csc/g, "csc").replace(/\\cot/g, "cot").replace(/\\exp/g, "exp")
+      .replace(/\\operatorname\{cosec\}/g, "cosec")
       .replace(/\\left|\\right/g, "")
       .replace(/\\mathrm\{([a-zA-Z]+)\}/g, "$1")
       .replace(/−/g, "-")
       .replace(/[×·]/g, "*")
       .replace(/\s+/g, "");
 
+    s = s
+      .replace(/arcsin/gi, "asin")
+      .replace(/arccos/gi, "acos")
+      .replace(/arctan/gi, "atan")
+      .replace(/sin\^\(?-1\)?(?=\()/gi, "asin")
+      .replace(/cos\^\(?-1\)?(?=\()/gi, "acos")
+      .replace(/tan\^\(?-1\)?(?=\()/gi, "atan");
+
     const maskedFns = [];
-    s = s.replace(/(asin|acos|atan|sin|cos|tan|sqrt|ln|log|abs)(?=\()/g, (fn) => {
+    s = s.replace(/(cosec|asin|acos|atan|sqrt|sin|cos|tan|sec|csc|cot|exp|log|abs|ln)(?=\()/gi, (fn) => {
       const idx = maskedFns.length;
-      maskedFns.push(fn);
+      maskedFns.push(fn.toLowerCase());
       return `\u0001${idx}\u0002`;
     });
 
     s = s.replace(/(\d)([a-zA-Z(\u0001])/g, "$1*$2");
+    s = s.replace(/([a-zA-Z])(\u0001)/g, "$1*$2");
     s = s.replace(/(\))(\d|[a-zA-Z(\u0001])/g, "$1*$2");
     s = s.replace(/(^|[^a-zA-Z\u0001\u0002])(pi|e|i)([a-zA-Z(\u0001])/g, "$1$2*$3");
 
@@ -1364,6 +1395,11 @@
             sin: () => C(Math.sin(x)),
             cos: () => C(Math.cos(x)),
             tan: () => C(Math.tan(x)),
+            sec: () => C(1 / Math.cos(x)),
+            csc: () => C(1 / Math.sin(x)),
+            cosec: () => C(1 / Math.sin(x)),
+            cot: () => C(1 / Math.tan(x)),
+            exp: () => C(Math.exp(x)),
             asin: () => C(Math.asin(x)),
             acos: () => C(Math.acos(x)),
             atan: () => C(Math.atan(x))
@@ -1779,7 +1815,7 @@
 
     const hintLine = document.createElement("div");
     hintLine.className = "typing-hint";
-    hintLine.textContent = "Tip: type sqrt, pi, pm, ^, or / (use → or Tab to exit a box)";
+    hintLine.textContent = "Tip: type sqrt, pi, pm, arctan, ^, or / (use → or Tab to exit a box)";
     az.appendChild(hintLine);
     zone.appendChild(az);
 
@@ -1813,6 +1849,9 @@
       { label: "e", fn: mf => mf.insertText("e") },
       { label: "i", fn: mf => mf.insertText("i") },
       { label: "ln()", fn: mf => mf.insertText("ln(") },
+      { label: "sin⁻¹", fn: mf => mf.insertInverseTrig("sin") },
+      { label: "cos⁻¹", fn: mf => mf.insertInverseTrig("cos") },
+      { label: "tan⁻¹", fn: mf => mf.insertInverseTrig("tan") },
       { label: "|", fn: mf => mf.insertText("|") },
       { label: "←", fn: mf => mf.moveLeft() },
       { label: "→", fn: mf => mf.moveRight() },
@@ -3290,6 +3329,9 @@
       let panStart = null;
       let pinchStart = null;
       let spaceDown = false;
+      let isErasing = false;
+      let erasedInGesture = false;
+      let lastEraseWorld = null;
 
       const getDoc = () => {
         const key = scratchState.activeKey || "general";
@@ -3308,6 +3350,59 @@
       const screenToWorld = (sx, sy) => {
         const { panX, panY, zoom } = getDoc().camera;
         return { x: (sx - panX) / zoom, y: (sy - panY) / zoom };
+      };
+
+      const pointToSegDistSq = (px, py, ax, ay, bx, by) => {
+        const dx = bx - ax, dy = by - ay;
+        const lenSq = dx * dx + dy * dy;
+        if (lenSq === 0) return (px - ax) * (px - ax) + (py - ay) * (py - ay);
+        const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lenSq));
+        const cx = ax + t * dx, cy = ay + t * dy;
+        return (px - cx) * (px - cx) + (py - cy) * (py - cy);
+      };
+
+      const orient = (p, q, r) => (q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x);
+
+      const segToSegDistSq = (a1, a2, b1, b2) => {
+        const o1 = orient(a1, a2, b1), o2 = orient(a1, a2, b2);
+        const o3 = orient(b1, b2, a1), o4 = orient(b1, b2, a2);
+        if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) {
+          return 0;
+        }
+        return Math.min(
+          pointToSegDistSq(a1.x, a1.y, b1.x, b1.y, b2.x, b2.y),
+          pointToSegDistSq(a2.x, a2.y, b1.x, b1.y, b2.x, b2.y),
+          pointToSegDistSq(b1.x, b1.y, a1.x, a1.y, a2.x, a2.y),
+          pointToSegDistSq(b2.x, b2.y, a1.x, a1.y, a2.x, a2.y)
+        );
+      };
+
+      const strokeHitsEraser = (stroke, p1, p2, radius) => {
+        if (!stroke || stroke.eraser || !stroke.points || !stroke.points.length) return false;
+        const hitR = radius + (stroke.width || 2) / 2;
+        const hitRSq = hitR * hitR;
+        const pts = stroke.points;
+        if (pts.length === 1) {
+          return pointToSegDistSq(pts[0].x, pts[0].y, p1.x, p1.y, p2.x, p2.y) <= hitRSq;
+        }
+        for (let i = 0; i < pts.length - 1; i++) {
+          if (segToSegDistSq(pts[i], pts[i + 1], p1, p2) <= hitRSq) return true;
+        }
+        return false;
+      };
+
+      const eraseAtSegment = (p1, p2) => {
+        const doc = getDoc();
+        if (!doc.strokes.length) return false;
+        const radius = 10 / doc.camera.zoom;
+        const kept = doc.strokes.filter(s => !strokeHitsEraser(s, p1, p2, radius));
+        if (kept.length === doc.strokes.length) return false;
+        if (!erasedInGesture) {
+          pushUndo();
+          erasedInGesture = true;
+        }
+        doc.strokes = kept;
+        return true;
       };
 
       const drawStroke = (s) => {
@@ -3356,6 +3451,15 @@
         ctx.setTransform(dpr * cam.zoom, 0, 0, dpr * cam.zoom, cam.panX * dpr, cam.panY * dpr);
         for (const s of doc.strokes) drawStroke(s);
         if (activeStroke) drawStroke(activeStroke);
+        if (isErasing && lastEraseWorld) {
+          ctx.save();
+          ctx.strokeStyle = "rgba(158, 53, 53, 0.45)";
+          ctx.lineWidth = 1.2 / cam.zoom;
+          ctx.beginPath();
+          ctx.arc(lastEraseWorld.x, lastEraseWorld.y, 10 / cam.zoom, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
         syncGridAndCursor();
       };
 
@@ -3399,6 +3503,15 @@
         if (activePointers.size === 2) {
           activeStroke = null;
           isPanning = false;
+          if (isErasing) {
+            isErasing = false;
+            lastEraseWorld = null;
+            if (erasedInGesture) {
+              getDoc().updatedAt = Date.now();
+              saveScratchCache();
+              erasedInGesture = false;
+            }
+          }
           const pts = [...activePointers.values()];
           const cam = getDoc().camera;
           pinchStart = {
@@ -3423,10 +3536,18 @@
 
         if (e.button !== 0 && e.pointerType === "mouse") return;
         const w = screenToWorld(pos.x, pos.y);
+        if (scratchState.eraser) {
+          isErasing = true;
+          erasedInGesture = false;
+          lastEraseWorld = w;
+          eraseAtSegment(w, w);
+          redraw();
+          return;
+        }
         activeStroke = {
           color: scratchState.color,
-          width: scratchState.eraser ? 16 : scratchState.width,
-          eraser: scratchState.eraser,
+          width: scratchState.width,
+          eraser: false,
           points: [w]
         };
         redraw();
@@ -3460,6 +3581,14 @@
           return;
         }
 
+        if (isErasing) {
+          const w = screenToWorld(pos.x, pos.y);
+          eraseAtSegment(lastEraseWorld || w, w);
+          lastEraseWorld = w;
+          redraw();
+          return;
+        }
+
         if (!activeStroke) return;
         activeStroke.points.push(screenToWorld(pos.x, pos.y));
         redraw();
@@ -3472,6 +3601,17 @@
           isPanning = false;
           panStart = null;
           syncGridAndCursor();
+        }
+        if (isErasing) {
+          isErasing = false;
+          lastEraseWorld = null;
+          if (erasedInGesture) {
+            const doc = getDoc();
+            doc.updatedAt = Date.now();
+            saveScratchCache();
+            erasedInGesture = false;
+          }
+          redraw();
         }
         if (activeStroke) {
           const doc = getDoc();
