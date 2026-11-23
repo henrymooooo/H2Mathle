@@ -490,6 +490,12 @@ body::before {
   color: var(--accent);
   font-weight: 500;
 }
+.topic-pill-solved {
+  border-color: rgba(44, 110, 79, 0.35);
+  background: var(--ok-soft);
+  color: var(--ok);
+  font-weight: 600;
+}
 
 .q-stem {
   font-size: 1.09rem;
@@ -884,6 +890,87 @@ body::before {
   border: 1px solid var(--accent-border);
   font-family: var(--sans);
   font-size: 0.85rem;
+}
+.practice-banner-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.practice-scope-progress {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.daily-context-note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  background: var(--bg);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--ink);
+}
+.daily-context-note.is-solved {
+  border-left-color: var(--ok);
+  background: rgba(44, 110, 79, 0.06);
+  color: var(--ok);
+}
+.daily-context-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.practice-mastery {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 19px;
+  border-top: 1px dashed var(--accent-border);
+  font-family: var(--sans);
+  font-size: 0.84rem;
+}
+.practice-mastery-copy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  color: var(--muted);
+}
+.practice-mastery-copy strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.practice-mastery.is-solved .practice-mastery-copy strong,
+.practice-mastery.is-solved .practice-mastery-check {
+  color: var(--ok);
+}
+.practice-mastery-check {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.practice-mastery-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 /* Calendar */
@@ -2237,6 +2324,8 @@ summary:focus-visible {
   .tool-dock,
   .folio-colophon,
   .random-banner,
+  .daily-context-note,
+  .practice-mastery,
   .controls-row,
   .keypad,
   .part-actions,

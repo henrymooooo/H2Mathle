@@ -362,9 +362,17 @@
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          if (!parsed.days || typeof parsed.days !== "object") parsed.days = {};
+          if (!parsed.notes || typeof parsed.notes !== "object") parsed.notes = {};
+          if (!parsed.practiceSolved || typeof parsed.practiceSolved !== "object") parsed.practiceSolved = {};
+          return parsed;
+        }
+      }
     } catch (_) {}
-    return { days: {}, notes: {} };
+    return { days: {}, notes: {}, practiceSolved: {} };
   }
 
   function saveState() {
@@ -388,8 +396,34 @@
   let activeMathField = null;
   let qTimer = { questionId: null, elapsedSec: 0, running: false, intervalId: null };
 
+  function ensurePracticeSolved() {
+    if (!state.practiceSolved || typeof state.practiceSolved !== "object") {
+      state.practiceSolved = {};
+    }
+    return state.practiceSolved;
+  }
+
+  function isPracticeSolved(qId) {
+    return Boolean(state.practiceSolved && state.practiceSolved[qId]);
+  }
+
+  function setPracticeSolved(qId, done) {
+    const map = ensurePracticeSolved();
+    if (done) map[qId] = { solvedAt: getStudyDayKey() };
+    else delete map[qId];
+    saveState();
+  }
+
+  function formatShortDate(dayKey) {
+    if (!dayKey) return "";
+    const [y, m, d] = String(dayKey).split("-").map(Number);
+    if (!y || !m || !d) return dayKey;
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${d} ${months[m - 1]} ${y}`;
+  }
+
   function getQuestionHistoryStatus(qId) {
-    let seenOk = false, seenBad = false, seenPartial = false;
+    let seenOk = isPracticeSolved(qId), seenBad = false, seenPartial = false;
     for (const dayRec of Object.values(state.days)) {
       for (const cat of ["pure", "stats"]) {
         const rec = dayRec?.[cat];
@@ -406,6 +440,14 @@
     if (seenBad) return "missed";
     if (seenPartial) return "attempted";
     return "unseen";
+  }
+
+  function getScopedPracticePool() {
+    return window.H2_QUESTIONS.filter(q => {
+      if (randomFilters.topic !== "all" && !(q.topics || []).includes(randomFilters.topic)) return false;
+      if (randomFilters.school !== "all" && q.school !== randomFilters.school) return false;
+      return true;
+    });
   }
 
   function getFilteredRandomPool(cat = null) {
@@ -462,17 +504,24 @@
       .sort((a, b) => a.id.localeCompare(b.id));
   }
 
+  const dailyCycleCache = new Map();
+
   function computeScheduledQuestion(dayKey, category, pool = getCategoryPool(category)) {
     if (!pool.length) return null;
     const [y, m, d] = dayKey.split("-").map(Number);
     const dayIndex = Math.floor(Date.UTC(y, m - 1, d) / 86400000);
     const cycle = Math.floor(dayIndex / pool.length);
     const offset = ((dayIndex % pool.length) + pool.length) % pool.length;
-    const rand = mulberry32(hashSeed(`h2-daily-math:${category}:${cycle}`));
-    const shuffled = pool.slice();
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(rand() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    const cacheKey = `${category}:${cycle}:${pool.length}`;
+    let shuffled = dailyCycleCache.get(cacheKey);
+    if (!shuffled) {
+      const rand = mulberry32(hashSeed(`h2-daily-math:${category}:${cycle}`));
+      shuffled = pool.slice();
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      dailyCycleCache.set(cacheKey, shuffled);
     }
     return shuffled[offset];
   }
@@ -496,6 +545,51 @@
     dayRec[category] = { questionId: chosen.id, parts: {} };
     saveState();
     return chosen;
+  }
+
+  function findDailyOccurrence(q) {
+    if (!q || !q.category) return null;
+    const today = getStudyDayKey();
+    const dayKeys = Object.keys(state.days || {})
+      .filter(k => k <= today)
+      .sort((a, b) => b.localeCompare(a));
+    for (const dk of dayKeys) {
+      const rec = state.days[dk]?.[q.category];
+      if (rec && rec.questionId === q.id) {
+        return {
+          dayKey: dk,
+          isToday: dk === today,
+          status: getQuestionStatus(q, rec)
+        };
+      }
+    }
+    const pool = getCategoryPool(q.category);
+    const [ey, em, ed] = today.split("-").map(Number);
+    const [sy, sm, sd] = LAUNCH_DAY_KEY.split("-").map(Number);
+    const startUtc = Date.UTC(sy, sm - 1, sd);
+    let curUtc = Date.UTC(ey, em - 1, ed);
+    while (curUtc >= startUtc) {
+      const dt = new Date(curUtc);
+      const dk = `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, "0")}-${String(dt.getUTCDate()).padStart(2, "0")}`;
+      const rec = state.days?.[dk]?.[q.category];
+      if (rec && rec.questionId && rec.questionId !== q.id) {
+        const existing = pool.find(item => item.id === rec.questionId);
+        if (existing && (dk < today || getQuestionStatus(existing, rec) !== "untouched")) {
+          curUtc -= 86400000;
+          continue;
+        }
+      }
+      const scheduled = computeScheduledQuestion(dk, q.category, pool);
+      if (scheduled && scheduled.id === q.id) {
+        return {
+          dayKey: dk,
+          isToday: dk === today,
+          status: (rec && rec.questionId === q.id) ? getQuestionStatus(q, rec) : "untouched"
+        };
+      }
+      curUtc -= 86400000;
+    }
+    return null;
   }
 
   // -------------------- 3. OFFLINE MATH RENDERER --------------------
@@ -1923,14 +2017,22 @@
       const statsTopics = sortByOrder(statsTopicSet, STATS_TOPIC_ORDER);
       const renderTopicOpt = (t) => `<option value="${t}" ${randomFilters.topic === t ? "selected" : ""}>${t}</option>`;
       const allSchools = [...new Set(window.H2_QUESTIONS.map(x => x.school).filter(Boolean))].sort();
+      const scopedPool = getScopedPracticePool();
+      const solvedInScope = scopedPool.filter(item => getQuestionHistoryStatus(item.id) === "solved").length;
+      const scopeLabel = (randomFilters.topic !== "all" ? randomFilters.topic : "All Topics")
+        + (randomFilters.school !== "all" ? ` (${randomFilters.school})` : "");
 
       const banner = document.createElement("div");
       banner.className = "random-banner";
-      const optionsHtml = filteredPool.map(item =>
-        `<option value="${item.id}" ${q && item.id === q.id ? "selected" : ""}>${item.school} ${item.year || ""} ${item.qNum} (${item.category === "pure" ? "Pure" : "Stats"}: ${item.topics[0]})</option>`
-      ).join("");
+      let optionsHtml = filteredPool.map(item => {
+        const mark = getQuestionHistoryStatus(item.id) === "solved" ? "✓ " : "";
+        return `<option value="${item.id}" ${q && item.id === q.id ? "selected" : ""}>${mark}${item.school} ${item.year || ""} ${item.qNum} (${item.category === "pure" ? "Pure" : "Stats"}: ${item.topics[0]})</option>`;
+      }).join("");
+      if (q && !filteredPool.some(item => item.id === q.id)) {
+        optionsHtml = `<option value="${q.id}" selected>✓ ${q.school} ${q.year || ""} ${q.qNum} (Solved)</option>` + optionsHtml;
+      }
       banner.innerHTML = `
-        <span><strong>Free Practice.</strong> Nothing saved.</span>
+        <span class="practice-banner-title"><strong>Practice</strong><span class="practice-scope-progress">${scopeLabel} &middot; ${solvedInScope} / ${scopedPool.length} solved</span></span>
         <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
           <button class="btn" id="rnd-match" title="Random question matching filters">Random (${filteredPool.length})</button>
           <button class="btn" id="rnd-pure">Random Pure</button>
@@ -2001,6 +2103,28 @@
     syncFeedbackContext();
     const totalMarks = q.parts.reduce((sum, p) => sum + (Number(p.marks) || 0), 0);
     const stemDiagHtml = renderDiagramBox(q.diagramSvg, q.diagramImg);
+    const qHistStatus = getQuestionHistoryStatus(q.id);
+    const practicedDone = isPracticeSolved(q.id);
+    const dailyHit = isRandom ? findDailyOccurrence(q) : null;
+    let dailyNoticeHtml = "";
+    if (isRandom && dailyHit) {
+      const catLabel = q.category === "pure" ? "Pure" : "Statistics";
+      const statusSuffix = dailyHit.status === "ok"
+        ? " &middot; Solved on Daily"
+        : dailyHit.status === "bad"
+          ? " &middot; Missed on Daily"
+          : dailyHit.status === "partial"
+            ? " &middot; In progress"
+            : "";
+      const msg = dailyHit.isToday
+        ? `Today's Daily ${catLabel} question${statusSuffix}`
+        : `Came out as Daily ${catLabel} on ${formatShortDate(dailyHit.dayKey)}${statusSuffix}`;
+      const btnText = dailyHit.isToday ? "Open in Daily &rarr;" : "Open that day &rarr;";
+      dailyNoticeHtml = `<div class="daily-context-note"><span>${msg}</span><button type="button" class="daily-context-link" id="open-daily-occurrence">${btnText}</button></div>`;
+    } else if (!isRandom && practicedDone) {
+      const solvedDate = formatShortDate(state.practiceSolved[q.id]?.solvedAt);
+      dailyNoticeHtml = `<div class="daily-context-note is-solved"><span>Already marked solved in Practice${solvedDate ? ` (${solvedDate})` : ""}.</span></div>`;
+    }
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
@@ -2017,14 +2141,28 @@
           </div>
         </div>
         <div class="tag-row">
-          ${q.topics.map(t => `<span class="topic-pill">${t}</span>`).join("")}
+          ${q.topics.map(t => `<span class="topic-pill">${t}</span>`).join("")}${(isRandom && qHistStatus === "solved") ? '<span class="topic-pill topic-pill-solved">Solved</span>' : ""}
         </div>
       </div>
+      ${dailyNoticeHtml}
       ${stemDiagHtml}
       <div class="q-stem">${renderMathText(q.stem)}</div>
       <div id="parts-container"></div>
     `;
     wrap.appendChild(card);
+
+    const openDailyBtn = card.querySelector("#open-daily-occurrence");
+    if (openDailyBtn && dailyHit) {
+      openDailyBtn.onclick = () => {
+        if (dailyHit.isToday) {
+          switchTab(q.category);
+        } else {
+          const dq = getDailyQuestion(dailyHit.dayKey, q.category);
+          const dRec = getDayRecord(dailyHit.dayKey);
+          renderQuestionView(dq, dRec[q.category], { dayKey: dailyHit.dayKey });
+        }
+      };
+    }
 
     const timerBtn = card.querySelector("#q-timer-btn");
     const updateTimerPill = () => {
@@ -2248,6 +2386,64 @@
         const textareas = entriesList.querySelectorAll("textarea");
         if (textareas.length) textareas[textareas.length - 1].focus();
       };
+    } else {
+      const masteryEl = document.createElement("div");
+      masteryEl.className = "practice-mastery";
+      masteryEl.id = "practice-mastery";
+      card.appendChild(masteryEl);
+
+      const checkSvg = '<span class="practice-mastery-check" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14"><path d="M2.5 7.5l3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+
+      const renderMasteryBar = (confirming = false) => {
+        const solvedInPractice = isPracticeSolved(q.id);
+        const solvedAnywhere = getQuestionHistoryStatus(q.id) === "solved";
+        masteryEl.classList.toggle("is-solved", solvedInPractice || solvedAnywhere);
+        if (solvedInPractice) {
+          const solvedDate = formatShortDate(state.practiceSolved[q.id]?.solvedAt);
+          masteryEl.innerHTML = `
+            <div class="practice-mastery-copy">${checkSvg}<strong>Marked solved</strong><span>${solvedDate ? `${solvedDate} &middot; ` : ""}Counts toward topic progress.</span></div>
+            <div class="practice-mastery-actions">
+              <button type="button" class="btn btn-ghost" id="btn-practice-unmark">Unmark</button>
+              <button type="button" class="btn btn-primary" id="btn-practice-next">Next Question &rarr;</button>
+            </div>
+          `;
+          masteryEl.querySelector("#btn-practice-unmark").onclick = () => {
+            setPracticeSolved(q.id, false);
+            renderCurrent();
+          };
+          masteryEl.querySelector("#btn-practice-next").onclick = () => pickRandom(null);
+        } else if (solvedAnywhere) {
+          masteryEl.innerHTML = `
+            <div class="practice-mastery-copy">${checkSvg}<strong>Solved on Daily</strong><span>${dailyHit ? `${formatShortDate(dailyHit.dayKey)} &middot; ` : ""}Already counts toward topic progress.</span></div>
+            <div class="practice-mastery-actions">
+              <button type="button" class="btn btn-primary" id="btn-practice-next">Next Question &rarr;</button>
+            </div>
+          `;
+          masteryEl.querySelector("#btn-practice-next").onclick = () => pickRandom(null);
+        } else if (confirming) {
+          masteryEl.innerHTML = `
+            <div class="practice-mastery-copy"><strong>Confirm mastery</strong><span>100% confident you will not struggle with this question?</span></div>
+            <div class="practice-mastery-actions">
+              <button type="button" class="btn btn-ghost" id="btn-practice-cancel">Cancel</button>
+              <button type="button" class="btn btn-ok" id="btn-practice-confirm">Confirm Solved</button>
+            </div>
+          `;
+          masteryEl.querySelector("#btn-practice-cancel").onclick = () => renderMasteryBar(false);
+          masteryEl.querySelector("#btn-practice-confirm").onclick = () => {
+            setPracticeSolved(q.id, true);
+            renderCurrent();
+          };
+        } else {
+          masteryEl.innerHTML = `
+            <div class="practice-mastery-copy"><strong>Done and dusted?</strong><span>Mark solved only if you can solve this cold without hints.</span></div>
+            <div class="practice-mastery-actions">
+              <button type="button" class="btn" id="btn-practice-solve">Mark as Solved</button>
+            </div>
+          `;
+          masteryEl.querySelector("#btn-practice-solve").onclick = () => renderMasteryBar(true);
+        }
+      };
+      renderMasteryBar(false);
     }
 
     updateMetaBar();
@@ -2370,6 +2566,8 @@
         try {
           const parsed = JSON.parse(reader.result);
           if (parsed && parsed.days) {
+            if (!parsed.notes || typeof parsed.notes !== "object") parsed.notes = {};
+            if (!parsed.practiceSolved || typeof parsed.practiceSolved !== "object") parsed.practiceSolved = {};
             state = parsed;
             saveState();
             renderCalendarView();
