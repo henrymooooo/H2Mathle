@@ -154,6 +154,10 @@
     } catch (_) {}
   }
 
+  function flagIconSvg(filled = false) {
+    return `<svg class="flag-icon" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3.5 2.5v11M3.5 3h8l-1.8 3 1.8 3h-8" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  }
+
   function showSolverRankToast(rank, mode) {
     try {
       if (activeSolveToastTimer) {
@@ -169,7 +173,7 @@
       toast.setAttribute("role", "status");
       toast.setAttribute("aria-live", "polite");
       toast.textContent = isFirst
-        ? `✦ First solver of today's ${section}!`
+        ? `First solver of today's ${section}`
         : `${formatOrdinal(rank)} solver today · ${section}`;
 
       const dismiss = (immediate = false) => {
@@ -1315,11 +1319,11 @@
           const t = evalComplex(ans);
           const res = isNumericMatch(u.re, t.re, !!part.exactRequired, part.dp);
           if (res.ok && part.exactRequired && /^\-?\d*\.\d+$/.test(trimmed) && Math.abs(Number(trimmed) - t.re) >= 1e-8) {
-            return { ok: false, msg: "Exact form is required!" };
+            return { ok: false, msg: "Exact form is required." };
           }
           if (res.ok) return res;
           if (part.signHint && Math.abs(u.re + t.re) < 1e-5) {
-            return { ok: false, msg: "Magnitude is right, but check the sign of the rate of change!" };
+            return { ok: false, msg: "Magnitude is right, but check the sign of the rate of change." };
           }
           if (res.msg) return res;
         }
@@ -1421,7 +1425,7 @@
         const okDiff = Math.abs((u2 - u1) - (t2 - t1)) < 1e-6 && Math.abs((u3 - u1) - (t3 - t1)) < 1e-6;
         if (!okDiff) return { ok: false };
         if (!/[+]\s*[cCkK]\b/.test(trimmed)) {
-          return { ok: false, msg: "Your antiderivative matches, but don't forget the arbitrary constant (+ c)!" };
+          return { ok: false, msg: "Your antiderivative matches, but don't forget the arbitrary constant (+ c)." };
         }
         return { ok: true };
       }
@@ -1535,7 +1539,7 @@
       ? "Reference Answer"
       : part.type === "auto"
         ? `Attempts: ${pState.attempts}/5`
-        : (pState.status === "ok" ? "Marked Correct ✓" : pState.status === "bad" ? "Missed ✗" : "Self-Grade");
+        : (pState.status === "ok" ? "Marked Correct" : pState.status === "bad" ? "Missed" : "Self-Grade");
 
     const qId = record.questionId;
     const isPinned = !!(qId && pinnedPartsByQuestion[qId]?.has(idx));
@@ -1546,7 +1550,7 @@
         <span class="part-label">Part ${part.label} <small style="font-weight:400;color:var(--muted);">[${part.marks}m]</small></span>
         <span class="part-top-right">
           <span class="part-actions">
-            <button type="button" class="part-flag-btn ${isFlagged ? "flagged" : ""}" aria-pressed="${isFlagged ? "true" : "false"}" aria-label="Flag part ${part.label} for Mistake Log" title="Flag part ${part.label} for Mistake Log">⚑</button>
+            <button type="button" class="part-flag-btn ${isFlagged ? "flagged" : ""}" aria-pressed="${isFlagged ? "true" : "false"}" aria-label="Flag part ${part.label} for Study Log" title="Flag part ${part.label} for Study Log">${flagIconSvg(isFlagged)}</button>
             <button type="button" class="part-pin-dot ${isPinned ? "pinned" : ""}" aria-pressed="${isPinned ? "true" : "false"}" aria-label="Pin part ${part.label} to scratchpad" title="Pin part ${part.label} to scratchpad"></button>
           </span>
           <span>${statusText}</span>
@@ -1588,6 +1592,7 @@
         const nowFlagged = list.includes(part.label);
         partFlagBtn.classList.toggle("flagged", nowFlagged);
         partFlagBtn.setAttribute("aria-pressed", nowFlagged ? "true" : "false");
+        partFlagBtn.innerHTML = flagIconSvg(nowFlagged);
       };
     }
 
@@ -1617,8 +1622,8 @@
         const row = document.createElement("div");
         row.className = "controls-row";
         row.innerHTML = `
-          <button class="btn ${pState.status === "ok" ? "btn-ok" : ""}" data-grade="ok">I got it right ✓</button>
-          <button class="btn ${pState.status === "bad" ? "btn-bad" : ""}" data-grade="bad">I missed this ✗</button>
+          <button class="btn ${pState.status === "ok" ? "btn-ok" : ""}" data-grade="ok">I got it right</button>
+          <button class="btn ${pState.status === "bad" ? "btn-bad" : ""}" data-grade="bad">I missed this</button>
         `;
         row.querySelectorAll("button").forEach(b => {
           b.onclick = () => {
@@ -1690,7 +1695,7 @@
 
     const keyBtn = document.createElement("button");
     keyBtn.className = "btn";
-    keyBtn.textContent = "⌨ Keypad";
+    keyBtn.textContent = "Keypad";
 
     const revealBtn = document.createElement("button");
     revealBtn.className = "btn btn-ghost";
@@ -1840,7 +1845,7 @@
         ov.onclick = () => {
           const prevQStatus = qMeta ? getQuestionStatus(qMeta.q, record) : null;
           pState.status = "ok";
-          pState.feedback = { type: "ok", text: "Manually marked as equivalent ✓" };
+          pState.feedback = { type: "ok", text: "Manually marked as equivalent" };
           if (!isRandom) saveState();
           if (qMeta) trackQuestionProgress(qMeta.q, record, qMeta.mode, "override_ok", prevQStatus);
           renderPartCard(pCard, part, idx, record, isRandom, qMeta);
@@ -1989,7 +1994,7 @@
         return;
       }
       timerBtn.classList.toggle("running", qTimer.running);
-      timerBtn.textContent = (qTimer.elapsedSec > 0 || qTimer.running) ? `⏱ ${formatMMSS(qTimer.elapsedSec)}` : "⏱";
+      timerBtn.textContent = (qTimer.elapsedSec > 0 || qTimer.running) ? formatMMSS(qTimer.elapsedSec) : "Timer";
     };
     timerBtn.onclick = () => {
       if (qTimer.running) {
@@ -2051,7 +2056,7 @@
       const saveNoteData = () => {
         state.notes[q.id] = noteData;
         saveState();
-        ind.textContent = "Saved ✓";
+        ind.textContent = "Saved";
       };
 
       const renderNoteEntries = () => {
@@ -2331,7 +2336,7 @@
             renderCalendarView();
             updateMetaBar();
             const el = document.getElementById("backup-status");
-            if (el) { el.style.color = "var(--ok)"; el.textContent = "Backup restored ✓"; }
+            if (el) { el.style.color = "var(--ok)"; el.textContent = "Backup restored"; }
           } else if (statusEl) {
             statusEl.style.color = "var(--bad)";
             statusEl.textContent = "Invalid backup format.";
@@ -2491,7 +2496,7 @@
         <div class="flagged-panel-head">
           <button type="button" class="flagged-toggle-btn" id="flagged-toggle" aria-expanded="${flaggedPanelOpen ? "true" : "false"}">
             <span class="flagged-chevron">${flaggedPanelOpen ? "▾" : "▸"}</span>
-            <span>⚑ Flagged Questions (${flaggedItems.length})</span>
+            <span>${flagIconSvg(true)} Flagged Questions (${flaggedItems.length})</span>
           </button>
           ${flaggedItems.length > 1 ? `
             <select id="flagged-sort" class="flagged-sort-select" aria-label="Sort flagged questions">
@@ -2510,7 +2515,7 @@
                   <div class="flagged-item-topics">${(item.q.topics || []).join(" • ") || "General"}</div>
                   <div class="flagged-item-title-row">
                     <strong class="q-source">${item.q.school} • ${item.q.paper} • ${item.q.qNum}</strong>
-                    ${item.nd.flaggedParts.map(p => `<span class="mistake-flag-pill">⚑ Part ${p}</span>`).join("")}
+                    ${item.nd.flaggedParts.map(p => `<span class="mistake-flag-pill">${flagIconSvg(true)} Part ${p}</span>`).join("")}
                   </div>
                 </div>
                 <div class="flagged-item-actions">
@@ -2519,7 +2524,7 @@
                   <button type="button" class="flagged-unflag-btn" data-unflag="${item.q.id}" title="Unflag this question">×</button>
                 </div>
               </div>
-            `).join("") : `<p class="flagged-empty">No flagged questions right now. Hover over the dot on any question part and click ⚑ to flag it for review.</p>`}
+            `).join("") : `<p class="flagged-empty">No flagged questions right now. Hover over the dot on any question part and click the flag icon to bookmark it for review.</p>`}
           </div>
         ` : ""}
       </div>
@@ -2611,7 +2616,7 @@
     if (!items.length) {
       const emptyMsg = studyLogMode === "notes"
         ? "No study notes yet. Switch any entry below a question to Note to save alternative methods or formulas."
-        : "No written mistake notes yet. After attempting any Pure or Stats question, tag your errors or jot down what to remember!";
+        : "No written mistake notes yet. After attempting any Pure or Stats question, tag your errors or jot down what to remember.";
       list.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.88rem;">${emptyMsg}</p>`;
       return;
     }
@@ -2626,7 +2631,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <strong class="q-source">${q.school} • ${q.paper} • ${q.qNum}</strong>
-            ${(nd.flaggedParts || []).map(p => `<span class="mistake-flag-pill">⚑ Part ${p}</span>`).join("")}
+            ${(nd.flaggedParts || []).map(p => `<span class="mistake-flag-pill">${flagIconSvg(true)} Part ${p}</span>`).join("")}
           </div>
           <small style="color:var(--muted);font-family:var(--sans);">${latestDate}</small>
         </div>
@@ -3020,7 +3025,7 @@
               <button type="button" class="btn" id="scratch-eraser">Eraser</button>
               <button type="button" class="btn" id="scratch-pan" title="Pan mode (or hold Space / middle-click / 2-finger drag)">Pan</button>
               <button type="button" class="btn" id="scratch-undo" title="Undo last stroke (Ctrl+Z)">↶ Undo</button>
-              <button type="button" class="btn" id="scratch-grid">Grid ✓</button>
+              <button type="button" class="btn" id="scratch-grid">Grid: On</button>
             </div>
             <div class="scratch-topbar-group">
               <button type="button" class="btn btn-ghost" id="scratch-clear">Clear</button>
@@ -3322,7 +3327,7 @@
       modal.querySelector("#scratch-grid").onclick = (e) => {
         scratchState.grid = !scratchState.grid;
         stage.classList.toggle("with-grid", scratchState.grid);
-        e.target.textContent = scratchState.grid ? "Grid ✓" : "Grid";
+        e.target.textContent = scratchState.grid ? "Grid: On" : "Grid: Off";
       };
 
       modal.querySelector("#scratch-clear").onclick = () => {
