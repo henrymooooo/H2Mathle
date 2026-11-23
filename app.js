@@ -327,25 +327,23 @@
   ];
 
   // -------------------- 1. SINGAPORE TIME (6 AM RESET) --------------------
-  function getSGTNow() {
-    const now = new Date();
-    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-    return new Date(utcMs + 8 * 3600000);
+  function getSGTNow(nowMs = Date.now()) {
+    return new Date(nowMs + 8 * 3600000);
   }
 
   function getStudyDayKey(sgtDate = getSGTNow()) {
     const shifted = new Date(sgtDate.getTime() - 6 * 3600000);
-    const y = shifted.getFullYear();
-    const m = String(shifted.getMonth() + 1).padStart(2, "0");
-    const d = String(shifted.getDate()).padStart(2, "0");
+    const y = shifted.getUTCFullYear();
+    const m = String(shifted.getUTCMonth() + 1).padStart(2, "0");
+    const d = String(shifted.getUTCDate()).padStart(2, "0");
     return `${y}-${m}-${d}`;
   }
 
-  function getMsUntilNext6AM() {
-    const sgt = getSGTNow();
-    const next = new Date(sgt);
-    next.setHours(6, 0, 0, 0);
-    if (sgt >= next) next.setDate(next.getDate() + 1);
+  function getMsUntilNext6AM(nowMs = Date.now()) {
+    const sgt = getSGTNow(nowMs);
+    const next = new Date(sgt.getTime());
+    next.setUTCHours(6, 0, 0, 0);
+    if (sgt >= next) next.setUTCDate(next.getUTCDate() + 1);
     return next.getTime() - sgt.getTime();
   }
 
@@ -414,10 +412,13 @@
     saveState();
   }
 
+  const DAY_KEY_RE = /^\d{4}-\d{2}-\d{2}$/;
   function formatShortDate(dayKey) {
     if (!dayKey) return "";
-    const [y, m, d] = String(dayKey).split("-").map(Number);
-    if (!y || !m || !d) return dayKey;
+    const raw = String(dayKey);
+    if (!DAY_KEY_RE.test(raw)) return escapeHtml(raw);
+    const [y, m, d] = raw.split("-").map(Number);
+    if (!y || m < 1 || m > 12 || d < 1 || d > 31) return escapeHtml(raw);
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     return `${d} ${months[m - 1]} ${y}`;
   }
@@ -678,7 +679,8 @@
         while (i < s.length && /[0-9.]/.test(s[i])) num += s[i++];
         out += `<mn>${num}</mn>`;
       } else if (/[+\-*/=<>|(),\[\]±×·≤≥≠≈~∩∪]/.test(s[i])) {
-        out += `<mo>${s[i++]}</mo>`;
+        const ch = s[i++];
+        out += `<mo>${ch === "<" ? "&lt;" : ch === ">" ? "&gt;" : ch}</mo>`;
       } else if (/[a-zA-Zπθλμσ]/.test(s[i])) {
         let word = "";
         while (i < s.length && /[a-zA-Z]/.test(s[i])) word += s[i++];
@@ -712,11 +714,16 @@
       .replace(/\$([^\$]+?)\$/g, (_, tex) => renderTex(tex, false));
   }
 
-  function renderSafeUserMath(text) {
-    const esc = (s) => s
+  function escapeHtml(s) {
+    return String(s ?? "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function renderSafeUserMath(text) {
     const tokens = [];
     const stash = (html) => {
       const idx = tokens.length;
@@ -726,7 +733,7 @@
     let out = String(text || "")
       .replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => stash(renderMathText(`$$${tex}$$`)))
       .replace(/\$([^\$]+?)\$/g, (_, tex) => stash(renderMathText(`$${tex}$`)));
-    out = esc(out);
+    out = escapeHtml(out);
     return out.replace(/\u0000MATH(\d+)\u0000/g, (_, i) => tokens[Number(i)]);
   }
 
@@ -1267,8 +1274,16 @@
       .replace(/\\left|\\right/g, "")
       .replace(/\\mathrm\{([a-zA-Z]+)\}/g, "$1")
       .replace(/−/g, "-")
-      .replace(/[×·]/g, "*")
-      .replace(/\s+/g, "");
+      .replace(/[×·]/g, "*");
+
+    const sciNums = [];
+    s = s.replace(/(^|[^a-zA-Z.])((?:\d+\.?\d*|\.\d+)e[+-]?\d+)/gi, (_, pre, num) => {
+      const idx = sciNums.length;
+      sciNums.push(num);
+      return `${pre}\u0003${idx}\u0004`;
+    });
+
+    s = s.replace(/\s+/g, "");
 
     s = s
       .replace(/arcsin/gi, "asin")
@@ -1285,11 +1300,12 @@
       return `\u0001${idx}\u0002`;
     });
 
-    s = s.replace(/(\d)([a-zA-Z(\u0001])/g, "$1*$2");
-    s = s.replace(/([a-zA-Z])(\u0001)/g, "$1*$2");
-    s = s.replace(/(\))(\d|[a-zA-Z(\u0001])/g, "$1*$2");
-    s = s.replace(/(^|[^a-zA-Z\u0001\u0002])(pi|e|i)([a-zA-Z(\u0001])/g, "$1$2*$3");
+    s = s.replace(/(\d|\u0004)([a-zA-Z(\u0001\u0003])/g, "$1*$2");
+    s = s.replace(/([a-zA-Z])(\u0001|\u0003)/g, "$1*$2");
+    s = s.replace(/(\))(\d|[a-zA-Z(\u0001\u0003])/g, "$1*$2");
+    s = s.replace(/(^|[^a-zA-Z\u0001\u0002\u0003\u0004])(pi|e|i)([a-zA-Z(\u0001\u0003])/g, "$1$2*$3");
 
+    s = s.replace(/\u0003(\d+)\u0004/g, (_, idx) => sciNums[Number(idx)]);
     s = s.replace(/\u0001(\d+)\u0002/g, (_, idx) => maskedFns[Number(idx)]);
     return s;
   }
@@ -1320,20 +1336,26 @@
     }
 
     function parseTerm() {
-      let left = parsePow();
+      let left = parseUnary();
       while (pos < s.length && (s[pos] === "*" || s[pos] === "/")) {
         const op = s[pos++];
-        const right = parsePow();
+        const right = parseUnary();
         left = op === "*" ? mul(left, right) : div(left, right);
       }
       return left;
     }
 
+    function parseUnary() {
+      if (s[pos] === "-") { pos++; return mul(C(-1), parseUnary()); }
+      if (s[pos] === "+") { pos++; return parseUnary(); }
+      return parsePow();
+    }
+
     function parsePow() {
-      let base = parseUnary();
+      let base = parsePrimary();
       if (pos < s.length && s[pos] === "^") {
         pos++;
-        const exp = parsePow();
+        const exp = parseUnary();
         if (Math.abs(base.im) < 1e-12 && Math.abs(exp.im) < 1e-12) {
           return C(Math.pow(base.re, exp.re), 0);
         }
@@ -1356,12 +1378,6 @@
       return base;
     }
 
-    function parseUnary() {
-      if (s[pos] === "-") { pos++; return mul(C(-1), parseUnary()); }
-      if (s[pos] === "+") { pos++; return parseUnary(); }
-      return parsePrimary();
-    }
-
     function parsePrimary() {
       if (s[pos] === "(") {
         pos++;
@@ -1371,10 +1387,10 @@
         return val;
       }
       if (/[0-9.]/.test(s[pos])) {
-        let num = "";
-        while (pos < s.length && /[0-9.]/.test(s[pos])) num += s[pos++];
-        if (isNaN(Number(num))) throw new Error("NaN");
-        return C(Number(num), 0);
+        const m = s.slice(pos).match(/^(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?/i);
+        if (!m || isNaN(Number(m[0]))) throw new Error("NaN");
+        pos += m[0].length;
+        return C(Number(m[0]), 0);
       }
       if (/[a-zA-Z]/.test(s[pos])) {
         let id = "";
@@ -1445,23 +1461,37 @@
     if (!trimmed) return { ok: false, msg: "Please enter an answer." };
 
     try {
+      const toNum = (ans) => (typeof ans === "number" ? ans : evalComplex(String(ans)).re);
+      const matchScalar = (rawItem, uRe, rawAns, tRe, exactRequired, dp) => {
+        const res = isNumericMatch(uRe, tRe, !!exactRequired, dp);
+        const isPlainDec = /^[+-]?(?:\d+\.\d*|\.\d+)(?:e[+-]?\d+)?$/i.test(rawItem);
+        if (res.ok && exactRequired && isPlainDec) {
+          const fracDigits = ((rawItem.split(/[eE]/)[0]).split(".")[1] || "").length;
+          const keyIsPlainDec = /^[+-]?(?:\d+\.\d*|\.\d+)$/.test(String(rawAns).trim());
+          const exactTol = 1e-14 * Math.max(1, Math.abs(tRe));
+          if (Math.abs(uRe - tRe) > exactTol || (!keyIsPlainDec && fracDigits >= 10)) {
+            return { ok: false, msg: "Exact form is required." };
+          }
+        }
+        return res;
+      };
+
       if (part.mode === "number") {
         const u = evalComplex(trimmed);
         if (Math.abs(u.im) > 1e-9) return { ok: false };
         const candidateList = part.answers || [part.answer];
+        let bestHint = null;
         for (const ans of candidateList) {
-          const t = evalComplex(ans);
-          const res = isNumericMatch(u.re, t.re, !!part.exactRequired, part.dp);
-          if (res.ok && part.exactRequired && /^\-?\d*\.\d+$/.test(trimmed) && Math.abs(Number(trimmed) - t.re) >= 1e-8) {
-            return { ok: false, msg: "Exact form is required." };
-          }
+          const tRe = toNum(ans);
+          const res = matchScalar(trimmed, u.re, ans, tRe, part.exactRequired, part.dp);
           if (res.ok) return res;
-          if (part.signHint && Math.abs(u.re + t.re) < 1e-5) {
-            return { ok: false, msg: "Magnitude is right, but check the sign of the rate of change." };
+          if (!bestHint && part.signHint && Math.abs(u.re + tRe) < 1e-5) {
+            bestHint = { ok: false, msg: "Magnitude is right, but check the sign of the rate of change." };
+          } else if (!bestHint && res.msg) {
+            bestHint = res;
           }
-          if (res.msg) return res;
         }
-        return { ok: false };
+        return bestHint || { ok: false };
       }
 
       if (part.mode === "number-list") {
@@ -1469,10 +1499,17 @@
         if (items.length !== part.answer.length) return { ok: false };
         const parsed = items.map(it => evalComplex(it));
         if (parsed.some(u => Math.abs(u.im) > 1e-9)) return { ok: false };
-        const userVals = parsed.map(u => u.re).sort((a, b) => a - b);
-        const trueVals = [...part.answer].sort((a, b) => a - b);
-        const ok = userVals.every((v, idx) => isNumericMatch(v, trueVals[idx], !!part.exactRequired, part.dp).ok);
-        return { ok };
+        const userPairs = parsed.map((u, idx) => ({ raw: items[idx], val: u.re })).sort((a, b) => a.val - b.val);
+        const truePairs = part.answer.map(rawAns => ({ raw: rawAns, val: toNum(rawAns) })).sort((a, b) => a.val - b.val);
+        let warnMsg = null;
+        for (let idx = 0; idx < userPairs.length; idx++) {
+          const r = matchScalar(userPairs[idx].raw, userPairs[idx].val, truePairs[idx].raw, truePairs[idx].val, part.exactRequired, part.dp);
+          if (!r.ok) {
+            if (!warnMsg && r.msg) warnMsg = r.msg;
+            return warnMsg ? { ok: false, msg: warnMsg } : { ok: false };
+          }
+        }
+        return { ok: true };
       }
 
       if (part.mode === "tuple") {
@@ -1481,8 +1518,12 @@
         if (items.length !== part.answer.length) return { ok: false };
         const parsed = items.map(it => evalComplex(it));
         if (parsed.some(u => Math.abs(u.im) > 1e-9)) return { ok: false };
-        const ok = parsed.every((u, idx) => isNumericMatch(u.re, part.answer[idx], !!part.exactRequired, part.dp).ok);
-        return { ok };
+        const trueVals = part.answer.map(toNum);
+        for (let idx = 0; idx < parsed.length; idx++) {
+          const r = matchScalar(items[idx], parsed[idx].re, part.answer[idx], trueVals[idx], part.exactRequired, part.dp);
+          if (!r.ok) return r.msg ? { ok: false, msg: r.msg } : { ok: false };
+        }
+        return { ok: true };
       }
 
       if (part.mode === "complex-list") {
@@ -1558,7 +1599,12 @@
         const t3 = evalComplex(part.answer, { x: x3 }).re;
         const okDiff = Math.abs((u2 - u1) - (t2 - t1)) < 1e-6 && Math.abs((u3 - u1) - (t3 - t1)) < 1e-6;
         if (!okDiff) return { ok: false };
-        if (!/[+]\s*[cCkK]\b/.test(trimmed)) {
+        const u1C = evalComplex(trimmed, { x: x1, c: 1, C: 1, k: 1 }).re;
+        const u2C = evalComplex(trimmed, { x: x2, c: 1, C: 1, k: 1 }).re;
+        const u3C = evalComplex(trimmed, { x: x3, c: 1, C: 1, k: 1 }).re;
+        const dc = u1C - u1;
+        const hasConstant = Math.abs(dc) > 1e-6 && Math.abs((u2C - u2) - dc) < 1e-6 && Math.abs((u3C - u3) - dc) < 1e-6;
+        if (!hasConstant) {
           return { ok: false, msg: "Your antiderivative matches, but don't forget the arbitrary constant (+ c)." };
         }
         return { ok: true };
@@ -1592,9 +1638,9 @@
     const todayKey = getStudyDayKey();
     const check = new Date(getSGTNow().getTime() - 6 * 3600000);
     for (let i = 0; i < 365; i++) {
-      const y = check.getFullYear();
-      const m = String(check.getMonth() + 1).padStart(2, "0");
-      const d = String(check.getDate()).padStart(2, "0");
+      const y = check.getUTCFullYear();
+      const m = String(check.getUTCMonth() + 1).padStart(2, "0");
+      const d = String(check.getUTCDate()).padStart(2, "0");
       const key = `${y}-${m}-${d}`;
       if (key < LAUNCH_DAY_KEY) break;
       const rec = state.days[key];
@@ -1605,7 +1651,7 @@
 
       if (pureDone || statsDone) streak++;
       else if (key !== todayKey) break;
-      check.setDate(check.getDate() - 1);
+      check.setUTCDate(check.getUTCDate() - 1);
     }
     return streak;
   }
@@ -2130,7 +2176,7 @@
       const banner = document.createElement("div");
       banner.className = "random-banner";
       banner.innerHTML = `
-        <span><strong>Viewing Past Day: ${dayKey}</strong></span>
+        <span><strong>Viewing Past Day: ${escapeHtml(dayKey)}</strong></span>
         <button class="btn" id="back-cal">← Back to Calendar</button>
       `;
       wrap.appendChild(banner);
@@ -2496,12 +2542,12 @@
     const main = document.getElementById("main-content");
     const sgt = getSGTNow();
     if (calendarYear === null || calendarMonth === null) {
-      calendarYear = sgt.getFullYear();
-      calendarMonth = sgt.getMonth();
+      calendarYear = sgt.getUTCFullYear();
+      calendarMonth = sgt.getUTCMonth();
     }
     const year = calendarYear;
     const month = calendarMonth;
-    const isCurrentMonth = year === sgt.getFullYear() && month === sgt.getMonth();
+    const isCurrentMonth = year === sgt.getUTCFullYear() && month === sgt.getUTCMonth();
     const firstDow = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const todayKey = getStudyDayKey();
@@ -2603,26 +2649,90 @@
       const reader = new FileReader();
       reader.onload = () => {
         try {
-          const parsed = JSON.parse(reader.result);
-          if (parsed && parsed.days) {
-            if (!parsed.notes || typeof parsed.notes !== "object") parsed.notes = {};
-            if (!parsed.practiceSolved || typeof parsed.practiceSolved !== "object") parsed.practiceSolved = {};
-            state = parsed;
-            saveState();
-            renderCalendarView();
-            updateMetaBar();
-            const el = document.getElementById("backup-status");
-            if (el) { el.style.color = "var(--ok)"; el.textContent = "Backup restored"; }
-          } else if (statusEl) {
-            statusEl.style.color = "var(--bad)";
-            statusEl.textContent = "Invalid backup format.";
+          const sanitized = sanitizeBackupState(JSON.parse(reader.result));
+          if (!sanitized) {
+            if (statusEl) {
+              statusEl.style.color = "var(--bad)";
+              statusEl.textContent = "Invalid backup format.";
+            }
+            return;
           }
+          const hasExistingData = Object.keys(state.days || {}).length > 0 ||
+            Object.keys(state.notes || {}).length > 0 ||
+            Object.keys(state.practiceSolved || {}).length > 0;
+          if (hasExistingData && !window.confirm("Replace your current local progress with this backup? Unsaved progress will be overwritten.")) {
+            if (statusEl) {
+              statusEl.style.color = "var(--muted)";
+              statusEl.textContent = "Import cancelled.";
+            }
+            return;
+          }
+          state = sanitized;
+          saveState();
+          renderCalendarView();
+          updateMetaBar();
+          const el = document.getElementById("backup-status");
+          if (el) { el.style.color = "var(--ok)"; el.textContent = "Backup restored"; }
         } catch (_) {
           if (statusEl) { statusEl.style.color = "var(--bad)"; statusEl.textContent = "Could not parse backup file."; }
+        } finally {
+          fileInput.value = "";
         }
       };
       reader.readAsText(f);
     };
+  }
+
+  function sanitizeBackupState(parsed) {
+    const isPlainObj = (v) => Boolean(v) && typeof v === "object" && !Array.isArray(v);
+    if (
+      !isPlainObj(parsed) ||
+      !isPlainObj(parsed.days) ||
+      (parsed.notes !== undefined && !isPlainObj(parsed.notes)) ||
+      (parsed.practiceSolved !== undefined && !isPlainObj(parsed.practiceSolved))
+    ) {
+      return null;
+    }
+    const days = {};
+    for (const [k, v] of Object.entries(parsed.days)) {
+      if (DAY_KEY_RE.test(k) && isPlainObj(v)) days[k] = v;
+    }
+    const notes = {};
+    for (const [qId, rawNote] of Object.entries(parsed.notes || {})) {
+      if (!isPlainObj(rawNote)) continue;
+      const flaggedParts = Array.isArray(rawNote.flaggedParts) ? rawNote.flaggedParts.map(p => String(p)) : [];
+      const flaggedAt = (typeof rawNote.flaggedAt === "number" || typeof rawNote.flaggedAt === "string") ? rawNote.flaggedAt : null;
+      let entries;
+      if (Array.isArray(rawNote.entries)) {
+        entries = rawNote.entries.filter(isPlainObj).map((entry, idx) => ({
+          id: String(entry.id || idx + 1),
+          kind: entry.kind === "note" ? "note" : "mistake",
+          part: entry.part != null ? String(entry.part) : "",
+          tags: Array.isArray(entry.tags) ? entry.tags.map(t => String(t)) : [],
+          text: entry.text != null ? String(entry.text) : "",
+          updatedAt: typeof entry.updatedAt === "string" ? entry.updatedAt : null
+        }));
+        if (!entries.length) entries = [{ id: "1", kind: "mistake", part: "", tags: [], text: "", updatedAt: null }];
+      } else {
+        entries = [{
+          id: "1",
+          kind: "mistake",
+          part: "",
+          tags: Array.isArray(rawNote.tags) ? rawNote.tags.map(t => String(t)) : [],
+          text: rawNote.text != null ? String(rawNote.text) : "",
+          updatedAt: typeof rawNote.updatedAt === "string" ? rawNote.updatedAt : null
+        }];
+      }
+      notes[String(qId)] = { flaggedParts, flaggedAt, entries };
+    }
+    const practiceSolved = {};
+    for (const [k, v] of Object.entries(parsed.practiceSolved || {})) {
+      if (!v) continue;
+      const rawDate = isPlainObj(v) ? v.solvedAt : (typeof v === "string" ? v : "");
+      const solvedAt = typeof rawDate === "string" && DAY_KEY_RE.test(rawDate) ? rawDate : "";
+      practiceSolved[String(k)] = { solvedAt };
+    }
+    return { days, notes, practiceSolved };
   }
 
   function renderCalendarDetail(dayKey) {
@@ -2632,7 +2742,7 @@
       return;
     }
     if (dayKey > getStudyDayKey()) {
-      box.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.9rem;">Unlocks on ${dayKey} at 6:00 AM SGT.</p>`;
+      box.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);font-size:0.9rem;">Unlocks on ${escapeHtml(dayKey)} at 6:00 AM SGT.</p>`;
       return;
     }
     const rec = state.days[dayKey];
@@ -2791,11 +2901,11 @@
                   <div class="flagged-item-topics">${(item.q.topics || []).join(" • ") || "General"}</div>
                   <div class="flagged-item-title-row">
                     <strong class="q-source">${item.q.school} • ${item.q.paper} • ${item.q.qNum}</strong>
-                    ${item.nd.flaggedParts.map(p => `<span class="mistake-flag-pill">${flagIconSvg(true)} Part ${p}</span>`).join("")}
+                    ${item.nd.flaggedParts.map(p => `<span class="mistake-flag-pill">${flagIconSvg(true)} Part ${escapeHtml(p)}</span>`).join("")}
                   </div>
                 </div>
                 <div class="flagged-item-actions">
-                  ${item.dateLabel ? `<small class="flagged-item-date">${item.dateLabel}</small>` : ""}
+                  ${item.dateLabel ? `<small class="flagged-item-date">${escapeHtml(item.dateLabel)}</small>` : ""}
                   <button type="button" class="flagged-jump-btn" data-jump="${item.q.id}">Practice →</button>
                   <button type="button" class="flagged-unflag-btn" data-unflag="${item.q.id}" title="Unflag this question">×</button>
                 </div>
@@ -2817,7 +2927,7 @@
     const tagFilterHtml = (studyLogMode !== "notes" && topTags.length) ? `
       <div class="error-tags" style="margin-bottom:14px;">
         <button type="button" class="err-chip ${mistakeTagFilter === "all" ? "selected" : ""}" data-tag-filter="all">All (${modeBaseItems.length})</button>
-        ${topTags.map(([tag, cnt]) => `<button type="button" class="err-chip ${mistakeTagFilter === tag ? "selected" : ""}" data-tag-filter="${tag}">${tag} (${cnt})</button>`).join("")}
+        ${topTags.map(([tag, cnt]) => `<button type="button" class="err-chip ${mistakeTagFilter === tag ? "selected" : ""}" data-tag-filter="${escapeHtml(tag)}">${escapeHtml(tag)} (${cnt})</button>`).join("")}
       </div>
     ` : "";
 
@@ -2907,9 +3017,9 @@
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <strong class="q-source">${q.school} • ${q.paper} • ${q.qNum}</strong>
-            ${(nd.flaggedParts || []).map(p => `<span class="mistake-flag-pill">${flagIconSvg(true)} Part ${p}</span>`).join("")}
+            ${(nd.flaggedParts || []).map(p => `<span class="mistake-flag-pill">${flagIconSvg(true)} Part ${escapeHtml(p)}</span>`).join("")}
           </div>
-          <small style="color:var(--muted);font-family:var(--sans);">${latestDate}</small>
+          <small style="color:var(--muted);font-family:var(--sans);">${escapeHtml(latestDate)}</small>
         </div>
         <div class="mistake-subentries"></div>
         <button class="btn" data-revise="${q.id}">Practice Question Again →</button>
@@ -2926,8 +3036,8 @@
             <div class="mistake-subentry-head">
               <div class="error-tags" style="margin-bottom:0;">
                 ${isNote ? `<span class="study-note-pill">Note</span>` : ""}
-                ${entry.part ? `<span class="mistake-part-pill">Part ${entry.part}</span>` : ""}
-                ${!isNote ? (entry.tags || []).map(t => `<span class="err-chip selected">${t}</span>`).join("") : ""}
+                ${entry.part ? `<span class="mistake-part-pill">Part ${escapeHtml(entry.part)}</span>` : ""}
+                ${!isNote ? (entry.tags || []).map(t => `<span class="err-chip selected">${escapeHtml(t)}</span>`).join("") : ""}
               </div>
               <div class="mistake-entry-actions">
                 <button type="button" class="mistake-action-btn" data-edit-entry>Edit</button>
@@ -4028,11 +4138,28 @@
     })));
   }
 
+  window.H2Grader = {
+    preprocessExpr,
+    evalComplex,
+    isNumericMatch,
+    gradeSingleInput,
+    latexToMathMLInline,
+    escapeHtml,
+    formatShortDate,
+    getSGTNow,
+    getStudyDayKey,
+    getMsUntilNext6AM,
+    sanitizeBackupState
+  };
+
   window.addEventListener("DOMContentLoaded", async () => {
     updateCountdown();
     setInterval(updateCountdown, 1000);
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().catch(() => {});
     }
     const toggleTool = (modalId, openFn, closeFn) => {
       const m = document.getElementById(modalId);

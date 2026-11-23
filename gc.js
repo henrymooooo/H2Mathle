@@ -32,11 +32,11 @@
     let s = String(raw ?? "").trim()
       .replace(/−/g, "-")
       .replace(/[×·]/g, "*")
-      .replace(/π/g, "pi")
-      .replace(/\s+/g, "");
+      .replace(/π/g, "pi");
     if (!s) throw new Error("Empty");
-    if (s === "inf" || s === "+inf" || s === "∞") return Infinity;
-    if (s === "-inf" || s === "-∞") return -Infinity;
+    const rawCompact = s.replace(/\s+/g, "");
+    if (rawCompact === "inf" || rawCompact === "+inf" || rawCompact === "∞") return Infinity;
+    if (rawCompact === "-inf" || rawCompact === "-∞") return -Infinity;
 
     const sciNums = [];
     s = s.replace(/(^|[^a-zA-Z.])((?:\d+\.?\d*|\.\d+)e[+-]?\d+)/gi, (_, pre, num) => {
@@ -44,6 +44,7 @@
       sciNums.push(num);
       return `${pre}\u0003${idx}\u0004`;
     });
+    s = s.replace(/\s+/g, "");
 
     const fnRegex = /(arcsin|arccos|arctan|cosec|asin|acos|atan|sqrt|sinh|cosh|tanh|sin|cos|tan|sec|csc|cot|exp|log|abs|nCr|nPr|ln)(?=\()/gi;
     const masked = [];
@@ -53,7 +54,7 @@
       return `\u0001${idx}\u0002`;
     });
 
-    s = s.replace(/(\d)([a-zA-Z(\u0001\u0003])/g, "$1*$2");
+    s = s.replace(/(\d|\u0004)([a-zA-Z(\u0001\u0003])/g, "$1*$2");
     s = s.replace(/([a-zA-Z!])(\u0001|\u0003|\()/g, "$1*$2");
     s = s.replace(/(\))(\d|[a-zA-Z(\u0001\u0003])/g, "$1*$2");
     s = s.replace(/(^|[^a-zA-Z\u0001\u0002\u0003\u0004])(pi|e|inf)([a-zA-Z(\u0001\u0003])/gi, "$1$2*$3");
@@ -72,28 +73,33 @@
     };
 
     const parseTerm = () => {
-      let left = parsePow();
+      let left = parseUnary();
       while (pos < s.length && (s[pos] === "*" || s[pos] === "/")) {
         const op = s[pos++];
-        const right = parsePow();
-        left = op === "*" ? left * right : left / right;
+        const right = parseUnary();
+        if (op === "/") {
+          if (right === 0) throw new Error("Division by zero");
+          left = left / right;
+        } else {
+          left = left * right;
+        }
       }
       return left;
-    };
-
-    const parsePow = () => {
-      const base = parseUnary();
-      if (pos < s.length && s[pos] === "^") {
-        pos++;
-        return Math.pow(base, parsePow());
-      }
-      return base;
     };
 
     const parseUnary = () => {
       if (s[pos] === "-") { pos++; return -parseUnary(); }
       if (s[pos] === "+") { pos++; return parseUnary(); }
-      return parsePostfix();
+      return parsePow();
+    };
+
+    const parsePow = () => {
+      const base = parsePostfix();
+      if (pos < s.length && s[pos] === "^") {
+        pos++;
+        return Math.pow(base, parseUnary());
+      }
+      return base;
     };
 
     const parsePostfix = () => {
@@ -152,19 +158,19 @@
             csc: () => 1 / Math.sin(rad),
             cosec: () => 1 / Math.sin(rad),
             cot: () => 1 / Math.tan(rad),
-            asin: () => fromRad(Math.asin(v)),
-            arcsin: () => fromRad(Math.asin(v)),
-            acos: () => fromRad(Math.acos(v)),
-            arccos: () => fromRad(Math.acos(v)),
+            asin: () => { if (v < -1 || v > 1) throw new Error("Domain error (input must be in [-1, 1])"); return fromRad(Math.asin(v)); },
+            arcsin: () => { if (v < -1 || v > 1) throw new Error("Domain error (input must be in [-1, 1])"); return fromRad(Math.asin(v)); },
+            acos: () => { if (v < -1 || v > 1) throw new Error("Domain error (input must be in [-1, 1])"); return fromRad(Math.acos(v)); },
+            arccos: () => { if (v < -1 || v > 1) throw new Error("Domain error (input must be in [-1, 1])"); return fromRad(Math.acos(v)); },
             atan: () => fromRad(Math.atan(v)),
             arctan: () => fromRad(Math.atan(v)),
             sinh: () => Math.sinh(v),
             cosh: () => Math.cosh(v),
             tanh: () => Math.tanh(v),
-            ln: () => Math.log(v),
-            log: () => Math.log10(v),
+            ln: () => { if (v <= 0) throw new Error("Domain error (log of <= 0)"); return Math.log(v); },
+            log: () => { if (v <= 0) throw new Error("Domain error (log of <= 0)"); return Math.log10(v); },
             exp: () => Math.exp(v),
-            sqrt: () => Math.sqrt(v),
+            sqrt: () => { if (v < 0) throw new Error("Domain error (sqrt of negative)"); return Math.sqrt(v); },
             abs: () => Math.abs(v)
           };
           if (!table[k]) throw new Error("Unknown fn " + id);
@@ -417,17 +423,20 @@
       const r = radius * (0.65 + 0.15 * (k / deg));
       z.push({ re: r * Math.cos(ang), im: r * Math.sin(ang) });
     }
-    const evalPoly = (pt) => {
-      let accRe = 1, accIm = 0;
-      for (let k = 1; k < norm.length; k++) {
-        const nr = accRe * pt.re - accIm * pt.im + norm[k];
+    const evalCoeffs = (poly, pt) => {
+      let accRe = 0, accIm = 0;
+      for (let k = 0; k < poly.length; k++) {
+        const nr = accRe * pt.re - accIm * pt.im + poly[k];
         const ni = accRe * pt.im + accIm * pt.re;
         accRe = nr;
         accIm = ni;
       }
       return { re: accRe, im: accIm };
     };
-    for (let iter = 0; iter < 500; iter++) {
+    const diffPoly = (poly) => poly.slice(0, -1).map((coef, idx) => coef * (poly.length - 1 - idx));
+    const evalPoly = (pt) => evalCoeffs(norm, pt);
+    const normDeriv = diffPoly(norm);
+    for (let iter = 0; iter < 1000; iter++) {
       let maxStep = 0;
       for (let j = 0; j < deg; j++) {
         const pval = evalPoly(z[j]);
@@ -449,6 +458,47 @@
       }
       if (maxStep < 1e-12) break;
     }
+    const visited = Array(deg).fill(false);
+    for (let i = 0; i < deg; i++) {
+      if (visited[i]) continue;
+      visited[i] = true;
+      const cluster = [i];
+      for (let qIdx = 0; qIdx < cluster.length; qIdx++) {
+        const cur = z[cluster[qIdx]];
+        for (let j = 0; j < deg; j++) {
+          if (!visited[j] && Math.hypot(cur.re - z[j].re, cur.im - z[j].im) < 1e-3) {
+            visited[j] = true;
+            cluster.push(j);
+          }
+        }
+      }
+      if (cluster.length >= 2) {
+        let mRe = 0, mIm = 0;
+        for (const idx of cluster) { mRe += z[idx].re; mIm += z[idx].im; }
+        let m = { re: mRe / cluster.length, im: mIm / cluster.length };
+        const pm = evalPoly(m);
+        const pdm = evalCoeffs(normDeriv, m);
+        if (Math.hypot(pm.re, pm.im) < 1e-10 && Math.hypot(pdm.re, pdm.im) < 1e-6) {
+          let fk1 = norm;
+          for (let d = 1; d < cluster.length; d++) fk1 = diffPoly(fk1);
+          const fk = diffPoly(fk1);
+          let cur = { ...m };
+          for (let it = 0; it < 6; it++) {
+            const v = evalCoeffs(fk1, cur);
+            const dv = evalCoeffs(fk, cur);
+            const den = dv.re * dv.re + dv.im * dv.im;
+            if (den < 1e-30) break;
+            const dRe = (v.re * dv.re + v.im * dv.im) / den;
+            const dIm = (v.im * dv.re - v.re * dv.im) / den;
+            cur = { re: cur.re - dRe, im: cur.im - dIm };
+            if (Math.hypot(dRe, dIm) < 1e-14) break;
+          }
+          const pCur = evalPoly(cur);
+          if (Math.hypot(pCur.re, pCur.im) <= Math.hypot(pm.re, pm.im) + 1e-15) m = cur;
+          for (const idx of cluster) z[idx] = { re: m.re, im: m.im };
+        }
+      }
+    }
     for (const r of z) {
       roots.push({
         re: Math.abs(r.re) < 1e-9 ? 0 : r.re,
@@ -469,6 +519,8 @@
     const lo = Math.min(a, b);
     const hi = Math.max(a, b);
     const f = (x) => evalNumExpr(expr, { x }, degMode);
+    let errAcc = 0;
+    let hitMaxDepth = false;
     const integrate = (x0, x1, depth) => {
       const mid = 0.5 * (x0 + x1);
       const half = 0.5 * (x1 - x0);
@@ -484,10 +536,19 @@
       const res15 = sum15 * half;
       const res7 = sum7 * half;
       if (!Number.isFinite(res15)) throw new Error("Discontinuity / NaN in integrand");
-      if (depth >= 12 || Math.abs(res15 - res7) <= 1e-10 * (1 + Math.abs(res15))) return res15;
+      if (Math.abs(res15 - res7) <= 1e-10 * (1 + Math.abs(res15))) return res15;
+      if (depth >= 12) {
+        errAcc += Math.abs(res15 - res7);
+        hitMaxDepth = true;
+        return res15;
+      }
       return integrate(x0, mid, depth + 1) + integrate(mid, x1, depth + 1);
     };
-    return sign * integrate(lo, hi, 0);
+    const total = sign * integrate(lo, hi, 0);
+    if (!Number.isFinite(total) || (hitMaxDepth && errAcc > 1e-3 * (1 + Math.abs(total)))) {
+      throw new Error("Integral did not converge (possible singularity)");
+    }
+    return total;
   }
 
   function nDeriv(expr, x0, degMode = false) {
@@ -498,6 +559,9 @@
     const first = (4 * d2 - d1) / 3;
     const h2 = 1e-3 * Math.max(1, Math.abs(x0));
     const second = (f(x0 + h2) - 2 * f(x0) + f(x0 - h2)) / (h2 * h2);
+    if (!Number.isFinite(first) || !Number.isFinite(second)) {
+      throw new Error("Undefined derivative");
+    }
     return { first, second };
   }
 
@@ -1106,6 +1170,7 @@
       row.className = "gc-tape-row";
       try {
         const val = evalNumExpr(raw, { Ans: lastAns, ans: lastAns }, degMode);
+        if (!Number.isFinite(val)) throw new Error(Number.isNaN(val) ? "Undefined (NaN)" : "Overflow / undefined");
         lastAns = val;
         const exprDiv = document.createElement("div");
         exprDiv.className = "gc-tape-expr";

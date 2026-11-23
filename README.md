@@ -1,8 +1,8 @@
 # H2 Mathle
 
-An offline-first daily practice web app for Singapore A-Level H2 Mathematics (9758) prelim questions. It runs as plain HTML, CSS, and JavaScript with no build step or backend, and stores everything locally in your browser.
+An offline-first daily practice web app for Singapore A-Level H2 Mathematics (9758) prelim questions. It runs as plain HTML, CSS, and JavaScript with no build step, keeps your progress in local browser storage, and uses an optional Cloudflare Worker on the live site for anonymous daily visit and completion counts.
 
-Live app: www.h2mathle.com
+Live app: https://www.h2mathle.com
 
 ![H2 Mathle screenshot](screenshot.png)
 
@@ -38,6 +38,8 @@ A few extra study tools stay hidden until you open them:
 - `banks/manifest.js`, `banks/2025/*.js`, and `banks/2026/*.js`: 2025 and 2026 JC prelim question banks (64 papers, 727 questions).
 - `PROMPT-GUIDE.MD`: LLM prompt template for converting past-paper PDFs into question bank `.js` files.
 - `sw.js`: network-first Service Worker with offline cache fallback.
+- `tests/math.test.js`: automated Node test suite for the math evaluator, grader, calculator, escaping, and question bank self-check.
+- `worker/worker.js` and `worker/schema.sql`: optional Cloudflare Worker and D1 schema for anonymous daily visit and completion counts.
 
 ## Adding question banks
 
@@ -60,8 +62,8 @@ Open `index.html` directly in a browser, or host the folder over HTTP/HTTPS (suc
 
 ## Notes
 
-All daily progress, Practice solved markers, study log entries, and flagged parts stay in your browser's `localStorage`.
+All daily progress, Practice solved markers, study log entries, and flagged parts stay in your browser's `localStorage`. The hosted site sends anonymous daily visit and question completion counts to `api.h2mathle.com`, with no cookies, accounts, or IP addresses stored.
 
 ## License
 
-The application code is licensed under the [GNU AGPLv3](LICENSE). You can use or modify it as long as you give credit and release any modified or hosted version under the same license. This license covers the app code only; the prelim questions in `banks/` belong to their respective schools and are included for personal study.
+The application code is licensed under the [GNU AGPLv3](LICENSE). You can use or modify it as long as you give credit and release any modified or hosted version under the same license. This license covers the app code only; the prelim questions in `banks/` belong to their respective schools and are included for personal study. To request removal of specific content, open a GitHub issue or use the site's Feedback form.
