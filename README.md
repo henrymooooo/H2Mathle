@@ -57,4 +57,8 @@ Open `index.html` directly in a browser, or host the folder over HTTP/HTTPS (suc
 
 ## Notes
 
-All progress, study log entries, and flagged parts stay in your browser's `localStorage`. The question banks in `banks/` come from school prelim papers for personal study.
+All progress, study log entries, and flagged parts stay in your browser's `localStorage`.
+
+## License
+
+The application code is licensed under the [GNU AGPLv3](LICENSE). You can use or modify it as long as you give credit and release any modified or hosted version under the same license. This license covers the app code only; the prelim questions in `banks/` belong to their respective schools and are included for personal study.
