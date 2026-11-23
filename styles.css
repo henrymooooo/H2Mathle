@@ -819,8 +819,24 @@ body {
 .mistake-entry:hover { transform: translateY(-1px); }
 
 @media (max-width: 600px) {
+  .app-shell { width: 100%; }
   .card { padding: 16px 14px; }
-  .tab-btn { font-size: 0.82rem; padding: 7px 11px; }
+  .nav-tabs {
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    font-size: clamp(0.74rem, 3.2vw, 0.82rem);
+    padding: 7px 6px;
+  }
 }
 /* Diagrams & Tables */
 .diagram-box {

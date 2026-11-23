@@ -1,4 +1,4 @@
-const CACHE_NAME = "h2-daily-math-v5";
+const CACHE_NAME = "h2-daily-math-v6";
 const CORE_ASSETS = [
   "./",
   "./index.html",
