@@ -45,7 +45,22 @@ function createSandbox() {
       querySelector: () => null,
       querySelectorAll: () => [],
       addEventListener: () => {},
-      createElement: () => ({ style: {}, setAttribute: () => {} }),
+      createElement: () => {
+        const el = {
+          style: {},
+          className: "",
+          innerHTML: "",
+          textContent: "",
+          children: [],
+          classList: { add() {}, remove() {}, toggle() {} },
+          setAttribute() {},
+          addEventListener() {},
+          focus() {},
+          append(...nodes) { el.children.push(...nodes); },
+          appendChild(node) { el.children.push(node); return node; }
+        };
+        return el;
+      },
       body: { dataset: {}, appendChild: () => {} },
       fonts: null
     },
@@ -277,7 +292,7 @@ test("escapeHtml, MathML escaping, formatShortDate, and sanitizeBackupState", ()
   assert.equal(H2Grader.sanitizeBackupState({ days: [] }), null);
 
   const sanitized = H2Grader.sanitizeBackupState({
-    days: { "2026-11-24": { pure: {} }, "<script>": {} },
+    days: { "2026-11-24": { pure: {} }, "2026-11-25": { pure: { questionId: "RI-2026-P1-Q1" } }, "<script>": {} },
     practiceSolved: {
       Q1: { solvedAt: "<img onerror=1>" },
       Q2: { solvedAt: "2026-11-24" },
@@ -287,7 +302,8 @@ test("escapeHtml, MathML escaping, formatShortDate, and sanitizeBackupState", ()
       Q1: { flaggedParts: ["<b>(a)</b>"], entries: [{ part: "(a)", tags: ["GC"], text: "hi" }] }
     }
   });
-  assert.deepEqual(Object.keys(sanitized.days), ["2026-11-24"]);
+  assert.deepEqual(Object.keys(sanitized.days), ["2026-11-24", "2026-11-25"]);
+  assert.deepEqual(JSON.parse(JSON.stringify(sanitized.days["2026-11-25"].pure.parts)), {});
   assert.equal(sanitized.practiceSolved.Q1.solvedAt, "");
   assert.equal(sanitized.practiceSolved.Q2.solvedAt, "2026-11-24");
   assert.equal(sanitized.practiceSolved.Q3.unsolved, true);
@@ -430,4 +446,59 @@ test("bank self-check and mutation tests (must-reject)", (t) => {
   assert.equal(failures.length, 0, `Bank self-check failures:\n${JSON.stringify(failures.slice(0, 10), null, 2)}`);
   assert.equal(mutationFailures.length, 0, `Bank mutation failures:\n${JSON.stringify(mutationFailures.slice(0, 10), null, 2)}`);
   t.diagnostic(`${autoChecked} bank auto-graded entries + ${mutationsChecked} mutation rejections passed across ${H2_QUESTIONS.length} questions`);
+});
+
+test("regression: offline MathML XSS, pmatrix mid-expression, and escaped dollars", () => {
+  const safeXss = H2Grader.renderSafeUserMath("$<mrow><mo>(<img src=x onerror=alert(1)>$");
+  assert.ok(!safeXss.includes("<img"), `Unexpected unescaped <img> in ${safeXss}`);
+
+  const vecMml = H2Grader.latexToMathML("\\mathbf{r} = \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix}");
+  assert.ok(vecMml.includes("<mtable>") && vecMml.includes("<mtr>"), `Expected <mtable> in ${vecMml}`);
+  assert.ok(!vecMml.includes("&lt;mrow&gt;"), `Unexpected escaped MathML tags in ${vecMml}`);
+
+  const prevKatex = ctx.window.katex;
+  ctx.window.katex = { renderToString: (tex) => `[TEX:${tex}]` };
+  try {
+    const rendered = H2Grader.renderMathText("Salary is $\\$k$ and $35\\%$");
+    assert.equal(rendered, "Salary is [TEX:\\$k] and [TEX:35\\%]");
+  } finally {
+    ctx.window.katex = prevKatex;
+  }
+});
+
+test("regression: theta, insertFraction, factored algebra, warn flag, real-only modes, and normalcdf tail", () => {
+  const tmjc = H2_QUESTIONS.find(q => q.id === "TMJC-2026-P1-Q7");
+  assert.ok(tmjc, "TMJC-2026-P1-Q7 should exist");
+  const tmjcB = tmjc.parts.find(p => p.label === "(b)");
+  assert.equal(H2Grader.gradeSingleInput(tmjcB, "2 - 2/sqrt(3)*θ + 5/3*(θ^2)").ok, true);
+
+  const mf1 = H2Grader.createMathField(ctx.document.createElement("div"), {});
+  mf1.insertText("(a+b)/2");
+  assert.equal(mf1.getEvalString(), "(((a+b))/(2))");
+
+  const mf2 = H2Grader.createMathField(ctx.document.createElement("div"), {});
+  mf2.insertText("ln(2)/4");
+  assert.equal(mf2.getEvalString(), "((ln(2))/(4))");
+
+  const mf3 = H2Grader.createMathField(ctx.document.createElement("div"), {});
+  mf3.insertText("2theta");
+  assert.equal(mf3.getEvalString(), "2theta");
+
+  assert.equal(H2Grader.gradeSingleInput({ mode: "expr", vars: { p: [0.2, 0.4] }, answer: "3*p*(1-p)^2" }, "3p(1-p)^2").ok, true);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "expr", vars: { n: [2, 4] }, answer: "n*(n+1)*(2*n+7)/6" }, "n(n+1)(2n+7)/6").ok, true);
+
+  const exact10 = H2Grader.gradeSingleInput({ mode: "number", answer: "1/3", exactRequired: true }, "0.3333333333");
+  assert.equal(exact10.ok, false);
+  assert.equal(exact10.warn, true);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "number", answer: "1" }, "").warn, true);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "number", answer: "1" }, "sqrt(2").warn, true);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "antiderivative", domainPoints: [1, 2, 3], answer: "x^2" }, "x^2").warn, true);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "number", answer: "-5", signHint: true }, "5").warn, true);
+
+  assert.equal(H2Grader.gradeSingleInput({ mode: "expr", vars: { x: [1, 2] }, answer: "x" }, "x + 5i").ok, false);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "expr-list", vars: { x: [1, 2] }, answer: ["x", "-x"] }, "x + i, -x + i").ok, false);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "expr-pm", vars: { c: [2, 5] }, answer: "sqrt(c)" }, "±(sqrt(c) + 2i)").ok, false);
+  assert.equal(H2Grader.gradeSingleInput({ mode: "antiderivative", domainPoints: [1, 2, 3], answer: "x^2" }, "x^2 + 3i + c").ok, false);
+
+  approx(H2GC.math.normalcdf(9, Infinity, 0, 1), 1.12858840595e-19, 1e-24, "normalcdf(9, inf)");
 });

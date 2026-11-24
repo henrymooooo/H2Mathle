@@ -63,14 +63,6 @@ function corsHeadersForIngest(origin) {
   return headers;
 }
 
-function corsHeadersForPublicRead(origin) {
-  return {
-    "Access-Control-Allow-Origin": isAllowedOrigin(origin) ? origin : "*",
-    "Access-Control-Allow-Methods": "GET, OPTIONS",
-    "Vary": "Origin"
-  };
-}
-
 function jsonResponse(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
     status,
@@ -362,63 +354,6 @@ async function handleIngest(request, env) {
     );
   }
   return new Response(null, { status: 204, headers: corsHeaders });
-}
-
-async function handleDailySummary(request, env, url) {
-  const origin = request.headers.get("Origin");
-  const corsHeaders = corsHeadersForPublicRead(origin);
-  const dayParam = url.searchParams.get("day");
-  const studyDay = dayParam ? dayParam.trim() : getStudyDay();
-
-  if (!DAY_RE.test(studyDay)) {
-    return jsonResponse({ error: "Invalid day format (expected YYYY-MM-DD)" }, 400, corsHeaders);
-  }
-
-  const { results } = await env.DB
-    .prepare(
-      "SELECT mode, question_id, COUNT(*) AS attempted, " +
-      "SUM(CASE WHEN status = 'ok' THEN 1 ELSE 0 END) AS solved, " +
-      "SUM(CASE WHEN status = 'bad' THEN 1 ELSE 0 END) AS missed " +
-      "FROM question_outcomes " +
-      "WHERE study_day = ? AND mode IN ('daily_pure', 'daily_stats') " +
-      "GROUP BY mode, question_id ORDER BY attempted DESC"
-    )
-    .bind(studyDay)
-    .all();
-
-  const summary = {
-    studyDay,
-    daily_pure: { attempted: 0, solved: 0, missed: 0, solveRate: 0, questions: [] },
-    daily_stats: { attempted: 0, solved: 0, missed: 0, solveRate: 0, questions: [] }
-  };
-
-  for (const row of results || []) {
-    const bucket = summary[row.mode];
-    if (!bucket) continue;
-    const attempted = Number(row.attempted) || 0;
-    const solved = Number(row.solved) || 0;
-    const missed = Number(row.missed) || 0;
-    bucket.attempted += attempted;
-    bucket.solved += solved;
-    bucket.missed += missed;
-    bucket.questions.push({
-      questionId: row.question_id,
-      attempted,
-      solved,
-      missed,
-      solveRate: attempted > 0 ? Math.round((solved / attempted) * 1000) / 10 : 0
-    });
-  }
-
-  for (const key of ["daily_pure", "daily_stats"]) {
-    const b = summary[key];
-    b.solveRate = b.attempted > 0 ? Math.round((b.solved / b.attempted) * 1000) / 10 : 0;
-  }
-
-  return jsonResponse(summary, 200, {
-    ...corsHeaders,
-    "Cache-Control": "public, max-age=60"
-  });
 }
 
 async function handleAdminStats(request, env, url) {
@@ -904,19 +839,6 @@ export default {
         }
         if (method === "POST") {
           return await handleIngest(request, env);
-        }
-        return jsonResponse({ error: "Method not allowed" }, 405);
-      }
-
-      if (pathname === "/v1/daily-summary") {
-        if (method === "OPTIONS") {
-          return new Response(null, {
-            status: 204,
-            headers: corsHeadersForPublicRead(request.headers.get("Origin"))
-          });
-        }
-        if (method === "GET") {
-          return await handleDailySummary(request, env, url);
         }
         return jsonResponse({ error: "Method not allowed" }, 405);
       }

@@ -268,10 +268,7 @@
     mistakes: "Study Log"
   };
   function getFeedbackContext() {
-    const qId = (currentTab === "pure" || currentTab === "stats" || currentTab === "random") && qTimer.questionId
-      ? qTimer.questionId
-      : null;
-    return { qId, tab: currentTab, url: window.location.href };
+    return { qId: activeQuestionId, tab: currentTab, url: window.location.href };
   }
   function syncFeedbackContext() {
     const badge = document.getElementById("feedback-context");
@@ -392,7 +389,20 @@
   let flaggedSort = "date-desc";
   let flaggedPanelOpen = true;
   let activeMathField = null;
+  let activeQuestionId = null;
   let qTimer = { questionId: null, elapsedSec: 0, running: false, intervalId: null };
+
+  function isEditableTarget(el) {
+    const tag = el && el.tagName ? el.tagName.toLowerCase() : "";
+    return tag === "input" || tag === "textarea" || tag === "select" || !!(el && el.isContentEditable);
+  }
+
+  function syncOpenDrawers() {
+    const sm = document.getElementById("scratchpad-modal");
+    if (sm && sm.classList.contains("open") && sm._syncScratchpad) sm._syncScratchpad();
+    const am = document.getElementById("ask-modal");
+    if (am && am.classList.contains("open") && am._syncAsk) am._syncAsk();
+  }
 
   function ensurePracticeSolved() {
     if (!state.practiceSolved || typeof state.practiceSolved !== "object") {
@@ -472,12 +482,50 @@
     });
   }
 
-  function getFilteredRandomPool(cat = null) {
+  function buildQuestionHistoryMap() {
+    const byId = new Map();
+    for (const q of window.H2_QUESTIONS) byId.set(q.id, q);
+    const flags = new Map();
+    const ensure = (qId) => {
+      let f = flags.get(qId);
+      if (!f) {
+        f = { seenOk: isPracticeSolved(qId), seenBad: false, seenPartial: false };
+        flags.set(qId, f);
+      }
+      return f;
+    };
+    for (const [qId, entry] of Object.entries(state.practiceSolved || {})) {
+      if (entry && !entry.unsolved) ensure(qId);
+    }
+    for (const dayRec of Object.values(state.days || {})) {
+      for (const cat of ["pure", "stats"]) {
+        const rec = dayRec?.[cat];
+        if (!rec || !rec.questionId) continue;
+        const q = byId.get(rec.questionId);
+        if (!q) continue;
+        const st = getQuestionStatus(q, rec);
+        const f = ensure(rec.questionId);
+        if (st === "ok") { if (!isPracticeUnsolved(rec.questionId)) f.seenOk = true; }
+        else if (st === "bad") f.seenBad = true;
+        else if (st === "partial") f.seenPartial = true;
+      }
+    }
+    const out = new Map();
+    for (const [qId, f] of flags.entries()) {
+      if (f.seenOk) out.set(qId, "solved");
+      else if (f.seenBad) out.set(qId, "missed");
+      else if (f.seenPartial) out.set(qId, "attempted");
+    }
+    return out;
+  }
+
+  function getFilteredRandomPool(cat = null, historyMap = null) {
+    const getStatus = historyMap ? (qId) => historyMap.get(qId) || "unseen" : getQuestionHistoryStatus;
     return window.H2_QUESTIONS.filter(q => {
       if (cat && q.category !== cat) return false;
       if (randomFilters.topic !== "all" && !(q.topics || []).includes(randomFilters.topic)) return false;
       if (randomFilters.school !== "all" && q.school !== randomFilters.school) return false;
-      if (randomFilters.status !== "all" && getQuestionHistoryStatus(q.id) !== randomFilters.status) return false;
+      if (randomFilters.status !== "all" && getStatus(q.id) !== randomFilters.status) return false;
       return true;
     });
   }
@@ -627,13 +675,6 @@
     };
     for (const [k, v] of Object.entries(fnMap)) s = s.split(k).join(v);
 
-    s = s.replace(/\\begin\{pmatrix\}([\s\S]*?)\\end\{pmatrix\}/g, (_, body) => {
-      const rows = body.split("\\\\").map(r =>
-        `<mtr><mtd>${r.split("&").map(c => latexToMathMLInline(c)).join("</mtd><mtd>")}</mtd></mtr>`
-      ).join("");
-      return `<mrow><mo>(</mo><mtable>${rows}</mtable><mo>)</mo></mrow>`;
-    });
-
     return `<math xmlns="http://www.w3.org/1998/Math/MathML">${latexToMathMLInline(s)}</math>`;
   }
 
@@ -651,18 +692,30 @@
   }
 
   function latexToMathMLInline(s) {
-    if (s.trim().startsWith("<mrow><mo>(")) return s;
     const sym = {
       "\\pi": "π", "\\theta": "θ", "\\lambda": "λ", "\\mu": "μ", "\\sigma": "σ",
       "\\pm": "±", "\\times": "×", "\\cdot": "·", "\\le": "≤", "\\ge": "≥",
       "\\ne": "≠", "\\approx": "≈", "\\implies": "⇒", "\\therefore": "∴",
-      "\\sim": "~", "\\mid": "|", "\\cap": "∩", "\\cup": "∪",
+      "\\sim": "~", "\\mid": "|", "\\cap": "∩", "\\cup": "∪", "\\$": "$",
       "\\left": "", "\\right": "", "\\,": " ", "\\quad": "  ", "\\text": ""
     };
     for (const [k, v] of Object.entries(sym)) s = s.split(k).join(v);
 
     let out = "", i = 0;
     while (i < s.length) {
+      if (s.startsWith("\\begin{pmatrix}", i)) {
+        const endTag = "\\end{pmatrix}";
+        const endIdx = s.indexOf(endTag, i + 15);
+        if (endIdx !== -1) {
+          const body = s.slice(i + 15, endIdx);
+          const rows = body.split("\\\\").map(r =>
+            `<mtr><mtd>${r.split("&").map(c => latexToMathMLInline(c)).join("</mtd><mtd>")}</mtd></mtr>`
+          ).join("");
+          out += `<mrow><mo>(</mo><mtable>${rows}</mtable><mo>)</mo></mrow>`;
+          i = endIdx + endTag.length;
+          continue;
+        }
+      }
       if (s.startsWith("\\frac", i)) {
         const [num, n1] = extractBraced(s, i + 5);
         const [den, n2] = extractBraced(s, n1);
@@ -699,7 +752,7 @@
         let num = "";
         while (i < s.length && /[0-9.]/.test(s[i])) num += s[i++];
         out += `<mn>${num}</mn>`;
-      } else if (/[+\-*/=<>|(),\[\]±×·≤≥≠≈~∩∪]/.test(s[i])) {
+      } else if (/[+\-*/=<>|(),\[\]$±×·≤≥≠≈~∩∪]/.test(s[i])) {
         const ch = s[i++];
         out += `<mo>${ch === "<" ? "&lt;" : ch === ">" ? "&gt;" : ch}</mo>`;
       } else if (/[a-zA-Zπθλμσ]/.test(s[i])) {
@@ -720,19 +773,27 @@
     return out;
   }
 
+  const DISPLAY_MATH_RE = /\$\$([\s\S]+?)\$\$/g;
+  const INLINE_MATH_RE = /(?<!\\)\$(?!\$)((?:\\[\s\S]|[^\\$])+?)\$/g;
+
+  function renderTex(tex, displayMode) {
+    if (window.katex) {
+      try {
+        return window.katex.renderToString(tex, { displayMode, throwOnError: false });
+      } catch (_) {}
+    }
+    const mml = latexToMathML(tex);
+    return displayMode ? `<div style="text-align:center;margin:8px 0;">${mml}</div>` : mml;
+  }
+
+  function hasMathDelimiters(str) {
+    return /\$\$[\s\S]+?\$\$/.test(str) || /(?<!\\)\$(?!\$)(?:\\[\s\S]|[^\\$])+?\$/.test(str);
+  }
+
   function renderMathText(htmlStr) {
-    const renderTex = (tex, displayMode) => {
-      if (window.katex) {
-        try {
-          return window.katex.renderToString(tex, { displayMode, throwOnError: false });
-        } catch (_) {}
-      }
-      const mml = latexToMathML(tex);
-      return displayMode ? `<div style="text-align:center;margin:8px 0;">${mml}</div>` : mml;
-    };
     return htmlStr
-      .replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => renderTex(tex, true))
-      .replace(/\$([^\$]+?)\$/g, (_, tex) => renderTex(tex, false));
+      .replace(DISPLAY_MATH_RE, (_, tex) => renderTex(tex, true))
+      .replace(INLINE_MATH_RE, (_, tex) => renderTex(tex, false));
   }
 
   function escapeHtml(s) {
@@ -752,8 +813,8 @@
       return `\u0000MATH${idx}\u0000`;
     };
     let out = String(text || "")
-      .replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => stash(renderMathText(`$$${tex}$$`)))
-      .replace(/\$([^\$]+?)\$/g, (_, tex) => stash(renderMathText(`$${tex}$`)));
+      .replace(DISPLAY_MATH_RE, (_, tex) => stash(renderTex(tex, true)))
+      .replace(INLINE_MATH_RE, (_, tex) => stash(renderTex(tex, false)));
     out = escapeHtml(out);
     return out.replace(/\u0000MATH(\d+)\u0000/g, (_, i) => tokens[Number(i)]);
   }
@@ -879,9 +940,19 @@
       const s = cursor.slot;
       const stopChars = new Set(["+", "-", "±", ",", "=", "(", "["]);
       let start = cursor.index - 1;
+      let depth = 0;
       while (start >= 0) {
         const node = s[start];
-        if (node.type === "char" && stopChars.has(node.ch)) break;
+        if (node.type === "char") {
+          if (node.ch === ")" || node.ch === "]") {
+            depth++;
+          } else if (node.ch === "(" || node.ch === "[") {
+            if (depth === 0) break;
+            depth--;
+          } else if (depth === 0 && stopChars.has(node.ch)) {
+            break;
+          }
+        }
         start--;
       }
       start++;
@@ -1076,6 +1147,7 @@
         if (node.type === "char") {
           if (node.ch === "±") return "+-";
           if (node.ch === "π") return "pi";
+          if (node.ch === "θ") return "theta";
           if (node.ch === "−") return "-";
           if (node.ch === "·") return "*";
           return node.ch;
@@ -1287,6 +1359,7 @@
       .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, "(($1)/($2))")
       .replace(/\\sqrt\{([^{}]+)\}/g, "sqrt($1)")
       .replace(/\\pi/g, "pi").replace(/π/g, "pi")
+      .replace(/\\theta/g, "theta").replace(/θ/g, "theta")
       .replace(/\\ln/g, "ln").replace(/\\log/g, "log")
       .replace(/\\arcsin/g, "asin").replace(/\\arccos/g, "acos").replace(/\\arctan/g, "atan")
       .replace(/\\sin/g, "sin").replace(/\\cos/g, "cos").replace(/\\tan/g, "tan")
@@ -1322,7 +1395,7 @@
     });
 
     s = s.replace(/(\d|\u0004)([a-zA-Z(\u0001\u0003])/g, "$1*$2");
-    s = s.replace(/([a-zA-Z])(\u0001|\u0003)/g, "$1*$2");
+    s = s.replace(/([a-zA-Z])(\u0001|\u0003|\()/g, "$1*$2");
     s = s.replace(/(\))(\d|[a-zA-Z(\u0001\u0003])/g, "$1*$2");
     s = s.replace(/(^|[^a-zA-Z\u0001\u0002\u0003\u0004])(pi|e|i)([a-zA-Z(\u0001\u0003])/g, "$1$2*$3");
 
@@ -1467,7 +1540,7 @@
     }
     if (exactRequired) {
       const rel = Math.abs(userVal - trueVal) / (Math.abs(trueVal) || 1);
-      if (rel < 0.01) return { ok: false, msg: "Numerically close, but exact form is required (no rounded decimals)." };
+      if (rel < 0.01) return { ok: false, warn: true, msg: "Numerically close, but exact form is required (no rounded decimals)." };
       return { ok: false };
     }
     if (trueVal === 0) return { ok: Math.abs(userVal) < 1e-8 };
@@ -1479,10 +1552,15 @@
 
   function gradeSingleInput(part, rawInput) {
     const trimmed = (rawInput || "").trim();
-    if (!trimmed) return { ok: false, msg: "Please enter an answer." };
+    if (!trimmed) return { ok: false, warn: true, msg: "Please enter an answer." };
 
     try {
       const toNum = (ans) => (typeof ans === "number" ? ans : evalComplex(String(ans)).re);
+      const evalReal = (expr, env) => {
+        const v = evalComplex(expr, env);
+        if (Math.abs(v.im) > 1e-9 || !Number.isFinite(v.re)) return NaN;
+        return v.re;
+      };
       const matchScalar = (rawItem, uRe, rawAns, tRe, exactRequired, dp) => {
         const res = isNumericMatch(uRe, tRe, !!exactRequired, dp);
         const isPlainDec = /^[+-]?(?:\d+\.\d*|\.\d+)(?:e[+-]?\d+)?$/i.test(rawItem);
@@ -1491,7 +1569,7 @@
           const keyIsPlainDec = /^[+-]?(?:\d+\.\d*|\.\d+)$/.test(String(rawAns).trim());
           const exactTol = 1e-14 * Math.max(1, Math.abs(tRe));
           if (Math.abs(uRe - tRe) > exactTol || (!keyIsPlainDec && fracDigits >= 10)) {
-            return { ok: false, msg: "Exact form is required." };
+            return { ok: false, warn: true, msg: "Exact form is required." };
           }
         }
         return res;
@@ -1507,7 +1585,7 @@
           const res = matchScalar(trimmed, u.re, ans, tRe, part.exactRequired, part.dp);
           if (res.ok) return res;
           if (!bestHint && part.signHint && Math.abs(u.re + tRe) < 1e-5) {
-            bestHint = { ok: false, msg: "Magnitude is right, but check the sign of the rate of change." };
+            bestHint = { ok: false, warn: true, msg: "Magnitude is right, but check the sign of the rate of change." };
           } else if (!bestHint && res.msg) {
             bestHint = res;
           }
@@ -1527,7 +1605,7 @@
           const r = matchScalar(userPairs[idx].raw, userPairs[idx].val, truePairs[idx].raw, truePairs[idx].val, part.exactRequired, part.dp);
           if (!r.ok) {
             if (!warnMsg && r.msg) warnMsg = r.msg;
-            return warnMsg ? { ok: false, msg: warnMsg } : { ok: false };
+            return warnMsg ? { ok: false, warn: Boolean(r.warn), msg: warnMsg } : { ok: false };
           }
         }
         return { ok: true };
@@ -1542,7 +1620,7 @@
         const trueVals = part.answer.map(toNum);
         for (let idx = 0; idx < parsed.length; idx++) {
           const r = matchScalar(items[idx], parsed[idx].re, part.answer[idx], trueVals[idx], part.exactRequired, part.dp);
-          if (!r.ok) return r.msg ? { ok: false, msg: r.msg } : { ok: false };
+          if (!r.ok) return r.msg ? { ok: false, warn: Boolean(r.warn), msg: r.msg } : { ok: false };
         }
         return { ok: true };
       }
@@ -1569,7 +1647,7 @@
         for (let i = 0; i < count; i++) {
           const env = {};
           varNames.forEach(v => { env[v] = part.vars[v][i]; });
-          const uVals = items.map(it => evalComplex(it, env).re).sort((a, b) => a - b);
+          const uVals = items.map(it => evalReal(it, env)).sort((a, b) => a - b);
           const tVals = part.answer.map(a => evalComplex(a, env).re).sort((a, b) => a - b);
           if (!uVals.every((v, idx) => Math.abs(v - tVals[idx]) < 1e-6)) return { ok: false };
         }
@@ -1582,7 +1660,7 @@
         for (let i = 0; i < count; i++) {
           const env = {};
           varNames.forEach(v => { env[v] = part.vars[v][i]; });
-          const u = evalComplex(trimmed, env).re;
+          const u = evalReal(trimmed, env);
           const t = evalComplex(part.answer, env).re;
           const res = isNumericMatch(u, t, !!part.exactRequired);
           if (!res.ok) return res;
@@ -1602,8 +1680,8 @@
         for (const cVal of part.vars.c) {
           const tPos = evalComplex(part.answer, { c: cVal }).re;
           const tSet = [tPos, -tPos].sort((a, b) => a - b);
-          const uSet = branches.map(b => evalComplex(b, { c: cVal }).re).sort((a, b) => a - b);
-          if (Math.abs(uSet[0] - tSet[0]) > 1e-6 || Math.abs(uSet[1] - tSet[1]) > 1e-6) {
+          const uSet = branches.map(b => evalReal(b, { c: cVal })).sort((a, b) => a - b);
+          if (!(Math.abs(uSet[0] - tSet[0]) <= 1e-6 && Math.abs(uSet[1] - tSet[1]) <= 1e-6)) {
             return { ok: false };
           }
         }
@@ -1612,26 +1690,26 @@
 
       if (part.mode === "antiderivative") {
         const [x1, x2, x3] = part.domainPoints;
-        const u1 = evalComplex(trimmed, { x: x1, c: 0, C: 0, k: 0 }).re;
-        const u2 = evalComplex(trimmed, { x: x2, c: 0, C: 0, k: 0 }).re;
-        const u3 = evalComplex(trimmed, { x: x3, c: 0, C: 0, k: 0 }).re;
+        const u1 = evalReal(trimmed, { x: x1, c: 0, C: 0, k: 0 });
+        const u2 = evalReal(trimmed, { x: x2, c: 0, C: 0, k: 0 });
+        const u3 = evalReal(trimmed, { x: x3, c: 0, C: 0, k: 0 });
         const t1 = evalComplex(part.answer, { x: x1 }).re;
         const t2 = evalComplex(part.answer, { x: x2 }).re;
         const t3 = evalComplex(part.answer, { x: x3 }).re;
         const okDiff = Math.abs((u2 - u1) - (t2 - t1)) < 1e-6 && Math.abs((u3 - u1) - (t3 - t1)) < 1e-6;
         if (!okDiff) return { ok: false };
-        const u1C = evalComplex(trimmed, { x: x1, c: 1, C: 1, k: 1 }).re;
-        const u2C = evalComplex(trimmed, { x: x2, c: 1, C: 1, k: 1 }).re;
-        const u3C = evalComplex(trimmed, { x: x3, c: 1, C: 1, k: 1 }).re;
+        const u1C = evalReal(trimmed, { x: x1, c: 1, C: 1, k: 1 });
+        const u2C = evalReal(trimmed, { x: x2, c: 1, C: 1, k: 1 });
+        const u3C = evalReal(trimmed, { x: x3, c: 1, C: 1, k: 1 });
         const dc = u1C - u1;
         const hasConstant = Math.abs(dc) > 1e-6 && Math.abs((u2C - u2) - dc) < 1e-6 && Math.abs((u3C - u3) - dc) < 1e-6;
         if (!hasConstant) {
-          return { ok: false, msg: "Your antiderivative matches, but don't forget the arbitrary constant (+ c)." };
+          return { ok: false, warn: true, msg: "Your antiderivative matches, but don't forget the arbitrary constant (+ c)." };
         }
         return { ok: true };
       }
     } catch (_) {
-      return { ok: false, msg: "Could not parse expression. Check brackets or use the keypad." };
+      return { ok: false, warn: true, msg: "Could not parse expression. Check brackets or use the keypad." };
     }
     return { ok: false };
   }
@@ -1721,6 +1799,7 @@
 
   // -------------------- 7. RENDER QUESTION VIEW --------------------
   function renderPartCard(pCard, part, idx, record, isRandom, qMeta = null) {
+    if (!record.parts || typeof record.parts !== "object") record.parts = {};
     if (!record.parts[idx]) {
       record.parts[idx] = { attempts: 0, status: "open", userInputs: [], asts: [], feedback: null, revealed: false };
     }
@@ -1772,6 +1851,7 @@
         pinBtn.classList.toggle("pinned", nowPinned);
         pinBtn.setAttribute("aria-pressed", nowPinned ? "true" : "false");
         updateScratchpadCounter(qId);
+        syncOpenDrawers();
       };
     }
 
@@ -1958,18 +2038,20 @@
       if (part.mode === "multi-field") {
         let allOk = true;
         let warnMsg = null;
+        let isWarn = false;
         for (let i = 0; i < fields.length; i++) {
           const r = gradeSingleInput(
-            { mode: "number", answer: fields[i].answer, exactRequired: fields[i].exactRequired, dp: fields[i].dp },
+            { mode: "number", answer: fields[i].answer, answers: fields[i].answers, exactRequired: fields[i].exactRequired, dp: fields[i].dp, signHint: fields[i].signHint },
             mathFields[i].getEvalString()
           );
           if (!r.ok) {
             allOk = false;
+            if (r.warn) isWarn = true;
             if (r.msg) warnMsg = `${fields[i].label} ${r.msg}`;
             break;
           }
         }
-        if (warnMsg && (warnMsg.includes("exact") || warnMsg.includes("enter"))) {
+        if (isWarn && warnMsg) {
           pState.feedback = { type: "warn", text: warnMsg };
           animClass = "shake";
         } else if (allOk) {
@@ -1989,7 +2071,7 @@
         }
       } else {
         const r = gradeSingleInput(part, mathFields[0].getEvalString());
-        if (r.msg && (r.msg.includes("exact") || r.msg.includes("+ c") || r.msg.includes("parse") || r.msg.includes("Please enter") || r.msg.includes("sign"))) {
+        if (r.warn && r.msg) {
           pState.feedback = { type: "warn", text: r.msg };
           animClass = "shake";
         } else if (r.ok) {
@@ -2074,6 +2156,8 @@
     const main = document.getElementById("main-content");
     main.innerHTML = "";
     if (!q && !isRandom) {
+      activeQuestionId = null;
+      syncOpenDrawers();
       main.innerHTML = `<div class="card animate-in"><p style="color:var(--muted);font-family:var(--sans);margin:0;">No questions available in this bank yet.</p></div>`;
       syncFeedbackContext();
       return;
@@ -2082,8 +2166,11 @@
     wrap.className = "animate-in";
     main.appendChild(wrap);
 
+    let historyMap = null;
     if (isRandom) {
-      const filteredPool = getFilteredRandomPool();
+      historyMap = buildQuestionHistoryMap();
+      const getHist = (id) => historyMap.get(id) || "unseen";
+      const filteredPool = getFilteredRandomPool(null, historyMap);
       const PURE_TOPIC_ORDER = [
         "Functions",
         "Graphs & Transformations",
@@ -2125,18 +2212,21 @@
       const renderTopicOpt = (t) => `<option value="${t}" ${randomFilters.topic === t ? "selected" : ""}>${t}</option>`;
       const allSchools = [...new Set(window.H2_QUESTIONS.map(x => x.school).filter(Boolean))].sort();
       const scopedPool = getScopedPracticePool();
-      const solvedInScope = scopedPool.filter(item => getQuestionHistoryStatus(item.id) === "solved").length;
+      const solvedInScope = scopedPool.filter(item => getHist(item.id) === "solved").length;
       const scopeLabel = (randomFilters.topic !== "all" ? randomFilters.topic : "All Topics")
         + (randomFilters.school !== "all" ? ` (${randomFilters.school})` : "");
 
       const banner = document.createElement("div");
       banner.className = "random-banner";
       let optionsHtml = filteredPool.map(item => {
-        const mark = getQuestionHistoryStatus(item.id) === "solved" ? "✓ " : "";
+        const mark = getHist(item.id) === "solved" ? "✓ " : "";
         return `<option value="${item.id}" ${q && item.id === q.id ? "selected" : ""}>${mark}${item.school} ${item.year || ""} ${item.qNum} (${item.category === "pure" ? "Pure" : "Stats"}: ${item.topics[0]})</option>`;
       }).join("");
       if (q && !filteredPool.some(item => item.id === q.id)) {
-        optionsHtml = `<option value="${q.id}" selected>✓ ${q.school} ${q.year || ""} ${q.qNum} (Solved)</option>` + optionsHtml;
+        const offStatus = getHist(q.id);
+        const mark = offStatus === "solved" ? "✓ " : "";
+        const label = offStatus === "solved" ? "Solved" : offStatus === "missed" ? "Missed" : offStatus === "attempted" ? "In progress" : "Unseen";
+        optionsHtml = `<option value="${q.id}" selected>${mark}${q.school} ${q.year || ""} ${q.qNum} (${label})</option>` + optionsHtml;
       }
       banner.innerHTML = `
         <span class="practice-banner-title"><strong>Practice</strong><span class="practice-scope-progress">${scopeLabel} &middot; ${solvedInScope} / ${scopedPool.length} solved</span></span>
@@ -2184,6 +2274,9 @@
       };
 
       if (!q) {
+        activeQuestionId = null;
+        syncOpenDrawers();
+        syncFeedbackContext();
         const emptyCard = document.createElement("div");
         emptyCard.className = "card";
         emptyCard.innerHTML = `<p style="color:var(--muted);font-family:var(--sans);margin:0;">No questions match those filters. <button class="btn btn-ghost" id="reset-flts" style="margin-left:8px;">Reset filters</button></p>`;
@@ -2205,12 +2298,14 @@
       banner.querySelector("#back-cal").onclick = () => switchTab("calendar");
     }
 
+    activeQuestionId = q.id;
     ensureQuestionTimer(q.id);
     updateScratchpadCounter(q.id);
+    syncOpenDrawers();
     syncFeedbackContext();
     const totalMarks = q.parts.reduce((sum, p) => sum + (Number(p.marks) || 0), 0);
     const stemDiagHtml = renderDiagramBox(q.diagramSvg, q.diagramImg);
-    const qHistStatus = getQuestionHistoryStatus(q.id);
+    const qHistStatus = historyMap ? (historyMap.get(q.id) || "unseen") : getQuestionHistoryStatus(q.id);
     const practicedDone = isPracticeSolved(q.id);
     const dailyHit = isRandom ? findDailyOccurrence(q) : null;
     let dailyNoticeHtml = "";
@@ -2338,6 +2433,9 @@
       const ind = np.querySelector("#save-ind");
       const entriesList = np.querySelector("#note-entries-list");
       const saveNoteData = () => {
+        const latest = getQuestionNoteData(q.id);
+        noteData.flaggedParts = latest.flaggedParts;
+        noteData.flaggedAt = latest.flaggedAt;
         state.notes[q.id] = noteData;
         saveState();
         ind.textContent = "Saved";
@@ -2377,7 +2475,7 @@
           const tagsRow = box.querySelector(".error-tags");
           const preview = box.querySelector(".note-math-preview");
           const syncPreview = (val) => {
-            if (/\$\$[\s\S]+?\$\$|\$[^\$]+?\$/.test(val)) {
+            if (hasMathDelimiters(val)) {
               preview.innerHTML = renderSafeUserMath(val);
               preview.style.display = "block";
             } else {
@@ -2426,38 +2524,12 @@
             };
           });
 
-          ta.onkeydown = (e) => {
-            if (e.ctrlKey || e.metaKey || e.altKey) return;
-            const start = ta.selectionStart;
-            const end = ta.selectionEnd;
-            const val = ta.value;
-            if (e.key === "$") {
-              e.preventDefault();
-              if (start !== end) {
-                const selected = val.slice(start, end);
-                ta.value = val.slice(0, start) + "$" + selected + "$" + val.slice(end);
-                ta.selectionStart = start + 1;
-                ta.selectionEnd = end + 1;
-              } else if (val[start] === "$") {
-                ta.selectionStart = ta.selectionEnd = start + 1;
-              } else {
-                ta.value = val.slice(0, start) + "$$" + val.slice(end);
-                ta.selectionStart = ta.selectionEnd = start + 1;
-              }
-              entry.text = ta.value;
-              entry.updatedAt = new Date().toLocaleDateString("en-SG");
-              syncPreview(entry.text);
-              saveNoteData();
-            } else if (e.key === "Backspace" && start === end && start > 0 && val[start - 1] === "$" && val[start] === "$") {
-              e.preventDefault();
-              ta.value = val.slice(0, start - 1) + val.slice(start + 1);
-              ta.selectionStart = ta.selectionEnd = start - 1;
-              entry.text = ta.value;
-              entry.updatedAt = new Date().toLocaleDateString("en-SG");
-              syncPreview(entry.text);
-              saveNoteData();
-            }
-          };
+          attachDollarAutoPair(ta, (val) => {
+            entry.text = val;
+            entry.updatedAt = new Date().toLocaleDateString("en-SG");
+            syncPreview(entry.text);
+            saveNoteData();
+          });
 
           ta.oninput = (e) => {
             entry.text = e.target.value;
@@ -2565,20 +2637,27 @@
   function renderCalendarView() {
     setPageTitle("Calendar");
     syncUrlQuestion(null);
+    activeQuestionId = null;
+    syncOpenDrawers();
     syncFeedbackContext();
     const main = document.getElementById("main-content");
-    const sgt = getSGTNow();
+    const todayKey = getStudyDayKey();
+    const [todayYear, todayMonthNum] = todayKey.split("-").map(Number);
+    const todayMonth = todayMonthNum - 1;
     if (calendarYear === null || calendarMonth === null) {
-      calendarYear = sgt.getUTCFullYear();
-      calendarMonth = sgt.getUTCMonth();
+      calendarYear = todayYear;
+      calendarMonth = todayMonth;
     }
     const year = calendarYear;
     const month = calendarMonth;
-    const isCurrentMonth = year === sgt.getUTCFullYear() && month === sgt.getUTCMonth();
-    const firstDow = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const todayKey = getStudyDayKey();
-    const monthName = new Date(year, month, 1).toLocaleString("en-US", { month: "long", year: "numeric" });
+    const isCurrentMonth = year === todayYear && month === todayMonth;
+    const firstDow = new Date(Date.UTC(year, month, 1)).getUTCDay();
+    const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    const monthName = new Date(Date.UTC(year, month, 1)).toLocaleString("en-US", {
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC"
+    });
 
     let gridHtml = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
       .map(d => `<div class="cal-dow">${d}</div>`).join("");
@@ -2641,8 +2720,8 @@
     const todayBtn = main.querySelector("#cal-today");
     if (todayBtn) {
       todayBtn.onclick = () => {
-        calendarYear = sgt.getFullYear();
-        calendarMonth = sgt.getMonth();
+        calendarYear = todayYear;
+        calendarMonth = todayMonth;
         renderCalendarView();
       };
     }
@@ -2724,7 +2803,15 @@
     }
     const days = {};
     for (const [k, v] of Object.entries(parsed.days)) {
-      if (DAY_KEY_RE.test(k) && isPlainObj(v)) days[k] = v;
+      if (!DAY_KEY_RE.test(k) || !isPlainObj(v)) continue;
+      const cleanDay = {};
+      for (const cat of ["pure", "stats"]) {
+        if (v[cat] == null) cleanDay[cat] = null;
+        else if (isPlainObj(v[cat])) {
+          cleanDay[cat] = { ...v[cat], parts: isPlainObj(v[cat].parts) ? v[cat].parts : {} };
+        }
+      }
+      days[k] = cleanDay;
     }
     const notes = {};
     for (const [qId, rawNote] of Object.entries(parsed.notes || {})) {
@@ -2799,6 +2886,10 @@
     box.querySelectorAll("button[data-open]").forEach(b => {
       b.onclick = () => {
         const cat = b.dataset.open;
+        if (dayKey === getStudyDayKey()) {
+          switchTab(cat);
+          return;
+        }
         const q = getDailyQuestion(dayKey, cat);
         const dayRec = getDayRecord(dayKey);
         renderQuestionView(q, dayRec[cat], { dayKey });
@@ -2835,6 +2926,8 @@
   function renderMistakeLogView() {
     setPageTitle("Study Log");
     syncUrlQuestion(null);
+    activeQuestionId = null;
+    syncOpenDrawers();
     syncFeedbackContext();
     const main = document.getElementById("main-content");
     const openQuestionForPractice = (q, focusFlaggedParts = null) => {
@@ -3138,7 +3231,7 @@
           const tagsRow = sub.querySelector(".error-tags");
           const preview = sub.querySelector(".note-math-preview");
           const syncPreview = (val) => {
-            if (/\$\$[\s\S]+?\$\$|\$[^\$]+?\$/.test(val)) {
+            if (hasMathDelimiters(val)) {
               preview.innerHTML = renderSafeUserMath(val);
               preview.style.display = "block";
             } else {
@@ -3422,15 +3515,26 @@
         .filter(([, v]) => v && Array.isArray(v.strokes) && v.strokes.length > 0)
         .sort((a, b) => (b[1].updatedAt || 0) - (a[1].updatedAt || 0))
         .slice(0, MAX_SAVED_SCRATCH_DOCS);
-      const payload = {};
-      entries.forEach(([k, v]) => {
-        payload[k] = {
-          strokes: v.strokes,
-          camera: v.camera || { panX: 0, panY: 0, zoom: 1 },
-          updatedAt: v.updatedAt || Date.now()
-        };
-      });
-      localStorage.setItem(SCRATCH_STORAGE_KEY, JSON.stringify(payload));
+      while (entries.length >= 0) {
+        if (!entries.length) {
+          localStorage.removeItem(SCRATCH_STORAGE_KEY);
+          break;
+        }
+        const payload = {};
+        entries.forEach(([k, v]) => {
+          payload[k] = {
+            strokes: v.strokes,
+            camera: v.camera || { panX: 0, panY: 0, zoom: 1 },
+            updatedAt: v.updatedAt || Date.now()
+          };
+        });
+        try {
+          localStorage.setItem(SCRATCH_STORAGE_KEY, JSON.stringify(payload));
+          break;
+        } catch (_) {
+          entries.pop();
+        }
+      }
     } catch (_) {}
   }
   const scratchCache = loadScratchCache();
@@ -3448,9 +3552,7 @@
   }
 
   function getActiveScratchKey() {
-    return (currentTab === "pure" || currentTab === "stats" || currentTab === "random") && qTimer.questionId
-      ? qTimer.questionId
-      : "general";
+    return activeQuestionId || "general";
   }
 
   function openScratchpadModal() {
@@ -3526,6 +3628,7 @@
         const { panX, panY, zoom } = getDoc().camera;
         return { x: (sx - panX) / zoom, y: (sy - panY) / zoom };
       };
+      const roundPt = (p) => ({ x: Math.round(p.x * 10) / 10, y: Math.round(p.y * 10) / 10 });
 
       const pointToSegDistSq = (px, py, ax, ay, bx, by) => {
         const dx = bx - ax, dy = by - ay;
@@ -3723,7 +3826,7 @@
           color: scratchState.color,
           width: scratchState.width,
           eraser: false,
-          points: [w]
+          points: [roundPt(w)]
         };
         redraw();
       });
@@ -3765,8 +3868,13 @@
         }
 
         if (!activeStroke) return;
-        activeStroke.points.push(screenToWorld(pos.x, pos.y));
-        redraw();
+        const w = roundPt(screenToWorld(pos.x, pos.y));
+        const prev = activeStroke.points[activeStroke.points.length - 1];
+        const minDist = 1.5 / getDoc().camera.zoom;
+        if (!prev || (w.x - prev.x) ** 2 + (w.y - prev.y) ** 2 >= minDist * minDist) {
+          activeStroke.points.push(w);
+          redraw();
+        }
       });
 
       const endPointer = (e) => {
@@ -3816,7 +3924,7 @@
       }, { passive: false });
 
       window.addEventListener("keydown", (e) => {
-        if (e.code === "Space" && modal.classList.contains("open")) {
+        if (e.code === "Space" && modal.classList.contains("open") && !isEditableTarget(e.target)) {
           e.preventDefault();
           if (!spaceDown) { spaceDown = true; syncGridAndCursor(); }
         }
@@ -4178,7 +4286,11 @@
     evalComplex,
     isNumericMatch,
     gradeSingleInput,
+    createMathField,
+    latexToMathML,
     latexToMathMLInline,
+    renderMathText,
+    renderSafeUserMath,
     escapeHtml,
     formatShortDate,
     getSGTNow,
@@ -4303,33 +4415,20 @@
     }
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") { closeMF26Modal(); closeGCModal(); closeScratchpadModal(); closeAskModal(); return; }
+      if (isEditableTarget(e.target)) return;
       const scratchModal = document.getElementById("scratchpad-modal");
       if (scratchModal && scratchModal.classList.contains("open") && (e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
         if (scratchModal._undoScratchpad) scratchModal._undoScratchpad();
         return;
       }
-      const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
-      if (tag === "input" || tag === "textarea" || tag === "select" || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       const tabKeys = { "1": "pure", "2": "stats", "3": "random", "4": "calendar", "5": "mistakes" };
       if (tabKeys[e.key]) { switchTab(tabKeys[e.key]); return; }
-      if (e.key === "m" || e.key === "M") {
-        const modal = document.getElementById("mf26-modal");
-        if (modal && modal.classList.contains("open")) closeMF26Modal();
-        else openMF26Modal();
-      } else if (e.key === "c" || e.key === "C") {
-        const modal = document.getElementById("gc-modal");
-        if (modal && modal.classList.contains("open")) closeGCModal();
-        else openGCModal();
-      } else if (e.key === "w" || e.key === "W") {
-        const modal = document.getElementById("scratchpad-modal");
-        if (modal && modal.classList.contains("open")) closeScratchpadModal();
-        else openScratchpadModal();
-      } else if (e.key === "a" || e.key === "A") {
-        const modal = document.getElementById("ask-modal");
-        if (modal && modal.classList.contains("open")) closeAskModal();
-        else openAskModal();
-      }
+      if (e.key === "m" || e.key === "M") toggleTool("mf26-modal", openMF26Modal, closeMF26Modal);
+      else if (e.key === "c" || e.key === "C") toggleTool("gc-modal", openGCModal, closeGCModal);
+      else if (e.key === "w" || e.key === "W") toggleTool("scratchpad-modal", openScratchpadModal, closeScratchpadModal);
+      else if (e.key === "a" || e.key === "A") toggleTool("ask-modal", openAskModal, closeAskModal);
     });
     await loadBankScripts();
     const qParam = new URLSearchParams(window.location.search).get("q");

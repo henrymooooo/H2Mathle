@@ -14,4 +14,8 @@ jobs:
           node-version: "22"
       - run: node --check app.js
       - run: node --check gc.js
+      - run: node --check sw.js
+      - run: node --check questions.js
+      - run: node --check banks/manifest.js
+      - run: node --check worker/worker.js
       - run: npm test

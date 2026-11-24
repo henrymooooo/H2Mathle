@@ -247,6 +247,7 @@
     if (up <= low) return 0;
     const z1 = low === -Infinity ? -Infinity : (low - mu) / sd;
     const z2 = up === Infinity ? Infinity : (up - mu) / sd;
+    if (z1 > 0 && z2 > 0) return Math.max(0, Math.min(1, stdNormCdf(-z1) - stdNormCdf(-z2)));
     return Math.max(0, Math.min(1, stdNormCdf(z2) - stdNormCdf(z1)));
   }
 
@@ -1002,8 +1003,8 @@
         const z = (xbar - mu0) / (sd / Math.sqrt(n));
         const alt = getSegVal("#gc-zt-alt");
         let p = stdNormCdf(z);
-        if (alt === "gt") p = 1 - p;
-        else if (alt === "neq") p = 2 * (1 - stdNormCdf(Math.abs(z)));
+        if (alt === "gt") p = stdNormCdf(-z);
+        else if (alt === "neq") p = 2 * stdNormCdf(-Math.abs(z));
         showOut(out,
           kv("Test stat z", `${fmtFixed(z, 5)}  (${fmtSig(z, 3)})`, true) +
           kv("p-value", `${fmtFixed(p, 6)}  (${fmtSig(p, 3)} 3 s.f.)`, true) +
@@ -1081,8 +1082,9 @@
         const sumX = xs.reduce((a, b) => a + b, 0);
         const sumX2 = xs.reduce((a, b) => a + b * b, 0);
         const meanX = sumX / n;
-        const varPop = Math.max(0, sumX2 / n - meanX * meanX);
-        const varSamp = n > 1 ? (sumX2 - (sumX * sumX) / n) / (n - 1) : NaN;
+        const sse = xs.reduce((acc, x) => acc + (x - meanX) * (x - meanX), 0);
+        const varPop = sse / n;
+        const varSamp = n > 1 ? sse / (n - 1) : NaN;
         const sorted = [...xs].sort((a, b) => a - b);
         const mid = Math.floor(n / 2);
         const q1 = medianSorted(sorted.slice(0, mid));
@@ -1325,7 +1327,9 @@
       const xmax = numVal("#gc-gr-xmax");
       const ymin = numVal("#gc-gr-ymin");
       const ymax = numVal("#gc-gr-ymax");
-      if (!(xmax > xmin && ymax > ymin)) throw new Error("Invalid window");
+      if (![xmin, xmax, ymin, ymax].every(Number.isFinite) || !(xmax > xmin && ymax > ymin)) {
+        throw new Error("Invalid window");
+      }
       return { xmin, xmax, ymin, ymax };
     }
 
@@ -1365,13 +1369,19 @@
       const yStep = niceStep(win.ymax - win.ymin);
       gCtx.lineWidth = 1;
       gCtx.strokeStyle = "rgba(30, 58, 95, 0.09)";
-      for (let gx = Math.ceil(win.xmin / xStep) * xStep; gx <= win.xmax; gx += xStep) {
+      for (let gx = Math.ceil(win.xmin / xStep) * xStep, n = 0; gx <= win.xmax && n < 200; n++) {
         const sx = toSx(gx);
         gCtx.beginPath(); gCtx.moveTo(sx, 0); gCtx.lineTo(sx, H); gCtx.stroke();
+        const next = gx + xStep;
+        if (!(next > gx)) break;
+        gx = next;
       }
-      for (let gy = Math.ceil(win.ymin / yStep) * yStep; gy <= win.ymax; gy += yStep) {
+      for (let gy = Math.ceil(win.ymin / yStep) * yStep, n = 0; gy <= win.ymax && n < 200; n++) {
         const sy = toSy(gy);
         gCtx.beginPath(); gCtx.moveTo(0, sy); gCtx.lineTo(W, sy); gCtx.stroke();
+        const next = gy + yStep;
+        if (!(next > gy)) break;
+        gy = next;
       }
 
       gCtx.strokeStyle = "rgba(28, 27, 24, 0.45)";

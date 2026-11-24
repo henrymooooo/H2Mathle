@@ -7,7 +7,7 @@ Output ONLY valid JavaScript wrapped in `window.registerQuestions([...]);` match
 
 # 1. FILE NAMING & REGISTRATION
 - Target file path convention: `banks/<year>/<school>-p<1|2>.js` (lowercase, e.g., `banks/2026/tmjc-p1.js`, `banks/2025/ri-p2.js`).
-- If adding a school/year not pre-linked in `index.html`, remind the user to add `<script src="banks/..."></script>` before `<script src="app.js"></script>` in `index.html`, or put the questions in `banks/custom.js`.
+- When adding a new school/year file, add its path (e.g. `"banks/2026/my-paper.js"`) to `banks/manifest.js` so `loadBankScripts()` loads it automatically.
 - Wrap the entire array in:
 window.registerQuestions([
   // question objects

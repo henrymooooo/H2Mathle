@@ -1,4 +1,4 @@
-window.H2_BANK_FILES = [
+globalThis.H2_BANK_FILES = [
   "banks/2025/acjc-p1.js",
   "banks/2025/acjc-p2.js",
   "banks/2025/asrjc-p1.js",

@@ -1,0 +1,58 @@
+name: Update Screenshot
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - index.html
+      - styles.css
+      - app.js
+      - gc.js
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: screenshot
+  cancel-in-progress: true
+
+jobs:
+  screenshot:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright Chromium
+        run: npx --yes playwright@1.52.0 install chromium --with-deps
+      - name: Capture screenshot.png
+        run: |
+          python3 -m http.server 4173 &
+          SERVER_PID=$!
+          trap "kill $SERVER_PID 2>/dev/null || true" EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null 2>&1; then break; fi
+            sleep 0.5
+          done
+          npx --yes playwright@1.52.0 screenshot \
+            --browser=chromium \
+            --viewport-size=1280,720 \
+            --wait-for-selector=".part-card" \
+            --wait-for-timeout=2000 \
+            "http://127.0.0.1:4173/" \
+            screenshot.png
+      - name: Commit updated screenshot if changed
+        run: |
+          if git diff --quiet screenshot.png; then
+            echo "screenshot.png unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add screenshot.png
+          git commit -m "Update screenshot.png [skip ci]"
+          git push
