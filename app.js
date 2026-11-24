@@ -429,6 +429,7 @@
     else if (hasDailySolved(qId)) map[qId] = { unsolved: true };
     else delete map[qId];
     saveState();
+    trackEvent({ type: "event", name: done ? "practice_mark_solved" : "practice_unmark" });
   }
 
   const DAY_KEY_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -1793,6 +1794,7 @@
         partFlagBtn.classList.toggle("flagged", nowFlagged);
         partFlagBtn.setAttribute("aria-pressed", nowFlagged ? "true" : "false");
         partFlagBtn.innerHTML = flagIconSvg(nowFlagged);
+        if (nowFlagged) trackEvent({ type: "event", name: "part_flag" });
       };
     }
 
@@ -2657,6 +2659,7 @@
     if (selectedCalendarDay) renderCalendarDetail(selectedCalendarDay);
 
     main.querySelector("#btn-export").onclick = () => {
+      trackEvent({ type: "event", name: "backup_export" });
       const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -2694,6 +2697,7 @@
           }
           state = sanitized;
           saveState();
+          trackEvent({ type: "event", name: "backup_import" });
           renderCalendarView();
           updateMetaBar();
           const el = document.getElementById("backup-status");
@@ -2834,12 +2838,14 @@
     syncFeedbackContext();
     const main = document.getElementById("main-content");
     const openQuestionForPractice = (q, focusFlaggedParts = null) => {
+      const hasFocus = Array.isArray(focusFlaggedParts) && focusFlaggedParts.length > 0;
       randomQuestion = q;
       randomState = {
         questionId: q.id,
         parts: {},
-        focusFlaggedParts: (Array.isArray(focusFlaggedParts) && focusFlaggedParts.length) ? focusFlaggedParts.slice() : null
+        focusFlaggedParts: hasFocus ? focusFlaggedParts.slice() : null
       };
+      if (hasFocus) trackEvent({ type: "event", name: "focus_mode" });
       switchTab("random", true);
     };
 
@@ -3360,7 +3366,7 @@
     if (!modal) return;
     if (!modal.dataset.built && window.H2GC) {
       modal.dataset.built = "1";
-      window.H2GC.build(modal, closeGCModal);
+      window.H2GC.build(modal, closeGCModal, (tab) => trackEvent({ type: "event", name: `gc_tab_${tab}` }));
     }
     if (window.innerWidth <= 980) {
       closeMF26Modal();

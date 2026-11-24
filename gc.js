@@ -586,7 +586,7 @@
   const showErr = (el, msg) => { el.className = "gc-out err"; el.textContent = msg; };
   const showOut = (el, html) => { el.className = "gc-out"; el.innerHTML = html; };
 
-  function build(modal, onClose) {
+  function build(modal, onClose, onTabChange = null) {
     let degMode = false;
     let lastAns = 0;
 
@@ -906,9 +906,11 @@
     modal.querySelectorAll("[data-gc-tab]").forEach((btn) => {
       btn.onclick = () => {
         const target = btn.dataset.gcTab;
+        const wasActive = btn.classList.contains("active");
         modal.querySelectorAll("[data-gc-tab]").forEach(b => b.classList.toggle("active", b === btn));
         modal.querySelectorAll("[data-gc-pane]").forEach(p => p.classList.toggle("active", p.dataset.gcPane === target));
         if (target === "graph") requestAnimationFrame(drawGraph);
+        if (!wasActive && typeof onTabChange === "function") onTabChange(target);
       };
     });
 

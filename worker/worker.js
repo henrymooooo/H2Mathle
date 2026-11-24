@@ -4,7 +4,20 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 
 const VALID_TABS = new Set(["pure", "stats", "random", "calendar", "mistakes"]);
-const VALID_TOOLS = new Set(["mf27", "scratchpad", "ask"]);
+const VALID_TOOLS = new Set(["mf27", "gc", "scratchpad", "ask"]);
+const VALID_EVENTS = new Set([
+  "practice_mark_solved",
+  "practice_unmark",
+  "part_flag",
+  "focus_mode",
+  "backup_export",
+  "backup_import",
+  "gc_tab_stats",
+  "gc_tab_calc",
+  "gc_tab_solve",
+  "gc_tab_calculus",
+  "gc_tab_graph"
+]);
 const VALID_MODES = new Set(["daily_pure", "daily_stats", "past_day", "practice"]);
 const VALID_CATEGORIES = new Set(["pure", "stats", ""]);
 const VALID_ACTIONS = new Set([
@@ -252,6 +265,14 @@ async function handleIngest(request, env) {
       break;
     }
 
+    case "event": {
+      if (typeof payload.name !== "string" || !VALID_EVENTS.has(payload.name)) {
+        return jsonResponse({ error: "Invalid event" }, 400, corsHeaders);
+      }
+      stmts.push(incrementCounterStmt(env.DB, studyDay, "event:" + payload.name, 1));
+      break;
+    }
+
     case "feedback": {
       stmts.push(incrementCounterStmt(env.DB, studyDay, "feedback:sent", 1));
       break;
@@ -450,7 +471,8 @@ async function handleAdminStats(request, env, url) {
       "SELECT question_id, category, COUNT(*) AS attempted, " +
       "SUM(CASE WHEN status = 'ok' THEN 1 ELSE 0 END) AS solved, " +
       "SUM(CASE WHEN status = 'bad' THEN 1 ELSE 0 END) AS missed, " +
-      "SUM(auto_checks) AS total_checks, SUM(reveals) AS total_reveals " +
+      "SUM(auto_checks) AS total_checks, SUM(reveals) AS total_reveals, " +
+      "ROUND(AVG(NULLIF(elapsed_sec, 0))) AS avg_elapsed_sec " +
       "FROM question_outcomes WHERE study_day >= ? GROUP BY question_id, category ORDER BY attempted DESC LIMIT 25"
     ).bind(rangeStart),
     env.DB.prepare(
@@ -467,7 +489,11 @@ async function handleAdminStats(request, env, url) {
     ).bind(rangeStart),
     env.DB.prepare(
       "SELECT metric, SUM(count) AS total FROM daily_counters WHERE study_day >= ? GROUP BY metric ORDER BY total DESC"
-    ).bind(rangeStart)
+    ).bind(rangeStart),
+    env.DB.prepare(
+      "SELECT mode, COUNT(*) AS solvers, MIN(solved_at) AS first_solved_at " +
+      "FROM daily_solvers WHERE study_day = ? GROUP BY mode"
+    ).bind(today)
   ]);
 
   const todayVisitors = Number(batchResults[0].results?.[0]?.visitors) || 0;
@@ -495,6 +521,19 @@ async function handleAdminStats(request, env, url) {
     if (row.metric === "pageview") todayPageviews = Number(row.count) || 0;
   }
 
+  const todayDailySolvers = {
+    daily_pure: { solvers: 0, firstSolvedAt: 0 },
+    daily_stats: { solvers: 0, firstSolvedAt: 0 }
+  };
+  for (const row of batchResults[14].results || []) {
+    if (todayDailySolvers[row.mode]) {
+      todayDailySolvers[row.mode] = {
+        solvers: Number(row.solvers) || 0,
+        firstSolvedAt: Number(row.first_solved_at) || 0
+      };
+    }
+  }
+
   const rangeVisitorDays = Number(batchResults[4].results?.[0]?.visitor_days) || 0;
   const rangeOutcomeTotals = batchResults[5].results?.[0] || {};
 
@@ -509,7 +548,9 @@ async function handleAdminStats(request, env, url) {
         dailyPureSolved: 0,
         dailyStatsAttempted: 0,
         dailyStatsSolved: 0,
-        practiceAttempted: 0
+        practiceAttempted: 0,
+        practiceSolved: 0,
+        pastDayAttempted: 0
       });
     }
     return dailyMap.get(day);
@@ -541,6 +582,9 @@ async function handleAdminStats(request, env, url) {
       entry.dailyStatsSolved = sol;
     } else if (row.mode === "practice") {
       entry.practiceAttempted = att;
+      entry.practiceSolved = sol;
+    } else if (row.mode === "past_day") {
+      entry.pastDayAttempted = att;
     }
   }
 
@@ -555,7 +599,8 @@ async function handleAdminStats(request, env, url) {
       dailyPure: todayModes.daily_pure,
       dailyStats: todayModes.daily_stats,
       practice: todayModes.practice,
-      pastDay: todayModes.past_day
+      pastDay: todayModes.past_day,
+      dailySolvers: todayDailySolvers
     },
     range: {
       days: daysParam,
@@ -575,7 +620,8 @@ async function handleAdminStats(request, env, url) {
       solved: Number(r.solved) || 0,
       missed: Number(r.missed) || 0,
       totalChecks: Number(r.total_checks) || 0,
-      totalReveals: Number(r.total_reveals) || 0
+      totalReveals: Number(r.total_reveals) || 0,
+      avgElapsedSec: Number(r.avg_elapsed_sec) || 0
     })),
     referrers: (batchResults[10].results || []).map((r) => ({
       referrer: r.referrer,
@@ -600,45 +646,89 @@ function renderDashboardHtml() {
   return [
     '<!DOCTYPE html><html lang="en"><head>',
     '<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />',
-    '<meta name="robots" content="noindex, nofollow" /><title>H2 Mathle · Analytics</title>',
+    '<meta name="robots" content="noindex, nofollow" /><meta name="theme-color" content="#f8f6f0" />',
+    '<title>H2 Mathle · Analytics</title>',
+    '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect x=%272%27 y=%272%27 width=%2760%27 height=%2760%27 rx=%2712%27 fill=%27%23f8f6f0%27 stroke=%27%23d7d1c4%27 stroke-width=%272.5%27/%3E%3Ctext x=%2733.5%27 y=%2727%27 text-anchor=%27middle%27 dominant-baseline=%27central%27 font-family=%27Georgia,serif%27 font-size=%2746%27 fill=%27%231e3a5f%27%3E%E2%88%AB%3C/text%3E%3C/svg%3E" />',
+    '<link rel="preconnect" href="https://fonts.googleapis.com" />',
+    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />',
+    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" />',
     '<style>',
-    ':root{--bg:#f8f6f0;--paper:#fff;--ink:#1c1b18;--muted:#6b655c;--rule:#e4dfd4;--accent:#26534c;--accent-soft:#e7efec;--bad:#b91c1c;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--serif:Georgia,"Times New Roman",serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}',
-    '*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.45}',
-    '.shell{max-width:1080px;margin:0 auto;padding:28px 20px 56px}',
-    '.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--rule);margin-bottom:22px}',
-    '.brand h1{margin:0;font-family:var(--serif);font-size:1.55rem;font-weight:700;letter-spacing:-.01em}',
-    '.brand-sub{font-size:.82rem;color:var(--muted)}',
+    ':root{--bg:#f8f6f0;--paper:#fffefb;--ink:#1c1b18;--muted:#766f63;--rule:#e2ddd2;--card-border:#dfd9cc;--accent:#1e3a5f;--accent-soft:rgba(30,58,95,0.08);--accent-border:rgba(30,58,95,0.28);--ok:#2c6e4f;--ok-soft:rgba(44,110,79,0.11);--bad:#9e3535;--warn:#8c4a19;--warn-soft:rgba(140,74,25,0.10);--serif:"Newsreader","Georgia","Palatino Linotype",serif;--sans:"Source Serif 4","Georgia",serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}',
+    '*{box-sizing:border-box}',
+    'body{margin:0;position:relative;min-height:100vh;background-color:var(--bg);color:var(--ink);font-family:var(--sans);font-variant-numeric:tabular-nums;line-height:1.45;-webkit-font-smoothing:antialiased}',
+    'body::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(to right,rgba(30,58,95,0.085) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,58,95,0.085) 1px,transparent 1px),url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27180%27 height=%27180%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.82%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3CfeColorMatrix type=%27matrix%27 values=%270 0 0 0 0.22 0 0 0 0 0.19 0 0 0 0 0.14 0 0 0 0.11 0%27/%3E%3C/filter%3E%3Crect width=%27180%27 height=%27180%27 filter=%27url(%23n)%27/%3E%3C/svg%3E");background-size:20px 20px,20px 20px,180px 180px;background-position:calc(50% + 10px) 0,calc(50% + 10px) 0,0 0;opacity:0.42}',
+    '.shell{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:20px 20px 64px}',
+    '.topbar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;background:var(--paper);border:1px solid var(--card-border);border-top:3px solid var(--accent);border-radius:4px;box-shadow:0 2px 14px rgba(28,27,24,0.05);padding:16px 20px;margin-bottom:20px}',
+    '.brand-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}',
+    '.brand-title{margin:0;font-family:var(--serif);font-size:1.55rem;font-weight:700;letter-spacing:-0.02em;color:var(--accent);line-height:1.1}',
+    '.brand-sub{font-family:var(--sans);font-size:0.86rem;font-style:italic;color:var(--muted)}',
+    '.brand-meta{margin-top:4px;font-size:0.8rem;color:var(--muted)}',
     '.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px}',
-    '.pill-group{display:inline-flex;background:var(--paper);border:1px solid var(--rule);border-radius:6px;overflow:hidden}',
-    '.pill-btn,.btn{font-family:var(--sans);font-size:.82rem;font-weight:500;border:none;background:transparent;color:var(--ink);padding:7px 11px;cursor:pointer}',
-    '.pill-btn+.pill-btn{border-left:1px solid var(--rule)}.pill-btn.active{background:var(--accent);color:#fff}',
-    '.btn{background:var(--paper);border:1px solid var(--rule);border-radius:6px}.btn:hover{border-color:var(--accent)}',
-    '.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}',
-    '.gate-card{max-width:420px;margin:72px auto;background:var(--paper);border:1px solid var(--rule);border-top:3px solid var(--accent);border-radius:6px;padding:24px;box-shadow:0 2px 12px rgba(28,27,24,.05)}',
-    '.gate-card h2{margin:0 0 6px;font-family:var(--serif);font-size:1.25rem}.gate-card p{margin:0 0 16px;color:var(--muted);font-size:.88rem}',
-    '.input{width:100%;padding:9px 11px;font-size:.9rem;font-family:var(--mono);border:1px solid var(--rule);border-radius:5px;background:var(--bg);color:var(--ink);margin-bottom:10px}',
-    '.check-row{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);margin-bottom:14px}',
-    '.error-msg{color:var(--bad);font-size:.84rem;margin-top:10px;min-height:1.2em}',
-    '.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-bottom:20px}',
-    '.kpi{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px}',
-    '.kpi-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}',
-    '.kpi-val{font-family:var(--serif);font-size:1.75rem;font-weight:700;line-height:1.1}.kpi-sub{margin-top:5px;font-size:.78rem;color:var(--muted)}',
-    '.card{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:16px 18px;margin-bottom:16px}',
-    '.card h2{margin:0 0 12px;font-family:var(--serif);font-size:1.05rem;font-weight:600}',
-    '.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:16px}',
+    '.pill-group{display:inline-flex;background:var(--bg);border:1px solid #cfc8ba;border-radius:4px;overflow:hidden}',
+    '.pill-btn,.btn{font-family:var(--sans);font-size:0.82rem;font-weight:600;border:none;background:transparent;color:var(--ink);padding:6px 11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:background-color 0.14s ease,color 0.14s ease,border-color 0.14s ease}',
+    '.pill-btn+.pill-btn{border-left:1px solid #cfc8ba}',
+    '.pill-btn:hover{background:rgba(30,58,95,0.06);color:var(--accent)}',
+    '.pill-btn.active{background:var(--accent);color:#fffefb}',
+    '.btn{background:var(--paper);border:1px solid #cfc8ba;border-radius:4px}',
+    '.btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}',
+    '.btn-primary{background:var(--accent);color:#fffefb;border-color:var(--accent)}',
+    '.btn-primary:hover{background:#162d4b;color:#fffefb;border-color:#162d4b}',
+    '.btn-ghost-link{background:transparent;color:var(--muted);border-color:transparent;font-weight:500;padding:6px 8px}',
+    '.btn-ghost-link:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-border)}',
+    '.gate-card{max-width:420px;margin:72px auto;background:var(--paper);border:1px solid var(--card-border);border-top:3px solid var(--accent);border-radius:4px;padding:24px 26px;box-shadow:0 2px 14px rgba(28,27,24,0.06)}',
+    '.gate-card h2{margin:0 0 6px;font-family:var(--serif);font-size:1.3rem;color:var(--accent)}',
+    '.gate-card p{margin:0 0 16px;color:var(--muted);font-size:0.88rem}',
+    '.input{width:100%;padding:9px 11px;font-size:0.9rem;font-family:var(--mono);border:1px solid #cfc8ba;border-radius:4px;background:var(--bg);color:var(--ink);margin-bottom:10px}',
+    '.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}',
+    '.check-row{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--muted);margin-bottom:14px;cursor:pointer}',
+    '.error-msg{color:var(--bad);font-size:0.84rem;margin-top:8px;min-height:1.2em}',
+    '.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-bottom:20px}',
+    '.kpi{background:var(--paper);border:1px solid var(--card-border);border-top:2px solid var(--accent);border-radius:4px;padding:13px 15px;box-shadow:0 2px 10px rgba(28,27,24,0.04)}',
+    '.kpi-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:5px;font-weight:600}',
+    '.kpi-val{font-family:var(--serif);font-size:1.72rem;font-weight:700;line-height:1.1;color:var(--ink)}',
+    '.kpi-sub{margin-top:5px;font-size:0.76rem;color:var(--muted);line-height:1.35}',
+    '.card{background:var(--paper);border:1px solid var(--card-border);border-radius:4px;padding:16px 18px;margin-bottom:16px;box-shadow:0 2px 14px rgba(28,27,24,0.04)}',
+    '.card-featured{border-top:3px solid var(--accent)}',
+    '.card-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #ece7dc}',
+    '.card-head h2,.card h2{margin:0;font-family:var(--serif);font-size:1.08rem;font-weight:600;color:var(--accent)}',
+    '.card>h2{margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #ece7dc}',
+    '.legend{display:inline-flex;flex-wrap:wrap;gap:12px;font-size:0.76rem;color:var(--muted)}',
+    '.legend-item{display:inline-flex;align-items:center;gap:5px}',
+    '.legend-dot{width:9px;height:9px;border-radius:2px;display:inline-block}',
+    '.legend-dot.v{background:var(--accent)}.legend-dot.q{background:rgba(140,74,25,0.52)}',
+    '.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px;margin-bottom:16px}',
     '.chart-rows{display:flex;flex-direction:column;gap:8px}',
-    '.chart-row{display:grid;grid-template-columns:96px 1fr 140px;align-items:center;gap:10px;font-size:.82rem}',
-    '.chart-day{font-family:var(--mono);color:var(--muted)}',
-    '.bar-track{height:16px;background:var(--bg);border:1px solid var(--rule);border-radius:4px;overflow:hidden;display:flex}',
-    '.bar-visitors{height:100%;background:var(--accent)}.bar-attempts{height:100%;background:rgba(180,83,9,.45)}',
-    '.chart-nums{text-align:right;font-family:var(--mono);font-size:.78rem;color:var(--muted)}',
-    'table{width:100%;border-collapse:collapse;font-size:.84rem}',
-    'th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--rule)}',
-    'th{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}',
-    'td.num,th.num{text-align:right;font-family:var(--mono)}.mono{font-family:var(--mono)}',
-    '.badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:.72rem;background:var(--accent-soft);color:var(--accent);font-weight:600}',
-    '.empty{color:var(--muted);font-size:.84rem;padding:8px 0}[hidden]{display:none!important}',
-    '@media(max-width:640px){.chart-row{grid-template-columns:84px 1fr 98px}}',
+    '.chart-row{display:grid;grid-template-columns:96px 1fr 145px;align-items:center;gap:10px;font-size:0.82rem}',
+    '.chart-day{font-family:var(--mono);color:var(--muted);font-size:0.78rem}',
+    '.bar-track{height:15px;background:var(--bg);border:1px solid var(--rule);border-radius:3px;overflow:hidden;display:flex}',
+    '.bar-visitors{height:100%;background:var(--accent)}.bar-attempts{height:100%;background:rgba(140,74,25,0.48)}',
+    '.chart-nums{text-align:right;font-family:var(--mono);font-size:0.77rem;color:var(--muted)}',
+    'table{width:100%;border-collapse:collapse;font-size:0.84rem}',
+    'th,td{text-align:left;padding:7px 8px;border-bottom:1px solid #ece7dc}',
+    'tr:last-child td{border-bottom:none}',
+    'th{font-size:0.71rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);font-weight:600}',
+    'td.num,th.num{text-align:right;font-family:var(--mono)}.mono{font-family:var(--mono);font-size:0.8rem}',
+    '.q-link{color:var(--accent);text-decoration:none;font-weight:600}.q-link:hover{text-decoration:underline;text-underline-offset:2px}',
+    '.badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:0.72rem;font-weight:600;border:1px solid transparent}',
+    '.badge-pure{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-border)}',
+    '.badge-stats{background:var(--ok-soft);color:var(--ok);border-color:rgba(44,110,79,0.28)}',
+    '.badge-other{background:var(--bg);color:var(--muted);border-color:var(--rule)}',
+    '.metric-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:16px}',
+    '.metric-group{border:1px solid #ece7dc;border-radius:4px;background:#fffdf8;padding:12px 14px}',
+    '.metric-group h3{margin:0 0 9px;font-family:var(--serif);font-size:0.94rem;font-weight:600;color:var(--accent);padding-bottom:6px;border-bottom:1px solid #ece7dc}',
+    '.metric-subhead{margin:12px 0 6px;padding-top:8px;border-top:1px dashed var(--accent-border);font-size:0.71rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted)}',
+    '.metric-list{display:flex;flex-direction:column;gap:6px}',
+    '.metric-row{display:flex;flex-direction:column;gap:3px}',
+    '.metric-row-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:0.82rem}',
+    '.metric-name{display:inline-flex;align-items:center;gap:6px;color:var(--ink)}',
+    '.key-hint{font-family:var(--mono);font-size:0.68rem;font-weight:700;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-border);border-radius:3px;padding:0 5px;line-height:1.45}',
+    '.metric-count{font-family:var(--mono);font-size:0.8rem;font-weight:700;color:var(--ink)}',
+    '.metric-count.is-zero{color:var(--muted);font-weight:400}',
+    '.metric-bar{height:4px;background:var(--bg);border-radius:2px;overflow:hidden;border:1px solid #ece7dc}',
+    '.metric-bar-fill{height:100%;background:var(--accent);border-radius:2px}',
+    '.metric-bar-fill.muted{background:rgba(140,74,25,0.52)}',
+    '.empty{color:var(--muted);font-size:0.84rem;padding:8px 0}[hidden]{display:none!important}',
+    '@media(max-width:640px){.chart-row{grid-template-columns:84px 1fr 98px}.topbar{padding:14px 16px}}',
     '</style></head><body><div class="shell">',
     '<section id="login-view" class="gate-card" hidden>',
     '<h2>H2 Mathle Analytics</h2>',
@@ -649,24 +739,26 @@ function renderDashboardHtml() {
     '<button class="btn btn-primary" type="submit" style="width:100%;">Unlock Dashboard</button>',
     '<div id="login-error" class="error-msg"></div></form></section>',
     '<section id="app-view" hidden><header class="topbar">',
-    '<div class="brand"><h1>H2 Mathle · Analytics</h1><div class="brand-sub" id="study-day-label">Study Day (6AM SGT): —</div></div>',
+    '<div><div class="brand-row"><h1 class="brand-title">H2 Mathle</h1><span class="brand-sub">Syllabus 9758 · Private Analytics</span></div>',
+    '<div class="brand-meta" id="study-day-label">Study Day (6AM SGT): —</div></div>',
     '<div class="controls"><div class="pill-group" id="range-pills">',
     '<button type="button" class="pill-btn" data-days="1">Today</button>',
     '<button type="button" class="pill-btn" data-days="7">7d</button>',
     '<button type="button" class="pill-btn active" data-days="14">14d</button>',
     '<button type="button" class="pill-btn" data-days="30">30d</button>',
     '<button type="button" class="pill-btn" data-days="all">All</button></div>',
+    '<a class="btn btn-ghost-link" href="https://www.h2mathle.com/" target="_blank" rel="noopener noreferrer">Open site ↗</a>',
     '<button type="button" class="btn" id="refresh-btn">Refresh</button>',
     '<button type="button" class="btn" id="logout-btn">Sign out</button></div></header>',
     '<div id="status-banner" class="error-msg" style="margin-bottom:10px;"></div>',
     '<div class="kpi-grid" id="kpi-grid"></div>',
-    '<div class="card"><h2>Daily Visitors &amp; Question Attempts <small style="font-weight:400;color:var(--muted);font-family:var(--sans);font-size:0.78rem;">(Teal = unique visitors, Amber = question attempts)</small></h2><div id="daily-chart" class="chart-rows"></div></div>',
-    '<div class="card"><h2>Top Questions</h2><div style="overflow-x:auto;"><table><thead><tr><th>Question</th><th>Category</th><th class="num">Attempted</th><th class="num">Solved</th><th class="num">Solve %</th><th class="num">Auto Checks</th><th class="num">Reveals</th></tr></thead><tbody id="questions-tbody"></tbody></table></div></div>',
+    '<div class="card card-featured"><div class="card-head"><h2>Daily Visitors &amp; Question Attempts</h2><div class="legend"><span class="legend-item"><i class="legend-dot v"></i>Unique visitors</span><span class="legend-item"><i class="legend-dot q"></i>Question attempts</span></div></div><div id="daily-chart" class="chart-rows"></div></div>',
+    '<div class="card"><h2>Top Questions</h2><div style="overflow-x:auto;"><table><thead><tr><th>Question</th><th>Category</th><th class="num">Attempted</th><th class="num">Solved</th><th class="num">Solve %</th><th class="num">Avg Time</th><th class="num">Auto Checks</th><th class="num">Reveals</th></tr></thead><tbody id="questions-tbody"></tbody></table></div></div>',
     '<div class="two-col">',
     '<div class="card"><h2>Referrers</h2><table><thead><tr><th>Host</th><th class="num">Visitors</th></tr></thead><tbody id="referrers-tbody"></tbody></table></div>',
     '<div class="card"><h2>Countries &amp; Devices</h2><table><thead><tr><th>Country</th><th class="num">Visitors</th></tr></thead><tbody id="countries-tbody"></tbody></table><table style="margin-top:14px;"><thead><tr><th>Device</th><th class="num">Visitors</th></tr></thead><tbody id="devices-tbody"></tbody></table></div>',
     '</div>',
-    '<div class="card"><h2>Tabs, Tools &amp; Actions</h2><table><thead><tr><th>Metric</th><th class="num">Count</th></tr></thead><tbody id="counters-tbody"></tbody></table></div>',
+    '<div class="card card-featured"><h2>Tabs, Tools &amp; Actions</h2><div id="counters-groups" class="metric-groups"></div></div>',
     '</section></div><script>',
     '(() => {',
     '  const TOKEN_KEY = "h2mathle_admin_token";',
@@ -683,40 +775,68 @@ function renderDashboardHtml() {
     '  const clearToken = () => { sessionStorage.removeItem(TOKEN_KEY); localStorage.removeItem(TOKEN_KEY); };',
     '  const escapeHtml = (v) => String(v == null ? "" : v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/\'/g,"&#39;");',
     '  const pct = (n, d) => d ? Math.round((n / d) * 100) + "%" : "—";',
+    '  const fmtDur = (sec) => { const s = Number(sec) || 0; if (s <= 0) return "—"; return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };',
+    '  const fmtSGTTime = (unixSec) => { if (!(unixSec > 0)) return ""; const d = new Date((unixSec + 8 * 3600) * 1000); return String(d.getUTCHours()).padStart(2, "0") + ":" + String(d.getUTCMinutes()).padStart(2, "0") + " SGT"; };',
+    '  const TAB_ITEMS = [["tab:pure","Pure","1"],["tab:stats","Statistics","2"],["tab:random","Practice","3"],["tab:calendar","Calendar","4"],["tab:mistakes","Study Log","5"]];',
+    '  const TOOL_ITEMS = [["tool:mf27","MF27 Reference","M"],["tool:gc","Calculator","C"],["tool:scratchpad","Scratchpad","W"],["tool:ask","Ask","A"]];',
+    '  const GC_TAB_ITEMS = [["event:gc_tab_stats","Stats"],["event:gc_tab_calc","Calc"],["event:gc_tab_solve","Solve"],["event:gc_tab_calculus","Calculus"],["event:gc_tab_graph","Graph"]];',
+    '  const ACTION_ITEMS = [["part:check_ok","Auto Check · Correct"],["part:check_bad","Auto Check · Incorrect"],["part:self_ok","Self-Grade · Got It"],["part:self_bad","Self-Grade · Missed"],["part:reveal","Reveal Solution"],["part:override_ok","Equivalent Override"],["event:practice_mark_solved","Practice · Mark Solved"],["event:practice_unmark","Practice · Unmark"],["event:part_flag","Part Flagged"],["event:focus_mode","Focus Mode"],["event:backup_export","Backup Export"],["event:backup_import","Backup Restore"],["feedback:sent","Feedback Sent"]];',
     '  function showLogin(msg = "") { appView.hidden = true; loginView.hidden = false; loginError.textContent = msg; tokenInput.focus(); }',
     '  function renderSimpleTable(id, rows, emptyText, rowFn) {',
     '    const tb = document.getElementById(id);',
     '    if (!rows || !rows.length) { tb.innerHTML = "<tr><td colspan=\\"10\\" class=\\"empty\\">" + escapeHtml(emptyText) + "</td></tr>"; return; }',
     '    tb.innerHTML = rows.map(rowFn).join("");',
     '  }',
+    '  function renderMetricRows(items, counts, fillClass = "") {',
+    '    const maxVal = Math.max(1, ...items.map((it) => counts.get(it[0]) || 0));',
+    '    return items.map(([key, label, keyHint]) => {',
+    '      const val = counts.get(key) || 0;',
+    '      const w = val > 0 ? Math.max(3, Math.round((val / maxVal) * 100)) : 0;',
+    '      return "<div class=\\"metric-row\\"><div class=\\"metric-row-top\\"><span class=\\"metric-name\\">" + escapeHtml(label) + (keyHint ? "<span class=\\"key-hint\\">" + escapeHtml(keyHint) + "</span>" : "") + "</span><span class=\\"metric-count" + (val === 0 ? " is-zero" : "") + "\\">" + escapeHtml(val) + "</span></div><div class=\\"metric-bar\\"><div class=\\"metric-bar-fill " + fillClass + "\\" style=\\"width:" + w + "%\\"></div></div></div>";',
+    '    }).join("");',
+    '  }',
     '  function renderDashboard(data) {',
     '    const t = data.today, r = data.range;',
     '    document.getElementById("study-day-label").textContent = "Study Day (6AM SGT): " + t.studyDay + " · Showing " + (r.days === "all" ? "all time" : "last " + r.days + "d");',
+    '    const pureFirst = fmtSGTTime(t.dailySolvers && t.dailySolvers.daily_pure ? t.dailySolvers.daily_pure.firstSolvedAt : 0);',
+    '    const statsFirst = fmtSGTTime(t.dailySolvers && t.dailySolvers.daily_stats ? t.dailySolvers.daily_stats.firstSolvedAt : 0);',
     '    const kpis = [',
     '      { label: "Today Visitors", val: t.visitors, sub: t.pageviews + " pageviews today" },',
     '      { label: "Active Solvers", val: t.activeSolvers, sub: pct(t.activeSolvers, t.visitors) + " of visitors" },',
-    '      { label: "Today Daily Pure", val: t.dailyPure.solved + "/" + t.dailyPure.attempted, sub: "Solve rate: " + pct(t.dailyPure.solved, t.dailyPure.attempted) },',
-    '      { label: "Today Daily Stats", val: t.dailyStats.solved + "/" + t.dailyStats.attempted, sub: "Solve rate: " + pct(t.dailyStats.solved, t.dailyStats.attempted) },',
-    '      { label: "Today Practice", val: t.practice.attempted, sub: t.practice.solved + " solved" },',
-    '      { label: "Range Totals", val: r.visitorDays, sub: r.attempted + " attempts · " + r.pageviews + " views" }',
+    '      { label: "Today Daily Pure", val: t.dailyPure.solved + "/" + t.dailyPure.attempted, sub: "Solve rate: " + pct(t.dailyPure.solved, t.dailyPure.attempted) + (pureFirst ? " · 1st @ " + pureFirst : "") },',
+    '      { label: "Today Daily Stats", val: t.dailyStats.solved + "/" + t.dailyStats.attempted, sub: "Solve rate: " + pct(t.dailyStats.solved, t.dailyStats.attempted) + (statsFirst ? " · 1st @ " + statsFirst : "") },',
+    '      { label: "Today Practice", val: t.practice.attempted, sub: t.practice.solved + " solved" + (t.pastDay && t.pastDay.attempted ? " · " + t.pastDay.attempted + " past day" : "") },',
+    '      { label: "Range Totals", val: r.visitorDays, sub: r.attempted + " attempts · " + r.pageviews + " views" + (r.feedbackSent ? " · " + r.feedbackSent + " feedback" : "") }',
     '    ];',
     '    document.getElementById("kpi-grid").innerHTML = kpis.map((k) => "<div class=\\"kpi\\"><div class=\\"kpi-label\\">" + escapeHtml(k.label) + "</div><div class=\\"kpi-val\\">" + escapeHtml(k.val) + "</div><div class=\\"kpi-sub\\">" + escapeHtml(k.sub) + "</div></div>").join("");',
     '    const chartEl = document.getElementById("daily-chart");',
     '    if (!data.daily || !data.daily.length) { chartEl.innerHTML = "<div class=\\"empty\\">No traffic recorded in this range yet.</div>"; }',
     '    else {',
-    '      const maxScale = Math.max(1, ...data.daily.map((d) => d.visitors + d.dailyPureAttempted + d.dailyStatsAttempted + d.practiceAttempted));',
+    '      const maxScale = Math.max(1, ...data.daily.map((d) => d.visitors + d.dailyPureAttempted + d.dailyStatsAttempted + d.practiceAttempted + (d.pastDayAttempted || 0)));',
     '      chartEl.innerHTML = data.daily.map((d) => {',
-    '        const att = d.dailyPureAttempted + d.dailyStatsAttempted + d.practiceAttempted;',
+    '        const att = d.dailyPureAttempted + d.dailyStatsAttempted + d.practiceAttempted + (d.pastDayAttempted || 0);',
     '        const vp = Math.round((d.visitors / maxScale) * 100);',
     '        const ap = Math.round((att / maxScale) * 100);',
-    '        return "<div class=\\"chart-row\\"><div class=\\"chart-day\\">" + escapeHtml(d.studyDay) + "</div><div class=\\"bar-track\\" title=\\"" + escapeHtml(d.visitors + " visitors, " + att + " attempts") + "\\"><div class=\\"bar-visitors\\" style=\\"width:" + vp + "%\\"></div><div class=\\"bar-attempts\\" style=\\"width:" + ap + "%\\"></div></div><div class=\\"chart-nums\\">" + escapeHtml(d.visitors + "v · " + att + "q") + "</div></div>";',
+    '        const tip = d.visitors + " visitors (" + (d.pageviews || 0) + " views) · Pure " + d.dailyPureAttempted + " · Stats " + d.dailyStatsAttempted + " · Practice " + d.practiceAttempted + ((d.pastDayAttempted || 0) ? " · Past " + d.pastDayAttempted : "");',
+    '        return "<div class=\\"chart-row\\"><div class=\\"chart-day\\">" + escapeHtml(d.studyDay) + "</div><div class=\\"bar-track\\" title=\\"" + escapeHtml(tip) + "\\"><div class=\\"bar-visitors\\" style=\\"width:" + vp + "%\\"></div><div class=\\"bar-attempts\\" style=\\"width:" + ap + "%\\"></div></div><div class=\\"chart-nums\\">" + escapeHtml(d.visitors + "v · " + att + "q") + "</div></div>";',
     '      }).join("");',
     '    }',
-    '    renderSimpleTable("questions-tbody", data.topQuestions, "No question attempts recorded yet.", (q) => "<tr><td class=\\"mono\\">" + escapeHtml(q.questionId) + "</td><td><span class=\\"badge\\">" + escapeHtml(q.category || "—") + "</span></td><td class=\\"num\\">" + escapeHtml(q.attempted) + "</td><td class=\\"num\\">" + escapeHtml(q.solved) + "</td><td class=\\"num\\">" + escapeHtml(pct(q.solved, q.attempted)) + "</td><td class=\\"num\\">" + escapeHtml(q.totalChecks) + "</td><td class=\\"num\\">" + escapeHtml(q.totalReveals) + "</td></tr>");',
+    '    renderSimpleTable("questions-tbody", data.topQuestions, "No question attempts recorded yet.", (q) => {',
+    '      const badgeCls = q.category === "pure" ? "badge-pure" : q.category === "stats" ? "badge-stats" : "badge-other";',
+    '      const qUrl = "https://www.h2mathle.com/?q=" + encodeURIComponent(q.questionId);',
+    '      return "<tr><td class=\\"mono\\"><a class=\\"q-link\\" href=\\"" + escapeHtml(qUrl) + "\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">" + escapeHtml(q.questionId) + "</a></td><td><span class=\\"badge " + badgeCls + "\\">" + escapeHtml(q.category || "—") + "</span></td><td class=\\"num\\">" + escapeHtml(q.attempted) + "</td><td class=\\"num\\">" + escapeHtml(q.solved) + "</td><td class=\\"num\\">" + escapeHtml(pct(q.solved, q.attempted)) + "</td><td class=\\"num\\">" + escapeHtml(fmtDur(q.avgElapsedSec)) + "</td><td class=\\"num\\">" + escapeHtml(q.totalChecks) + "</td><td class=\\"num\\">" + escapeHtml(q.totalReveals) + "</td></tr>";',
+    '    });',
     '    renderSimpleTable("referrers-tbody", data.referrers, "No referrer data yet.", (x) => "<tr><td class=\\"mono\\">" + escapeHtml(x.referrer) + "</td><td class=\\"num\\">" + escapeHtml(x.visitors) + "</td></tr>");',
     '    renderSimpleTable("countries-tbody", data.countries, "No country data yet.", (x) => "<tr><td class=\\"mono\\">" + escapeHtml(x.country) + "</td><td class=\\"num\\">" + escapeHtml(x.visitors) + "</td></tr>");',
     '    renderSimpleTable("devices-tbody", data.devices, "No device data yet.", (x) => "<tr><td>" + escapeHtml(x.device) + "</td><td class=\\"num\\">" + escapeHtml(x.visitors) + "</td></tr>");',
-    '    renderSimpleTable("counters-tbody", data.counters, "No counters recorded yet.", (x) => "<tr><td class=\\"mono\\">" + escapeHtml(x.metric) + "</td><td class=\\"num\\">" + escapeHtml(x.total) + "</td></tr>");',
+    '    const counts = new Map((data.counters || []).map((c) => [c.metric, Number(c.total) || 0]));',
+    '    const knownKeys = new Set([...TAB_ITEMS, ...TOOL_ITEMS, ...GC_TAB_ITEMS, ...ACTION_ITEMS].map((x) => x[0]));',
+    '    knownKeys.add("pageview");',
+    '    const otherItems = (data.counters || []).filter((c) => !knownKeys.has(c.metric)).map((c) => [c.metric, c.metric]);',
+    '    document.getElementById("counters-groups").innerHTML =',
+    '      "<div class=\\"metric-group\\"><h3>Tabs</h3><div class=\\"metric-list\\">" + renderMetricRows(TAB_ITEMS, counts) + "</div></div>" +',
+    '      "<div class=\\"metric-group\\"><h3>Study Tools</h3><div class=\\"metric-list\\">" + renderMetricRows(TOOL_ITEMS, counts) + "</div><div class=\\"metric-subhead\\">Calculator Tabs</div><div class=\\"metric-list\\">" + renderMetricRows(GC_TAB_ITEMS, counts, "muted") + "</div></div>" +',
+    '      "<div class=\\"metric-group\\"><h3>Grading &amp; Study Actions</h3><div class=\\"metric-list\\">" + renderMetricRows(ACTION_ITEMS, counts, "muted") + "</div>" + (otherItems.length ? "<div class=\\"metric-subhead\\">Other Counters</div><div class=\\"metric-list\\">" + renderMetricRows(otherItems, counts, "muted") + "</div>" : "") + "</div>";',
     '  }',
     '  async function loadStats() {',
     '    const token = getToken();',
@@ -813,7 +933,7 @@ export default {
             "Cache-Control": "no-store",
             "X-Robots-Tag": "noindex, nofollow",
             "Referrer-Policy": "no-referrer",
-            "Content-Security-Policy": "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'"
+            "Content-Security-Policy": "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src 'self'"
           }
         });
       }
