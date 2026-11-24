@@ -313,6 +313,8 @@ test("escapeHtml, MathML escaping, formatShortDate, and sanitizeBackupState", ()
 });
 
 test("6:00 AM SGT reset boundary calculations", () => {
+  assert.equal(H2Grader.LAUNCH_DAY_KEY, "2026-11-25");
+
   const before6am = Date.UTC(2026, 10, 23, 21, 59, 59); // 2026-11-24 05:59:59 SGT
   assert.equal(H2Grader.getStudyDayKey(H2Grader.getSGTNow(before6am)), "2026-11-23");
   assert.equal(H2Grader.getMsUntilNext6AM(before6am), 1000);
@@ -320,6 +322,15 @@ test("6:00 AM SGT reset boundary calculations", () => {
   const at6am = Date.UTC(2026, 10, 23, 22, 0, 0); // 2026-11-24 06:00:00 SGT
   assert.equal(H2Grader.getStudyDayKey(H2Grader.getSGTNow(at6am)), "2026-11-24");
   assert.equal(H2Grader.getMsUntilNext6AM(at6am), 86400000);
+
+  const preLaunch = Date.UTC(2026, 10, 24, 21, 59, 59); // 2026-11-25 05:59:59 SGT
+  const preLaunchDay = H2Grader.getStudyDayKey(H2Grader.getSGTNow(preLaunch));
+  assert.equal(preLaunchDay, "2026-11-24");
+  assert.ok(preLaunchDay < H2Grader.LAUNCH_DAY_KEY);
+
+  const launchAt6am = Date.UTC(2026, 10, 24, 22, 0, 0); // 2026-11-25 06:00:00 SGT
+  const launchDay = H2Grader.getStudyDayKey(H2Grader.getSGTNow(launchAt6am));
+  assert.equal(launchDay, H2Grader.LAUNCH_DAY_KEY);
 });
 
 test("bank self-check and mutation tests (must-reject)", (t) => {

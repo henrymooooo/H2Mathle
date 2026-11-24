@@ -1,6 +1,6 @@
 (() => {
   const STORAGE_KEY = "h2_daily_math_v1";
-  const LAUNCH_DAY_KEY = "2026-11-21";
+  const LAUNCH_DAY_KEY = "2026-11-25";
   const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/2076cdb9647f5a023dd03868c1b25f8a";
   const ANALYTICS_ENDPOINT = "https://api.h2mathle.com/v1/e";
   let analyticsBooted = false;
@@ -621,7 +621,7 @@
     if (!q || !q.category) return null;
     const today = getStudyDayKey();
     const dayKeys = Object.keys(state.days || {})
-      .filter(k => k <= today)
+      .filter(k => k >= LAUNCH_DAY_KEY && k <= today)
       .sort((a, b) => b.localeCompare(a));
     for (const dk of dayKeys) {
       const rec = state.days[dk]?.[q.category];
@@ -1784,15 +1784,17 @@
 
   function updateMetaBar() {
     const today = getStudyDayKey();
-    const rec = getDayRecord(today);
     let done = 0;
-    ["pure", "stats"].forEach(cat => {
-      if (rec[cat]?.questionId) {
-        const q = window.H2_QUESTIONS.find(x => x.id === rec[cat].questionId);
-        const st = q ? getQuestionStatus(q, rec[cat]) : "untouched";
-        if (st === "ok" || st === "bad") done++;
-      }
-    });
+    if (today >= LAUNCH_DAY_KEY) {
+      const rec = getDayRecord(today);
+      ["pure", "stats"].forEach(cat => {
+        if (rec[cat]?.questionId) {
+          const q = window.H2_QUESTIONS.find(x => x.id === rec[cat].questionId);
+          const st = q ? getQuestionStatus(q, rec[cat]) : "untouched";
+          if (st === "ok" || st === "bad") done++;
+        }
+      });
+    }
     document.getElementById("today-progress").textContent = `${done}/2`;
     document.getElementById("streak-count").textContent = computeStreak();
   }
@@ -4243,6 +4245,28 @@
   function renderCurrent() {
     const today = getStudyDayKey();
     if (currentTab === "pure" || currentTab === "stats") {
+      if (today < LAUNCH_DAY_KEY) {
+        setPageTitle(TAB_LABELS[currentTab] || "Daily");
+        syncUrlQuestion(null);
+        activeQuestionId = null;
+        updateScratchpadCounter(null);
+        syncOpenDrawers();
+        syncFeedbackContext();
+        updateMetaBar();
+        const main = document.getElementById("main-content");
+        main.innerHTML = `
+          <div class="card animate-in">
+            <h2 style="margin-top:0;">First Daily Question Unlocks Soon</h2>
+            <p style="color:var(--muted);font-family:var(--sans);margin:0 0 16px;">
+              Daily Pure and Statistics questions start on <strong>${formatShortDate(LAUNCH_DAY_KEY)}</strong> at <strong>6:00 AM SGT</strong>.
+            </p>
+            <button class="btn" id="open-practice-prelaunch">Open Practice Bank</button>
+          </div>
+        `;
+        const practiceBtn = main.querySelector("#open-practice-prelaunch");
+        if (practiceBtn) practiceBtn.onclick = () => switchTab("random");
+        return;
+      }
       const q = getDailyQuestion(today, currentTab);
       const rec = getDayRecord(today)[currentTab];
       renderQuestionView(q, rec, { dayKey: today });
@@ -4293,6 +4317,7 @@
     renderSafeUserMath,
     escapeHtml,
     formatShortDate,
+    LAUNCH_DAY_KEY,
     getSGTNow,
     getStudyDayKey,
     getMsUntilNext6AM,

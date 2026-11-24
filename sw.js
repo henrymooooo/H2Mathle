@@ -1,6 +1,6 @@
 importScripts("./banks/manifest.js");
 
-const CACHE_NAME = "h2-daily-math-v14";
+const CACHE_NAME = "h2-daily-math-v15";
 const CORE_ASSETS = [
   "./",
   "./index.html",
