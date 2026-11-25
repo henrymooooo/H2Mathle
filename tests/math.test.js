@@ -513,3 +513,19 @@ test("regression: theta, insertFraction, factored algebra, warn flag, real-only 
 
   approx(H2GC.math.normalcdf(9, Infinity, 0, 1), 1.12858840595e-19, 1e-24, "normalcdf(9, inf)");
 });
+
+test("pipe modulus notation in H2GC.math.evalNumExpr", () => {
+  approx(H2GC.math.evalNumExpr("|e^x-2|", { x: 0 }), 1, 1e-12, "|e^0-2|");
+  approx(H2GC.math.evalNumExpr("|e^x-2|", { x: 1 }), Math.E - 2, 1e-12, "|e^1-2|");
+  approx(H2GC.math.evalNumExpr("|-5|"), 5, 1e-12, "|-5|");
+  approx(H2GC.math.evalNumExpr("-|5|"), -5, 1e-12, "-|5|");
+  approx(H2GC.math.evalNumExpr("2|x|", { x: -3 }), 6, 1e-12, "2|x|");
+  approx(H2GC.math.evalNumExpr("|x|2", { x: -3 }), 6, 1e-12, "|x|2");
+  approx(H2GC.math.evalNumExpr("x|y|", { x: 2, y: -4 }), 8, 1e-12, "x|y|");
+  approx(H2GC.math.evalNumExpr("|x||y|", { x: -2, y: -3 }), 6, 1e-12, "|x||y|");
+  approx(H2GC.math.evalNumExpr("||x|-1|", { x: -3 }), 2, 1e-12, "||x|-1|");
+  approx(H2GC.math.evalNumExpr("|x-|y||", { x: 1, y: -4 }), 3, 1e-12, "|x-|y||");
+  approx(H2GC.math.evalNumExpr("|x|^2", { x: -3 }), 9, 1e-12, "|x|^2");
+  assert.throws(() => H2GC.math.evalNumExpr("|x", { x: 1 }), /Unclosed '\|'/);
+  assert.throws(() => H2GC.math.evalNumExpr("||"), /Unclosed '\|'/);
+});

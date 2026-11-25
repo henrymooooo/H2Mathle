@@ -45,6 +45,26 @@
       return `${pre}\u0003${idx}\u0004`;
     });
     s = s.replace(/\s+/g, "");
+    if (s.includes("|")) {
+      let outPipes = "", pipeDepth = 0, expectOperand = true;
+      for (const ch of s) {
+        if (ch === "|") {
+          if (!expectOperand && pipeDepth > 0) {
+            outPipes += ")";
+            pipeDepth--;
+          } else {
+            outPipes += "abs(";
+            pipeDepth++;
+            expectOperand = true;
+          }
+        } else {
+          outPipes += ch;
+          expectOperand = "(,+-*/^".includes(ch);
+        }
+      }
+      if (pipeDepth > 0) throw new Error("Unclosed '|'");
+      s = outPipes;
+    }
 
     const fnRegex = /(arcsin|arccos|arctan|cosec|asin|acos|atan|sqrt|sinh|cosh|tanh|sin|cos|tan|sec|csc|cot|exp|log|abs|nCr|nPr|ln)(?=\()/gi;
     const masked = [];
