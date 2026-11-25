@@ -606,6 +606,7 @@
     `<div class="gc-kv"><span>${label}</span><strong${accent ? ' class="accent"' : ""}>${val}</strong></div>`;
   const showErr = (el, msg) => { el.className = "gc-out err"; el.textContent = msg; };
   const showOut = (el, html) => { el.className = "gc-out"; el.innerHTML = html; };
+  const clearOut = (el) => { el.className = "gc-out"; el.innerHTML = ""; };
 
   function build(modal, onClose, onTabChange = null) {
     let degMode = false;
@@ -644,10 +645,10 @@
                   <span class="gc-card-hint">Blank or &plusmn;inf for unbounded</span>
                 </div>
                 <div class="gc-grid-4">
-                  <div class="gc-field"><label>Lower</label><input class="gc-input" id="gc-ncdf-low" value="-inf" /></div>
-                  <div class="gc-field"><label>Upper</label><input class="gc-input" id="gc-ncdf-up" value="1.96" /></div>
-                  <div class="gc-field"><label>&mu;</label><input class="gc-input" id="gc-ncdf-mu" value="0" /></div>
-                  <div class="gc-field"><label>&sigma;</label><input class="gc-input" id="gc-ncdf-sd" value="1" /></div>
+                  <div class="gc-field"><label>Lower</label><input class="gc-input" id="gc-ncdf-low" placeholder="-inf" /></div>
+                  <div class="gc-field"><label>Upper</label><input class="gc-input" id="gc-ncdf-up" placeholder="1.96" /></div>
+                  <div class="gc-field"><label>&mu;</label><input class="gc-input" id="gc-ncdf-mu" placeholder="0" /></div>
+                  <div class="gc-field"><label>&sigma;</label><input class="gc-input" id="gc-ncdf-sd" placeholder="1" /></div>
                 </div>
                 <div class="gc-out" id="gc-ncdf-out"></div>
               </div>
@@ -658,9 +659,9 @@
                   <span class="gc-card-hint">Area in (0, 1)</span>
                 </div>
                 <div class="gc-grid-3">
-                  <div class="gc-field"><label>Area</label><input class="gc-input" id="gc-invn-area" value="0.95" /></div>
-                  <div class="gc-field"><label>&mu;</label><input class="gc-input" id="gc-invn-mu" value="0" /></div>
-                  <div class="gc-field"><label>&sigma;</label><input class="gc-input" id="gc-invn-sd" value="1" /></div>
+                  <div class="gc-field"><label>Area</label><input class="gc-input" id="gc-invn-area" placeholder="0.95" /></div>
+                  <div class="gc-field"><label>&mu;</label><input class="gc-input" id="gc-invn-mu" placeholder="0" /></div>
+                  <div class="gc-field"><label>&sigma;</label><input class="gc-input" id="gc-invn-sd" placeholder="1" /></div>
                 </div>
                 <div class="gc-seg" id="gc-invn-tail">
                   <button type="button" class="active" data-val="left">Left</button>
@@ -676,9 +677,9 @@
                   <span class="gc-card-hint">All inequalities shown</span>
                 </div>
                 <div class="gc-grid-3">
-                  <div class="gc-field"><label>Trials (n)</label><input class="gc-input" id="gc-bin-n" value="10" /></div>
-                  <div class="gc-field"><label>Prob (p)</label><input class="gc-input" id="gc-bin-p" value="0.5" /></div>
-                  <div class="gc-field"><label>Value (x)</label><input class="gc-input" id="gc-bin-x" value="5" /></div>
+                  <div class="gc-field"><label>Trials (n)</label><input class="gc-input" id="gc-bin-n" placeholder="10" /></div>
+                  <div class="gc-field"><label>Prob (p)</label><input class="gc-input" id="gc-bin-p" placeholder="0.5" /></div>
+                  <div class="gc-field"><label>Value (x)</label><input class="gc-input" id="gc-bin-x" placeholder="5" /></div>
                 </div>
                 <div class="gc-out" id="gc-bin-out"></div>
               </div>
@@ -691,10 +692,10 @@
                   <span class="gc-card-hint">Known &sigma; or CLT</span>
                 </div>
                 <div class="gc-grid-4">
-                  <div class="gc-field"><label>&mu;&#8320;</label><input class="gc-input" id="gc-zt-mu0" value="100" /></div>
-                  <div class="gc-field"><label>&sigma;</label><input class="gc-input" id="gc-zt-sd" value="15" /></div>
-                  <div class="gc-field"><label>x&#772;</label><input class="gc-input" id="gc-zt-xbar" value="94.5" /></div>
-                  <div class="gc-field"><label>n</label><input class="gc-input" id="gc-zt-n" value="30" /></div>
+                  <div class="gc-field"><label>&mu;&#8320;</label><input class="gc-input" id="gc-zt-mu0" placeholder="100" /></div>
+                  <div class="gc-field"><label>&sigma;</label><input class="gc-input" id="gc-zt-sd" placeholder="15" /></div>
+                  <div class="gc-field"><label>x&#772;</label><input class="gc-input" id="gc-zt-xbar" placeholder="94.5" /></div>
+                  <div class="gc-field"><label>n</label><input class="gc-input" id="gc-zt-n" placeholder="30" /></div>
                 </div>
                 <div class="gc-seg" id="gc-zt-alt">
                   <button type="button" class="active" data-val="neq">&mu; &ne; &mu;&#8320;</button>
@@ -710,10 +711,10 @@
                   <span class="gc-card-hint">Unbiased sample s</span>
                 </div>
                 <div class="gc-grid-4">
-                  <div class="gc-field"><label>&mu;&#8320;</label><input class="gc-input" id="gc-tt-mu0" value="100" /></div>
-                  <div class="gc-field"><label>s</label><input class="gc-input" id="gc-tt-s" value="12" /></div>
-                  <div class="gc-field"><label>x&#772;</label><input class="gc-input" id="gc-tt-xbar" value="93.2" /></div>
-                  <div class="gc-field"><label>n</label><input class="gc-input" id="gc-tt-n" value="16" /></div>
+                  <div class="gc-field"><label>&mu;&#8320;</label><input class="gc-input" id="gc-tt-mu0" placeholder="100" /></div>
+                  <div class="gc-field"><label>s</label><input class="gc-input" id="gc-tt-s" placeholder="12" /></div>
+                  <div class="gc-field"><label>x&#772;</label><input class="gc-input" id="gc-tt-xbar" placeholder="93.2" /></div>
+                  <div class="gc-field"><label>n</label><input class="gc-input" id="gc-tt-n" placeholder="16" /></div>
                 </div>
                 <div class="gc-seg" id="gc-tt-alt">
                   <button type="button" data-val="neq">&mu; &ne; &mu;&#8320;</button>
@@ -738,11 +739,11 @@
                 <div class="gc-grid-2">
                   <div class="gc-field">
                     <label>L1 (x)</label>
-                    <textarea class="gc-textarea" id="gc-list-x">1, 2, 3, 4, 5</textarea>
+                    <textarea class="gc-textarea" id="gc-list-x" placeholder="e.g. 1, 2, 3, 4, 5"></textarea>
                   </div>
                   <div class="gc-field">
                     <label>L2 (y, optional for LinReg)</label>
-                    <textarea class="gc-textarea" id="gc-list-y">2.1, 4.0, 5.9, 8.2, 9.8</textarea>
+                    <textarea class="gc-textarea" id="gc-list-y" placeholder="e.g. 2.1, 4.0, 5.9, 8.2, 9.8"></textarea>
                   </div>
                 </div>
                 <div class="gc-grid-2">
@@ -766,7 +767,7 @@
                 </div>
                 <div class="gc-out" id="gc-data-raw-out"></div>
                 <div class="gc-grid-2" id="gc-lin-pred-row" style="align-items:end;">
-                  <div class="gc-field"><label>Predict at raw x =</label><input class="gc-input" id="gc-lin-pred-x" value="3.5" /></div>
+                  <div class="gc-field"><label>Predict at raw x =</label><input class="gc-input" id="gc-lin-pred-x" placeholder="3.5" /></div>
                   <div class="gc-out" id="gc-lin-pred-out" style="padding:5px 8px;"></div>
                 </div>
               </div>
@@ -777,9 +778,9 @@
                   <span class="gc-card-hint">For Hypothesis Testing</span>
                 </div>
                 <div class="gc-grid-3">
-                  <div class="gc-field"><label>n</label><input class="gc-input" id="gc-sum-n" value="50" /></div>
-                  <div class="gc-field"><label>&Sigma;x</label><input class="gc-input" id="gc-sum-sx" value="412" /></div>
-                  <div class="gc-field"><label>&Sigma;x&sup2;</label><input class="gc-input" id="gc-sum-sx2" value="3580" /></div>
+                  <div class="gc-field"><label>n</label><input class="gc-input" id="gc-sum-n" placeholder="50" /></div>
+                  <div class="gc-field"><label>&Sigma;x</label><input class="gc-input" id="gc-sum-sx" placeholder="412" /></div>
+                  <div class="gc-field"><label>&Sigma;x&sup2;</label><input class="gc-input" id="gc-sum-sx2" placeholder="3580" /></div>
                 </div>
                 <div class="gc-out" id="gc-data-sum-out"></div>
               </div>
@@ -850,10 +851,10 @@
                 <h3>Definite Integral (fnInt)</h3>
                 <span class="gc-card-hint">Adaptive Gauss-Kronrod</span>
               </div>
-              <div class="gc-field"><label>Integrand f(x)</label><input class="gc-input" id="gc-int-fn" value="x * atan(x^2)" /></div>
+              <div class="gc-field"><label>Integrand f(x)</label><input class="gc-input" id="gc-int-fn" placeholder="e.g. x * atan(x^2)" /></div>
               <div class="gc-grid-2">
-                <div class="gc-field"><label>Lower bound a</label><input class="gc-input" id="gc-int-a" value="0" /></div>
-                <div class="gc-field"><label>Upper bound b</label><input class="gc-input" id="gc-int-b" value="1" /></div>
+                <div class="gc-field"><label>Lower bound a</label><input class="gc-input" id="gc-int-a" placeholder="0" /></div>
+                <div class="gc-field"><label>Upper bound b</label><input class="gc-input" id="gc-int-b" placeholder="1" /></div>
               </div>
               <div class="gc-out" id="gc-int-out"></div>
             </div>
@@ -864,8 +865,8 @@
                 <span class="gc-card-hint">f'(a) &amp; f''(a)</span>
               </div>
               <div class="gc-grid-2">
-                <div class="gc-field"><label>Function f(x)</label><input class="gc-input" id="gc-der-fn" value="ln(1 + x^4)" /></div>
-                <div class="gc-field"><label>At x =</label><input class="gc-input" id="gc-der-x" value="1" /></div>
+                <div class="gc-field"><label>Function f(x)</label><input class="gc-input" id="gc-der-fn" placeholder="e.g. ln(1 + x^4)" /></div>
+                <div class="gc-field"><label>At x =</label><input class="gc-input" id="gc-der-x" placeholder="1" /></div>
               </div>
               <div class="gc-out" id="gc-der-out"></div>
             </div>
@@ -874,8 +875,8 @@
           <section class="gc-pane" data-gc-pane="graph">
             <div class="gc-card">
               <div class="gc-grid-2">
-                <div class="gc-field"><label class="gc-swatch-y1">Y1(x)</label><input class="gc-input" id="gc-gr-y1" value="x^3 - 3x + 1" /></div>
-                <div class="gc-field"><label class="gc-swatch-y2">Y2(x) (optional)</label><input class="gc-input" id="gc-gr-y2" value="cos(x)" /></div>
+                <div class="gc-field"><label class="gc-swatch-y1">Y1(x)</label><input class="gc-input" id="gc-gr-y1" placeholder="e.g. x^3 - 3x + 1" /></div>
+                <div class="gc-field"><label class="gc-swatch-y2">Y2(x) (optional)</label><input class="gc-input" id="gc-gr-y2" placeholder="e.g. cos(x)" /></div>
               </div>
               <div class="gc-grid-4">
                 <div class="gc-field"><label>Xmin</label><input class="gc-input" id="gc-gr-xmin" value="-4" /></div>
@@ -903,6 +904,7 @@
 
     const q = (sel) => modal.querySelector(sel);
     const numVal = (sel) => evalNumExpr(q(sel).value, {}, degMode);
+    const hasAll = (sels) => sels.every(s => q(s).value.trim() !== "");
     const getSegVal = (sel) => q(`${sel} button.active`)?.dataset.val;
     const wireSeg = (sel, onPick) => {
       const seg = q(sel);
@@ -946,6 +948,7 @@
     // Stats -> Distributions
     function updateNcdf() {
       const out = q("#gc-ncdf-out");
+      if (!hasAll(["#gc-ncdf-mu", "#gc-ncdf-sd"])) { clearOut(out); return; }
       try {
         const lowRaw = q("#gc-ncdf-low").value.trim();
         const upRaw = q("#gc-ncdf-up").value.trim();
@@ -961,6 +964,7 @@
 
     function updateInvNorm() {
       const out = q("#gc-invn-out");
+      if (!hasAll(["#gc-invn-area", "#gc-invn-mu", "#gc-invn-sd"])) { clearOut(out); return; }
       try {
         const area = numVal("#gc-invn-area");
         const mu = numVal("#gc-invn-mu");
@@ -982,6 +986,7 @@
 
     function updateBinom() {
       const out = q("#gc-bin-out");
+      if (!hasAll(["#gc-bin-n", "#gc-bin-p", "#gc-bin-x"])) { clearOut(out); return; }
       try {
         const n = Math.round(numVal("#gc-bin-n"));
         const p = numVal("#gc-bin-p");
@@ -1014,6 +1019,7 @@
 
     function updateZTest() {
       const out = q("#gc-zt-out");
+      if (!hasAll(["#gc-zt-mu0", "#gc-zt-sd", "#gc-zt-xbar", "#gc-zt-n"])) { clearOut(out); return; }
       try {
         const mu0 = numVal("#gc-zt-mu0");
         const sd = numVal("#gc-zt-sd");
@@ -1037,6 +1043,7 @@
 
     function updateTTest() {
       const out = q("#gc-tt-out");
+      if (!hasAll(["#gc-tt-mu0", "#gc-tt-s", "#gc-tt-xbar", "#gc-tt-n"])) { clearOut(out); return; }
       try {
         const mu0 = numVal("#gc-tt-mu0");
         const s = numVal("#gc-tt-s");
@@ -1081,6 +1088,7 @@
       const predEl = q("#gc-lin-pred-out");
       if (!lastLinReg) { predEl.style.display = "none"; return; }
       predEl.style.display = "flex";
+      if (!q("#gc-lin-pred-x").value.trim()) { clearOut(predEl); return; }
       try {
         const rx = evalNumExpr(q("#gc-lin-pred-x").value, {}, degMode);
         const X = applyTransform(rx, lastLinReg.tx);
@@ -1093,6 +1101,12 @@
     function updateDataStats() {
       const out = q("#gc-data-raw-out");
       const predRow = q("#gc-lin-pred-row");
+      if (!q("#gc-list-x").value.trim()) {
+        lastLinReg = null;
+        predRow.style.display = "none";
+        clearOut(out);
+        return;
+      }
       try {
         const xs = parseNumList(q("#gc-list-x").value);
         if (!xs.length) throw new Error("Enter at least one x value");
@@ -1158,6 +1172,7 @@
 
     function updateSummaryStats() {
       const out = q("#gc-data-sum-out");
+      if (!hasAll(["#gc-sum-n", "#gc-sum-sx", "#gc-sum-sx2"])) { clearOut(out); return; }
       try {
         const n = numVal("#gc-sum-n");
         const sx = numVal("#gc-sum-sx");
@@ -1234,11 +1249,6 @@
     // Solve (PlySmlt2)
     const sysGridEl = q("#gc-sys-grid");
     const sysNEl = q("#gc-sys-n");
-    const sysDefault3 = [
-      ["1", "1", "1", "6"],
-      ["2", "-1", "1", "3"],
-      ["1", "2", "-1", "2"]
-    ];
 
     function buildSysGrid() {
       const n = Number(sysNEl.value);
@@ -1247,11 +1257,9 @@
       const vars = ["x", "y", "z", "w"];
       for (let r = 0; r < n; r++) {
         for (let c = 0; c < n; c++) {
-          const def = n === 3 ? sysDefault3[r][c] : (r === c ? "1" : c === 0 ? "1" : "0");
-          html += `<input class="gc-input sys-a" data-r="${r}" data-c="${c}" placeholder="${vars[c]}" value="${def}" />`;
+          html += `<input class="gc-input sys-a" data-r="${r}" data-c="${c}" placeholder="${vars[c]}" />`;
         }
-        const bDef = n === 3 ? sysDefault3[r][3] : String(r + 2);
-        html += `<span class="gc-matrix-eq">=</span><input class="gc-input sys-b" data-r="${r}" placeholder="b" value="${bDef}" />`;
+        html += `<span class="gc-matrix-eq">=</span><input class="gc-input sys-b" data-r="${r}" placeholder="b" />`;
       }
       html += "</div>";
       sysGridEl.innerHTML = html;
@@ -1274,7 +1282,7 @@
         showOut(out, sol.map((v, i) => kv(vars[i], `${fmtFixed(v, 6)}  (${fmtSig(v, 3)})`, true)).join(""));
       } catch (err) { showErr(out, err.message); }
     }
-    sysNEl.onchange = () => { buildSysGrid(); runSysSolve(); };
+    sysNEl.onchange = () => { buildSysGrid(); clearOut(q("#gc-sys-out")); };
     q("#gc-sys-solve").onclick = runSysSolve;
 
     const polyGridEl = q("#gc-poly-grid");
@@ -1283,12 +1291,11 @@
     function buildPolyGrid() {
       const deg = Number(polyDegEl.value);
       const cols = `repeat(${deg + 1}, minmax(44px, 1fr))`;
-      const defaults = deg === 3 ? ["1", "-6", "11", "-6"] : deg === 2 ? ["1", "-1", "-6"] : ["1", "0", "-5", "0", "4"];
       let html = `<div style="display:grid;gap:6px;grid-template-columns:${cols};">`;
       for (let i = 0; i <= deg; i++) {
         const p = deg - i;
         const lbl = p === 0 ? "const" : (p === 1 ? "x" : `x^${p}`);
-        html += `<div class="gc-field"><label>${lbl}</label><input class="gc-input poly-c" value="${defaults[i]}" /></div>`;
+        html += `<div class="gc-field"><label>${lbl}</label><input class="gc-input poly-c" placeholder="0" /></div>`;
       }
       html += "</div>";
       polyGridEl.innerHTML = html;
@@ -1307,30 +1314,38 @@
         }).join(""));
       } catch (err) { showErr(out, err.message); }
     }
-    polyDegEl.onchange = () => { buildPolyGrid(); runPolySolve(); };
+    polyDegEl.onchange = () => { buildPolyGrid(); clearOut(q("#gc-poly-out")); };
     q("#gc-poly-solve").onclick = runPolySolve;
 
     // Calculus
     function updateCalculus() {
       const intOut = q("#gc-int-out");
-      try {
-        const expr = q("#gc-int-fn").value;
-        const a = numVal("#gc-int-a");
-        const b = numVal("#gc-int-b");
-        const val = fnInt(expr, a, b, degMode);
-        showOut(intOut, kv("Definite integral", `${fmtFixed(val, 7)}  (${fmtSig(val, 3)} 3 s.f.)`, true));
-      } catch (err) { showErr(intOut, err.message); }
+      if (!hasAll(["#gc-int-fn", "#gc-int-a", "#gc-int-b"])) {
+        clearOut(intOut);
+      } else {
+        try {
+          const expr = q("#gc-int-fn").value;
+          const a = numVal("#gc-int-a");
+          const b = numVal("#gc-int-b");
+          const val = fnInt(expr, a, b, degMode);
+          showOut(intOut, kv("Definite integral", `${fmtFixed(val, 7)}  (${fmtSig(val, 3)} 3 s.f.)`, true));
+        } catch (err) { showErr(intOut, err.message); }
+      }
 
       const derOut = q("#gc-der-out");
-      try {
-        const expr = q("#gc-der-fn").value;
-        const x0 = numVal("#gc-der-x");
-        const { first, second } = nDeriv(expr, x0, degMode);
-        showOut(derOut,
-          kv(`f'(${fmtSig(x0, 4)})`, `${fmtFixed(first, 6)}  (${fmtSig(first, 3)})`, true) +
-          kv(`f''(${fmtSig(x0, 4)})`, `${fmtFixed(second, 5)}  (${fmtSig(second, 3)})`)
-        );
-      } catch (err) { showErr(derOut, err.message); }
+      if (!hasAll(["#gc-der-fn", "#gc-der-x"])) {
+        clearOut(derOut);
+      } else {
+        try {
+          const expr = q("#gc-der-fn").value;
+          const x0 = numVal("#gc-der-x");
+          const { first, second } = nDeriv(expr, x0, degMode);
+          showOut(derOut,
+            kv(`f'(${fmtSig(x0, 4)})`, `${fmtFixed(first, 6)}  (${fmtSig(first, 3)})`, true) +
+            kv(`f''(${fmtSig(x0, 4)})`, `${fmtFixed(second, 5)}  (${fmtSig(second, 3)})`)
+          );
+        } catch (err) { showErr(derOut, err.message); }
+      }
     }
     ["#gc-int-fn", "#gc-int-a", "#gc-int-b", "#gc-der-fn", "#gc-der-x"].forEach(s => { q(s).oninput = updateCalculus; });
 
@@ -1531,6 +1546,7 @@
       try {
         const w = getWin();
         const expr = q("#gc-gr-y1").value;
+        if (!expr.trim()) throw new Error("Enter Y1(x) to find zeros");
         const roots = findBracketedRoots((x) => {
           try { return evalNumExpr(expr, { x }, degMode); } catch (_) { return NaN; }
         }, w.xmin, w.xmax);
@@ -1545,7 +1561,7 @@
         const w = getWin();
         const e1 = q("#gc-gr-y1").value;
         const e2 = q("#gc-gr-y2").value;
-        if (!e2.trim()) throw new Error("Enter Y2(x) to find intersections");
+        if (!e1.trim() || !e2.trim()) throw new Error("Enter Y1(x) and Y2(x) to find intersections");
         const xs = findBracketedRoots((x) => {
           try { return evalNumExpr(e1, { x }, degMode) - evalNumExpr(e2, { x }, degMode); } catch (_) { return NaN; }
         }, w.xmin, w.xmax);
@@ -1606,9 +1622,7 @@
     updateDataStats();
     updateSummaryStats();
     buildSysGrid();
-    runSysSolve();
     buildPolyGrid();
-    runPolySolve();
     updateCalculus();
   }
 

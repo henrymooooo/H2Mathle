@@ -807,7 +807,14 @@ body::before {
   border-radius: 0 4px 4px 0;
   font-size: 0.96rem;
   line-height: 1.65;
+  overflow-x: auto;
   animation: fadeSlideIn 0.22s ease;
+}
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 2px 0;
 }
 
 /* Mistake Log / Notes */
@@ -2481,6 +2488,7 @@ summary:focus-visible {
   flex-direction: column;
   gap: 4px;
 }
+.gc-out:empty { display: none; }
 .gc-out.err {
   border-color: rgba(158, 53, 53, 0.35);
   background: var(--bad-soft);

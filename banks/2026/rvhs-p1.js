@@ -52,7 +52,7 @@ window.registerQuestions([
         marks: 3,
         prompt: "Without the use of a graphing calculator, solve the inequality $$\\frac{x+2}{x-1} \\ge \\frac{2}{x-3}.$$",
         type: "self",
-        solution: "$$\\frac{x+2}{x-1} - \\frac{2}{x-3} \\ge 0 \\implies \\frac{(x+2)(x-3) - 2(x-1)}{(x-1)(x-3)} \\ge 0 \\implies \\frac{x^2 - 3x - 4}{(x-1)(x-3)} \\ge 0 \\implies \\frac{(x+1)(x-4)}{(x-1)(x-3)} \\ge 0.$$<br>Using the sign test with critical values $-1, 1, 3, 4$: $$x \\le -1 \\quad \\text{or} \\quad 1 < x < 3 \\quad \\text{or} \\quad x \\ge 4.$$"
+        solution: "$$\\begin{aligned}\\frac{x+2}{x-1} - \\frac{2}{x-3} \\ge 0 &\\implies \\frac{(x+2)(x-3) - 2(x-1)}{(x-1)(x-3)} \\ge 0 \\\\ &\\implies \\frac{x^2 - 3x - 4}{(x-1)(x-3)} \\ge 0 \\implies \\frac{(x+1)(x-4)}{(x-1)(x-3)} \\ge 0.\\end{aligned}$$<br>Using the sign test with critical values $-1, 1, 3, 4$: $$x \\le -1 \\quad \\text{or} \\quad 1 < x < 3 \\quad \\text{or} \\quad x \\ge 4.$$"
       }
     ]
   },
